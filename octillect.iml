@@ -10,5 +10,6 @@
     <orderEntry type="library" name="com.jfoenix:jfoenix:8.0.8" level="project" />
     <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-admin:6.8.0" level="project" />
+    <orderEntry type="library" name="org.slf4j:slf4j-nop:1.7.25" level="project" />
   </component>
 </module>
