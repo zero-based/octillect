@@ -1,0 +1,116 @@
+@import "Palette.css"
+
+.o-button {
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+  	-fx-border-radius: 50;
+  	-fx-background-radius: 50;
+  	-fx-text-fill: #ffffff;
+}
+
+.o-button-fill {
+    -fx-background-color: -o-primary;
+    -fx-border-color: null !important;
+}
+
+.o-button-stroke {
+    -fx-background-color: null !important;
+  	-fx-border-color: white;
+  	-fx-border-width: 3;
+}
+
+/*Primary*/
+.o-button-primary {
+    -fx-background-color: -o-primary;
+  	-fx-border-color: -o-primary;
+}
+
+.o-button-stroke.o-button-primary {
+    -fx-text-fill: -o-primary !important;
+}
+
+.o-button-fill.o-button-primary:hover {
+    -fx-background-color: derive(-o-primary, -5%);
+}
+
+.o-button-stroke.o-button-primary:hover {
+    -fx-background-color: -o-primary !important;
+    -fx-text-fill: white !important;
+}
+
+/*Dark-900*/
+.o-button-dark-900 {
+    -fx-background-color: -o-dark-900 ;
+  	-fx-border-color: -o-dark-900;
+}
+
+.o-button-stroke.o-button-dark-900 {
+    -fx-text-fill: -o-dark-900 !important;
+}
+
+.o-button-fill.o-button-dark-900:hover {
+    -fx-background-color: derive(-o-dark-900, -10%);
+}
+
+.o-button-stroke.o-button-dark-900:hover {
+    -fx-background-color: -o-dark-900 !important;
+}
+
+/*Dark-700*/
+.o-button-dark-700 {
+    -fx-background-color: -o-dark-700 ;
+  	-fx-border-color: -o-dark-700;
+}
+
+.o-button-stroke.o-button-dark-700 {
+    -fx-text-fill: -o-dark-700 !important;
+}
+
+.o-button-fill.o-button-dark-700:hover {
+    -fx-background-color: derive(-o-dark-700, -10%);
+}
+
+.o-button-stroke.o-button-dark-700:hover {
+    -fx-background-color: -o-dark-700 !important;
+}
+
+/*Dark-500*/
+.o-button-dark-500 {
+    -fx-background-color: -o-dark-500 ;
+  	-fx-border-color: -o-dark-500;
+}
+
+.o-button-stroke.o-button-dark-500 {
+    -fx-text-fill: -o-dark-500 !important;
+}
+
+.o-button-fill.o-button-dark-500:hover {
+    -fx-background-color: derive(-o-dark-500, -10%);
+}
+
+.o-button-stroke.o-button-dark-500:hover {
+    -fx-background-color: -o-dark-500 !important;
+    -fx-text-fill: -o-dark-900 !important;
+}
+
+/*Dark-300*/
+.o-button-dark-300 {
+    -fx-background-color: -o-dark-300 ;
+  	-fx-border-color: -o-dark-300;
+}
+
+.o-button-stroke.o-button-dark-300 {
+    -fx-text-fill: -o-dark-300 !important;
+}
+
+.o-button-fill.o-button-dark-300:hover {
+    -fx-background-color: derive(-o-dark-300, -10%);
+}
+
+.o-button-stroke.o-button-dark-500:hover {
+    -fx-background-color: -o-dark-500 !important;
+    -fx-text-fill: -o-dark-900 !important;
+}
+
+
+
