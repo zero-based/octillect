@@ -5,11 +5,15 @@
 	-fx-font-size: 16;
   	-fx-border-radius: 50;
   	-fx-background-radius: 50;
-  	-fx-text-fill: #ffffff;
+  	-fx-text-fill: white;
+}
+
+.o-button > * {
+  	-fx-fill: white;
 }
 
 .o-button-fill {
-    -fx-background-color: -o-primary;
+    -fx-background-color: white;
     -fx-border-color: null !important;
 }
 
@@ -48,6 +52,10 @@
     -fx-text-fill: -o-dark-900 !important;
 }
 
+.o-button-stroke.o-button-dark-900 > * {
+    -fx-fill: -o-dark-900 !important;
+}
+
 .o-button-fill.o-button-dark-900:hover {
     -fx-background-color: derive(-o-dark-900, -10%);
 }
@@ -66,6 +74,10 @@
     -fx-text-fill: -o-dark-700 !important;
 }
 
+.o-button-stroke.o-button-dark-700 > * {
+    -fx-fill: -o-dark-700 !important;
+}
+
 .o-button-fill.o-button-dark-700:hover {
     -fx-background-color: derive(-o-dark-700, -10%);
 }
@@ -81,7 +93,15 @@
 }
 
 .o-button-stroke.o-button-dark-500 {
-    -fx-text-fill: -o-dark-500 !important;
+    -fx-fill: -o-dark-500 !important;
+}
+
+.o-button-stroke.o-button-dark-500 > * {
+    -fx-fill: -o-dark-500;
+}
+
+.o-button-fill.o-button-dark-500 > * {
+    -fx-fill: -o-dark-700;
 }
 
 .o-button-fill.o-button-dark-500:hover {
@@ -90,7 +110,11 @@
 
 .o-button-stroke.o-button-dark-500:hover {
     -fx-background-color: -o-dark-500 !important;
-    -fx-text-fill: -o-dark-900 !important;
+    -fx-text-fill: -o-dark-700 !important;
+}
+
+.o-button-stroke.o-button-dark-500:hover > * {
+    -fx-fill: -o-dark-700;
 }
 
 /*Dark-300*/
@@ -103,14 +127,23 @@
     -fx-text-fill: -o-dark-300 !important;
 }
 
+.o-button-stroke.o-button-dark-300 > * {
+    -fx-fill: -o-dark-300;
+}
+
+.o-button-fill.o-button-dark-300 > * {
+    -fx-fill: -o-dark-700;
+}
+
 .o-button-fill.o-button-dark-300:hover {
     -fx-background-color: derive(-o-dark-300, -10%);
 }
 
-.o-button-stroke.o-button-dark-500:hover {
-    -fx-background-color: -o-dark-500 !important;
-    -fx-text-fill: -o-dark-900 !important;
+.o-button-stroke.o-button-dark-300:hover {
+    -fx-background-color: -o-dark-300 !important;
+    -fx-text-fill: -o-dark-700 !important;
 }
 
-
-
+.o-button-stroke.o-button-dark-300:hover > * {
+    -fx-fill: -o-dark-700;
+}

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Separator?>
 <?import octillect.controls.OButton?>
 
 <HBox xmlns="http://javafx.com/javafx/8.0.201"
@@ -15,22 +20,128 @@
           prefWidth="632"
           style="-fx-background-color: #1b1b1b;">
 
-        <Label text="Sign Up GRID HERE" textFill="white" />
+        <GridPane alignment="CENTER"
+                  hgap="15"
+                  vgap="30">
 
-        <!--Remove these Buttons, but keep the IDs-->
-        <!--and event handlers as is.-->
-        <OButton fx:id="signUpWithGitHubButton"
-                 text="Sign Up"
-                 onAction="#handleSignUpWithGitHubButtonAction" />
+            <OButton fx:id="backButton"
+                     GridPane.rowIndex="0"
+                     GridPane.columnSpan="2"
+                     GridPane.halignment="LEFT"
+                     GridPane.valignment="TOP"
+                     fill="TRUE"
+                     color="DARK900"
+                     onAction="#handleBackButtonAction">
+                <graphic>
+                    <FontAwesomeIconView opacity=".64"
+                                         glyphName="ARROW_LEFT"
+                                         size="16"
+                                         textAlignment="CENTER"/>
+                </graphic>
+            </OButton>
 
-        <OButton fx:id="signUpButton"
-                 text="Sign Up"
-                 onAction="#handleSignUpButtonAction" />
+            <OButton id="imageButton"
+                     prefWidth="100"
+                     prefHeight="100"
+                     GridPane.rowIndex="0"
+                     GridPane.columnSpan="2"
+                     GridPane.halignment="CENTER"
+                     fill="TRUE"
+                     color="DARK500">
+                <graphic>
+                    <FontAwesomeIconView
+                            glyphName="CAMERA"
+                            size="36"
+                            textAlignment="CENTER"/>
+                </graphic>
+            </OButton>
 
-        <OButton fx:id="backButton"
-                 text="back"
-                 onAction="#handleBackButtonAction"/>
-        <!--Remove until here-->
+            <JFXTextField id="firstNameTextField"
+                          promptText="First Name"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="0"
+                          GridPane.halignment="CENTER"
+                          prefColumnCount="15"
+                          minWidth="15"
+                          focusColor="#1473e6"/>
+
+            <JFXTextField id="lastNameTextField"
+                          promptText="Last Name"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"
+                          prefColumnCount="15"
+                          minWidth="15"
+                          focusColor="#1473e6"/>
+
+            <JFXTextField id="emailTextField"
+                          promptText="Email"
+                          GridPane.rowIndex="2"
+                          GridPane.columnSpan="2"
+                          GridPane.halignment="CENTER"
+                          prefColumnCount="25"
+                          prefWidth="30"
+                          focusColor="#1473e6"/>
+
+            <JFXPasswordField id="passwordTextField"
+                              promptText="Password"
+                              GridPane.rowIndex="3"
+                              GridPane.columnSpan="2"
+                              GridPane.halignment="CENTER"
+                              prefColumnCount="25"
+                              prefWidth="30"
+                              focusColor="#1473e6"/>
+
+            <JFXPasswordField id="confirmPasswordTextField"
+                              promptText="Confirm Password"
+                              GridPane.rowIndex="4"
+                              GridPane.columnSpan="2"
+                              GridPane.halignment="CENTER"
+                              prefColumnCount="25"
+                              prefWidth="30"
+                              focusColor="#1473e6"/>
+
+            <OButton fx:id="signUpButton"
+                     text="Sign Up"
+                     onAction="#handleSignUpButtonAction"
+                     color="DARK500"
+                     fill="FALSE"
+                     GridPane.rowIndex="5"
+                     GridPane.columnSpan="2"
+                     GridPane.halignment="CENTER"
+                     prefWidth="350"/>
+
+            <HBox GridPane.rowIndex="6"
+                  GridPane.halignment="CENTER"
+                  GridPane.columnSpan="2"
+                  alignment="CENTER"
+                  opacity=".64">
+
+                <Separator prefWidth="75"/>
+                <Label prefWidth="25"
+                       text="or"
+                       textFill="white"
+                       alignment="CENTER"
+                       translateY="-2"/>
+                <Separator prefWidth="75"/>
+
+            </HBox>
+
+
+            <OButton fx:id="signUpWithGitHubButton"
+                     text="  Sign Up"
+                     onAction="#handleSignUpWithGitHubButtonAction"
+                     prefWidth="350"
+                     GridPane.rowIndex="7"
+                     GridPane.columnSpan="2"
+                     GridPane.halignment="RIGHT"
+                     fill="FALSE"
+                     color="DARK500">
+                <graphic>
+                    <FontAwesomeIconView glyphName="GITHUB" size="20pt"/>
+                </graphic>
+            </OButton>
+
+        </GridPane>
 
     </VBox>
 
