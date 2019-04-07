@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <?import octillect.controls.OButton?>
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.201"
@@ -20,18 +23,77 @@
 
         <VBox alignment="CENTER" prefWidth="632">
 
-            <Label text="Sign In GRID HERE" textFill="white" />
+            <GridPane alignment="center"
+                      hgap="15"
+                      vgap="35"
+                      prefWidth="560">
 
-            <!--Remove these Buttons, but keep the IDs-->
-            <!--and event handlers as is.-->
-            <OButton fx:id="signInButton"
-                     text="Sign In"
-                     onAction="#handleSignInButtonAction" />
+                <FontAwesomeIconView glyphName="USER"
+                                     GridPane.halignment="CENTER"
+                                     GridPane.rowIndex="0"
+                                     GridPane.columnIndex="1"
+                                     size="100"
+                                     glyphStyle="-fx-fill: #979797"/>
 
-            <OButton fx:id="createAnAccountButton"
-                     text="Create an account"
-                     onAction="#handleCreateAnAccountAction" />
-            <!--Remove until here-->
+                <JFXTextField id="emailTextField"
+                              promptText="Email"
+                              GridPane.rowIndex="1"
+                              GridPane.columnIndex="1"
+                              GridPane.halignment="LEFT"
+                              prefColumnCount="30"
+                              focusColor="#1473e6"/>
+
+                <FontAwesomeIconView glyphName="ENVELOPE"
+                                     size="12pt"
+                                     textAlignment="RIGHT"
+                                     GridPane.rowIndex="1"
+                                     glyphStyle="-fx-fill: #979797"/>
+
+                <JFXPasswordField id="passwordTextField"
+                                  promptText="Password"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="1"
+                                  prefColumnCount="30"
+                                  focusColor="#1473e6"/>
+
+                <FontAwesomeIconView glyphName="LOCK"
+                                     GridPane.columnIndex="0"
+                                     GridPane.rowIndex="2"
+                                     size="12pt"
+                                     glyphStyle="-fx-fill: #979797"/>
+
+                <OButton fx:id="signInButton"
+                         text="Sign In"
+                         onAction="#handleSignInButtonAction"
+                         color="DARK500"
+                         fill="FALSE"
+                         GridPane.rowIndex="3"
+                         GridPane.columnIndex="1"
+                         GridPane.halignment="CENTER"/>
+
+                <HBox GridPane.rowIndex="4"
+                      GridPane.columnIndex="1"
+                      alignment="CENTER">
+                    <Label text="Don't have an account? "
+                           textFill="#979797">
+                        <font>
+                            <Font name="System Bold"
+                                  size="12"/>
+                        </font>
+                    </Label>
+                    <Hyperlink id="createAnAccountButton"
+                               text="Create an account"
+                               onAction="#handleCreateAnAccountAction"
+                               textFill="#1473e6"
+                               focusTraversable="false">
+                        <font>
+                            <Font name="System Bold"
+                                  size="12"/>
+                        </font>
+                    </Hyperlink>
+                </HBox>
+
+            </GridPane>
 
         </VBox>
 
