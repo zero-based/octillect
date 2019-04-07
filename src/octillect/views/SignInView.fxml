@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import octillect.controls.OButton?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.201"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="octillect.controllers.SignInController"
+           prefWidth="1024"
+           prefHeight="768"
+           style="-fx-background-color: #1b1b1b;">
+
+    <!--Sign In Controls-->
+    <HBox fx:id="signInHBox" alignment="CENTER_RIGHT">
+
+        <VBox alignment="CENTER" prefWidth="632">
+
+            <Label text="Sign In GRID HERE" textFill="white" />
+
+            <!--Remove these Buttons, but keep the IDs-->
+            <!--and event handlers as is.-->
+            <OButton fx:id="signInButton"
+                     text="Sign In"
+                     onAction="#handleSignInButtonAction" />
+
+            <OButton fx:id="createAnAccountButton"
+                     text="Create an account"
+                     onAction="#handleCreateAnAccountAction" />
+            <!--Remove until here-->
+
+        </VBox>
+
+    </HBox>
+
+    <!--Background Image-->
+    <ImageView translateX="-512">
+        <image>
+            <Image url="/octillect/resources/o-bg-1024x768.png" />
+        </image>
+    </ImageView>
+
+</StackPane>

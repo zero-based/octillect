@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import octillect.controls.OButton?>
+
+<HBox xmlns="http://javafx.com/javafx/8.0.201"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="octillect.controllers.SignUpController"
+      fx:id="signUpHBox"
+      alignment="CENTER_RIGHT">
+
+    <VBox alignment="CENTER"
+          prefWidth="632"
+          style="-fx-background-color: #1b1b1b;">
+
+        <Label text="Sign Up GRID HERE" textFill="white" />
+
+        <!--Remove these Buttons, but keep the IDs-->
+        <!--and event handlers as is.-->
+        <OButton fx:id="signUpWithGitHubButton"
+                 text="Sign Up"
+                 onAction="#handleSignUpWithGitHubButtonAction" />
+
+        <OButton fx:id="signUpButton"
+                 text="Sign Up"
+                 onAction="#handleSignUpButtonAction" />
+
+        <OButton fx:id="backButton"
+                 text="back"
+                 onAction="#handleBackButtonAction"/>
+        <!--Remove until here-->
+
+    </VBox>
+
+</HBox>
+
