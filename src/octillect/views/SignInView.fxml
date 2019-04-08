@@ -70,7 +70,7 @@
                 <OButton fx:id="signInButton"
                          text="Sign In"
                          onAction="#handleSignInButtonAction"
-                         color="DARK500"
+                         color="DARK_500"
                          fill="FALSE"
                          GridPane.rowIndex="3"
                          GridPane.columnIndex="1"

@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 public class OButton extends Button {
 
     public final String OBUTTON_CSS = "../styles/OButton.css";
-    public enum COLOR {PRIMARY, DARK900, DARK700, DARK500, DARK300};
-    public enum FILL {TRUE, FALSE};
+    public enum COLOR {PRIMARY, DARK_900, DARK_700, DARK_500, DARK_300}
+    public enum FILL {TRUE, FALSE}
     public ObjectProperty<COLOR> color;
     public ObjectProperty<FILL> fill;
 
@@ -36,13 +36,13 @@ public class OButton extends Button {
     public void setColor(COLOR color) {
         if (color == COLOR.PRIMARY)
             getStyleClass().add("o-button-primary");
-        else if (color == COLOR.DARK900)
+        else if (color == COLOR.DARK_900)
             getStyleClass().add("o-button-dark-900");
-        else if (color == COLOR.DARK700)
+        else if (color == COLOR.DARK_700)
             getStyleClass().add("o-button-dark-700");
-        else if (color == COLOR.DARK500)
+        else if (color == COLOR.DARK_500)
             getStyleClass().add("o-button-dark-500");
-        else if (color == COLOR.DARK300)
+        else if (color == COLOR.DARK_300)
             getStyleClass().add("o-button-dark-300");
     }
 

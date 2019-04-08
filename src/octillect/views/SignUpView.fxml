@@ -35,7 +35,7 @@
                      GridPane.halignment="LEFT"
                      GridPane.valignment="TOP"
                      fill="TRUE"
-                     color="DARK900"
+                     color="DARK_900"
                      onAction="#handleBackButtonAction">
                 <graphic>
                     <FontAwesomeIconView opacity=".64"
@@ -51,7 +51,7 @@
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
                      fill="TRUE"
-                     color="DARK500">
+                     color="DARK_500">
                 <graphic>
                     <FontAwesomeIconView glyphName="CAMERA"
                                          size="36"
@@ -106,7 +106,7 @@
             <OButton fx:id="signUpButton"
                      text="Sign Up"
                      onAction="#handleSignUpButtonAction"
-                     color="DARK500"
+                     color="DARK_500"
                      fill="FALSE"
                      GridPane.rowIndex="5"
                      GridPane.columnSpan="2"
@@ -137,7 +137,7 @@
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
                      fill="FALSE"
-                     color="DARK500">
+                     color="DARK_500">
                 <graphic>
                     <FontAwesomeIconView glyphName="GITHUB" size="20pt"/>
                 </graphic>
