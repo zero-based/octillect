@@ -129,12 +129,12 @@
             </HBox>
 
             <OButton fx:id="signUpWithGitHubButton"
-                     text="  Sign Up"
+                     text="  Sign Up with GitHub"
                      onAction="#handleSignUpWithGitHubButtonAction"
                      prefWidth="350"
                      GridPane.rowIndex="7"
                      GridPane.columnSpan="2"
-                     GridPane.halignment="RIGHT"
+                     GridPane.halignment="CENTER"
                      fill="FALSE"
                      color="DARK500">
                 <graphic>
