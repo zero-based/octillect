@@ -101,7 +101,7 @@
 }
 
 .o-button-fill.o-button-dark-500 > * {
-    -fx-fill: -o-dark-700;
+    -fx-fill: -o-dark-900;
 }
 
 .o-button-fill.o-button-dark-500:hover {
@@ -110,11 +110,11 @@
 
 .o-button-stroke.o-button-dark-500:hover {
     -fx-background-color: -o-dark-500 !important;
-    -fx-text-fill: -o-dark-700 !important;
+    -fx-text-fill: -o-dark-900 !important;
 }
 
 .o-button-stroke.o-button-dark-500:hover > * {
-    -fx-fill: -o-dark-700;
+    -fx-fill: -o-dark-900;
 }
 
 /*Dark-300*/
@@ -132,7 +132,7 @@
 }
 
 .o-button-fill.o-button-dark-300 > * {
-    -fx-fill: -o-dark-700;
+    -fx-fill: -o-dark-900;
 }
 
 .o-button-fill.o-button-dark-300:hover {
@@ -141,9 +141,9 @@
 
 .o-button-stroke.o-button-dark-300:hover {
     -fx-background-color: -o-dark-300 !important;
-    -fx-text-fill: -o-dark-700 !important;
+    -fx-text-fill: -o-dark-900 !important;
 }
 
 .o-button-stroke.o-button-dark-300:hover > * {
-    -fx-fill: -o-dark-700;
+    -fx-fill: -o-dark-900;
 }
