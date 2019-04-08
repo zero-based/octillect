@@ -18,6 +18,10 @@
            prefHeight="768"
            style="-fx-background-color: #1b1b1b;">
 
+    <fx:define>
+        <octillect.styles.Palette fx:id="Palette"/>
+    </fx:define>
+
     <!--Sign In Controls-->
     <HBox fx:id="signInHBox" alignment="CENTER_RIGHT">
 
@@ -41,7 +45,7 @@
                               GridPane.columnIndex="1"
                               GridPane.halignment="LEFT"
                               prefColumnCount="30"
-                              focusColor="#1473e6"/>
+                              focusColor="${Palette.Primary}"/>
 
                 <FontAwesomeIconView glyphName="ENVELOPE"
                                      size="12pt"
@@ -54,7 +58,7 @@
                                   GridPane.rowIndex="2"
                                   GridPane.columnIndex="1"
                                   prefColumnCount="30"
-                                  focusColor="#1473e6"/>
+                                  focusColor="${Palette.Primary}"/>
 
                 <FontAwesomeIconView glyphName="LOCK"
                                      GridPane.columnIndex="0"
@@ -74,23 +78,24 @@
                 <HBox GridPane.rowIndex="4"
                       GridPane.columnIndex="1"
                       alignment="CENTER">
+
                     <Label text="Don't have an account? "
-                           textFill="#979797">
+                           textFill="${Palette.Dark500}">
                         <font>
-                            <Font name="System Bold"
-                                  size="12"/>
+                            <Font name="System Bold" size="12"/>
                         </font>
                     </Label>
+
                     <Hyperlink id="createAnAccountButton"
                                text="Create an account"
                                onAction="#handleCreateAnAccountAction"
-                               textFill="#1473e6"
+                               textFill="${Palette.Primary}"
                                focusTraversable="false">
                         <font>
-                            <Font name="System Bold"
-                                  size="12"/>
+                            <Font name="System Bold" size="12"/>
                         </font>
                     </Hyperlink>
+
                 </HBox>
 
             </GridPane>

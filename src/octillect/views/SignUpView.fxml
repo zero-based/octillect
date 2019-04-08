@@ -16,6 +16,10 @@
       fx:id="signUpHBox"
       alignment="CENTER_RIGHT">
 
+    <fx:define>
+        <octillect.styles.Palette fx:id="Palette"/>
+    </fx:define>
+
     <VBox alignment="CENTER"
           prefWidth="632"
           style="-fx-background-color: #1b1b1b;">
@@ -35,8 +39,7 @@
                 <graphic>
                     <FontAwesomeIconView opacity=".64"
                                          glyphName="ARROW_LEFT"
-                                         size="16"
-                                         textAlignment="CENTER"/>
+                                         size="16"/>
                 </graphic>
             </OButton>
 
@@ -49,10 +52,9 @@
                      fill="TRUE"
                      color="DARK500">
                 <graphic>
-                    <FontAwesomeIconView
-                            glyphName="CAMERA"
-                            size="36"
-                            textAlignment="CENTER"/>
+                    <FontAwesomeIconView glyphName="CAMERA"
+                                         size="36"
+                                         textAlignment="CENTER"/>
                 </graphic>
             </OButton>
 
@@ -63,7 +65,7 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="#1473e6"/>
+                          focusColor="${Palette.Primary}"/>
 
             <JFXTextField id="lastNameTextField"
                           promptText="Last Name"
@@ -71,7 +73,7 @@
                           GridPane.columnIndex="1"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="#1473e6"/>
+                          focusColor="${Palette.Primary}"/>
 
             <JFXTextField id="emailTextField"
                           promptText="Email"
@@ -80,7 +82,7 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="25"
                           prefWidth="30"
-                          focusColor="#1473e6"/>
+                          focusColor="${Palette.Primary}"/>
 
             <JFXPasswordField id="passwordTextField"
                               promptText="Password"
@@ -89,7 +91,7 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="#1473e6"/>
+                              focusColor="${Palette.Primary}"/>
 
             <JFXPasswordField id="confirmPasswordTextField"
                               promptText="Confirm Password"
@@ -98,7 +100,7 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="#1473e6"/>
+                              focusColor="${Palette.Primary}"/>
 
             <OButton fx:id="signUpButton"
                      text="Sign Up"
@@ -125,7 +127,6 @@
                 <Separator prefWidth="75"/>
 
             </HBox>
-
 
             <OButton fx:id="signUpWithGitHubButton"
                      text="  Sign Up"
