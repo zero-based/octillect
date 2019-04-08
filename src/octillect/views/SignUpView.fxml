@@ -13,6 +13,7 @@
 <HBox xmlns="http://javafx.com/javafx/8.0.201"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="octillect.controllers.SignUpController"
+      stylesheets="@/octillect/styles/Palette.css"
       fx:id="signUpHBox"
       alignment="CENTER_RIGHT">
 
@@ -22,7 +23,7 @@
 
     <VBox alignment="CENTER"
           prefWidth="632"
-          style="-fx-background-color: #1b1b1b;">
+          style="-fx-background-color: -o-dark-900;">
 
         <GridPane alignment="CENTER"
                   hgap="15"

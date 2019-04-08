@@ -14,9 +14,10 @@
 <StackPane xmlns="http://javafx.com/javafx/8.0.201"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="octillect.controllers.SignInController"
+           stylesheets="@/octillect/styles/Palette.css"
            prefWidth="1024"
            prefHeight="768"
-           style="-fx-background-color: #1b1b1b;">
+           style="-fx-background-color: -o-dark-900;">
 
     <fx:define>
         <octillect.styles.Palette fx:id="Palette"/>
@@ -37,7 +38,7 @@
                                      GridPane.rowIndex="0"
                                      GridPane.columnIndex="1"
                                      size="100"
-                                     glyphStyle="-fx-fill: #979797"/>
+                                     glyphStyle="-fx-fill: -o-dark-500;"/>
 
                 <JFXTextField id="emailTextField"
                               promptText="Email"
@@ -51,7 +52,7 @@
                                      size="12pt"
                                      textAlignment="RIGHT"
                                      GridPane.rowIndex="1"
-                                     glyphStyle="-fx-fill: #979797"/>
+                                     glyphStyle="-fx-fill: -o-dark-500;"/>
 
                 <JFXPasswordField id="passwordTextField"
                                   promptText="Password"
@@ -64,7 +65,7 @@
                                      GridPane.columnIndex="0"
                                      GridPane.rowIndex="2"
                                      size="12pt"
-                                     glyphStyle="-fx-fill: #979797"/>
+                                     glyphStyle="-fx-fill: -o-dark-500;"/>
 
                 <OButton fx:id="signInButton"
                          text="Sign In"
