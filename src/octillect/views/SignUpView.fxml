@@ -66,7 +66,7 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.Primary}"/>
+                          focusColor="${Palette.PRIMARY}"/>
 
             <JFXTextField id="lastNameTextField"
                           promptText="Last Name"
@@ -74,7 +74,7 @@
                           GridPane.columnIndex="1"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.Primary}"/>
+                          focusColor="${Palette.PRIMARY}"/>
 
             <JFXTextField id="emailTextField"
                           promptText="Email"
@@ -83,7 +83,7 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="25"
                           prefWidth="30"
-                          focusColor="${Palette.Primary}"/>
+                          focusColor="${Palette.PRIMARY}"/>
 
             <JFXPasswordField id="passwordTextField"
                               promptText="Password"
@@ -92,7 +92,7 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.Primary}"/>
+                              focusColor="${Palette.PRIMARY}"/>
 
             <JFXPasswordField id="confirmPasswordTextField"
                               promptText="Confirm Password"
@@ -101,7 +101,7 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.Primary}"/>
+                              focusColor="${Palette.PRIMARY}"/>
 
             <OButton fx:id="signUpButton"
                      text="Sign Up"
