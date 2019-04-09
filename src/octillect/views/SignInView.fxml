@@ -46,7 +46,7 @@
                               GridPane.columnIndex="1"
                               GridPane.halignment="LEFT"
                               prefColumnCount="30"
-                              focusColor="${Palette.Primary}"/>
+                              focusColor="${Palette.PRIMARY}"/>
 
                 <FontAwesomeIconView glyphName="ENVELOPE"
                                      size="12pt"
@@ -59,7 +59,7 @@
                                   GridPane.rowIndex="2"
                                   GridPane.columnIndex="1"
                                   prefColumnCount="30"
-                                  focusColor="${Palette.Primary}"/>
+                                  focusColor="${Palette.PRIMARY}"/>
 
                 <FontAwesomeIconView glyphName="LOCK"
                                      GridPane.columnIndex="0"
@@ -81,7 +81,7 @@
                       alignment="CENTER">
 
                     <Label text="Don't have an account? "
-                           textFill="${Palette.Dark500}">
+                           textFill="${Palette.DARK_500}">
                         <font>
                             <Font name="System Bold" size="12"/>
                         </font>
@@ -90,7 +90,7 @@
                     <Hyperlink id="createAnAccountButton"
                                text="Create an account"
                                onAction="#handleCreateAnAccountAction"
-                               textFill="${Palette.Primary}"
+                               textFill="${Palette.PRIMARY}"
                                focusTraversable="false">
                         <font>
                             <Font name="System Bold" size="12"/>

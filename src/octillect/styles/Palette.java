@@ -16,13 +16,13 @@ public final class Palette {
     public static final Color DARK_500     = getColorFromCSS("-o-dark-500");
     public static final Color DARK_300     = getColorFromCSS("-o-dark-300");
 
-    /** Getter method for FXML; use ${Palette.Primary} */
-    public Color getPrimary() { return PRIMARY; }
-    public Color getPrimaryDark() { return PRIMARY_DARK; }
-    public Color getDark900() { return DARK_900; }
-    public Color getDark700() { return DARK_700; }
-    public Color getDark500() { return DARK_500; }
-    public Color getDark300() { return DARK_300; }
+    /** Getter method for FXML; use ${Palette.PRIMARY} */
+    public Color getPRIMARY() { return PRIMARY; }
+    public Color getPRIMARY_DARK() { return PRIMARY_DARK; }
+    public Color getDARK_900() { return DARK_900; }
+    public Color getDARK_700() { return DARK_700; }
+    public Color getDARK_500() { return DARK_500; }
+    public Color getDARK_300() { return DARK_300; }
 
     private static Color getColorFromCSS(String colorName) {
         String colorHex = "";
