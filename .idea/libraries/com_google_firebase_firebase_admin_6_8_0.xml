@@ -1,0 +1,68 @@
+<component name="libraryTable">
+  <library name="com.google.firebase:firebase-admin:6.8.0" type="repository">
+    <properties maven-id="com.google.firebase:firebase-admin:6.8.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/firebase-admin-6.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-api-client-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-oauth-client-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-http-client-jackson2-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.9.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-api-client-gson-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-http-client-gson-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/gson-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-http-client-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/j2objc-annotations-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/api-common-1.7.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-auth-library-oauth2-http-0.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-auth-library-credentials-0.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-cloud-storage-1.43.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-cloud-core-1.43.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/joda-time-2.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/gax-1.30.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/protobuf-java-util-3.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/proto-google-common-protos-1.12.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/proto-google-iam-v1-0.12.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-cloud-core-http-1.43.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-http-client-appengine-1.24.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-http-client-jackson-1.24.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-asl-1.9.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/gax-httpjson-0.47.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencensus-contrib-http-util-0.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-api-services-storage-v1-rev135-1.24.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-cloud-firestore-0.61.0-beta.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/google-cloud-core-grpc-1.43.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/protobuf-java-3.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-protobuf-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-protobuf-lite-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-context-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/gax-grpc-1.30.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/threetenbp-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/proto-google-cloud-firestore-v1beta1-0.26.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/auto-value-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-netty-shaded-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-core-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencensus-contrib-grpc-metrics-0.12.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-stub-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/grpc-auth-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencensus-api-0.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencensus-contrib-grpc-util-0.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-20.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-codec-http-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-codec-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-handler-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-buffer-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-common-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-transport-4.1.22.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-resolver-4.1.22.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
