@@ -27,7 +27,7 @@
 
         <GridPane alignment="CENTER"
                   hgap="15"
-                  vgap="30">
+                  vgap="40">
 
             <OButton fx:id="backButton"
                      GridPane.rowIndex="0"
@@ -67,7 +67,9 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
             <JFXTextField fx:id="lastNameTextField"
                           promptText="Last Name"
@@ -75,7 +77,9 @@
                           GridPane.columnIndex="1"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
             <JFXTextField fx:id="emailTextField"
                           promptText="Email"
@@ -84,7 +88,9 @@
                           GridPane.halignment="CENTER"
                           prefColumnCount="25"
                           prefWidth="30"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
             <JFXPasswordField fx:id="passwordTextField"
                               promptText="Password"
@@ -93,7 +99,9 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
             <JFXPasswordField fx:id="confirmPasswordTextField"
                               promptText="Confirm Password"
@@ -102,7 +110,9 @@
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
             <OButton fx:id="signUpButton"
                      text="Sign Up"
