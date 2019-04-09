@@ -8,18 +8,34 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import octillect.Main;
 import octillect.controls.OButton;
+
+import java.io.File;
 
 public class SignUpController {
 
-    @FXML public HBox signUpHBox;
-    @FXML public OButton signUpButton;
-    @FXML public OButton signUpWithGitHubButton;
-    @FXML public OButton backButton;
+    @FXML private HBox signUpHBox;
+    @FXML private OButton signUpButton;
+    @FXML private OButton signUpWithGitHubButton;
+    @FXML private OButton backButton;
+    private String chosenImagePath;
 
     @FXML
     public void handleSignUpButtonAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleImageButtonAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose a Profile picture");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files", "*.jpg", "*.png"));
+        File file = fileChooser.showOpenDialog(Main.signingStage);
+
+        if (file != null)
+            chosenImagePath = file.getPath();
     }
 
     @FXML
@@ -42,5 +58,4 @@ public class SignUpController {
         timeline.setOnFinished(event -> parentStackPane.getChildren().remove(signUpHBox));
         timeline.play();
     }
-
 }

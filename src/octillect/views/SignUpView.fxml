@@ -51,7 +51,8 @@
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
                      fill="TRUE"
-                     color="DARK_500">
+                     color="DARK_500"
+                     onAction="#handleImageButtonAction">
                 <graphic>
                     <FontAwesomeIconView fx:id="cameraIcon"
                                          glyphName="CAMERA"
