@@ -1,4 +1,4 @@
-package octillect.firebase;
+package octillect.database.firebase;
 
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
@@ -15,11 +15,12 @@ import java.io.File;
 
 public class StorageAPI {
 
-    public static final String USER_PHOTOS_FOLDER       = "userPohtos/";
+    public static final String USER_PHOTOS_FOLDER = "userPohtos/";
     public static final String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
     private static StorageClient storageClient = StorageClient.getInstance();
 
-    public static void uploadImage(String filePath, String storageFolder, String imageName){
+    // Upload Image to Firebase CloudStorage
+    public static void uploadImage(String filePath, String storageFolder, String imageName) {
         InputStream imageFile = null;
         try {
             imageFile = new FileInputStream(filePath);
@@ -30,20 +31,23 @@ public class StorageAPI {
         }
     }
 
-    public static Image getImage(String folder, String imageName){
+    // Search for image by name on CloudStorage and return it as an Image data type
+    public static Image getImage(String folder, String imageName) {
         byte[] imageByteArray = storageClient.bucket().get(folder + imageName).getContent();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByteArray);
         return new Image(byteArrayInputStream);
     }
 
+    // Delete image by name from CloudStorage
     public static void deleteImage(String folder, String imageName) {
         storageClient.bucket().get(folder + imageName).delete();
     }
 
-    public static void downloadImage(String folder, String imageName) {
-        Image image = getImage(folder,imageName);
+    // Download image to the Local by image name
+    public static void downloadImage(String folder, String imageName, String downloadPath) {
+        Image image = getImage(folder, imageName);
         try {
-            ImageIO.write((RenderedImage) image, "jpg", new File(imageName + ".jpg"));
+            ImageIO.write((RenderedImage) image, "jpg", new File(downloadPath + imageName + ".jpg"));
         } catch (IOException e) {
             e.getMessage();
         }
