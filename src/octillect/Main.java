@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import octillect.database.firebase.Connection;
 
 public class Main extends Application {
 
@@ -36,6 +37,8 @@ public class Main extends Application {
         // Make Stage not resizable
         signingStage.setResizable(false);
 
+        //Initialize Firebase connection
+        Connection.initializeFirebase();
     }
 
     public static void runApplication() throws Exception {
