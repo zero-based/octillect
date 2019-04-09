@@ -44,7 +44,7 @@
                 </graphic>
             </OButton>
 
-            <OButton id="imageButton"
+            <OButton fx:id="imageButton"
                      prefWidth="100"
                      prefHeight="100"
                      GridPane.rowIndex="0"
@@ -53,13 +53,14 @@
                      fill="TRUE"
                      color="DARK_500">
                 <graphic>
-                    <FontAwesomeIconView glyphName="CAMERA"
+                    <FontAwesomeIconView fx:id="cameraIcon"
+                                         glyphName="CAMERA"
                                          size="36"
                                          textAlignment="CENTER"/>
                 </graphic>
             </OButton>
 
-            <JFXTextField id="firstNameTextField"
+            <JFXTextField fx:id="firstNameTextField"
                           promptText="First Name"
                           GridPane.rowIndex="1"
                           GridPane.columnIndex="0"
@@ -68,7 +69,7 @@
                           minWidth="15"
                           focusColor="${Palette.PRIMARY}"/>
 
-            <JFXTextField id="lastNameTextField"
+            <JFXTextField fx:id="lastNameTextField"
                           promptText="Last Name"
                           GridPane.rowIndex="1"
                           GridPane.columnIndex="1"
@@ -76,7 +77,7 @@
                           minWidth="15"
                           focusColor="${Palette.PRIMARY}"/>
 
-            <JFXTextField id="emailTextField"
+            <JFXTextField fx:id="emailTextField"
                           promptText="Email"
                           GridPane.rowIndex="2"
                           GridPane.columnSpan="2"
@@ -85,7 +86,7 @@
                           prefWidth="30"
                           focusColor="${Palette.PRIMARY}"/>
 
-            <JFXPasswordField id="passwordTextField"
+            <JFXPasswordField fx:id="passwordTextField"
                               promptText="Password"
                               GridPane.rowIndex="3"
                               GridPane.columnSpan="2"
@@ -94,7 +95,7 @@
                               prefWidth="30"
                               focusColor="${Palette.PRIMARY}"/>
 
-            <JFXPasswordField id="confirmPasswordTextField"
+            <JFXPasswordField fx:id="confirmPasswordTextField"
                               promptText="Confirm Password"
                               GridPane.rowIndex="4"
                               GridPane.columnSpan="2"
