@@ -14,7 +14,7 @@
     - [2.5. Formatting](#25-formatting)
     - [2.6. References](#26-references)
 - [3. JavaFX Guidelines](#3-javafx-guidelines)
-    - [3.1. FXML Naming Conventions](#31-fxml-naming-conventions)
+    - [3.1. Controls Naming Conventions](#31-controls-naming-conventions)
     - [3.2. Event Handlers Naming Conventions](#32-event-handlers-naming-conventions)
     - [3.3. @FXML: always used](#33-fxml-always-used)
     - [3.4. Spacing](#34-spacing)
@@ -80,33 +80,34 @@ Co-authored-by: Youssef Raafat <YoussefRaafatNasry@gmail.com>
 1. Make your changes, and make sure the app still runs and passes all the tests.
 1. Push to your fork and submit a pull request from your branch to `master`
 
-    > **Here are a few things you have to do:**
-    >
-    > - Write a good commit message.
-    > - Follow the style guide where possible.
-    > - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
+   > **Here are a few things you have to do:**
+   >
+   > - Write a good commit message.
+   > - Follow the style guide where possible.
+   > - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
 
 1. **After your pull request is merged**:
 
-    1. **Delete** the branch you created from your **GitHub** fork by navigating near the bottom of your pull request and clicking `Delete branch`:
-        ![delete-branch-github](https://help.github.com/assets/images/help/pull_requests/delete_branch_button.png)
+   1. **Delete** the branch you created from your **GitHub** fork by navigating near the bottom of your pull request and clicking `Delete branch`:
 
-    1. **Delete** the branch you created from your **local** fork.
+      ![delete-branch-github](https://help.github.com/assets/images/help/pull_requests/delete_branch_button.png)
 
-        ```bash
-        git checkout master
-        git branch -d my-branch-name
-        ```
+   1. **Delete** the branch you created from your **local** fork.
 
-    1. Make your fork's `master` branch **even** with `MonicaTanios:master`
+      ```bash
+      git checkout master
+      git branch -d my-branch-name
+      ```
 
-        ```bash
-        git remote add upstream https://github.com/MonicaTanios/octillect.git
-        git pull upstream master
-        git push origin master
-        ```
+   1. Make your fork's `master` branch **even** with `MonicaTanios:master`
 
-    1. Prepare for your next pull request.
+      ```bash
+      git remote add upstream https://github.com/MonicaTanios/octillect.git
+      git pull upstream master
+      git push origin master
+      ```
+
+   1. Prepare for your next pull request.
 
 ---
 
@@ -123,7 +124,7 @@ Co-authored-by: Youssef Raafat <YoussefRaafatNasry@gmail.com>
 | Parameter  | lowerCamelCase | `name`           |
 | Constant   | CONSTANT_CASE  | `MIN_WIDTH`      |
 
-> - [Specific Naming Conventions](https://petroware.no/javastyle.html#Specific).  
+> - [Specific Naming Conventions](https://petroware.no/javastyle.html#Specific).
 > - [Camel case: defined](https://google.github.io/styleguide/javaguide.html#s5.3-camel-case)
 
 ### 2.2. Declarations
@@ -135,7 +136,14 @@ Co-authored-by: Youssef Raafat <YoussefRaafatNasry@gmail.com>
 Class and member modifiers, when present, appear in the order recommended by the Java Language Specification:
 
 ```java
-public protected private abstract default static final
+public protected private abstract default static final transient volatile synchronized native strictfp
+```
+
+Example:
+
+```java
+final volatile private String value; // bad
+private final volatile String value; // good
 ```
 
 ##### 2.2.1.2. Order
@@ -163,12 +171,25 @@ public class Example {
         this.name = name;
     }
 
-    public String getId() { return id; }
-    public String getName() {  return name; }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void updateData(int newId, String newName) {
-        id = newId;
-        name = newName;
+        setId(newId);
+        setName(newName);
     }
 
 }
@@ -179,9 +200,9 @@ public class Example {
 Every variable declaration (field or local) declares only one variable.
 
 ```java
-int a; //good
+int a;    // good
 int b;
-int c, d; //bad
+int c, d; // bad
 ```
 
 #### 2.2.3. Array declaration
@@ -189,8 +210,8 @@ int c, d; //bad
 The square brackets form a part of the type, not the variable
 
 ```java
-String[] args; //good
-String args[]; //bad
+String[] args; // good
+String args[]; // bad
 ```
 
 ### 2.3. Statements
@@ -256,28 +277,49 @@ A try-catch statement should have the following format:
 try {
     statements;
 } catch (ExceptionClass e) {
-     statements;
+    statements;
+} finally {
+    statements;
 }
 ```
 
 ### 2.4. Programming Practices
 
-#### 2.4.1. @Override: always used
+#### 2.4.1. Consider setters and getters for field access
+
+Within the same class consider using getters and setter to access fields values to ensure [lazy initialization](https://www.javaworld.com/article/2077568/java-tip-67--lazy-instantiation.html) and other intended logic implemented in getters and setters is always applied.
+
+```java
+public void changeName(String name) {
+    setName(name); // good
+}
+
+public void changeName(String name) {
+    this.name = name; // bad
+}
+```
+
+#### 2.4.2. @Override: always used
 
 A method is marked with the `@Override` annotation whenever it is legal.  
 **Exception**: `@Override` may be omitted when the parent method is [`@Deprecated`](https://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Deprecated.html).
 
-#### 2.4.2. Static members: qualified using class
+#### 2.4.3. Static members: qualified using class
 
 When a reference to a static class member must be qualified, it is qualified with that class's name, not with a reference or expression of that class's type.
 
 ```java
 Foo aFoo = ...;
-Foo.aStaticMethod(); // good
+Foo.aStaticMethod();  // good
 aFoo.aStaticMethod(); // bad
 ```
 
 ### 2.5. Formatting
+
+> Use the following shortcuts in **IntelliJ** to help you optimize your code.
+>
+> - **Optimize Imports:** <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd>  
+> - **Reformat Code:** <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>
 
 #### 2.5.1. Nonempty blocks
 
@@ -305,7 +347,6 @@ An empty block or block-like construct may be in K & R style. Alternatively, it 
   // This is equally acceptable
   void doNothingElse() {
   }
-
 ```
 
 #### 2.5.3. Column limit
@@ -314,20 +355,37 @@ Java code has a column limit of **100** characters.
 
 #### 2.5.4. Blank Spaces
 
-Blank space **should not** be used between a method name and its opening parenthesis. This helps to distinguish keywords from method calls.
+- Blank space **should not** be used between a method name and its opening parenthesis. This helps to distinguish keywords from method calls.
 
-Blank spaces **should** be used in the following circumstances:
+  ```java
+  void doSomething(int x) {}  // good
+  void doSomething (int x) {} // bad
+  ```
+
+- Blank spaces **should** be used in the following circumstances:
 
 1. A keyword followed by a parenthesis should be separated by a space. Example:
 
    ```java
       while (true) {
-          ...
+          statements;
       }
    ```
 
-2. A blank space should appear after commas in argument lists.
-3. All binary operators except `.` should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment ("++"), and decrement ("--") from their operands. Example:
+1. A blank space should appear before the opening parenthesis (`{`) of a method or a class.
+
+   ```java
+   void doSomething() throw Exception {}
+   class Bar extends Foo {}
+   ```
+
+1. A blank space should appear after commas in argument lists.
+
+   ```java
+   void doSomething(int x, int y) {}
+   ```
+
+1. All binary operators except `.` should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment ("++"), and decrement ("--") from their operands. Example:
 
    ```java
    a += c + d;
@@ -335,13 +393,13 @@ Blank spaces **should** be used in the following circumstances:
    a++;
    ```
 
-4. The expressions in a for statement should be separated by blank spaces. Example:
+1. The expressions in a for statement should be separated by blank spaces. Example:
 
    ```java
    for (expr1; expr2; expr3)
    ```
 
-5. Casts should be followed by a blank space. Examples:
+1. Casts should be followed by a blank space. Examples:
 
    ```java
    myMethod((byte) aNum, (Object) x);
@@ -353,12 +411,14 @@ Blank spaces **should** be used in the following circumstances:
 1. [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
 2. [Oracle Code Conventions for the Java Programming Language](https://www.oracle.com/technetwork/java/codeconvtoc-136057.html)
 3. [Java Programming Style Guidelines](https://petroware.no/javastyle.html)
+4. [Twitter Java Style Guide](https://github.com/twitter/commons/blob/master/src/java/com/twitter/common/styleguide.md#field-class-and-method-declarations)
+5. [47deg Java Style Guide](https://github.com/47deg/coding-guidelines/tree/master/java)
 
 ---
 
 ## 3. JavaFX Guidelines
 
-### 3.1. FXML Naming Conventions
+### 3.1. Controls Naming Conventions
 
 Use **lowerCamelCase** names with a **type indication** Suffix.
 
@@ -385,8 +445,7 @@ Variables and event handlers in the controller should **always** be annotated wi
 ```java
 public class RegistrationFormController {
 
-    @FXML
-    private Button submitButton;
+    @FXML private Button submitButton;
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
