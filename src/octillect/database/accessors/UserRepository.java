@@ -7,6 +7,9 @@ import octillect.models.User;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,18 +37,17 @@ public class UserRepository {
 
     // Encryption method
     public String encrypt(String textToEncrypt) {
-        String output = "";
-        final String key = "Octillect";
-
         try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "Blowfish");
-            Cipher cipher = Cipher.getInstance("Blowfish");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            byte[] encrypted = cipher.doFinal(textToEncrypt.getBytes());
-            output = new String(encrypted);
-        } catch (Exception e) {
-            e.printStackTrace();
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] messageDigest = md.digest(textToEncrypt.getBytes());
+            BigInteger bigInteger = new BigInteger(1, messageDigest);
+            String hashtext = bigInteger.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        return output;
     }
 }
