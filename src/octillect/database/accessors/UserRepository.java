@@ -5,6 +5,8 @@ import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,4 +32,22 @@ public class UserRepository {
         userMap.put("password", user.getPassword());
         return userMap;
     }
+
+    // Encryption method
+    public String encrypt(String textToEncrypt) throws Exception {
+        String output = "";
+        final String key = "Octillect";
+
+        try {
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(),"Blowfish");
+            Cipher cipher = Cipher.getInstance("Blowfish");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            byte[] encrypted = cipher.doFinal(textToEncrypt.getBytes());
+            output = new String(encrypted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
 }
