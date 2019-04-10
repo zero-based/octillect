@@ -13,58 +13,66 @@ import java.util.concurrent.ExecutionException;
 public class FirestoreAPI {
 
     // Collections' names constants
-    public static final String USERS     = "users";
-    public static final String PROEJECTS = "projects";
-    public static final String TASKS     = "tasks";
-    public static final String LABELS    = "labels";
-    public static final String COLUMNS   = "columns";
+    public static final String USERS    = "users";
+    public static final String PROJECTS = "projects";
+    public static final String TASKS    = "tasks";
+    public static final String LABELS   = "labels";
+    public static final String COLUMNS  = "columns";
 
     // Initialize our Firestore instance
     static Firestore database = FirestoreClient.getFirestore();
 
-    // Get the document attributes
-    public static DocumentSnapshot getDocument(String collection, String document) {
-
+    // Select a whole document
+    public static Object selectDocument(String collection, String document) {
         DocumentReference docRef = database.collection(collection).document(document);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-
+        ApiFuture<DocumentSnapshot> documentSnapshot = docRef.get();
         try {
-            return future.get();
+            return documentSnapshot.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
             return null;
         }
     }
 
-    // Checking to make sure that the document is unique
-    public static boolean isDocumentExist(String collection, String document) {
-
-        return getDocument(collection, document).exists();
+    // Select a specific attribute from a document
+    public static Object selectAttribute(String collection, String document, String key) {
+        DocumentReference docRef = database.collection(collection).document(document);
+        ApiFuture<DocumentSnapshot> documentSnapshot = docRef.get();
+        try {
+            return documentSnapshot.get().getData().get(key);
+        } catch (InterruptedException | ExecutionException e) {
+            return null;
+        }
     }
 
-    // Assigning the attributes of the document
-    public static void AddDocument(String collection, String document, Object object) {
+    // Add new document
+    public static void insertDocument(String collection, String document, Object object) {
         database.collection(collection).document(document).set(object);
     }
 
-    public static void AddDocument(String collection, String document, HashMap<String, Object> fields) {
-
-        Map<String, Object> updates = fields;
-        database.collection(collection).document(document).set(fields);
+    // Add new attribute to a document
+    public static void insertAttribute(String collection, String document, String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        database.collection(collection).document(document).set(map);
     }
 
-    // Updating the attributes of the document
-    public static void updateDocumentAttribute(String collection, String document, String key, String value) {
-
-        Map<String, Object> updates = new HashMap<>();
-        updates.put(key, value);
-
-        DocumentReference docRef = database.collection(collection).document(document);
-        docRef.update(updates);
+    // Update a document.
+    public static void updateDocument(String collection, String document, Object object) {
+        database.collection(collection).document(document).set(object);
     }
 
-    // Delete the document
+    // Update a specific attribute.
+    public static void updateAttribute(String collection, String document, String key, String value) {
+        database.collection(collection).document(document).update(key, value);
+    }
+
+    // Delete the whole document
     public static void deleteDocument(String collection, String document) {
         database.collection(collection).document(document).delete();
+    }
+
+    // Delete a specific attribute in a document
+    public static void deleteAttribute(String collection, String document, String key) {
+        database.collection(collection).document(document).update(key, null);
     }
 }
