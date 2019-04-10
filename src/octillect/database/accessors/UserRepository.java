@@ -12,11 +12,19 @@ import java.util.Map;
 
 public class UserRepository {
 
-    // add new user data to database and image to storage
-    public static void add(User user, String userImagePath) {
+    // add new user data to database.
+    public static void add(User user) {
         // hash user's email here and set it as a user id
-        FirestoreAPI.AddDocument(FirestoreAPI.USERS, user.getId(), convertToMap(user));
-        StorageAPI.uploadImage(userImagePath, StorageAPI.USER_PHOTOS_FOLDER, user.getId());
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("name", user.getName());
+        userMap.put("email", user.getEmail());
+        userMap.put("password", user.getPassword());
+        FirestoreAPI.AddDocument(FirestoreAPI.USERS, user.getId(), userMap);
+    }
+
+    // add user's image to CloudStorage
+    public static void setImage(String userId, String userImagePath) {
+        StorageAPI.uploadImage(userImagePath, StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     // Get user's image by userId
@@ -24,22 +32,13 @@ public class UserRepository {
         return StorageAPI.getImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
-    // Helper method converts needed fields to a map to be saved later in the database
-    private static Map<String, Object> convertToMap(User user) {
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("name", user.getName());
-        userMap.put("email", user.getEmail());
-        userMap.put("password", user.getPassword());
-        return userMap;
-    }
-
     // Encryption method
-    public String encrypt(String textToEncrypt) throws Exception {
+    public String encrypt(String textToEncrypt) {
         String output = "";
         final String key = "Octillect";
 
         try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(),"Blowfish");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "Blowfish");
             Cipher cipher = Cipher.getInstance("Blowfish");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             byte[] encrypted = cipher.doFinal(textToEncrypt.getBytes());
@@ -49,5 +48,4 @@ public class UserRepository {
         }
         return output;
     }
-
 }
