@@ -20,6 +20,8 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import octillect.Main;
 import octillect.controls.OButton;
+import octillect.database.accessors.UserRepository;
+import octillect.models.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,7 +64,17 @@ public class SignUpController implements Initializable {
         if (requiredFieldValidator.getHasErrors() || emailValidator.getHasErrors() || passwordValidator.getHasErrors()) {
             signUpButton.setOnAction(null);
         } else {
-            // Add new user
+            User user = new User();
+            user.setId(UserRepository.encrypt(emailTextField.getText()));
+            user.setEmail(emailTextField.getText());
+            user.setPassword(UserRepository.encrypt(passwordTextField.getText()));
+            user.setName(firstNameTextField.getText() + " " + lastNameTextField.getText());
+            UserRepository.add(user);
+
+            if (chosenImagePath != null) {
+                UserRepository.setImage(user.getId(), chosenImagePath);
+                user.setImage(getChosenImage(chosenImagePath));
+            }
         }
     }
 

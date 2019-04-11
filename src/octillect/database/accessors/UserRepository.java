@@ -1,6 +1,7 @@
 package octillect.database.accessors;
 
 import javafx.scene.image.Image;
+import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
 
@@ -12,6 +13,9 @@ public class UserRepository {
 
     // add new user data to database.
     public static void add(User user) {
+        user.setId(encrypt(user.getEmail()));
+        user.setPassword(encrypt(user.getPassword()));
+        FirestoreAPI.insertDocument(FirestoreAPI.USERS,user.getId(),user);
     }
 
     // add user's image to CloudStorage
