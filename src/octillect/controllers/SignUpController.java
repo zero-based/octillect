@@ -75,20 +75,25 @@ public class SignUpController implements Initializable {
 
         if (file != null) {
             chosenImagePath = file.getPath();
-            try {
-                FileInputStream image = new FileInputStream(chosenImagePath);
-                userImage.setFill(new ImagePattern(new Image(image)));
-                userImage.setOpacity(100);
-                imageButton.setOpacity(0);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            userImage.setFill(new ImagePattern(getChosenImage(chosenImagePath)));
+            userImage.setOpacity(100);
+            imageButton.setOpacity(0);
         } else {
             imageButton.setOpacity(100);
             userImage.setFill(null);
         }
     }
 
+    // Convert image file to Image Data type
+    public Image getChosenImage(String imagePath) {
+        try {
+            FileInputStream image = new FileInputStream(chosenImagePath);
+            return new Image(image);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @FXML
     public void handleSignUpWithGitHubButtonAction(ActionEvent actionEvent) {
