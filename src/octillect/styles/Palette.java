@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 public final class Palette {
 
+    private static final String CSS_LOCATION  = "./src/octillect/styles/";
+    private static final String CSS_FILE_NAME = "Palette.css";
+
     /**
      * Constant field; use Palette.PRIMARY
      */
@@ -40,27 +43,26 @@ public final class Palette {
      * HEX code and return a Color object having the same HEX code.
      */
     private static Color getColorFromCSS(String colorName) {
-        String colorHex = "";
+        String colorHexCode = "";
         try {
-            URL fileURL = Palette.class.getResource("Palette.css");
-            Scanner scanner = new Scanner(new File(fileURL.getPath()));
+            Scanner scanner = new Scanner(new File(CSS_LOCATION + CSS_FILE_NAME));
             while (scanner.hasNextLine()) {
                 String buffer = scanner.nextLine();
                 if (buffer.contains(" " + colorName + " ")){
-                    colorHex = buffer.substring(buffer.indexOf('#'), buffer.indexOf('#') + 7);
+                    colorHexCode = buffer.substring(buffer.indexOf('#'), buffer.indexOf('#') + 7);
                     break;
                 }
             }
             scanner.close();
-        } catch (FileNotFoundException exception) {
-            exception.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
-        if (colorHex.equals("")){
-            System.out.println("Couldn't find the color name specified!");
+        if (colorHexCode.equals("")){
+            System.out.println(colorName + " is not found in " + CSS_FILE_NAME);
         }
 
-        return Color.valueOf(colorHex);
+        return Color.valueOf(colorHexCode);
     }
 
 }
