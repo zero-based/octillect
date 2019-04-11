@@ -6,14 +6,19 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import octillect.Main;
 import octillect.controls.OButton;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class SignUpController {
 
@@ -21,6 +26,9 @@ public class SignUpController {
     @FXML private OButton signUpButton;
     @FXML private OButton signUpWithGitHubButton;
     @FXML private OButton backButton;
+    @FXML private OButton imageButton;
+    @FXML private Circle userImage;
+
     private String chosenImagePath;
 
     @FXML
@@ -34,9 +42,22 @@ public class SignUpController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files", "*.jpg", "*.png"));
         File file = fileChooser.showOpenDialog(Main.signingStage);
 
-        if (file != null)
+        if (file != null) {
             chosenImagePath = file.getPath();
+            try {
+                FileInputStream image = new FileInputStream(chosenImagePath);
+                userImage.setFill(new ImagePattern(new Image(image)));
+                userImage.setOpacity(100);
+                imageButton.setOpacity(0);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            imageButton.setOpacity(100);
+            userImage.setFill(null);
+        }
     }
+
 
     @FXML
     public void handleSignUpWithGitHubButtonAction(ActionEvent actionEvent) {
