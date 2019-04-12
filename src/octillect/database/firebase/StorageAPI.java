@@ -4,14 +4,11 @@ import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.File;
+import java.nio.file.Paths;
 
 public class StorageAPI {
 
@@ -32,10 +29,14 @@ public class StorageAPI {
     }
 
     // Search for image by name on CloudStorage and return it as an Image data type
-    public static Image getImage(String folder, String imageStorageName) {
-        byte[] imageByteArray = storageClient.bucket().get(folder + imageStorageName + ".jpg").getContent();
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByteArray);
-        return new Image(byteArrayInputStream);
+    public static Image selectImage(String folder, String imageStorageName) {
+        try {
+            byte[] imageByteArray = storageClient.bucket().get(folder + imageStorageName + ".jpg").getContent();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByteArray);
+            return new Image(byteArrayInputStream);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // Delete image by name from CloudStorage
@@ -45,11 +46,6 @@ public class StorageAPI {
 
     // Download image to the Local by image name
     public static void downloadImage(String folder, String imageStorageName, String downloadPath) {
-        Image image = getImage(folder, imageStorageName);
-        try {
-            ImageIO.write((RenderedImage) image,"jpg", new File(downloadPath + "/" + imageStorageName + ".jpg"));
-        } catch (IOException e) {
-            e.getMessage();
-        }
+        storageClient.bucket().get(folder + imageStorageName + ".jpg").downloadTo(Paths.get(downloadPath));
     }
 }
