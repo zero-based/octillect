@@ -40,7 +40,7 @@
                                      size="100"
                                      glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <JFXTextField id="emailTextField"
+                <JFXTextField fx:id="emailTextField"
                               promptText="Email"
                               GridPane.rowIndex="1"
                               GridPane.columnIndex="1"
@@ -54,7 +54,7 @@
                                      GridPane.rowIndex="1"
                                      glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <JFXPasswordField id="passwordTextField"
+                <JFXPasswordField fx:id="passwordTextField"
                                   promptText="Password"
                                   GridPane.rowIndex="2"
                                   GridPane.columnIndex="1"
