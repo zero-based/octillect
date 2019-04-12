@@ -9,16 +9,19 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import octillect.database.firebase.Connection;
+import octillect.models.User;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
     public static Image O_ICON = new Image("/octillect/resources/o-icon.png");
     public static Stage signingStage;
     public static Stage applicationStage;
+    private static User signedUser;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         // Create Signing Stage and Sign in Scene
         Parent root = FXMLLoader.load(getClass().getResource("views/SignInView.fxml"));
         signingStage = primaryStage;
@@ -41,10 +44,17 @@ public class Main extends Application {
         Connection.initializeFirebase();
     }
 
-    public static void runApplication() throws Exception {
+    public static void runApplication(User user) {
 
+        signedUser = user;
         // Create Application Stage and Scene
-        Parent root = FXMLLoader.load(Main.class.getResource("views/ApplicationView.fxml"));
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(Main.class.getResource("views/ApplicationView.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         applicationStage = new Stage();
         applicationStage.setTitle("Octillect");
         applicationStage.setScene(new Scene(root));
