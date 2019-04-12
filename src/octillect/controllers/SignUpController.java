@@ -81,6 +81,12 @@ public class SignUpController implements Initializable {
                 UserRepository.setImage(user.getId(), chosenImagePath);
                 user.setImage(getChosenImage(chosenImagePath));
             }
+
+            try {
+                Main.runApplication();
+            } catch (Exception e) {
+                System.out.println("Couldn't start Application.");
+            }
         }
     }
 
