@@ -45,10 +45,11 @@ public class SignUpController implements Initializable {
 
     private RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
     private RegexValidator emailValidator                 = new RegexValidator();
+    private RegexValidator emailUsedValidator             = new RegexValidator();
     private RegexValidator passwordValidator              = new RegexValidator();
     private RegexValidator confirmPasswordValidator       = new RegexValidator();
 
-    private String chosenImagePath;
+    private String chosenImagePath = null;
 
     @FXML
     public void handleSignUpButtonAction(ActionEvent actionEvent) {
@@ -62,6 +63,11 @@ public class SignUpController implements Initializable {
 
         // set Sign up Button's action handler to null when there's any Validation errors
         if (requiredFieldValidator.getHasErrors() || emailValidator.getHasErrors() || passwordValidator.getHasErrors()) {
+            signUpButton.setOnAction(null);
+        } else if (UserRepository.get(UserRepository.encrypt(emailTextField.getText())) != null) {
+            emailUsedValidator.setMessage("This email already have an account. Try another.");
+            emailTextField.getValidators().add(emailUsedValidator);
+            emailTextField.validate();
             signUpButton.setOnAction(null);
         } else {
             User user = new User();
@@ -140,6 +146,8 @@ public class SignUpController implements Initializable {
         emailValidator.setRegexPattern("([a-z0-9_\\.-]+)@[\\da-z\\.-]+[a-z\\.]{2,5}");
         emailValidator.setMessage("Invalid Email.");
 
+        emailUsedValidator.setRegexPattern("^((?!.*"+ emailTextField.getText() +".*).)*$");
+
         passwordValidator.setRegexPattern("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$");
         passwordValidator.setMessage("Use 8 or more characters with a mix of letters and numbers.");
 
@@ -160,6 +168,7 @@ public class SignUpController implements Initializable {
         });
 
         emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            emailTextField.getValidators().remove(emailUsedValidator);
             if (!newValue) {
                 emailTextField.validate();
                 signUpButton.setOnAction(this::handleSignUpButtonAction);
