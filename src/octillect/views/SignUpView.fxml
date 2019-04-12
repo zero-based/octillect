@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Separator?>
 <?import octillect.controls.OButton?>
 
+<?import javafx.scene.shape.Circle?>
 <HBox xmlns="http://javafx.com/javafx/8.0.201"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="octillect.controllers.SignUpController"
@@ -27,7 +28,7 @@
 
         <GridPane alignment="CENTER"
                   hgap="15"
-                  vgap="30">
+                  vgap="40">
 
             <OButton fx:id="backButton"
                      GridPane.rowIndex="0"
@@ -44,64 +45,83 @@
                 </graphic>
             </OButton>
 
-            <OButton id="imageButton"
+            <Circle fx:id="userImage"
+                    GridPane.rowIndex="0"
+                    GridPane.columnSpan="2"
+                    GridPane.halignment="CENTER"
+                    opacity="0"
+                    radius="50"/>
+
+            <OButton fx:id="imageButton"
                      prefWidth="100"
                      prefHeight="100"
                      GridPane.rowIndex="0"
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
                      fill="TRUE"
-                     color="DARK_500">
+                     color="DARK_500"
+                     onAction="#handleImageButtonAction">
                 <graphic>
-                    <FontAwesomeIconView glyphName="CAMERA"
+                    <FontAwesomeIconView fx:id="cameraIcon"
+                                         glyphName="CAMERA"
                                          size="36"
                                          textAlignment="CENTER"/>
                 </graphic>
             </OButton>
 
-            <JFXTextField id="firstNameTextField"
+            <JFXTextField fx:id="firstNameTextField"
                           promptText="First Name"
                           GridPane.rowIndex="1"
                           GridPane.columnIndex="0"
                           GridPane.halignment="CENTER"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
-            <JFXTextField id="lastNameTextField"
+            <JFXTextField fx:id="lastNameTextField"
                           promptText="Last Name"
                           GridPane.rowIndex="1"
                           GridPane.columnIndex="1"
                           prefColumnCount="15"
                           minWidth="15"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
-            <JFXTextField id="emailTextField"
+            <JFXTextField fx:id="emailTextField"
                           promptText="Email"
                           GridPane.rowIndex="2"
                           GridPane.columnSpan="2"
                           GridPane.halignment="CENTER"
                           prefColumnCount="25"
                           prefWidth="30"
-                          focusColor="${Palette.PRIMARY}"/>
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
-            <JFXPasswordField id="passwordTextField"
+            <JFXPasswordField fx:id="passwordTextField"
                               promptText="Password"
                               GridPane.rowIndex="3"
                               GridPane.columnSpan="2"
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
-            <JFXPasswordField id="confirmPasswordTextField"
+            <JFXPasswordField fx:id="confirmPasswordTextField"
                               promptText="Confirm Password"
                               GridPane.rowIndex="4"
                               GridPane.columnSpan="2"
                               GridPane.halignment="CENTER"
                               prefColumnCount="25"
                               prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
             <OButton fx:id="signUpButton"
                      text="Sign Up"

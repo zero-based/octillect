@@ -1,28 +1,20 @@
 package octillect.database.accessors;
 
+import com.google.cloud.firestore.DocumentSnapshot;
 import javafx.scene.image.Image;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserRepository {
 
     // add new user data to database.
     public static void add(User user) {
-        // hash user's email here and set it as a user id
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("name", user.getName());
-        userMap.put("email", user.getEmail());
-        userMap.put("password", user.getPassword());
-        FirestoreAPI.AddDocument(FirestoreAPI.USERS, user.getId(), userMap);
+        FirestoreAPI.insertDocument(FirestoreAPI.USERS, user.getId(), user);
     }
 
     // add user's image to CloudStorage
@@ -30,13 +22,21 @@ public class UserRepository {
         StorageAPI.uploadImage(userImagePath, StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
+    public static User get(String id) {
+        User user = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(User.class);
+        Image image = getImage(id);
+        if (image != null)
+            user.setImage(image);
+        return user;
+    }
+
     // Get user's image by userId
     public static Image getImage(String userId) {
-        return StorageAPI.getImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
+        return StorageAPI.selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     // Encryption method
-    public String encrypt(String textToEncrypt) {
+    public static String encrypt(String textToEncrypt) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(textToEncrypt.getBytes());

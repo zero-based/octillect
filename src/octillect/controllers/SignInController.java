@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import octillect.Main;
 import octillect.controls.OButton;
+import octillect.models.User;
 
 public class SignInController {
 
@@ -22,12 +23,11 @@ public class SignInController {
 
     @FXML
     public void handleSignInButtonAction(ActionEvent actionEvent) {
+        /* Must be initialized with user we got from database instead of null */
+        User user = null;
+
         /* SIGN IN CODE HERE */
-        try {
-            Main.runApplication();
-        } catch( Exception e ) {
-            System.out.println("Couldn't start Application.");
-        }
+        Main.runApplication(user);
     }
 
     @FXML
