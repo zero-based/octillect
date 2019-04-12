@@ -46,7 +46,9 @@
                               GridPane.columnIndex="1"
                               GridPane.halignment="LEFT"
                               prefColumnCount="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
                 <FontAwesomeIconView glyphName="ENVELOPE"
                                      size="12pt"
@@ -59,7 +61,9 @@
                                   GridPane.rowIndex="2"
                                   GridPane.columnIndex="1"
                                   prefColumnCount="30"
-                                  focusColor="${Palette.PRIMARY}"/>
+                                  focusColor="${Palette.PRIMARY}"
+                                  style="-fx-text-inner-color: -o-dark-300"
+                                  labelFloat="true"/>
 
                 <FontAwesomeIconView glyphName="LOCK"
                                      GridPane.columnIndex="0"
