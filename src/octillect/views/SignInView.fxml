@@ -40,13 +40,15 @@
                                      size="100"
                                      glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <JFXTextField id="emailTextField"
+                <JFXTextField fx:id="emailTextField"
                               promptText="Email"
                               GridPane.rowIndex="1"
                               GridPane.columnIndex="1"
                               GridPane.halignment="LEFT"
                               prefColumnCount="30"
-                              focusColor="${Palette.PRIMARY}"/>
+                              focusColor="${Palette.PRIMARY}"
+                              style="-fx-text-inner-color: -o-dark-300"
+                              labelFloat="true"/>
 
                 <FontAwesomeIconView glyphName="ENVELOPE"
                                      size="12pt"
@@ -54,12 +56,14 @@
                                      GridPane.rowIndex="1"
                                      glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <JFXPasswordField id="passwordTextField"
+                <JFXPasswordField fx:id="passwordTextField"
                                   promptText="Password"
                                   GridPane.rowIndex="2"
                                   GridPane.columnIndex="1"
                                   prefColumnCount="30"
-                                  focusColor="${Palette.PRIMARY}"/>
+                                  focusColor="${Palette.PRIMARY}"
+                                  style="-fx-text-inner-color: -o-dark-300"
+                                  labelFloat="true"/>
 
                 <FontAwesomeIconView glyphName="LOCK"
                                      GridPane.columnIndex="0"
