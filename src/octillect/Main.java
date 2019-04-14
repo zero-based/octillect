@@ -10,6 +10,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import octillect.database.firebase.Connection;
 import octillect.models.User;
+import octillect.styles.Fonts;
 
 import java.io.IOException;
 
@@ -21,7 +22,11 @@ public class Main extends Application {
     private static User signedUser;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
+
+        // Load Application Fonts
+        Fonts.load();
+
         // Create Signing Stage and Sign in Scene
         Parent root = FXMLLoader.load(getClass().getResource("views/SignInView.fxml"));
         signingStage = primaryStage;
