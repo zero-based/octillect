@@ -4,13 +4,17 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -18,18 +22,13 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+
 import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
 import octillect.models.User;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class SignUpController implements Initializable {
+public class SignUpController {
 
     @FXML private HBox signUpHBox;
     @FXML private OButton signUpButton;
@@ -50,6 +49,65 @@ public class SignUpController implements Initializable {
     private RegexValidator confirmPasswordValidator       = new RegexValidator();
 
     private String chosenImagePath = null;
+
+    // TextFields Validation
+    @FXML
+    public void initialize() {
+        firstNameTextField.getValidators().add(requiredFieldValidator);
+        lastNameTextField .getValidators().add(requiredFieldValidator);
+        emailTextField    .getValidators().add(emailValidator);
+
+        requiredFieldValidator.setMessage("Required field.");
+
+        emailValidator.setRegexPattern("([a-z0-9_\\.-]+)@[\\da-z\\.-]+[a-z\\.]{2,5}");
+        emailValidator.setMessage("Invalid Email.");
+
+        emailUsedValidator.setRegexPattern("^((?!.*"+ emailTextField.getText() +".*).)*$");
+
+        passwordValidator.setRegexPattern("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$");
+        passwordValidator.setMessage("Use 8 or more characters with a mix of letters and numbers.");
+
+        confirmPasswordValidator.setMessage("Those passwords didn't match. Try again.");
+
+        firstNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                firstNameTextField.validate();
+                signUpButton.setOnAction(this::handleSignUpButtonAction);
+            }
+        });
+
+        lastNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                lastNameTextField.validate();
+                signUpButton.setOnAction(this::handleSignUpButtonAction);
+            }
+        });
+
+        emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            emailTextField.getValidators().remove(emailUsedValidator);
+            if (!newValue) {
+                emailTextField.validate();
+                signUpButton.setOnAction(this::handleSignUpButtonAction);
+            }
+        });
+
+        passwordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            passwordTextField.getValidators().add(passwordValidator);
+            if (!newValue) {
+                passwordTextField.validate();
+                signUpButton.setOnAction(this::handleSignUpButtonAction);
+            }
+        });
+
+        confirmPasswordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            confirmPasswordValidator.setRegexPattern(passwordTextField.getText());
+            if (!newValue && !passwordTextField.getText().equals("")) {
+                confirmPasswordTextField.getValidators().add(confirmPasswordValidator);
+                confirmPasswordTextField.validate();
+                signUpButton.setOnAction(this::handleSignUpButtonAction);
+            }
+        });
+    }
 
     @FXML
     public void handleSignUpButtonAction(ActionEvent actionEvent) {
@@ -107,7 +165,7 @@ public class SignUpController implements Initializable {
     // Convert image file to Image Data type
     public Image getChosenImage(String imagePath) {
         try {
-            FileInputStream image = new FileInputStream(chosenImagePath);
+            FileInputStream image = new FileInputStream(imagePath);
             return new Image(image);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -136,62 +194,4 @@ public class SignUpController implements Initializable {
         timeline.play();
     }
 
-    // TextFields Validation
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        firstNameTextField      .getValidators().add(requiredFieldValidator);
-        lastNameTextField       .getValidators().add(requiredFieldValidator);
-        emailTextField          .getValidators().add(emailValidator);
-
-        requiredFieldValidator.setMessage("Required field.");
-
-        emailValidator.setRegexPattern("([a-z0-9_\\.-]+)@[\\da-z\\.-]+[a-z\\.]{2,5}");
-        emailValidator.setMessage("Invalid Email.");
-
-        emailUsedValidator.setRegexPattern("^((?!.*"+ emailTextField.getText() +".*).)*$");
-
-        passwordValidator.setRegexPattern("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$");
-        passwordValidator.setMessage("Use 8 or more characters with a mix of letters and numbers.");
-
-        confirmPasswordValidator.setMessage("Those passwords didn't match. Try again.");
-
-        firstNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                firstNameTextField.validate();
-                signUpButton.setOnAction(this::handleSignUpButtonAction);
-            }
-        });
-
-        lastNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                lastNameTextField.validate();
-                signUpButton.setOnAction(this::handleSignUpButtonAction);
-            }
-        });
-
-        emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            emailTextField.getValidators().remove(emailUsedValidator);
-            if (!newValue) {
-                emailTextField.validate();
-                signUpButton.setOnAction(this::handleSignUpButtonAction);
-            }
-        });
-
-        passwordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            passwordTextField.getValidators().add(passwordValidator);
-            if (!newValue) {
-                passwordTextField.validate();
-                signUpButton.setOnAction(this::handleSignUpButtonAction);
-            }
-        });
-
-        confirmPasswordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            confirmPasswordValidator.setRegexPattern(passwordTextField.getText());
-            if (!newValue && !passwordTextField.getText().equals("")) {
-                confirmPasswordTextField.getValidators().add(confirmPasswordValidator);
-                confirmPasswordTextField.validate();
-                signUpButton.setOnAction(this::handleSignUpButtonAction);
-            }
-        });
-    }
 }
