@@ -1,8 +1,9 @@
 @import "Palette.css"
 
 .o-button {
+    -fx-font-family: 'Product Sans';
 	-fx-font-weight: bold;
-	-fx-font-size: 16;
+	-fx-font-size: 18;
   	-fx-border-radius: 50;
   	-fx-background-radius: 50;
   	-fx-text-fill: white;
