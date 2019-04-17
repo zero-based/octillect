@@ -3,14 +3,12 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Separator?>
 <?import octillect.controls.OButton?>
-
 <?import javafx.scene.shape.Circle?>
+
 <HBox xmlns="http://javafx.com/javafx/8.0.201"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="octillect.controllers.SignUpController"
@@ -27,7 +25,7 @@
           style="-fx-background-color: -o-dark-900;">
 
         <GridPane alignment="CENTER"
-                  hgap="15"
+                  hgap="25"
                   vgap="40">
 
             <OButton fx:id="backButton"
@@ -53,8 +51,8 @@
                     radius="50"/>
 
             <OButton fx:id="imageButton"
-                     prefWidth="100"
-                     prefHeight="100"
+                     prefWidth="120"
+                     prefHeight="120"
                      GridPane.rowIndex="0"
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
@@ -64,7 +62,7 @@
                 <graphic>
                     <FontAwesomeIconView fx:id="cameraIcon"
                                          glyphName="CAMERA"
-                                         size="36"
+                                         size="50"
                                          textAlignment="CENTER"/>
                 </graphic>
             </OButton>
@@ -132,36 +130,6 @@
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
                      prefWidth="350"/>
-
-            <HBox GridPane.rowIndex="6"
-                  GridPane.halignment="CENTER"
-                  GridPane.columnSpan="2"
-                  alignment="CENTER"
-                  opacity=".64">
-
-                <Separator prefWidth="75"/>
-                <Label prefWidth="25"
-                       text="or"
-                       textFill="white"
-                       alignment="CENTER"
-                       translateY="-2"/>
-                <Separator prefWidth="75"/>
-
-            </HBox>
-
-            <OButton fx:id="signUpWithGitHubButton"
-                     text="  Sign Up with GitHub"
-                     onAction="#handleSignUpWithGitHubButtonAction"
-                     prefWidth="350"
-                     GridPane.rowIndex="7"
-                     GridPane.columnSpan="2"
-                     GridPane.halignment="CENTER"
-                     fill="FALSE"
-                     color="DARK_500">
-                <graphic>
-                    <FontAwesomeIconView glyphName="GITHUB" size="20pt"/>
-                </graphic>
-            </OButton>
 
         </GridPane>
 

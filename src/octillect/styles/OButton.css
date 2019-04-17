@@ -5,6 +5,7 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 18;
   	-fx-border-radius: 50;
+  	-fx-padding: 5 10 5 10;
   	-fx-background-radius: 50;
   	-fx-text-fill: white;
 }
