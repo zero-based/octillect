@@ -5,14 +5,12 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -21,6 +19,7 @@ import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
 import octillect.models.User;
+import octillect.styles.Animation;
 
 public class SignInController {
 
@@ -30,6 +29,7 @@ public class SignInController {
     @FXML private OButton signInWithGitHubButton;
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
+    @FXML private ImageView backgroundImageView;
 
     private RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
     private RegexValidator passwordValidator              = new RegexValidator();
@@ -38,6 +38,10 @@ public class SignInController {
     // TextFields Validation
     @FXML
     public void initialize() {
+
+        // Animation
+        Animation.rotate(backgroundImageView);
+        
         requiredFieldValidator.setMessage("Required field.");
         emailTextField        .getValidators().add(requiredFieldValidator);
         passwordTextField     .getValidators().add(requiredFieldValidator);
