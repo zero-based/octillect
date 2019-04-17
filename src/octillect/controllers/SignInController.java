@@ -5,16 +5,15 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
@@ -106,21 +105,12 @@ public class SignInController {
     }
 
     @FXML
-    public void handleCreateAnAccountAction(ActionEvent actionEvent) throws Exception{
-        // Initialize values
-        Parent signUpRoot = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
-        StackPane parentStackPane = (StackPane) signInHBox.getParent();
-        double startValue = parentStackPane.getWidth();
-        double endValue = 0;
-        signUpRoot.translateXProperty().set(startValue);
-        parentStackPane.getChildren().add(signUpRoot);
+    public void handleCreateAnAccountAction(ActionEvent actionEvent) throws Exception {
 
-        // Animation
-        Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(signUpRoot.translateXProperty(), endValue, Interpolator.EASE_IN);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(650), keyValue);
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.play();
+        HBox signUpHBox = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
+        StackPane parentStackPane = (StackPane) signInHBox.getParent();
+
+        Animation.easeIn(parentStackPane, signUpHBox);
     }
 
 }
