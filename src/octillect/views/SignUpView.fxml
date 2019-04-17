@@ -3,11 +3,9 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Separator?>
 <?import octillect.controls.OButton?>
 <?import javafx.scene.shape.Circle?>
 
@@ -27,7 +25,7 @@
           style="-fx-background-color: -o-dark-900;">
 
         <GridPane alignment="CENTER"
-                  hgap="15"
+                  hgap="25"
                   vgap="40">
 
             <OButton fx:id="backButton"
@@ -53,8 +51,8 @@
                     radius="50"/>
 
             <OButton fx:id="imageButton"
-                     prefWidth="100"
-                     prefHeight="100"
+                     prefWidth="120"
+                     prefHeight="120"
                      GridPane.rowIndex="0"
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
@@ -64,7 +62,7 @@
                 <graphic>
                     <FontAwesomeIconView fx:id="cameraIcon"
                                          glyphName="CAMERA"
-                                         size="36"
+                                         size="50"
                                          textAlignment="CENTER"/>
                 </graphic>
             </OButton>
