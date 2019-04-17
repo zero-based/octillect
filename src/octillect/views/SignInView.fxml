@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import octillect.controls.OButton?>
+<?import javafx.scene.control.Separator?>
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.201"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -76,11 +77,41 @@
                          onAction="#handleSignInButtonAction"
                          color="DARK_500"
                          fill="FALSE"
+                         prefWidth="350"
                          GridPane.rowIndex="3"
                          GridPane.columnIndex="1"
                          GridPane.halignment="CENTER"/>
 
                 <HBox GridPane.rowIndex="4"
+                      GridPane.halignment="CENTER"
+                      GridPane.valignment="BASELINE"
+                      GridPane.columnIndex="1"
+                      alignment="CENTER">
+
+                    <Separator prefWidth="150"/>
+                    <Label prefWidth="50"
+                           text="or"
+                           textFill="${Palette.DARK_300}"
+                           alignment="CENTER"/>
+                    <Separator prefWidth="150"/>
+
+                </HBox>
+
+                <OButton fx:id="signInWithGitHubButton"
+                         onAction="#handleSignInWithGitHubButtonAction"
+                         text="  Sign In with GitHub"
+                         prefWidth="350"
+                         GridPane.rowIndex="5"
+                         GridPane.columnIndex="1"
+                         GridPane.halignment="CENTER"
+                         fill="FALSE"
+                         color="DARK_500">
+                    <graphic>
+                        <FontAwesomeIconView glyphName="GITHUB" size="20pt"/>
+                    </graphic>
+                </OButton>
+
+                <HBox GridPane.rowIndex="6"
                       GridPane.columnIndex="1"
                       alignment="CENTER">
 

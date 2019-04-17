@@ -27,6 +27,7 @@ public class SignInController {
     @FXML private HBox signInHBox;
     @FXML private OButton signInButton;
     @FXML private OButton createAnAccountButton;
+    @FXML private OButton signInWithGitHubButton;
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
 
@@ -63,6 +64,10 @@ public class SignInController {
                 signInButton.setOnAction(this::handleSignInButtonAction);
             }
         });
+    }
+
+    @FXML void handleSignInWithGitHubButtonAction(ActionEvent actionEvent)
+    {
     }
 
     @FXML

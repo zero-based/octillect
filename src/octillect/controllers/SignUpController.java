@@ -32,7 +32,6 @@ public class SignUpController {
 
     @FXML private HBox signUpHBox;
     @FXML private OButton signUpButton;
-    @FXML private OButton signUpWithGitHubButton;
     @FXML private OButton backButton;
     @FXML private OButton imageButton;
     @FXML private Circle userImage;
@@ -171,10 +170,6 @@ public class SignUpController {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @FXML
-    public void handleSignUpWithGitHubButtonAction(ActionEvent actionEvent) {
     }
 
     @FXML
