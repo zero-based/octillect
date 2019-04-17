@@ -1,6 +1,10 @@
 package octillect.styles;
 
-import javafx.animation.*;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -19,7 +23,6 @@ public class Animation {
         rotateTransition.play();
     }
 
-    // Ease in transition
     public static void easeIn(Pane parent, Pane child) {
         double startValue = parent.getWidth();
         double endValue = 0;
@@ -30,6 +33,19 @@ public class Animation {
         KeyValue keyValue = new KeyValue(child.translateXProperty(), endValue, Interpolator.EASE_IN);
         KeyFrame keyFrame = new KeyFrame(Duration.millis(650), keyValue);
         timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
+    }
+
+    public static void easeOut(Pane parent, Pane child) {
+        double startValue = 0;
+        double endValue = parent.getWidth();
+        parent.translateXProperty().set(startValue);
+
+        Timeline timeline = new Timeline();
+        KeyValue keyValue = new KeyValue(child.translateXProperty(), endValue, Interpolator.EASE_IN);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(650), keyValue);
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setOnFinished(event -> parent.getChildren().remove(child));
         timeline.play();
     }
 
