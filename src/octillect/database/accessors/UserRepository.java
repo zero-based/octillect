@@ -1,14 +1,16 @@
 package octillect.database.accessors;
 
 import com.google.cloud.firestore.DocumentSnapshot;
-import javafx.scene.image.Image;
-import octillect.database.firebase.FirestoreAPI;
-import octillect.database.firebase.StorageAPI;
-import octillect.models.User;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javafx.scene.image.Image;
+
+import octillect.database.firebase.FirestoreAPI;
+import octillect.database.firebase.StorageAPI;
+import octillect.models.User;
 
 public class UserRepository {
 

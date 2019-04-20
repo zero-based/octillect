@@ -1,9 +1,9 @@
 package octillect.styles;
 
-import javafx.scene.text.Font;
-
 import java.io.File;
 import java.io.FileInputStream;
+
+import javafx.scene.text.Font;
 
 /**
  * [1] To use in <b>CSS</b>, use the following attributes:

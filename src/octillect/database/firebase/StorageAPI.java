@@ -2,13 +2,14 @@ package octillect.database.firebase;
 
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
-import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+
+import javafx.scene.image.Image;
 
 public class StorageAPI {
 
