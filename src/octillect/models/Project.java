@@ -7,47 +7,88 @@ public class Project implements IObservable {
     private String id;
     private String name;
     private String description;
+    private String repositoryName;
     private List<IObserver> contributors;
     private Column[] columns;
-    private User admin;
     private Label[] labels;
-    private String nameOfRepo;
+    private User admin;
 
     public Project() {}
 
-    public Project(String id, String name, String description, List<IObserver> contributors, Column[] columns, Label [] labels, String nameOfRepo){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.contributors = contributors;
-        this.columns = columns;
-        this.labels = labels;
-        this.nameOfRepo = nameOfRepo;
+    public Project(String id, String name, String description, List<IObserver> contributors, Column[] columns,
+                   Label [] labels, String nameOfRepo){
+        this.id             = id;
+        this.name           = name;
+        this.description    = description;
+        this.contributors   = contributors;
+        this.columns        = columns;
+        this.labels         = labels;
+        this.repositoryName = nameOfRepo;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getName() {
+        return name;
+    }
 
-    public User getAdmin() { return admin; }
-    public void setAdmin(User admin) { this.admin = admin; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Column[] getColumns() { return columns;}
-    public void setColumns(Column[] columns) { this.columns = columns; }
+    public String getDescription() {
+        return description;
+    }
 
-    public List<IObserver> getContributors() { return contributors;}
-    public void setContributors(List<IObserver> contributors) { this.contributors = contributors; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public Label[] getLabels() { return labels; }
-    public void setLabels(Label[] labels) { this.labels = labels; }
+    public String getRepositoryName() {
+        return repositoryName;
+    }
 
-    public String getNameOfRepo() { return nameOfRepo; }
-    public void setNameOfRepo(String nameOfRepo) { this.nameOfRepo = nameOfRepo; }
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
+    }
+
+    public List<IObserver> getContributors() {
+        return contributors;
+    }
+
+    public void setContributors(List<IObserver> contributors) {
+        this.contributors = contributors;
+    }
+
+    public Column[] getColumns() {
+        return columns;
+    }
+
+    public void setColumns(Column[] columns) {
+        this.columns = columns;
+    }
+
+    public Label[] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Label[] labels) {
+        this.labels = labels;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
+        this.admin = admin;
+    }
 
     @Override
     public void addObserver(IObserver observer) {
