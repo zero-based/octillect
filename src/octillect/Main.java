@@ -1,6 +1,9 @@
 package octillect;
 
+import java.io.File;
 import java.io.IOException;
+
+import javax.swing.filechooser.FileSystemView;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +23,8 @@ public class Main extends Application {
     public static Image O_ICON = new Image("/octillect/resources/o-icon.png");
     public static Stage signingStage;
     public static Stage applicationStage;
-    private static User signedUser;
+    public static User signedUser;
+    public static File octillectFile = new File(FileSystemView.getFileSystemView().getHomeDirectory().getParent() + "/.octillet");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
