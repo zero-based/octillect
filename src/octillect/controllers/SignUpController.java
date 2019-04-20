@@ -9,10 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -21,12 +17,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.util.Duration;
 
 import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
 import octillect.models.User;
+import octillect.styles.Animation;
 
 public class SignUpController {
 
@@ -174,19 +170,8 @@ public class SignUpController {
 
     @FXML
     public void handleBackButtonAction(ActionEvent actionEvent) {
-        // Initialize values
         StackPane parentStackPane = (StackPane) signUpHBox.getParent();
-        double startValue = 0;
-        double endValue = parentStackPane.getWidth();
-        signUpHBox.translateXProperty().set(startValue);
-
-        // Animation
-        Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(signUpHBox.translateXProperty(), endValue, Interpolator.EASE_OUT);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(650), keyValue);
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.setOnFinished(event -> parentStackPane.getChildren().remove(signUpHBox));
-        timeline.play();
+        Animation.easeOut(parentStackPane, signUpHBox);
     }
 
 }

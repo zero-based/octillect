@@ -141,7 +141,7 @@
     </HBox>
 
     <!--Background Image-->
-    <ImageView translateX="-512">
+    <ImageView fx:id="backgroundImageView" translateX="-512">
         <image>
             <Image url="/octillect/resources/o-bg-1024x768.png" />
         </image>
