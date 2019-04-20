@@ -1,8 +1,12 @@
 package octillect.database.accessors;
 
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -10,8 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import javafx.scene.image.Image;
 
 import octillect.Main;
@@ -82,5 +84,30 @@ public class UserRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets the user from database by id saved in .octillect file.
+     *
+     * @return a user object filled from the database.
+     */
+    public static User getRememberedUser() {
+
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(Main.octillectFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        LinkedHashMap<String, String> fileContent;
+        Gson gson = new Gson();
+        fileContent = gson.fromJson(fileReader, LinkedHashMap.class);
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return UserRepository.get(fileContent.get("id"));
     }
 }
