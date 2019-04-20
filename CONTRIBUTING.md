@@ -49,7 +49,8 @@
 - **Do not** end the subject line with a **period**.
 - **Capitalize** the subject line and each paragraph.
 - Use the **imperative mood** in the subject line.
-- Wrap lines of the body at **72 characters**.
+- Limit the **subject line** to **50 characters**.
+- Wrap lines of the **body** at **72 characters**.
 - **Asterisks** are used for the bullets in message's body.
 - **Punctuate** your commit message's body.
 - Add **two blank lines** followed by **Co-authors**, if found, at the end of your commit message.
@@ -218,13 +219,33 @@ String args[]; // bad
 
 #### 2.3.1. Import statements
 
-Wildcard imports, static or otherwise, are **not used**.
+##### 2.3.1.1 No wildcard/unused imports
+
+- Wildcard imports, static or otherwise, are **not used**.
+- Unused imports should be removed.
 
 ```java
 import java.util.ArrayList; // good
 import java.util.Date;
 
 import java.util.*;         // bad
+```
+
+##### 2.3.1.2 Ordering and spacing
+
+- Imports should be grouped in blocks by top-level package.
+- Each block should be wrapped by a new line.
+- Blocks should be ordered in ASCII order.
+- Within each block, imports should be ordered in ASCII order.
+
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 ```
 
 #### 2.3.2. Simple Statements
