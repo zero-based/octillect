@@ -102,7 +102,7 @@
                          onAction="#handleSignInButtonAction"
                          color="PRIMARY"
                          fill="TRUE"
-                         prefHeight="40"
+                         prefHeight="45"
                          prefWidth="350"
                          GridPane.rowIndex="4"
                          GridPane.columnIndex="1"
