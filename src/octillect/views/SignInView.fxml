@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 
@@ -79,17 +80,34 @@
                                      size="12pt"
                                      glyphStyle="-fx-fill: -o-dark-500;"/>
 
+                <HBox GridPane.rowIndex="3"
+                      GridPane.columnIndex="1">
+                    <children>
+                        <JFXCheckBox fx:id="keepMeSignedInCheckBox"
+                                     checkedColor="${Palette.PRIMARY}"
+                                     textFill="${Palette.PRIMARY_DARK}"/>
+                        <VBox>
+                            <children>
+                                <Label text="Keep me signed in"
+                                       textFill="${Palette.PRIMARY_DARK}"/>
+                                <Label text="Uncheck if using a public device."
+                                       textFill="${Palette.DARK_500}"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
                 <OButton fx:id="signInButton"
                          text="Sign In"
                          onAction="#handleSignInButtonAction"
                          color="DARK_500"
                          fill="FALSE"
                          prefWidth="350"
-                         GridPane.rowIndex="3"
+                         GridPane.rowIndex="4"
                          GridPane.columnIndex="1"
                          GridPane.halignment="CENTER"/>
 
-                <HBox GridPane.rowIndex="4"
+                <HBox GridPane.rowIndex="5"
                       GridPane.halignment="CENTER"
                       GridPane.valignment="BASELINE"
                       GridPane.columnIndex="1"
@@ -108,7 +126,7 @@
                          onAction="#handleSignInWithGitHubButtonAction"
                          text="  Sign In with GitHub"
                          prefWidth="350"
-                         GridPane.rowIndex="5"
+                         GridPane.rowIndex="6"
                          GridPane.columnIndex="1"
                          GridPane.halignment="CENTER"
                          fill="FALSE"
@@ -118,7 +136,7 @@
                     </graphic>
                 </OButton>
 
-                <HBox GridPane.rowIndex="6"
+                <HBox GridPane.rowIndex="7"
                       GridPane.columnIndex="1"
                       alignment="CENTER">
 

@@ -1,5 +1,6 @@
 package octillect.controllers;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
@@ -27,6 +28,7 @@ public class SignInController {
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
     @FXML private ImageView backgroundImageView;
+    @FXML private JFXCheckBox keepMeSignedInCheckBox;
 
     private RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
     private RegexValidator passwordValidator              = new RegexValidator();
@@ -88,6 +90,9 @@ public class SignInController {
             // Check if the user entered the right email and password
             if (user.getPassword().equals(UserRepository.encrypt(passwordTextField.getText()))) {
                 Main.runApplication(user);
+                /* if a validated user check keepMeSignedInCheckBox, his/her data will be saved in octillect's file. */
+                if (keepMeSignedInCheckBox.isSelected())
+                    UserRepository.rememberUser(user);
             } else {
                 passwordValidator.setMessage("Incorrect Password!");
                 passwordTextField.getValidators().add(passwordValidator);
@@ -110,5 +115,4 @@ public class SignInController {
 
         Animation.easeIn(parentStackPane, signUpHBox);
     }
-
 }

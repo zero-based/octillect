@@ -1,13 +1,22 @@
 package octillect.database.accessors;
 
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javafx.scene.image.Image;
 
+import octillect.Main;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
@@ -51,5 +60,54 @@ public class UserRepository {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Save user's id and hashed password to .octillect file
+     *
+     * @param user signing user
+     */
+    public static void rememberUser(User user) {
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        /* Use Map to convert a key/value object to a json object*/
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", user.getId());
+
+        String userCredentials = gson.toJson(map);
+
+        try {
+            Main.octillectFile.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(Main.octillectFile);
+            outputStream.write(userCredentials.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets the user from database by id saved in .octillect file.
+     *
+     * @return a user object filled from the database.
+     */
+    public static User getRememberedUser() {
+
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(Main.octillectFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        LinkedHashMap<String, String> fileContent;
+        Gson gson = new Gson();
+        fileContent = gson.fromJson(fileReader, LinkedHashMap.class);
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return UserRepository.get(fileContent.get("id"));
     }
 }
