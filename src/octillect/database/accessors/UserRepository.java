@@ -2,12 +2,19 @@ package octillect.database.accessors;
 
 import com.google.cloud.firestore.DocumentSnapshot;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.scene.image.Image;
 
+import octillect.Main;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
@@ -50,6 +57,30 @@ public class UserRepository {
             return hashtext;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Save user's id and hashed password to .octillect file
+     *
+     * @param user signing user
+     */
+    public static void rememberUser(User user) {
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        /* Use Map to convert a key/value object to a json object*/
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("id", user.getId());
+
+        String userCredentials = gson.toJson(map);
+
+        try {
+            Main.octillectFile.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(Main.octillectFile);
+            outputStream.write(userCredentials.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
