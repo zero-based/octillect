@@ -1,10 +1,10 @@
 package octillect.styles;
 
-import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.Scanner;
+
+import javafx.scene.paint.Color;
 
 public final class Palette {
 
