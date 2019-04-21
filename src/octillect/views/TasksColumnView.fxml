@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:id="tasksColumnVBox">
+
+    <!-- TODO: Create the TasksColumn view here -->
+    <Label fx:id="nameLabel" />
+    <ListView fx:id="tasksListView" />
+
+</VBox>
