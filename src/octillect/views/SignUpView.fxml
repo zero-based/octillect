@@ -128,12 +128,13 @@
             <OButton fx:id="signUpButton"
                      text="Sign Up"
                      onAction="#handleSignUpButtonAction"
-                     color="DARK_500"
-                     fill="FALSE"
+                     color="PRIMARY"
+                     fill="TRUE"
                      GridPane.rowIndex="5"
                      GridPane.columnSpan="2"
                      GridPane.halignment="CENTER"
-                     prefWidth="350"/>
+                     prefWidth="350"
+                     prefHeight="45"/>
 
         </GridPane>
 
