@@ -11,7 +11,7 @@ public class Connection {
 
     public static final String PROJECT_ID           = "octillect-a01c0";
     public static final String DATABASE_URL         = "https://octillect-a01c0.firebaseio.com";
-    public static final String SERVICE_ACCOUNT_KEY  = "src/octillect/database/firebase/serviceAccountKey.json";
+    public static final String SERVICE_ACCOUNT_KEY  = "src/octillect/database/firebase/firebase-key.json";
     public static final String STORAGE_BUCKET_NAME  = "octillect-a01c0.appspot.com";
 
 
