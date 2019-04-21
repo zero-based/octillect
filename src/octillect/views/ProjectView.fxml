@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:id="projectHBox"
+      fx:controller="octillect.controllers.ProjectController">
+
+    <!-- TODO: Add Project controls (GitHub button, search, ...) -->
+    <!-- TODO: Style the ProjectView -->
+
+    <ListView fx:id="projectListView"
+              orientation="HORIZONTAL"
+              prefWidth="${projectHBox.width}" />
+
+</HBox>
