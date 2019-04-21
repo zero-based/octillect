@@ -6,139 +6,118 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.shape.Circle?>
 
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
 
-<HBox xmlns="http://javafx.com/javafx/8.0.201"
-      xmlns:fx="http://javafx.com/fxml/1"
+<HBox fx:id="signUpHBox"
       fx:controller="octillect.controllers.SignUpController"
       stylesheets="@/octillect/styles/Palette.css"
-      fx:id="signUpHBox"
+      xmlns="http://javafx.com/javafx/"
+      xmlns:fx="http://javafx.com/fxml/"
       alignment="CENTER_RIGHT">
 
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
 
-    <VBox alignment="CENTER"
-          prefWidth="632"
-          style="-fx-background-color: -o-dark-900;">
+    <GridPane alignment="CENTER"
+              hgap="25"
+              vgap="40"
+              prefWidth="632"
+              style="-fx-background-color: -o-dark-900;">
 
-        <GridPane alignment="CENTER"
-                  hgap="25"
-                  vgap="40">
+        <OButton fx:id="backButton"
+                 GridPane.rowIndex="0"
+                 GridPane.columnSpan="2"
+                 GridPane.halignment="LEFT"
+                 GridPane.valignment="TOP"
+                 fill="TRUE"
+                 color="DARK_900"
+                 onAction="#handleBackButtonAction">
+            <graphic>
+                <FontAwesomeIconView opacity=".64"
+                                     glyphName="ARROW_LEFT"
+                                     size="16"/>
+            </graphic>
+        </OButton>
 
-            <OButton fx:id="backButton"
-                     GridPane.rowIndex="0"
-                     GridPane.columnSpan="2"
-                     GridPane.halignment="LEFT"
-                     GridPane.valignment="TOP"
-                     fill="TRUE"
-                     color="DARK_900"
-                     onAction="#handleBackButtonAction">
-                <graphic>
-                    <FontAwesomeIconView opacity=".64"
-                                         glyphName="ARROW_LEFT"
-                                         size="16"/>
-                </graphic>
-            </OButton>
+        <Circle fx:id="userImage"
+                GridPane.rowIndex="0"
+                GridPane.columnSpan="2"
+                GridPane.halignment="CENTER"
+                opacity="0"
+                radius="50"/>
 
-            <Circle fx:id="userImage"
-                    GridPane.rowIndex="0"
-                    GridPane.columnSpan="2"
-                    GridPane.halignment="CENTER"
-                    opacity="0"
-                    radius="50"/>
+        <OButton fx:id="imageButton"
+                 GridPane.rowIndex="0"
+                 GridPane.columnSpan="2"
+                 GridPane.halignment="CENTER"
+                 prefWidth="105"
+                 prefHeight="105"
+                 fill="TRUE"
+                 color="DARK_500"
+                 onAction="#handleImageButtonAction">
+            <graphic>
+                <FontAwesomeIconView fx:id="cameraIcon"
+                                     glyphName="CAMERA"
+                                     size="50"
+                                     textAlignment="CENTER"/>
+            </graphic>
+        </OButton>
 
-            <OButton fx:id="imageButton"
-                     prefWidth="120"
-                     prefHeight="120"
-                     GridPane.rowIndex="0"
-                     GridPane.columnSpan="2"
-                     GridPane.halignment="CENTER"
-                     fill="TRUE"
-                     color="DARK_500"
-                     onAction="#handleImageButtonAction">
-                <graphic>
-                    <FontAwesomeIconView fx:id="cameraIcon"
-                                         glyphName="CAMERA"
-                                         size="50"
-                                         textAlignment="CENTER"/>
-                </graphic>
-            </OButton>
+        <JFXTextField fx:id="firstNameTextField"
+                      GridPane.rowIndex="1"
+                      GridPane.columnIndex="0"
+                      promptText="First Name"
+                      focusColor="${Palette.PRIMARY}"
+                      style="-fx-text-inner-color: -o-dark-300"
+                      labelFloat="true"/>
 
-            <JFXTextField fx:id="firstNameTextField"
-                          promptText="First Name"
-                          GridPane.rowIndex="1"
-                          GridPane.columnIndex="0"
-                          GridPane.halignment="CENTER"
-                          prefColumnCount="15"
-                          minWidth="15"
-                          focusColor="${Palette.PRIMARY}"
-                          style="-fx-text-inner-color: -o-dark-300"
-                          labelFloat="true"/>
+        <JFXTextField fx:id="lastNameTextField"
+                      GridPane.rowIndex="1"
+                      GridPane.columnIndex="1"
+                      promptText="Last Name"
+                      focusColor="${Palette.PRIMARY}"
+                      style="-fx-text-inner-color: -o-dark-300"
+                      labelFloat="true"/>
 
-            <JFXTextField fx:id="lastNameTextField"
-                          promptText="Last Name"
-                          GridPane.rowIndex="1"
-                          GridPane.columnIndex="1"
-                          prefColumnCount="15"
-                          minWidth="15"
-                          focusColor="${Palette.PRIMARY}"
-                          style="-fx-text-inner-color: -o-dark-300"
-                          labelFloat="true"/>
+        <JFXTextField fx:id="emailTextField"
+                      GridPane.rowIndex="2"
+                      GridPane.columnSpan="2"
+                      promptText="Email"
+                      focusColor="${Palette.PRIMARY}"
+                      style="-fx-text-inner-color: -o-dark-300"
+                      labelFloat="true"/>
 
-            <JFXTextField fx:id="emailTextField"
-                          promptText="Email"
-                          GridPane.rowIndex="2"
+        <JFXPasswordField fx:id="passwordTextField"
+                          GridPane.rowIndex="3"
                           GridPane.columnSpan="2"
-                          GridPane.halignment="CENTER"
-                          prefColumnCount="25"
-                          prefWidth="30"
+                          promptText="Password"
                           focusColor="${Palette.PRIMARY}"
                           style="-fx-text-inner-color: -o-dark-300"
                           labelFloat="true"/>
 
-            <JFXPasswordField fx:id="passwordTextField"
-                              promptText="Password"
-                              GridPane.rowIndex="3"
-                              GridPane.columnSpan="2"
-                              GridPane.halignment="CENTER"
-                              prefColumnCount="25"
-                              prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"
-                              style="-fx-text-inner-color: -o-dark-300"
-                              labelFloat="true"/>
+        <JFXPasswordField fx:id="confirmPasswordTextField"
+                          GridPane.rowIndex="4"
+                          GridPane.columnSpan="2"
+                          promptText="Confirm Password"
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
-            <JFXPasswordField fx:id="confirmPasswordTextField"
-                              promptText="Confirm Password"
-                              GridPane.rowIndex="4"
-                              GridPane.columnSpan="2"
-                              GridPane.halignment="CENTER"
-                              prefColumnCount="25"
-                              prefWidth="30"
-                              focusColor="${Palette.PRIMARY}"
-                              style="-fx-text-inner-color: -o-dark-300"
-                              labelFloat="true"/>
+        <OButton fx:id="signUpButton"
+                 GridPane.rowIndex="6"
+                 GridPane.columnSpan="2"
+                 GridPane.halignment="CENTER"
+                 prefWidth="350"
+                 prefHeight="45"
+                 text="Sign Up"
+                 color="PRIMARY"
+                 fill="TRUE"
+                 onAction="#handleSignUpButtonAction"/>
 
-            <OButton fx:id="signUpButton"
-                     text="Sign Up"
-                     onAction="#handleSignUpButtonAction"
-                     color="PRIMARY"
-                     fill="TRUE"
-                     GridPane.rowIndex="5"
-                     GridPane.columnSpan="2"
-                     GridPane.halignment="CENTER"
-                     prefWidth="350"
-                     prefHeight="45"/>
-
-        </GridPane>
-
-    </VBox>
-
+    </GridPane>
 </HBox>
-
