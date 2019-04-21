@@ -9,10 +9,10 @@ import java.io.IOException;
 
 public class Connection {
 
-    public static final String PROJECT_ID           = "octillect-a01c0";
-    public static final String DATABASE_URL         = "https://octillect-a01c0.firebaseio.com";
-    public static final String SERVICE_ACCOUNT_KEY  = "src/octillect/database/firebase/firebase-key.json";
-    public static final String STORAGE_BUCKET_NAME  = "octillect-a01c0.appspot.com";
+    public  static final String PROJECT_ID           = "octillect-a01c0";
+    private static final String DATABASE_URL         = "https://octillect-a01c0.firebaseio.com";
+    private static final String SERVICE_ACCOUNT_KEY  = "src/octillect/database/firebase/firebase-key.json";
+    private static final String STORAGE_BUCKET_NAME  = "octillect-a01c0.appspot.com";
 
 
     public static void initializeFirebase(){
