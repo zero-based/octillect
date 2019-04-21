@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.201"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="octillect.controllers.ApplicationController">
-</GridPane>
+<HBox xmlns="http://javafx.com/javafx/8.0.201"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="octillect.controllers.ApplicationController">
+
+    <!-- TODO: Replace buttonsVBox with the left drawer -->
+    <VBox fx:id="buttonsVBox">
+        <Button text="Project 1" onAction="#loadFirstProject" />
+        <Button text="Project 2" onAction="#loadSecondProject" />
+    </VBox>
+
+    <!-- TODO: Remove the VBox dimensions -->
+    <VBox prefWidth="900" prefHeight="600">
+        <fx:include fx:id="project" source="ProjectView.fxml"/>
+    </VBox>
+
+</HBox>
