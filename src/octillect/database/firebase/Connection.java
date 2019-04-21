@@ -1,6 +1,7 @@
 package octillect.database.firebase;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.FirestoreOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
@@ -22,6 +23,7 @@ public class Connection {
             serviceAccount = new FileInputStream(SERVICE_ACCOUNT_KEY);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setFirestoreOptions(FirestoreOptions.newBuilder().setTimestampsInSnapshotsEnabled(true).build())
                     .setDatabaseUrl(DATABASE_URL)
                     .setStorageBucket(STORAGE_BUCKET_NAME)
                     .build();
