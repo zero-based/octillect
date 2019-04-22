@@ -16,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
+import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
 import octillect.styles.Animation;
 
@@ -81,14 +82,14 @@ public class SignInController {
         emailTextField.getValidators().add(requiredFieldValidator);
         emailTextField.validate();
 
-        User user = UserRepository.get(UserRepository.encrypt(emailTextField.getText()));
+        User user = UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText()));
 
         if (requiredFieldValidator.getHasErrors()) {
             signInButton.setOnAction(null);
         } else if (user != null) {
 
             // Check if the user entered the right email and password
-            if (user.getPassword().equals(UserRepository.encrypt(passwordTextField.getText()))) {
+            if (user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
                 Main.runApplication(user);
                 /* if a validated user check keepMeSignedInCheckBox, his/her data will be saved in octillect's file. */
                 if (keepMeSignedInCheckBox.isSelected())
