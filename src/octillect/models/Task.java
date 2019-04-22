@@ -16,6 +16,7 @@ public class Task {
     private User[] assignees;
     private Task[] subTasks;
 
+
     public Task() {}
 
     public Task(String id, String name, String description, boolean isCompleted, Date dueDate, Date creationDate,
@@ -33,6 +34,7 @@ public class Task {
         this.subTasks     = subTasks;
     }
 
+
     public String getId() {
         return id;
     }
@@ -40,6 +42,7 @@ public class Task {
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -49,6 +52,7 @@ public class Task {
         this.name = name;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -56,6 +60,7 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
     public boolean isCompleted() {
         return isCompleted;
@@ -65,6 +70,7 @@ public class Task {
         isCompleted = completed;
     }
 
+
     public Date getDueDate() {
         return dueDate;
     }
@@ -72,6 +78,7 @@ public class Task {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+
 
     public Date getCreationDate() {
         return creationDate;
@@ -81,6 +88,7 @@ public class Task {
         this.creationDate = creationDate;
     }
 
+
     public Project getProject() {
         return project;
     }
@@ -88,6 +96,7 @@ public class Task {
     public void setProject(Project project) {
         this.project = project;
     }
+
 
     public Column getColumn() {
         return column;
@@ -97,6 +106,7 @@ public class Task {
         this.column = column;
     }
 
+
     public User getCreator() {
         return creator;
     }
@@ -104,6 +114,7 @@ public class Task {
     public void setCreator(User creator) {
         this.creator = creator;
     }
+
 
     public User[] getAssignees() {
         return assignees;
@@ -113,6 +124,7 @@ public class Task {
         this.assignees = assignees;
     }
 
+
     public Task[] getSubTasks() {
         return subTasks;
     }
@@ -120,4 +132,5 @@ public class Task {
     public void setSubTasks(Task[] subTasks) {
         this.subTasks = subTasks;
     }
+
 }
