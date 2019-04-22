@@ -2,8 +2,6 @@ package octillect.controls;
 
 import java.util.Collections;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.SnapshotParameters;
@@ -93,9 +91,7 @@ public class TasksColumn extends ListCell<Column> {
         nameLabel.setText(columnItem.getName());
 
         // Populate the TasksColumn's tasksListView with columnItem's tasks
-        ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
-        tasksObservableList.setAll(columnItem.getTasks());
-        tasksListView.setItems(tasksObservableList);
+        tasksListView.setItems(columnItem.getTasks());
         tasksListView.setCellFactory(param -> new TaskCell());
 
         setGraphic(tasksColumnVBox);

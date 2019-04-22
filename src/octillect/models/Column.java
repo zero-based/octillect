@@ -1,15 +1,18 @@
 package octillect.models;
 
+import javafx.collections.ObservableList;
+
 public class Column {
 
     private String id;
     private String name;
     private Project project;
-    private Task[] tasks;
+    private ObservableList<Task> tasks;
+
 
     public Column() {}
 
-    public Column(String id, String name, Project project, Task[] tasks) {
+    public Column(String id, String name, Project project, ObservableList<Task> tasks) {
         this.id      = id;
         this.name    = name;
         this.project = project;
@@ -44,11 +47,12 @@ public class Column {
     }
 
 
-    public Task[] getTasks() {
+    public ObservableList<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Task[] tasks) {
+    public void setTasks(ObservableList<Task> tasks) {
         this.tasks = tasks;
     }
+
 }
