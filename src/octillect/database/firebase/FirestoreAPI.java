@@ -6,6 +6,9 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -74,5 +77,26 @@ public class FirestoreAPI {
     // Delete a specific attribute in a document
     public static void deleteAttribute(String collection, String document, String key) {
         database.collection(collection).document(document).update(key, null);
+    }
+
+    /**
+     * Encrypts a given string using SHA-1 Algorithm.
+     *
+     * @param textToEncrypt text to be encrypted
+     * @return encrypted String
+     */
+    public static String encrypt(String textToEncrypt) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] messageDigest = md.digest(textToEncrypt.getBytes());
+            BigInteger bigInteger = new BigInteger(1, messageDigest);
+            String hashtext = bigInteger.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

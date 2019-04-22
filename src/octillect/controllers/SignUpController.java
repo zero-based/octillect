@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
+import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
 import octillect.styles.Animation;
 
@@ -117,16 +118,16 @@ public class SignUpController {
         // set Sign up Button's action handler to null when there's any Validation errors
         if (requiredFieldValidator.getHasErrors() || emailValidator.getHasErrors() || passwordValidator.getHasErrors()) {
             signUpButton.setOnAction(null);
-        } else if (UserRepository.get(UserRepository.encrypt(emailTextField.getText())) != null) {
+        } else if (UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText())) != null) {
             emailUsedValidator.setMessage("This email already have an account. Try another.");
             emailTextField.getValidators().add(emailUsedValidator);
             emailTextField.validate();
             signUpButton.setOnAction(null);
         } else {
             User user = new User();
-            user.setId(UserRepository.encrypt(emailTextField.getText()));
+            user.setId(FirestoreAPI.encrypt(emailTextField.getText()));
             user.setEmail(emailTextField.getText());
-            user.setPassword(UserRepository.encrypt(passwordTextField.getText()));
+            user.setPassword(FirestoreAPI.encrypt(passwordTextField.getText()));
             user.setName(firstNameTextField.getText() + " " + lastNameTextField.getText());
             UserRepository.add(user);
 
