@@ -4,19 +4,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns="http://javafx.com/javafx/8.0.201"
+<VBox xmlns="http://javafx.com/javafx/8.0.201"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="octillect.controllers.ApplicationController">
+      fx:controller="octillect.controllers.ApplicationController"
+      prefWidth="1280"
+      prefHeight="800">
 
-    <!-- TODO: Replace buttonsVBox with the left drawer -->
-    <VBox fx:id="buttonsVBox">
-        <Button text="Project 1" onAction="#loadFirstProject" />
-        <Button text="Project 2" onAction="#loadSecondProject" />
-    </VBox>
+    <fx:include fx:id="titleBar" source="TitleBarView.fxml"/>
 
-    <!-- TODO: Remove the VBox dimensions -->
-    <VBox prefWidth="900" prefHeight="600">
-        <fx:include fx:id="project" source="ProjectView.fxml"/>
-    </VBox>
+    <HBox>
+        <!-- TODO: Replace buttonsVBox with the left drawer -->
+        <VBox fx:id="buttonsVBox">
+            <Button text="Project 1" onAction="#loadFirstProject"/>
+            <Button text="Project 2" onAction="#loadSecondProject"/>
+        </VBox>
 
-</HBox>
+        <!-- TODO: Remove the VBox dimensions -->
+        <VBox prefWidth="900" prefHeight="600">
+            <fx:include fx:id="project" source="ProjectView.fxml"/>
+        </VBox>
+    </HBox>
+
+</VBox>

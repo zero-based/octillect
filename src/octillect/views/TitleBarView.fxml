@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXHamburger?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="octillect.controllers.TitleBarController"
+          stylesheets="@/octillect/styles/Palette.css"
+          style="-fx-background-color: -o-dark-900;"
+          prefWidth="1280"
+          prefHeight="48">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <padding>
+        <Insets top="24" right="12" bottom="24" left="24"/>
+    </padding>
+
+
+    <!--Left Drawer Hamburger Button-->
+    <JFXHamburger fx:id="hamburgerButton"
+                  alignment="CENTER_LEFT"
+                  stylesheets="@/octillect/styles/HamburgerButton.css"
+                  onMouseClicked="#handleHamburgerButtonAction"/>
+
+
+    <!--Project Name-->
+    <Label fx:id="projectNameLabel"
+           GridPane.columnIndex="1"
+           GridPane.halignment="CENTER"
+           text="Octillect"
+           textFill="${Palette.DARK_300}">
+        <font>
+            <Font name="Product Sans Regular" size="24"/>
+        </font>
+    </Label>
+
+
+    <!--Right Buttons Grid-->
+    <GridPane GridPane.columnIndex="3"
+              alignment="CENTER_RIGHT">
+
+        <MaterialDesignIconView fx:id="notificationIcon"
+                                GridPane.columnIndex="0"
+                                size="24pt"
+                                glyphName="BELL"
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleNotificationIconAction"/>
+
+        <MaterialDesignIconView fx:id="settingsIcon"
+                                GridPane.columnIndex="1"
+                                size="24pt"
+                                glyphName="SETTINGS"
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleSettingsIconAction"/>
+
+        <MaterialDesignIconView fx:id="userIcon"
+                                GridPane.columnIndex="2"
+                                size="24pt"
+                                glyphName="ACCOUNT"
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleUserIconAction"/>
+
+        <columnConstraints>
+            <ColumnConstraints prefWidth="64"/>
+            <ColumnConstraints prefWidth="64"/>
+            <ColumnConstraints prefWidth="64"/>
+        </columnConstraints>
+
+    </GridPane>
+
+    <columnConstraints>
+        <ColumnConstraints prefWidth="280"/>
+        <ColumnConstraints prefWidth="800"/>
+        <ColumnConstraints prefWidth="200"/>
+    </columnConstraints>
+
+</GridPane>
