@@ -16,6 +16,7 @@ public class Column {
         this.tasks   = tasks;
     }
 
+
     public String getId() {
         return id;
     }
@@ -23,6 +24,7 @@ public class Column {
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -32,6 +34,7 @@ public class Column {
         this.name = name;
     }
 
+
     public Project getProject() {
         return project;
     }
@@ -39,6 +42,7 @@ public class Column {
     public void setProject(Project project) {
         this.project = project;
     }
+
 
     public Task[] getTasks() {
         return tasks;

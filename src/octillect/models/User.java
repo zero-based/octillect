@@ -11,11 +11,8 @@ public class User implements IObserver {
     private Image image;
     private Project[] projects;
 
-    public User() {}
 
-    public User(Project[] project) {
-        this.projects = project;
-    }
+    public User() {}
 
     public User(String id, String name, String email, String password, Image image) {
         this.id       = id;
@@ -25,6 +22,7 @@ public class User implements IObserver {
         this.image    = image;
     }
 
+
     public String getId() {
         return id;
     }
@@ -32,6 +30,7 @@ public class User implements IObserver {
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -41,6 +40,7 @@ public class User implements IObserver {
         this.name = name;
     }
 
+
     public String getEmail() {
         return email;
     }
@@ -48,6 +48,7 @@ public class User implements IObserver {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public String getPassword() {
         return password;
@@ -57,6 +58,7 @@ public class User implements IObserver {
         this.password = password;
     }
 
+
     public Image getImage() {
         return image;
     }
@@ -64,6 +66,7 @@ public class User implements IObserver {
     public void setImage(Image image) {
         this.image = image;
     }
+
 
     @Override
     public void updateObserver() {
