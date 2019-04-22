@@ -14,6 +14,7 @@
 
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
+          fx:controller="octillect.controllers.TitleBarController"
           stylesheets="@/octillect/styles/Palette.css"
           style="-fx-background-color: -o-dark-900;"
           prefWidth="1280"
@@ -27,10 +28,12 @@
         <Insets top="24" right="12" bottom="24" left="24"/>
     </padding>
 
+
     <!--Left Drawer Hamburger Button-->
     <JFXHamburger fx:id="hamburgerButton"
                   alignment="CENTER_LEFT"
-                  stylesheets="@/octillect/styles/HamburgerButton.css"/>
+                  stylesheets="@/octillect/styles/HamburgerButton.css"
+                  onMouseClicked="#handleHamburgerButtonAction"/>
 
 
     <!--Project Name-->
@@ -53,19 +56,23 @@
                                 GridPane.columnIndex="0"
                                 size="24pt"
                                 glyphName="BELL"
-                                fill="${Palette.DARK_300}"/>
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleNotificationIconAction"/>
 
         <MaterialDesignIconView fx:id="settingsIcon"
                                 GridPane.columnIndex="1"
                                 size="24pt"
                                 glyphName="SETTINGS"
-                                fill="${Palette.DARK_300}"/>
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleSettingsIconAction"/>
 
         <MaterialDesignIconView fx:id="userIcon"
                                 GridPane.columnIndex="2"
                                 size="24pt"
                                 glyphName="ACCOUNT"
-                                fill="${Palette.DARK_300}"/>
+                                fill="${Palette.DARK_300}"
+                                onMouseClicked="#handleUserIconAction"/>
+
         <columnConstraints>
             <ColumnConstraints prefWidth="64"/>
             <ColumnConstraints prefWidth="64"/>
