@@ -1,6 +1,6 @@
 package octillect.models;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 public class Project implements IObservable {
 
@@ -9,15 +9,16 @@ public class Project implements IObservable {
     private String description;
     private String repositoryName;
     private Admin admin;
-    private List<IObserver> contributors;
-    private Column[] columns;
-    private Label[] labels;
+    private ObservableList<IObserver> contributors;
+    private ObservableList<Column> columns;
+    private ObservableList<Label> labels;
 
 
     public Project() {}
 
     public Project(String id, String name, String description, String repositoryName,
-                   List<IObserver> contributors, Column[] columns, Label[] labels) {
+                   ObservableList<IObserver> contributors, ObservableList<Column> columns,
+                   ObservableList<Label> labels) {
         this.id             = id;
         this.name           = name;
         this.description    = description;
@@ -64,29 +65,29 @@ public class Project implements IObservable {
     }
 
 
-    public List<IObserver> getContributors() {
+    public ObservableList<IObserver> getContributors() {
         return contributors;
     }
 
-    public void setContributors(List<IObserver> contributors) {
+    public void setContributors(ObservableList<IObserver> contributors) {
         this.contributors = contributors;
     }
 
 
-    public Column[] getColumns() {
+    public ObservableList<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(Column[] columns) {
+    public void setColumns(ObservableList<Column> columns) {
         this.columns = columns;
     }
 
 
-    public Label[] getLabels() {
+    public ObservableList<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(Label[] labels) {
+    public void setLabels(ObservableList<Label> labels) {
         this.labels = labels;
     }
 

@@ -1,5 +1,7 @@
 package octillect.models;
 
+import javafx.collections.ObservableList;
+
 import java.util.Date;
 
 public class Task {
@@ -13,14 +15,15 @@ public class Task {
     private Project project;
     private Column column;
     private User creator;
-    private User[] assignees;
-    private Task[] subTasks;
+    private ObservableList<User> assignees;
+    private ObservableList<Task> subTasks;
 
 
     public Task() {}
 
-    public Task(String id, String name, String description, boolean isCompleted, Date dueDate, Date creationDate,
-                Project project, Column column, User creator, User[] assignees, Task[] subTasks) {
+    public Task(String id, String name, String description, boolean isCompleted,
+                Date dueDate, Date creationDate, Project project, Column column, User creator,
+                ObservableList<User> assignees, ObservableList<Task> subTasks) {
         this.id           = id;
         this.name         = name;
         this.description  = description;
@@ -116,20 +119,20 @@ public class Task {
     }
 
 
-    public User[] getAssignees() {
+    public ObservableList<User> getAssignees() {
         return assignees;
     }
 
-    public void setAssignees(User[] assignees) {
+    public void setAssignees(ObservableList<User> assignees) {
         this.assignees = assignees;
     }
 
 
-    public Task[] getSubTasks() {
+    public ObservableList<Task> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(Task[] subTasks) {
+    public void setSubTasks(ObservableList<Task> subTasks) {
         this.subTasks = subTasks;
     }
 

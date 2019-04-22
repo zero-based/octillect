@@ -1,5 +1,6 @@
 package octillect.models;
 
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 public class User implements IObserver {
@@ -9,7 +10,7 @@ public class User implements IObserver {
     private String email;
     private String password;
     private Image image;
-    private Project[] projects;
+    private ObservableList<Project> projects;
 
 
     public User() {}
