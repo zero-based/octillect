@@ -1,5 +1,7 @@
 package octillect.controllers;
 
+import com.jfoenix.controls.JFXDrawersStack;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +12,18 @@ import octillect.models.Task;
 
 public class ApplicationController {
 
+    @FXML private JFXDrawersStack drawersStack;
     @FXML private TitleBarController titleBarController;
     @FXML private LeftDrawerController leftDrawerController;
     @FXML private RightDrawerController rightDrawerController;
     @FXML private ProjectController projectController;
+
+    @FXML
+    public void initialize() {
+        titleBarController.setDrawersStack(drawersStack);
+        titleBarController.setLeftDrawer(leftDrawerController.getLeftDrawer());
+        titleBarController.setRightDrawer(rightDrawerController.getRightDrawer());
+    }
 
     /* TODO: Remove this event handler */
     public void loadFirstProject(ActionEvent event) {
