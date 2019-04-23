@@ -10,8 +10,10 @@ import octillect.models.Task;
 
 public class ApplicationController {
 
-    @FXML
-    private ProjectController projectController;
+    @FXML private TitleBarController titleBarController;
+    @FXML private LeftDrawerController leftDrawerController;
+    @FXML private RightDrawerController rightDrawerController;
+    @FXML private ProjectController projectController;
 
     /* TODO: Remove this event handler */
     public void loadFirstProject(ActionEvent event) {
