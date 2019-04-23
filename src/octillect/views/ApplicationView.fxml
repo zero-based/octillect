@@ -19,12 +19,6 @@
             <fx:include fx:id="rightDrawer" source="RightDrawerView.fxml"/>
 
             <content>
-                <!-- TODO: Replace buttonsVBox with the left drawer -->
-                <VBox fx:id="buttonsVBox">
-                    <Button text="Project 1" onAction="#loadFirstProject"/>
-                    <Button text="Project 2" onAction="#loadSecondProject"/>
-                </VBox>
-
                 <!-- TODO: Remove the VBox dimensions -->
                 <VBox prefWidth="900" prefHeight="600">
                     <fx:include fx:id="project" source="ProjectView.fxml"/>

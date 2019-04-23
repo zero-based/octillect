@@ -1,10 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
 
 <JFXDrawer xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:id="leftDrawer"
            fx:controller="octillect.controllers.LeftDrawerController"
+           stylesheets="@/octillect/styles/Palette.css"
            direction="LEFT"
-           defaultDrawerSize="320"/>
+           defaultDrawerSize="320">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <sidePane>
+
+        <VBox style="-fx-background-color: -o-dark-700;">
+
+            <padding>
+                <Insets topRightBottomLeft="16"/>
+            </padding>
+            <BorderPane prefWidth="${leftDrawer.defaultDrawerSize}">
+
+                <left>
+                    <Label text="Projects" textFill="${Palette.DARK_300}">
+                        <font>
+                            <Font name="Product Sans Regular" size="16"/>
+                        </font>
+                    </Label>
+                </left>
+
+                <right>
+                    <JFXButton fx:id="addNewProjectButton"
+                               onAction="#handleAddNewProjectButtonAction">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="PLUS_CIRCLE"
+                                                 glyphSize="18"
+                                                 glyphStyle="-fx-fill: -o-primary;"/>
+                        </graphic>
+                    </JFXButton>
+                </right>
+
+            </BorderPane>
+
+            <ListView fx:id="userProjectsListView"
+                      onMouseClicked="#handleUserProjectsListViewMouseClicked"/>
+
+        </VBox>
+
+    </sidePane>
+
+</JFXDrawer>
