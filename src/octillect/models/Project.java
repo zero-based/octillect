@@ -8,7 +8,7 @@ public class Project implements IObservable {
     private String name;
     private String description;
     private String repositoryName;
-    private Admin admin;
+    private User admin;
     private ObservableList<IObserver> contributors;
     private ObservableList<Column> columns;
     private ObservableList<Label> labels;
@@ -17,12 +17,13 @@ public class Project implements IObservable {
     public Project() {}
 
     public Project(String id, String name, String description, String repositoryName,
-                   ObservableList<IObserver> contributors, ObservableList<Column> columns,
-                   ObservableList<Label> labels) {
+                   User admin, ObservableList<IObserver> contributors,
+                   ObservableList<Column> columns, ObservableList<Label> labels) {
         this.id             = id;
         this.name           = name;
         this.description    = description;
         this.repositoryName = repositoryName;
+        this.admin          = admin;
         this.contributors   = contributors;
         this.columns        = columns;
         this.labels         = labels;
@@ -92,11 +93,11 @@ public class Project implements IObservable {
     }
 
 
-    public Admin getAdmin() {
+    public User getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Admin admin) {
+    public void setAdmin(User admin) {
         this.admin = admin;
     }
 
