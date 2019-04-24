@@ -1,0 +1,21 @@
+@import "Palette.css"
+
+.text-area .scroll-bar {
+    -fx-background-color:transparent;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.text-area .scroll-bar .thumb {
+    -fx-background-color: -o-dark-900;
+}
+
+.text-area .scroll-bar .thumb:hover {
+    -fx-background-color: -o-dark-300;
+}
+
+.text-area .increment-button:hover ,.text-area .decrement-button:hover {
+    -fx-background-color:transparent;
+}
