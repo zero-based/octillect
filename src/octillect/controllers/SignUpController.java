@@ -23,6 +23,7 @@ import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
+import octillect.models.builders.UserBuilder;
 import octillect.styles.Animation;
 
 public class SignUpController {
@@ -124,11 +125,13 @@ public class SignUpController {
             emailTextField.validate();
             signUpButton.setOnAction(null);
         } else {
-            User user = new User();
-            user.setId(FirestoreAPI.encrypt(emailTextField.getText()));
-            user.setEmail(emailTextField.getText());
-            user.setPassword(FirestoreAPI.encrypt(passwordTextField.getText()));
-            user.setName(firstNameTextField.getText() + " " + lastNameTextField.getText());
+            User user = new UserBuilder().with($ -> {
+                $.id       = FirestoreAPI.encrypt(emailTextField.getText());
+                $.email    = emailTextField.getText();
+                $.password = FirestoreAPI.encrypt(passwordTextField.getText());
+                $.name     = firstNameTextField.getText() + " " + lastNameTextField.getText();
+            }).build();
+
             UserRepository.add(user);
 
             if (chosenImagePath != null) {
