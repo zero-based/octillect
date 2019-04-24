@@ -3,9 +3,11 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXDrawersStack;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class ApplicationController {
 
+    @FXML private StackPane applicationRootStackPane;
     @FXML private JFXDrawersStack drawersStack;
     @FXML private TitleBarController titleBarController;
     @FXML private LeftDrawerController leftDrawerController;
@@ -14,6 +16,7 @@ public class ApplicationController {
 
     @FXML
     public void initialize() {
+        leftDrawerController.setRootStackPane(applicationRootStackPane);
         leftDrawerController.setProjectController(projectController);
         titleBarController.setDrawersStack(drawersStack);
         titleBarController.setLeftDrawer(leftDrawerController.getLeftDrawer());
