@@ -11,6 +11,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
+import javafx.scene.layout.StackPane;
 import octillect.models.Column;
 import octillect.models.Project;
 import octillect.models.Task;
@@ -22,6 +23,7 @@ public class LeftDrawerController {
     @FXML private ListView<Project> userProjectsListView;
 
     private ProjectController projectController;
+    private StackPane rootStackPane;
 
     @FXML
     public void initialize() {
@@ -89,7 +91,8 @@ public class LeftDrawerController {
     }
 
     public void handleAddNewProjectButtonAction(ActionEvent actionEvent) {
-        /* TODO: Add new project code here */
+        NewProjectDialogController newProjectDialogController = new NewProjectDialogController();
+        newProjectDialogController.showNewProjectDialog(rootStackPane);
     }
 
     public void handleUserProjectsListViewMouseClicked(MouseEvent mouseEvent) {
@@ -104,5 +107,8 @@ public class LeftDrawerController {
         this.projectController = projectController;
     }
 
+    public void setRootStackPane(StackPane rootStackPane) {
+        this.rootStackPane = rootStackPane;
+    }
 
 }
