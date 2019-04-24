@@ -26,15 +26,15 @@ public class TasksColumn extends ListCell<Column> {
     public TasksColumn() {
 
         setOnDragDetected(event -> {
+            if (getItem() != null) {
+                Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
+                Image snapshot = snapshot(new SnapshotParameters(), null);
+                dragboard.setDragView(snapshot, event.getX(), event.getY());
 
-            Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-            Image snapshot = snapshot(new SnapshotParameters(), null);
-            dragboard.setDragView(snapshot, event.getX(), event.getY());
-
-            ClipboardContent content = new ClipboardContent();
-            content.putString(getItem().getId()); // Save the Source Column ID
-            dragboard.setContent(content);
-
+                ClipboardContent content = new ClipboardContent();
+                content.putString(getItem().getId()); // Save the Source Column ID
+                dragboard.setContent(content);
+            }
         });
 
         setOnDragOver(event -> {

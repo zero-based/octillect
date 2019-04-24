@@ -25,15 +25,15 @@ public class TaskCell extends ListCell<Task> {
     public TaskCell() {
 
         setOnDragDetected(event -> {
+            if (getItem() != null) {
+                Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
+                Image snapshot = snapshot(new SnapshotParameters(), null);
+                dragboard.setDragView(snapshot, event.getX(), event.getY());
 
-            Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-            Image snapshot = snapshot(new SnapshotParameters(), null);
-            dragboard.setDragView(snapshot, event.getX(), event.getY());
-
-            ClipboardContent clipboardContent = new ClipboardContent();
-            clipboardContent.putString(getItem().getId()); // Save the Source Task ID
-            dragboard.setContent(clipboardContent);
-
+                ClipboardContent clipboardContent = new ClipboardContent();
+                clipboardContent.putString(getItem().getId()); // Save the Source Task ID
+                dragboard.setContent(clipboardContent);
+            }
         });
 
         setOnDragOver(event -> {
