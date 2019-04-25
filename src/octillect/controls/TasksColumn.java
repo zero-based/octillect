@@ -13,9 +13,9 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import octillect.models.Column;
-import octillect.models.Task;
 
 public class TasksColumn extends ListCell<Column> {
 
@@ -26,15 +26,19 @@ public class TasksColumn extends ListCell<Column> {
     public TasksColumn() {
 
         setOnDragDetected(event -> {
+            if (getItem() != null) {
+                Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
 
-            Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-            Image snapshot = snapshot(new SnapshotParameters(), null);
-            dragboard.setDragView(snapshot, event.getX(), event.getY());
+                SnapshotParameters parameters = new SnapshotParameters();
+                parameters.setFill(Color.TRANSPARENT);
 
-            ClipboardContent content = new ClipboardContent();
-            content.putString(getItem().getId()); // Save the Source Column ID
-            dragboard.setContent(content);
+                Image snapshot = snapshot(parameters, null);
+                dragboard.setDragView(snapshot, event.getX(), event.getY());
 
+                ClipboardContent content = new ClipboardContent();
+                content.putString(getItem().getId()); // Save the Source Column ID
+                dragboard.setContent(content);
+            }
         });
 
         setOnDragOver(event -> {
