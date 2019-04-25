@@ -1,16 +1,22 @@
 package octillect.models;
 
+import octillect.models.builders.UserBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UserTest {
 
-    String id = "OCT101";
-    String name = "Test User";
-    String email = "TestUser@octillect.com";
+    String id       = "OCT101";
+    String name     = "Test User";
+    String email    = "TestUser@octillect.com";
     String password = "strong_password";
 
-    User user = new User (id, name, email, password, null);
+    User user = new UserBuilder().with($ -> {
+        $.id       = "OCT101";
+        $.name     = "Test User";
+        $.email    = "TestUser@octillect.com";
+        $.password = "strong_password";
+    }).build();
 
     @Test
     public void getId() {

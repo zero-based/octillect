@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-
 import javafx.scene.layout.StackPane;
+
 import octillect.models.Column;
 import octillect.models.Project;
 import octillect.models.Task;
+import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.ProjectBuilder;
+import octillect.models.builders.TaskBuilder;
 
 public class LeftDrawerController {
 
@@ -29,49 +32,52 @@ public class LeftDrawerController {
     public void initialize() {
 
         /* TODO: Remove this temporary projects */
-        Task task1 = new Task("111", "T1", null, false, null,
-                null, null, null, null, null, null);
 
-        Task task2 = new Task("112", "T2", null, false, null,
-                null, null, null, null, null, null);
+        Project firstProject = new ProjectBuilder().with($ -> {
 
-        Task task3 = new Task("121", "T3", null, false, null,
-                null, null, null, null, null, null);
+            Column column1 = new ColumnBuilder().with($_column -> {
+                Task task1 = new TaskBuilder().with($_task -> { $_task.id = "111"; $_task.name = "T1"; }).build();
+                Task task2 = new TaskBuilder().with($_task -> { $_task.id = "112"; $_task.name = "T2"; }).build();
+                $_column.id    = "11";
+                $_column.name  = "To-do";
+                $_column.tasks = FXCollections.observableArrayList(task1, task2);
+            }).build();
 
-        Task task4 = new Task("122", "T4", null, false, null,
-                null, null, null, null, null, null);
+            Column column2 = new ColumnBuilder().with($_column -> {
+                Task task3 = new TaskBuilder().with($_task -> { $_task.id = "121"; $_task.name = "T3"; }).build();
+                Task task4 = new TaskBuilder().with($_task -> { $_task.id = "122"; $_task.name = "T4"; }).build();
+                $_column.id    = "12";
+                $_column.name  = "Done";
+                $_column.tasks = FXCollections.observableArrayList(task3, task4);
+            }).build();
 
-        Column column1 = new Column("11", "To-do", null,
-                FXCollections.observableArrayList(task1, task2));
+            $.name = "Project 1";
+            $.columns = FXCollections.observableArrayList(column1, column2);
 
-        Column column2 = new Column("12", "Done", null,
-                FXCollections.observableArrayList(task3, task4));
+        }).build();
 
-        Project firstProject = new Project();
-        firstProject.setName("Project 1");
-        firstProject.setColumns(FXCollections.observableArrayList(column1, column2));
+        Project secondProject = new ProjectBuilder().with($ -> {
 
-        task1 = new Task("211", "X1", null, false, null,
-                null, null, null, null, null, null);
+            Column column1 = new ColumnBuilder().with($_column -> {
+                Task task1 = new TaskBuilder().with($_task -> { $_task.id = "211"; $_task.name = "X1"; }).build();
+                Task task2 = new TaskBuilder().with($_task -> { $_task.id = "212"; $_task.name = "X2"; }).build();
+                $_column.id    = "21";
+                $_column.name  = "Front-end";
+                $_column.tasks = FXCollections.observableArrayList(task1, task2);
+            }).build();
 
-        task2 = new Task("212", "X2", null, false, null,
-                null, null, null, null, null, null);
+            Column column2 = new ColumnBuilder().with($_column -> {
+                Task task3 = new TaskBuilder().with($_task -> { $_task.id = "221"; $_task.name = "X3"; }).build();
+                Task task4 = new TaskBuilder().with($_task -> { $_task.id = "222"; $_task.name = "X4"; }).build();
+                $_column.id    = "22";
+                $_column.name  = "Back-end";
+                $_column.tasks = FXCollections.observableArrayList(task3, task4);
+            }).build();
 
-        task3 = new Task("221", "X3", null, false, null,
-                null, null, null, null, null, null);
+            $.name = "Project 2";
+            $.columns = FXCollections.observableArrayList(column1, column2);
 
-        task4 = new Task("222", "X4", null, false, null,
-                null, null, null, null, null, null);
-
-        column1 = new Column("21", "Front-end", null,
-                FXCollections.observableArrayList(task1, task2));
-
-        column2 = new Column("22", "Back-end", null,
-                FXCollections.observableArrayList(task3, task4));
-
-        Project secondProject = new Project();
-        secondProject.setName("Project 2 ");
-        secondProject.setColumns(FXCollections.observableArrayList(column1, column2));
+        }).build();
 
         /* TODO: Load signed in user projects here */
         ObservableList<Project> userProjects = FXCollections.observableArrayList(firstProject, secondProject);

@@ -15,12 +15,14 @@ public class User implements IObserver {
 
     public User() {}
 
-    public User(String id, String name, String email, String password, Image image) {
+    public User(String id, String name, String email, String password,
+                Image image, ObservableList<Project> projects) {
         this.id       = id;
         this.name     = name;
         this.email    = email;
         this.password = password;
         this.image    = image;
+        this.projects = projects;
     }
 
 
@@ -68,6 +70,14 @@ public class User implements IObserver {
         this.image = image;
     }
 
+
+    public ObservableList<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(ObservableList<Project> projects) {
+        this.projects = projects;
+    }
 
     @Override
     public void updateObserver() {
