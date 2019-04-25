@@ -14,6 +14,7 @@
 <JFXDialog xmlns="http://javafx.com/javafx/8.0.201"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="octillect.controllers.NewProjectDialogController"
+           fx:id="newProjectDialog"
            stylesheets="@/octillect/styles/Palette.css"
            transitionType="CENTER">
 

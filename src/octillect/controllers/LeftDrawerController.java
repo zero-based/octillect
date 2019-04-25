@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 
 import octillect.models.Column;
 import octillect.models.Project;
@@ -19,14 +18,24 @@ import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.ProjectBuilder;
 import octillect.models.builders.TaskBuilder;
 
-public class LeftDrawerController {
+public class LeftDrawerController implements Injectable<ApplicationController> {
 
-    @FXML private JFXDrawer leftDrawer;
-    @FXML private JFXButton addNewProjectButton;
-    @FXML private ListView<Project> userProjectsListView;
+    // FXML Fields
+    @FXML public JFXDrawer leftDrawer;
+    @FXML public JFXButton addNewProjectButton;
+    @FXML public ListView<Project> userProjectsListView;
 
+    // Injected Controllers
+    private ApplicationController applicationController;
     private ProjectController projectController;
-    private StackPane rootStackPane;
+    private NewProjectDialogController newProjectDialogController;
+
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+        projectController          = applicationController.projectController;
+        newProjectDialogController = applicationController.newProjectDialogController;
+    }
 
     @FXML
     public void initialize() {
@@ -97,24 +106,11 @@ public class LeftDrawerController {
     }
 
     public void handleAddNewProjectButtonAction(ActionEvent actionEvent) {
-        NewProjectDialogController newProjectDialogController = new NewProjectDialogController();
-        newProjectDialogController.showNewProjectDialog(rootStackPane);
+        newProjectDialogController.newProjectDialog.show(applicationController.rootStackPane);
     }
 
     public void handleUserProjectsListViewMouseClicked(MouseEvent mouseEvent) {
         projectController.loadProject(userProjectsListView.getSelectionModel().getSelectedItem());
-    }
-
-    public JFXDrawer getLeftDrawer() {
-        return leftDrawer;
-    }
-
-    public void setProjectController(ProjectController projectController) {
-        this.projectController = projectController;
-    }
-
-    public void setRootStackPane(StackPane rootStackPane) {
-        this.rootStackPane = rootStackPane;
     }
 
 }
