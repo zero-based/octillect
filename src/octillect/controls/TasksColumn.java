@@ -20,7 +20,7 @@ import octillect.models.Column;
 public class TasksColumn extends ListCell<Column> {
 
     @FXML private VBox tasksColumnVBox;
-    @FXML private Label nameLabel;
+    @FXML private Label columnNameLabel;
     @FXML private ListView tasksListView;
 
     public TasksColumn() {
@@ -92,7 +92,7 @@ public class TasksColumn extends ListCell<Column> {
         }
 
         /* TODO: Populate the TasksColumn view here */
-        nameLabel.setText(columnItem.getName());
+        columnNameLabel.setText(columnItem.getName());
 
         // Populate the TasksColumn's tasksListView with columnItem's tasks
         tasksListView.setItems(columnItem.getTasks());

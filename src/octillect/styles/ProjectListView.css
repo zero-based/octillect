@@ -1,0 +1,9 @@
+.list-view {
+    -fx-background-color: transparent;
+    -fx-selection-bar: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8px
+}

@@ -1,13 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:id="tasksColumnVBox">
+<?import octillect.styles.Palette?>
 
-    <!-- TODO: Create the TasksColumn view here -->
-    <Label fx:id="nameLabel" />
-    <ListView fx:id="tasksListView" />
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/"
+      fx:id="tasksColumnVBox"
+      stylesheets="@/octillect/styles/TasksColumn.css">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <BorderPane>
+
+        <left>
+            <VBox translateX="${addTaskLabel.translateX}">
+
+                <Label fx:id="columnNameLabel"
+                       textFill="${Palette.DARK_300}"
+                       wrapText="true"
+                       prefWidth="336">
+                    <font>
+                        <Font name="Product Sans Regular" size="20"/>
+                    </font>
+                </Label>
+
+                <Label fx:id="tasksNumberLabel"
+                       textFill="${Palette.PRIMARY_DARK}">
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </Label>
+
+            </VBox>
+        </left>
+
+        <right>
+            <HBox>
+
+                <MaterialDesignIconView fx:id="addButtonIcon"
+                                        glyphName="PLUS_CIRCLE"
+                                        glyphSize="24"
+                                        fill="${Palette.PRIMARY}"/>
+
+                <MaterialDesignIconView fx:id="moreButtonIcon"
+                                        glyphName="DOTS_VERTICAL"
+                                        glyphSize="24"
+                                        fill="${Palette.PRIMARY}"/>
+
+            </HBox>
+        </right>
+
+    </BorderPane>
+
+    <ListView fx:id="tasksListView" prefWidth="368"/>
+
+    <Label fx:id="addTaskLabel"
+           text="Add a Task"
+           translateX="12"
+           textFill="${Palette.PRIMARY}">
+        <font>
+            <Font size="15"/>
+        </font>
+    </Label>
 
 </VBox>
+
