@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXDrawersStack?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.201"
+<StackPane xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="octillect.controllers.ApplicationController"
-           fx:id="rootStackPane"
-           prefWidth="1280"
-           prefHeight="800">
+           fx:id="rootStackPane">
 
-    <VBox>
+    <BorderPane>
+        <top>
+            <fx:include fx:id="titleBar" source="TitleBarView.fxml"/>
+        </top>
 
-        <fx:include fx:id="titleBar" source="TitleBarView.fxml"/>
+        <center>
+            <JFXDrawersStack fx:id="drawersStack">
+                <fx:include fx:id="leftDrawer" source="LeftDrawerView.fxml"/>
+                <fx:include fx:id="rightDrawer" source="RightDrawerView.fxml"/>
 
-        <JFXDrawersStack fx:id="drawersStack">
-
-            <fx:include fx:id="leftDrawer" source="LeftDrawerView.fxml"/>
-            <fx:include fx:id="rightDrawer" source="RightDrawerView.fxml"/>
-
-            <content>
-                <!-- TODO: Remove the VBox dimensions -->
-                <VBox prefWidth="900" prefHeight="600">
+                <content>
                     <fx:include fx:id="project" source="ProjectView.fxml"/>
-                </VBox>
-            </content>
+                </content>
+            </JFXDrawersStack>
+        </center>
 
-        </JFXDrawersStack>
-
-    </VBox>
+    </BorderPane>
 
 </StackPane>
