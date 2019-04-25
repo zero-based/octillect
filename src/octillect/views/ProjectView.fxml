@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -8,6 +9,10 @@
             fx:controller="octillect.controllers.ProjectController"
             stylesheets="@/octillect/styles/Palette.css"
             style="-fx-background-color: -o-dark-700;">
+
+    <padding>
+        <Insets topRightBottomLeft="16"/>
+    </padding>
 
     <top>
         <!-- TODO: Add Project controls (GitHub button, search, ...) -->
@@ -19,7 +24,8 @@
     <center>
         <ListView fx:id="projectListView"
                   orientation="HORIZONTAL"
-                  style="-fx-background-color: transparent;"/>
+                  translateY="8"
+                  stylesheets="@/octillect/styles/ProjectListView.css"/>
     </center>
 
 </BorderPane>
