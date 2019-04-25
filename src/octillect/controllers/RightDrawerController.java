@@ -4,12 +4,17 @@ import com.jfoenix.controls.JFXDrawer;
 
 import javafx.fxml.FXML;
 
-public class RightDrawerController {
+public class RightDrawerController implements Injectable<ApplicationController> {
 
-    @FXML private JFXDrawer rightDrawer;
+    // FXML Fields
+    @FXML public JFXDrawer rightDrawer;
 
-    public JFXDrawer getRightDrawer() {
-        return rightDrawer;
+    // Injected Controllers
+    private ApplicationController applicationController;
+
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
     }
 
 }

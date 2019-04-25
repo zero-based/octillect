@@ -3,24 +3,45 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXDrawersStack;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 public class ApplicationController {
 
-    @FXML private StackPane applicationRootStackPane;
-    @FXML private JFXDrawersStack drawersStack;
-    @FXML private TitleBarController titleBarController;
-    @FXML private LeftDrawerController leftDrawerController;
-    @FXML private RightDrawerController rightDrawerController;
-    @FXML private ProjectController projectController;
+    // FXML Fields
+    @FXML public StackPane rootStackPane;
+    @FXML public JFXDrawersStack drawersStack;
+
+    // Nested Controllers
+    @FXML public TitleBarController titleBarController;
+    @FXML public LeftDrawerController leftDrawerController;
+    @FXML public RightDrawerController rightDrawerController;
+    @FXML public ProjectController projectController;
+
+    // Dialogs' Controllers
+    private final String NEW_PROJECT_DIALOG_VIEW = "/octillect/views/NewProjectDialogView.fxml";
+    public NewProjectDialogController newProjectDialogController;
+
+    public ApplicationController() {
+        // Load Dialogs' Controllers
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(NEW_PROJECT_DIALOG_VIEW));
+            fxmlLoader.load();
+            newProjectDialogController = fxmlLoader.getController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
-        leftDrawerController.setRootStackPane(applicationRootStackPane);
-        leftDrawerController.setProjectController(projectController);
-        titleBarController.setDrawersStack(drawersStack);
-        titleBarController.setLeftDrawer(leftDrawerController.getLeftDrawer());
-        titleBarController.setRightDrawer(rightDrawerController.getRightDrawer());
+        // Injecting the main instance of ApplicationController
+        // into the instances of other sub-controllers
+        titleBarController        .inject(this);
+        leftDrawerController      .inject(this);
+        rightDrawerController     .inject(this);
+        projectController         .inject(this);
+        newProjectDialogController.inject(this);
     }
 
 }

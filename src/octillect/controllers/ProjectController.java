@@ -6,9 +6,18 @@ import javafx.scene.control.ListView;
 import octillect.controls.TasksColumn;
 import octillect.models.Project;
 
-public class ProjectController {
+public class ProjectController implements Injectable<ApplicationController> {
 
+    // FXML Fields
     @FXML public ListView projectListView;
+
+    // Injected Controllers
+    private ApplicationController applicationController;
+
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+    }
 
     public void loadProject(Project project) {
         projectListView.setItems(project.getColumns());
