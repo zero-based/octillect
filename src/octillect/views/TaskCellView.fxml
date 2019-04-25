@@ -1,11 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXNodesList?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:id="taskCellVBox">
+<?import octillect.styles.Palette?>
 
-    <!-- TODO: Create the TaskCell view here -->
-    <Label fx:id="nameLabel" />
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/"
+      fx:id="taskCellVBox"
+      stylesheets="@/octillect/styles/TaskCell.css">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <BorderPane>
+
+        <left>
+            <Label fx:id="taskNameLabel"
+                   textFill="${Palette.DARK_300}"
+                   wrapText="true"
+                   prefWidth="280">
+                <font>
+                    <Font name="Product Sans Regular" size="20"/>
+                </font>
+            </Label>
+        </left>
+
+        <right>
+            <MaterialDesignIconView fx:id="moreButtonIcon"
+                                    glyphName="DOTS_VERTICAL"
+                                    fill="${Palette.DARK_300}"
+                                    size="20"
+                                    translateY="4"
+                                    opacity="0"/>
+        </right>
+
+    </BorderPane>
+
+    <BorderPane fx:id="taskInfoBorderPane">
+
+        <left>
+            <FlowPane fx:id="taskIconsFlowPane" hgap="10" prefWidth="256" alignment="BOTTOM_LEFT">
+
+                <MaterialDesignIconView glyphName="COMMENT_TEXT"
+                                        size="20"
+                                        fill="${Palette.DARK_300}"/>
+
+                <MaterialDesignIconView glyphName="CHECKBOX_MARKED"
+                                        size="20"
+                                        fill="${Palette.DARK_300}"/>
+
+                <Label fx:id="taskDueDateLabel"
+                       textFill="${Palette.DARK_300}"
+                       translateY="2">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </FlowPane>
+        </left>
+
+        <right>
+            <JFXNodesList fx:id="taskAssigneesNodesList"
+                          rotate="90"
+                          spacing="-10">
+
+                <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
+                <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
+                <StackPane>
+                    <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
+                    <Label text="9+" textFill="white"/>
+                </StackPane>
+            </JFXNodesList>
+        </right>
+
+    </BorderPane>
 
 </VBox>
+
