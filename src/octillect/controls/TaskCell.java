@@ -21,7 +21,7 @@ import octillect.models.Task;
 public class TaskCell extends ListCell<Task> {
 
     @FXML private VBox taskCellVBox;
-    @FXML private Label nameLabel;
+    @FXML private Label taskNameLabel;
 
     public TaskCell() {
 
@@ -107,7 +107,7 @@ public class TaskCell extends ListCell<Task> {
         }
 
         /* TODO: Populate the TaskCell view here */
-        nameLabel.setText(taskItem.getName());
+        taskNameLabel.setText(taskItem.getName());
         setGraphic(taskCellVBox);
 
     }
