@@ -80,10 +80,8 @@ public class Main extends Application {
         // Set stage Icon
         applicationStage.getIcons().add(O_ICON);
 
-        // Center stage according to screen
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        applicationStage.setX((primScreenBounds.getWidth() - applicationStage.getWidth()) / 2);
-        applicationStage.setY((primScreenBounds.getHeight() - applicationStage.getHeight()) / 2);
+        // Open Stage Maximized
+        applicationStage.setMaximized(true);
 
         /* Close Signing stage and Check if it's not null in case of auto-signing-in.*/
         if (signingStage != null)

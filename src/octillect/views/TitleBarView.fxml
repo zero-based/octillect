@@ -16,8 +16,6 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="octillect.controllers.TitleBarController"
             stylesheets="@/octillect/styles/Palette.css"
-            prefWidth="1280"
-            prefHeight="40"
             style="-fx-background-color: -o-dark-900;">
 
     <fx:define>

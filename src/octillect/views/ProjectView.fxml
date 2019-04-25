@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox xmlns:fx="http://javafx.com/fxml"
-      fx:id="projectHBox"
-      fx:controller="octillect.controllers.ProjectController">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="octillect.controllers.ProjectController"
+            stylesheets="@/octillect/styles/Palette.css"
+            style="-fx-background-color: -o-dark-700;">
 
-    <!-- TODO: Add Project controls (GitHub button, search, ...) -->
+    <top>
+        <!-- TODO: Add Project controls (GitHub button, search, ...) -->
+        <!-- TODO: Remove Height and Style Attributes -->
+        <HBox prefHeight="64" style="-fx-background-color: -o-dark-300;"/>
+    </top>
+
     <!-- TODO: Style the ProjectView -->
+    <center>
+        <ListView fx:id="projectListView"
+                  orientation="HORIZONTAL"
+                  style="-fx-background-color: transparent;"/>
+    </center>
 
-    <ListView fx:id="projectListView"
-              orientation="HORIZONTAL"
-              prefWidth="${projectHBox.width}" />
-
-</HBox>
+</BorderPane>
