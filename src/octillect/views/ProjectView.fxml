@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextField?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+
+<?import octillect.styles.Palette?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="octillect.controllers.ProjectController"
             stylesheets="@/octillect/styles/Palette.css"
             style="-fx-background-color: -o-dark-700;">
 
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
     <padding>
         <Insets topRightBottomLeft="16"/>
     </padding>
 
     <top>
-        <!-- TODO: Add Project controls (GitHub button, search, ...) -->
-        <!-- TODO: Remove Height and Style Attributes -->
-        <HBox prefHeight="64" style="-fx-background-color: -o-dark-300;"/>
+        <HBox spacing="24">
+
+            <JFXTextField fx:id="searchTextField"
+                          promptText="Search"
+                          prefColumnCount="30"
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
+
+            <MaterialDesignIconView fx:id="gitHubIcon"
+                                    glyphName="GITHUB_CIRCLE"
+                                    fill="${Palette.DARK_300}"
+                                    size="22pt"
+                                    onMouseClicked="#handleGitHubIconAction"/>
+
+            <MaterialDesignIconView fx:id="calendarIcon"
+                                    glyphName="CALENDAR"
+                                    fill="${Palette.DARK_300}"
+                                    size="22pt"
+                                    onMouseClicked="#handleCalendarIconAction"/>
+
+            <MaterialDesignIconView fx:id="addColumnIcon"
+                                    glyphName="PLUS_CIRCLE"
+                                    fill="${Palette.DARK_300}"
+                                    size="22pt"
+                                    onMouseClicked="#handleAddColumnIconAction"/>
+
+        </HBox>
     </top>
 
     <!-- TODO: Style the ProjectView -->
