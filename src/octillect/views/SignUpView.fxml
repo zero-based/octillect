@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,11 +12,11 @@
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
 
-<HBox fx:id="signUpHBox"
-      fx:controller="octillect.controllers.SignUpController"
-      stylesheets="@/octillect/styles/Palette.css"
-      xmlns="http://javafx.com/javafx/"
+<HBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
+      fx:controller="octillect.controllers.SignUpController"
+      fx:id="signUpHBox"
+      stylesheets="@/octillect/styles/Palette.css"
       alignment="CENTER_RIGHT">
 
     <fx:define>
@@ -24,8 +24,8 @@
     </fx:define>
 
     <GridPane alignment="CENTER"
-              hgap="25"
-              vgap="40"
+              hgap="16"
+              vgap="42"
               prefWidth="${signUpHBox.width * 0.6}"
               style="-fx-background-color: -o-dark-900;">
 
@@ -36,11 +36,12 @@
                  GridPane.valignment="TOP"
                  fill="TRUE"
                  color="DARK_900"
+                 translateY="8"
                  onAction="#handleBackButtonAction">
             <graphic>
-                <FontAwesomeIconView opacity=".64"
-                                     glyphName="ARROW_LEFT"
-                                     size="16"/>
+                <MaterialDesignIconView glyphName="ARROW_LEFT"
+                                        size="22"
+                                        glyphStyle="-fx-fill: -o-dark-500"/>
             </graphic>
         </OButton>
 
@@ -49,28 +50,26 @@
                 GridPane.columnSpan="2"
                 GridPane.halignment="CENTER"
                 opacity="0"
-                radius="50"/>
+                radius="64"/>
 
         <OButton fx:id="imageButton"
                  GridPane.rowIndex="0"
                  GridPane.columnSpan="2"
                  GridPane.halignment="CENTER"
-                 prefWidth="105"
-                 prefHeight="105"
+                 prefWidth="${userImage.radius * 2}"
+                 prefHeight="${userImage.radius * 2}"
                  fill="TRUE"
                  color="DARK_500"
                  onAction="#handleImageButtonAction">
             <graphic>
-                <FontAwesomeIconView fx:id="cameraIcon"
-                                     glyphName="CAMERA"
-                                     size="50"
-                                     textAlignment="CENTER"/>
+                <MaterialDesignIconView glyphName="CAMERA" size="48"/>
             </graphic>
         </OButton>
 
         <JFXTextField fx:id="firstNameTextField"
                       GridPane.rowIndex="1"
                       GridPane.columnIndex="0"
+                      prefColumnCount="15"
                       promptText="First Name"
                       focusColor="${Palette.PRIMARY}"
                       style="-fx-text-inner-color: -o-dark-300"
@@ -79,6 +78,7 @@
         <JFXTextField fx:id="lastNameTextField"
                       GridPane.rowIndex="1"
                       GridPane.columnIndex="1"
+                      prefColumnCount="15"
                       promptText="Last Name"
                       focusColor="${Palette.PRIMARY}"
                       style="-fx-text-inner-color: -o-dark-300"
@@ -87,6 +87,7 @@
         <JFXTextField fx:id="emailTextField"
                       GridPane.rowIndex="2"
                       GridPane.columnSpan="2"
+                      prefColumnCount="30"
                       promptText="Email"
                       focusColor="${Palette.PRIMARY}"
                       style="-fx-text-inner-color: -o-dark-300"
@@ -95,6 +96,7 @@
         <JFXPasswordField fx:id="passwordTextField"
                           GridPane.rowIndex="3"
                           GridPane.columnSpan="2"
+                          prefColumnCount="30"
                           promptText="Password"
                           focusColor="${Palette.PRIMARY}"
                           style="-fx-text-inner-color: -o-dark-300"
@@ -103,6 +105,7 @@
         <JFXPasswordField fx:id="confirmPasswordTextField"
                           GridPane.rowIndex="4"
                           GridPane.columnSpan="2"
+                          prefColumnCount="30"
                           promptText="Confirm Password"
                           focusColor="${Palette.PRIMARY}"
                           style="-fx-text-inner-color: -o-dark-300"
@@ -112,8 +115,7 @@
                  GridPane.rowIndex="6"
                  GridPane.columnSpan="2"
                  GridPane.halignment="CENTER"
-                 prefWidth="350"
-                 prefHeight="45"
+                 prefWidth="356"
                  text="Sign Up"
                  color="PRIMARY"
                  fill="TRUE"
