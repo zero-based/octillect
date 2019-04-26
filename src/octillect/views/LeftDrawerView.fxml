@@ -14,10 +14,10 @@
 
 <?import octillect.styles.Palette?>
 
-<JFXDrawer xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:id="leftDrawer"
+<JFXDrawer xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.LeftDrawerController"
+           fx:id="leftDrawer"
            stylesheets="@/octillect/styles/Palette.css"
            direction="LEFT"
            defaultDrawerSize="320">
