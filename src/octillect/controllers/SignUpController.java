@@ -12,6 +12,7 @@ import java.io.IOException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
@@ -139,6 +140,11 @@ public class SignUpController {
             if (chosenImagePath != null) {
                 UserRepository.setImage(user.getId(), getChosenImage(chosenImagePath));
                 user.setImage(SwingFXUtils.toFXImage(getChosenImage(chosenImagePath), null));
+            } else {
+                // Generate an Identicon for the user in case of not choosing a photo
+                UserRepository.setImage(user.getId(), UserRepository.generateIdenticon(user.getId(), 256));
+                Image image = SwingFXUtils.toFXImage(UserRepository.generateIdenticon(user.getId(), 256), null);
+                user.setImage(image);
             }
 
             Main.runApplication(user);
