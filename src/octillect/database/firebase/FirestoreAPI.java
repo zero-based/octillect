@@ -99,4 +99,14 @@ public class FirestoreAPI {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Encrypts a given string using DateTime Algorithm.
+     *
+     * @param textToEncrypt text to be encrypted
+     * @return encrypted String
+     */
+    public static String encryptWithDateTime(String textToEncrypt) {
+        return encrypt(textToEncrypt + java.time.LocalDateTime.now().toString());
+    }
 }
