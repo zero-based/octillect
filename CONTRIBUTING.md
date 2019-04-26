@@ -3,30 +3,30 @@
 <!-- TOC depthFrom:2 depthTo:3 -->
 
 - [1. Git & GitHub Guidelines](#1-git--github-guidelines)
-    - [1.1. Commit](#11-commit)
-    - [1.2. Commit Message](#12-commit-message)
-    - [1.3. Submitting Pull Requests](#13-submitting-pull-requests)
+  - [1.1. Commit](#11-commit)
+  - [1.2. Commit Message](#12-commit-message)
+  - [1.3. Submitting Pull Requests](#13-submitting-pull-requests)
 - [2. Java Programming Guidelines](#2-java-programming-guidelines)
-    - [2.1. Naming Conventions](#21-naming-conventions)
-    - [2.2. Declarations](#22-declarations)
-    - [2.3. Statements](#23-statements)
-    - [2.4. Programming Practices](#24-programming-practices)
-    - [2.5. Formatting](#25-formatting)
-    - [2.6. References](#26-references)
+  - [2.1. Naming Conventions](#21-naming-conventions)
+  - [2.2. Declarations](#22-declarations)
+  - [2.3. Statements](#23-statements)
+  - [2.4. Programming Practices](#24-programming-practices)
+  - [2.5. Formatting](#25-formatting)
+  - [2.6. References](#26-references)
 - [3. JavaFX Guidelines](#3-javafx-guidelines)
-    - [3.1. Controls Naming Conventions](#31-controls-naming-conventions)
-    - [3.2. Event Handlers Naming Conventions](#32-event-handlers-naming-conventions)
-    - [3.3. @FXML: always used](#33-fxml-always-used)
-    - [3.4. Spacing](#34-spacing)
-    - [3.5. Code readability](#35-code-readability)
-    - [3.6. References](#36-references)
+  - [3.1. Controls Naming Conventions](#31-controls-naming-conventions)
+  - [3.2. Event Handlers Naming Conventions](#32-event-handlers-naming-conventions)
+  - [3.3. @FXML: always used](#33-fxml-always-used)
+  - [3.4. Spacing](#34-spacing)
+  - [3.5. Code readability](#35-code-readability)
+  - [3.6. References](#36-references)
 - [4. UI Guidelines](#4-ui-guidelines)
-    - [4.1. Structure](#41-structure)
-    - [4.2. Responsive layout grid](#42-responsive-layout-grid)
-    - [4.3. Window Sizes](#43-window-sizes)
-    - [4.4. Cards](#44-cards)
-    - [4.5. Color Palette](#45-color-palette)
-    - [4.6. References](#46-references)
+  - [4.1. Structure](#41-structure)
+  - [4.2. Responsive layout grid](#42-responsive-layout-grid)
+  - [4.3. Window Sizes](#43-window-sizes)
+  - [4.4. Cards](#44-cards)
+  - [4.5. Color Palette](#45-color-palette)
+  - [4.6. References](#46-references)
 - [5. External Libraries](#5-external-libraries)
 - [6. Design Patterns](#6-design-patterns)
 
@@ -339,7 +339,7 @@ aFoo.aStaticMethod(); // bad
 
 > Use the following shortcuts in **IntelliJ** to help you optimize your code.
 >
-> - **Optimize Imports:** <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd>  
+> - **Optimize Imports:** <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd>
 > - **Reformat Code:** <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>
 
 #### 2.5.1. Nonempty blocks
@@ -554,7 +554,6 @@ public class RegistrationFormController {
    - scaleZ
 
 6. Typography
-
    - text
    - promptText
    - textFill
@@ -564,11 +563,10 @@ public class RegistrationFormController {
    - background
    - opacity
    - visible
+   - styleSheets
+   - style
 
-8. Misc
-   - JFoenix
-
-9. Event handlers (Alphabetically)
+8. Event handlers (Alphabetically)
    - onAction
    - onDragDetected
 ```
@@ -586,6 +584,8 @@ public class RegistrationFormController {
 1. [XAML Coding Guidelines](https://github.com/cmaneu/xaml-coding-guidelines)
 1. [Introduction to FXML](https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/doc-files/introduction_to_fxml.html)
 1. [JavaFX CSS Reference Guide](https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html)
+1. [caspian.css](https://gist.github.com/tmazeika/c90c03c645d18722ddb0)
+1. [modena.css](https://gist.github.com/maxd/63691840fc372f22f470)
 
 ---
 
@@ -623,17 +623,57 @@ Cards should have **16dp** padding.
 
 Use the following colors:
 
-|  Primary   | Primary _[Dark]_ |  Dark 900  |  Dark 700  |  Dark 500  |  Dark 300  |
-| :--------: | :--------------: | :--------: | :--------: | :--------: | :--------: |
-| ![#1473e6] |    ![#0f64d2]    | ![#1b1b1b] | ![#323232] | ![#979797] | ![#cdcdcd] |
-| `#1473e6`  |    `#0f64d2`     | `#1b1b1b`  | `#323232`  | `#979797`  | `#cdcdcd`  |
+| Primary _[light]_ |  Primary   | Primary _[Dark]_ |
+| :---------------: | :--------: | :--------------: |
+|    ![#428feb]     | ![#1473e6] |    ![#0f64d2]    |
+|     `#428feb`     | `#1473e6`  |    `#0f64d2`     |
 
+[#428feb]: https://imgplaceholder.com/100x100/transparent/428feb/fa-circle
 [#1473e6]: https://imgplaceholder.com/100x100/transparent/1473e6/fa-circle
 [#0f64d2]: https://imgplaceholder.com/100x100/transparent/0f64d2/fa-circle
-[#1b1b1b]: https://imgplaceholder.com/100x100/transparent/1b1b1b/fa-circle
-[#323232]: https://imgplaceholder.com/100x100/transparent/323232/fa-circle
-[#979797]: https://imgplaceholder.com/100x100/transparent/979797/fa-circle
+
+|  Success   |    Info    |  Warning   |   Danger   |
+| :--------: | :--------: | :--------: | :--------: |
+| ![#28a745] | ![#17a2b8] | ![#ffc107] | ![#dc3545] |
+| `#28a745`  | `#17a2b8`  | `#ffc107`  | `#dc3545`  |
+
+[#28a745]: https://imgplaceholder.com/100x100/transparent/28a745/fa-circle
+[#17a2b8]: https://imgplaceholder.com/100x100/transparent/17a2b8/fa-circle
+[#ffc107]: https://imgplaceholder.com/100x100/transparent/ffc107/fa-circle
+[#dc3545]: https://imgplaceholder.com/100x100/transparent/dc3545/fa-circle
+
+|  Dark 300  |  Dark 500  |  Dark 700  |  Dark 900  |
+| :--------: | :--------: | :--------: | :--------: |
+| ![#cdcdcd] | ![#979797] | ![#323232] | ![#1b1b1b] |
+| `#cdcdcd`  | `#979797`  | `#323232`  | `#1b1b1b`  |
+
 [#cdcdcd]: https://imgplaceholder.com/100x100/transparent/cdcdcd/fa-circle
+[#979797]: https://imgplaceholder.com/100x100/transparent/979797/fa-circle
+[#323232]: https://imgplaceholder.com/100x100/transparent/323232/fa-circle
+[#1b1b1b]: https://imgplaceholder.com/100x100/transparent/1b1b1b/fa-circle
+
+
+| Blue Gray 50 | Blue Gray 100 | Blue Gray 200 | Blue Gray 300 | Blue Gray 400 |
+| :----------: | :-----------: | :-----------: | :-----------: | :-----------: |
+|  ![#eceff1]  |  ![#cfd8dc]   |  ![#b0bec5]   |  ![#90a4ae]   |  ![#78909c]   |
+|  `#eceff1`   |   `#cfd8dc`   |   `#b0bec5`   |   `#90a4ae`   |   `#78909c`   |
+
+[#eceff1]: https://imgplaceholder.com/100x100/transparent/eceff1/fa-circle
+[#cfd8dc]: https://imgplaceholder.com/100x100/transparent/cfd8dc/fa-circle
+[#b0bec5]: https://imgplaceholder.com/100x100/transparent/b0bec5/fa-circle
+[#90a4ae]: https://imgplaceholder.com/100x100/transparent/90a4ae/fa-circle
+[#78909c]: https://imgplaceholder.com/100x100/transparent/78909c/fa-circle
+
+| Blue Gray 500 | Blue Gray 600 | Blue Gray 700 | Blue Gray 800 | Blue Gray 900 |
+| :-----------: | :-----------: | :-----------: | :-----------: | :-----------: |
+|  ![#607d8b]   |  ![#546e7a]   |  ![#455a64]   |  ![#37474f]   |  ![#263238]   |
+|   `#607d8b`   |   `#546e7a`   |   `#455a64`   |   `#37474f`   |   `#263238`   |
+
+[#607d8b]: https://imgplaceholder.com/100x100/transparent/607d8b/fa-circle
+[#546e7a]: https://imgplaceholder.com/100x100/transparent/546e7a/fa-circle
+[#455a64]: https://imgplaceholder.com/100x100/transparent/455a64/fa-circle
+[#37474f]: https://imgplaceholder.com/100x100/transparent/37474f/fa-circle
+[#263238]: https://imgplaceholder.com/100x100/transparent/263238/fa-circle
 
 ### 4.6. References
 
@@ -647,6 +687,8 @@ Use the following colors:
 1. [JFoenix](http://www.jfoenix.com/)
 1. [Java API for GitHub](https://github-api.kohsuke.org/)
 1. [FontawesomeFX](https://bitbucket.org/Jerady/fontawesomefx)
+1. [Firebase Admin SDK](https://github.com/firebase/firebase-admin-java)
+1. [gson](https://github.com/google/gson)
 
 ---
 
@@ -654,3 +696,5 @@ Use the following colors:
 
 1. [MVC Design Pattern](https://www.geeksforgeeks.org/mvc-design-pattern/)
 1. [Observer Design Pattern](https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/)
+1. [Builder Design Pattern](https://java-design-patterns.com/patterns/builder/)
+1. [Advanced Builder Design Pattern](https://medium.com/beingprofessional/think-functional-advanced-builder-pattern-using-lambda-284714b85ed5)
