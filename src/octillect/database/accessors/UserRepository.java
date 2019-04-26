@@ -4,10 +4,16 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,8 +32,8 @@ public class UserRepository {
     }
 
     // add user's image to CloudStorage
-    public static void setImage(String userId, String userImagePath) {
-        StorageAPI.uploadImage(userImagePath, StorageAPI.USER_PHOTOS_FOLDER, userId);
+    public static void setImage(String userId, BufferedImage userBufferedImage) {
+        StorageAPI.uploadImage(userBufferedImage, StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     public static User get(String id) {
@@ -91,4 +97,53 @@ public class UserRepository {
         }
         return UserRepository.get(fileContent.get("id"));
     }
+
+
+    /**
+     * Generates an Identicon for any given User's ID,
+     * where the ID must be hashed using any hashing algorithm.
+     *
+     * @param userId User's ID that will be converted into Identicon.
+     * @param size Width and Height of the Identicon.
+     * @return Square BufferedImage of the Identicon.
+     */
+    public static BufferedImage generateIdenticon(String userId, int size) {
+
+        int width = 5;
+        int height = 5;
+
+        byte[] hash = userId.getBytes();
+        BufferedImage identicon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        WritableRaster raster = identicon.getRaster();
+
+        int[] background = new int[]{246, 246, 246, 255};
+        int[] foreground = new int[]{hash[0] & 255, hash[1] & 255, hash[2] & 255, 255};
+
+        for (int x = 0; x < width; x++) {
+
+            int i = x < 3 ? x : 4 - x;
+
+            for (int y = 0; y < height; y++) {
+                if ((hash[i] >> y & 1) == 1) {
+                    raster.setPixel(x, y, foreground);
+                } else {
+                    raster.setPixel(x, y, background);
+                }
+            }
+
+        }
+
+        // Scaling the Image
+        BufferedImage scaledImage = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+
+        AffineTransform transform = new AffineTransform();
+        transform.scale(size / width, size / height);
+
+        AffineTransformOp transformOp = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        scaledImage = transformOp.filter(identicon, scaledImage);
+
+        return scaledImage;
+
+    }
+
 }

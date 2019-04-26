@@ -3,29 +3,43 @@ package octillect.database.firebase;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+
 public class StorageAPI {
 
-    public static final String USER_PHOTOS_FOLDER       = "userPohtos/";
+    public static final String USER_PHOTOS_FOLDER       = "userPhotos/";
     public static final String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
     private static StorageClient storageClient          = StorageClient.getInstance();
 
-    // Upload Image to Firebase CloudStorage
-    public static void uploadImage(String filePath, String storageFolder, String imageStorageName) {
-        InputStream imageFile = null;
+    /**
+     * Uploads given Image to Firebase CloudStorage.
+     *
+     * @param bufferedImage    Image to Upload.
+     * @param storageFolder    Firebase Storage Folder name.
+     * @param imageStorageName The Name which the image will be uploaded by in the database.
+     */
+    public static void uploadImage(BufferedImage bufferedImage, String storageFolder, String imageStorageName) {
+        String storagePath = storageFolder + imageStorageName + ".jpg";
         try {
-            imageFile = new FileInputStream(filePath);
-            String storagePath = storageFolder + imageStorageName + ".jpg";
-            storageClient.bucket().create(storagePath, imageFile, Bucket.BlobWriteOption.userProject(Connection.PROJECT_ID));
-        } catch (FileNotFoundException e) {
-            e.getMessage();
+            // Convert Image to InputStream
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", outputStream);
+            byte[] imageByteArray = outputStream.toByteArray();
+            InputStream inputStream = new ByteArrayInputStream(imageByteArray);
+
+            // Upload Image inputStream to Storage
+            storageClient.bucket().create(storagePath, inputStream, Bucket.BlobWriteOption.userProject(Connection.PROJECT_ID));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

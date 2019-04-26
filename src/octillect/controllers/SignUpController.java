@@ -5,10 +5,11 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -17,6 +18,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+
+import javax.imageio.ImageIO;
 
 import octillect.Main;
 import octillect.controls.OButton;
@@ -135,8 +138,13 @@ public class SignUpController {
             UserRepository.add(user);
 
             if (chosenImagePath != null) {
-                UserRepository.setImage(user.getId(), chosenImagePath);
-                user.setImage(getChosenImage(chosenImagePath));
+                UserRepository.setImage(user.getId(), getChosenImage(chosenImagePath));
+                user.setImage(SwingFXUtils.toFXImage(getChosenImage(chosenImagePath), null));
+            } else {
+                // Generate an Identicon for the user in case of not choosing a photo
+                UserRepository.setImage(user.getId(), UserRepository.generateIdenticon(user.getId(), 256));
+                Image image = SwingFXUtils.toFXImage(UserRepository.generateIdenticon(user.getId(), 256), null);
+                user.setImage(image);
             }
 
             Main.runApplication(user);
@@ -152,21 +160,27 @@ public class SignUpController {
 
         if (file != null) {
             chosenImagePath = file.getPath();
-            userImage.setFill(new ImagePattern(getChosenImage(chosenImagePath)));
+            ImagePattern imagePattern = new ImagePattern(SwingFXUtils.toFXImage(getChosenImage(chosenImagePath), null));
+            userImage.setFill(imagePattern);
             userImage.setOpacity(100);
             imageButton.setOpacity(0);
         } else {
+            // This Code Block Handles choosing a picture then opening file chooser and then choose nothing
             imageButton.setOpacity(100);
             userImage.setFill(null);
         }
     }
 
-    // Convert image file to Image Data type
-    public Image getChosenImage(String imagePath) {
+    /**
+     * Converts image to a BufferedImage.
+     *
+     * @param imagePath Image File path.
+     * @return BufferedImage of the given image.
+     */
+    public BufferedImage getChosenImage(String imagePath) {
         try {
-            FileInputStream image = new FileInputStream(imagePath);
-            return new Image(image);
-        } catch (FileNotFoundException e) {
+            return ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
