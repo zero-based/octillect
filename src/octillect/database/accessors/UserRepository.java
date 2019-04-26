@@ -32,8 +32,8 @@ public class UserRepository {
     }
 
     // add user's image to CloudStorage
-    public static void setImage(String userId, String userImagePath) {
-        StorageAPI.uploadImage(userImagePath, StorageAPI.USER_PHOTOS_FOLDER, userId);
+    public static void setImage(String userId, BufferedImage userBufferedImage) {
+        StorageAPI.uploadImage(userBufferedImage, StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     public static User get(String id) {
