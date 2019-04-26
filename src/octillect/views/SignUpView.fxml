@@ -26,7 +26,7 @@
     <GridPane alignment="CENTER"
               hgap="25"
               vgap="40"
-              prefWidth="632"
+              prefWidth="${signUpHBox.width * 0.6}"
               style="-fx-background-color: -o-dark-900;">
 
         <OButton fx:id="backButton"
@@ -120,4 +120,5 @@
                  onAction="#handleSignUpButtonAction"/>
 
     </GridPane>
+
 </HBox>
