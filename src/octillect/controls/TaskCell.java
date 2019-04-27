@@ -1,5 +1,7 @@
 package octillect.controls;
 
+import com.jfoenix.controls.JFXNodesList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -22,6 +26,10 @@ public class TaskCell extends ListCell<Task> {
 
     @FXML private VBox taskCellVBox;
     @FXML private Label taskNameLabel;
+    @FXML private Label taskDueDateLabel;
+    @FXML private FlowPane taskIconsFlowPane;
+    @FXML private JFXNodesList taskAssigneesNodesList;
+    @FXML private BorderPane taskInfoBorderPane;
 
     public TaskCell() {
 
@@ -107,8 +115,35 @@ public class TaskCell extends ListCell<Task> {
         }
 
         /* TODO: Populate the TaskCell view here */
-        taskNameLabel.setText(taskItem.getName());
+        updateTaskInfo(taskItem);
         setGraphic(taskCellVBox);
 
     }
+
+    /**
+     * Updates all TaskCell controls with a given TaskItem Model.
+     *
+     * @param taskItem TaskItem Which the cell will be populated with its values.
+     */
+    private void updateTaskInfo(Task taskItem) {
+
+        taskNameLabel.setText(taskItem.getName());
+
+        if (taskItem.getDueDate() == null && !taskItem.isCompleted()
+                && taskItem.getDescription() == null && taskItem.getAssignees() == null)
+            taskCellVBox.getChildren().remove(taskInfoBorderPane);
+
+        if (taskItem.getDueDate() == null)
+            taskIconsFlowPane.getChildren().remove(2);
+
+        if (!taskItem.isCompleted())
+            taskIconsFlowPane.getChildren().remove(1);
+
+        if (taskItem.getDescription() == null)
+            taskIconsFlowPane.getChildren().remove(0);
+
+        if (taskItem.getAssignees() == null)
+            taskAssigneesNodesList.setVisible(false);
+    }
+
 }
