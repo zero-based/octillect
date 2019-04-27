@@ -17,10 +17,14 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import octillect.models.Task;
+import octillect.styles.Palette;
 
 public class TaskCell extends ListCell<Task> {
 
@@ -144,6 +148,50 @@ public class TaskCell extends ListCell<Task> {
 
         if (taskItem.getAssignees() == null)
             taskAssigneesNodesList.setVisible(false);
+        else
+            updateAssigneesNodesList(taskItem, taskAssigneesNodesList);
+    }
+
+    /**
+     * Populates the TaskCell's AssigneesNodesList with Task Assignees' images according to specific conditions.
+     *
+     * @param taskItem  Task item which we need to populate it's assignees NodesList.
+     * @param nodesList NodesList Control which will be controlled.
+     */
+    private void updateAssigneesNodesList(Task taskItem, JFXNodesList nodesList) {
+        for (int i = 0; i < 4 && taskItem.getAssignees().size() != i; i++) {
+
+            Circle circle = new Circle();
+            circle.setRadius(16);
+            circle.setFill(new ImagePattern(taskItem.getAssignees().get(i).getImage()));
+            circle.setStrokeWidth(1.8);
+            circle.setStroke(Palette.DARK_300);
+
+            nodesList.getChildren().add(circle);
+        }
+
+        if (taskItem.getAssignees().size() > 1) {
+            StackPane stackPane = new StackPane();
+
+            Circle circle = new Circle();
+            circle.setRadius(16);
+            circle.setFill(Palette.PRIMARY_DARK);
+            circle.setStrokeWidth(1.8);
+            circle.setStroke(Palette.DARK_300);
+            stackPane.getChildren().add(circle);
+
+            Label label = new Label();
+            if (taskItem.getAssignees().size() <= 9)
+                label.setText(String.valueOf(taskItem.getAssignees().size()));
+            else
+                label.setText("9+");
+            
+            label.setTextFill(Palette.DARK_300);
+
+            stackPane.getChildren().add(label);
+
+            nodesList.getChildren().add(0, stackPane);
+        }
     }
 
 }
