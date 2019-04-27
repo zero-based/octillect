@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXNodesList;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -119,7 +120,6 @@ public class TaskCell extends ListCell<Task> {
             e.printStackTrace();
         }
 
-        /* TODO: Populate the TaskCell view here */
         updateTaskInfo(taskItem);
         setGraphic(taskCellVBox);
 
@@ -198,7 +198,8 @@ public class TaskCell extends ListCell<Task> {
     }
 
     /**
-     * Populates the TaskCell's dueDateLabel with Task DueDate formatted with d-MMM Capitalized Date Format.
+     * Populates the TaskCell's dueDateLabel with Task DueDate formatted with d-MMM Capitalized Date Format,
+     * and sets the Label's TextFill to Palette.DANGER if the Due Date is Past.
      *
      * @param taskItem         Task item which we need to populate it's assignees dueDateLabel.
      * @param taskDueDateLabel Label Control which will be controlled.
@@ -207,6 +208,12 @@ public class TaskCell extends ListCell<Task> {
         SimpleDateFormat sdf = new SimpleDateFormat("d-MMM");
         String date = sdf.format(taskItem.getDueDate().getTime());
         taskDueDateLabel.setText(date.toUpperCase());
+
+        /* Set the Label's TextFill to Palette.DANGER if the Due Date is Past. */
+        if(taskItem.getDueDate().before(Calendar.getInstance().getTime())) {
+            taskDueDateLabel.textFillProperty().unbind();
+            taskDueDateLabel.setTextFill(Palette.DANGER);
+        }
     }
 
 }
