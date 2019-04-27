@@ -4,10 +4,10 @@
     -fx-font-family: 'Product Sans';
 	-fx-font-weight: bold;
 	-fx-font-size: 18;
-  	-fx-border-radius: 50;
-  	-fx-padding: 5 10 5 10;
-  	-fx-background-radius: 50;
-  	-fx-text-fill: white;
+	-fx-text-fill: white;
+  	-fx-background-radius: 50ex;
+  	-fx-border-radius: 50ex;
+  	-fx-padding: 8 16 8 16;
 }
 
 .o-button > * {

@@ -4,7 +4,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -20,157 +20,150 @@
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.201"
-           xmlns:fx="http://javafx.com/fxml/1"
+<StackPane xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.SignInController"
+           fx:id="signingStackPane"
            stylesheets="@/octillect/styles/Palette.css"
-           prefWidth="1024"
-           prefHeight="768"
            style="-fx-background-color: -o-dark-900;">
 
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
 
+    <!--Background Image-->
+    <ImageView fx:id="backgroundImageView" translateX="${signingStackPane.width * -0.5}">
+        <image>
+            <Image url="/octillect/resources/o-bg-1024x768.png"/>
+        </image>
+    </ImageView>
+
     <!--Sign In Controls-->
     <HBox fx:id="signInHBox" alignment="CENTER_RIGHT">
 
-        <VBox alignment="CENTER" prefWidth="632">
+        <GridPane alignment="center"
+                  hgap="16"
+                  vgap="32"
+                  prefWidth="${signInHBox.width * 0.6}"
+                  style="-fx-background-color: -o-dark-900;">
 
-            <GridPane alignment="center"
-                      hgap="15"
-                      vgap="35"
-                      prefWidth="560">
+            <MaterialDesignIconView glyphName="ACCOUNT"
+                                    GridPane.rowIndex="0"
+                                    GridPane.columnIndex="1"
+                                    GridPane.halignment="CENTER"
+                                    size="96"
+                                    glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <FontAwesomeIconView glyphName="USER"
-                                     GridPane.halignment="CENTER"
-                                     GridPane.rowIndex="0"
-                                     GridPane.columnIndex="1"
-                                     size="100"
-                                     glyphStyle="-fx-fill: -o-dark-500;"/>
+            <JFXTextField fx:id="emailTextField"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"
+                          promptText="Email"
+                          prefColumnCount="30"
+                          focusColor="${Palette.PRIMARY}"
+                          style="-fx-text-inner-color: -o-dark-300"
+                          labelFloat="true"/>
 
-                <JFXTextField fx:id="emailTextField"
-                              promptText="Email"
-                              GridPane.rowIndex="1"
+            <MaterialDesignIconView glyphName="EMAIL"
+                                    GridPane.columnIndex="0"
+                                    GridPane.rowIndex="1"
+                                    size="16pt"
+                                    translateY="4"
+                                    glyphStyle="-fx-fill: -o-dark-500;"/>
+
+            <JFXPasswordField fx:id="passwordTextField"
+                              GridPane.rowIndex="2"
                               GridPane.columnIndex="1"
-                              GridPane.halignment="LEFT"
+                              promptText="Password"
                               prefColumnCount="30"
                               focusColor="${Palette.PRIMARY}"
                               style="-fx-text-inner-color: -o-dark-300"
                               labelFloat="true"/>
 
-                <FontAwesomeIconView glyphName="ENVELOPE"
-                                     size="12pt"
-                                     textAlignment="RIGHT"
-                                     GridPane.rowIndex="1"
-                                     glyphStyle="-fx-fill: -o-dark-500;"/>
+            <MaterialDesignIconView glyphName="LOCK"
+                                    GridPane.columnIndex="0"
+                                    GridPane.rowIndex="2"
+                                    size="16pt"
+                                    translateY="4"
+                                    glyphStyle="-fx-fill: -o-dark-500;"/>
 
-                <JFXPasswordField fx:id="passwordTextField"
-                                  promptText="Password"
-                                  GridPane.rowIndex="2"
-                                  GridPane.columnIndex="1"
-                                  prefColumnCount="30"
-                                  focusColor="${Palette.PRIMARY}"
-                                  style="-fx-text-inner-color: -o-dark-300"
-                                  labelFloat="true"/>
+            <HBox GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <children>
+                    <JFXCheckBox fx:id="keepMeSignedInCheckBox"
+                                 checkedColor="${Palette.PRIMARY}"
+                                 textFill="${Palette.PRIMARY_DARK}"/>
+                    <VBox>
+                        <children>
+                            <Label text="Keep me signed in"
+                                   textFill="${Palette.PRIMARY_DARK}"/>
+                            <Label text="Uncheck if using a public device."
+                                   textFill="${Palette.DARK_500}"/>
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
 
-                <FontAwesomeIconView glyphName="LOCK"
-                                     GridPane.columnIndex="0"
-                                     GridPane.rowIndex="2"
-                                     size="12pt"
-                                     glyphStyle="-fx-fill: -o-dark-500;"/>
+            <OButton fx:id="signInButton"
+                     GridPane.rowIndex="4"
+                     GridPane.columnIndex="1"
+                     GridPane.halignment="CENTER"
+                     prefWidth="356"
+                     text="Sign In"
+                     color="PRIMARY"
+                     fill="TRUE"
+                     onAction="#handleSignInButtonAction"/>
 
-                <HBox GridPane.rowIndex="3"
-                      GridPane.columnIndex="1">
-                    <children>
-                        <JFXCheckBox fx:id="keepMeSignedInCheckBox"
-                                     checkedColor="${Palette.PRIMARY}"
-                                     textFill="${Palette.PRIMARY_DARK}"/>
-                        <VBox>
-                            <children>
-                                <Label text="Keep me signed in"
-                                       textFill="${Palette.PRIMARY_DARK}"/>
-                                <Label text="Uncheck if using a public device."
-                                       textFill="${Palette.DARK_500}"/>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
+            <HBox GridPane.rowIndex="5"
+                  GridPane.columnIndex="1"
+                  GridPane.halignment="CENTER"
+                  alignment="CENTER">
 
-                <OButton fx:id="signInButton"
-                         text="Sign In"
-                         onAction="#handleSignInButtonAction"
-                         color="PRIMARY"
-                         fill="TRUE"
-                         prefHeight="45"
-                         prefWidth="350"
-                         GridPane.rowIndex="4"
-                         GridPane.columnIndex="1"
-                         GridPane.halignment="CENTER"/>
+                <Separator prefWidth="144" opacity=".64"/>
+                <Label alignment="CENTER"
+                       prefWidth="56"
+                       text="or"
+                       textFill="${Palette.DARK_300}"/>
+                <Separator prefWidth="144" opacity=".64"/>
 
-                <HBox GridPane.rowIndex="5"
-                      GridPane.halignment="CENTER"
-                      GridPane.valignment="BASELINE"
-                      GridPane.columnIndex="1"
-                      alignment="CENTER">
+            </HBox>
 
-                    <Separator prefWidth="150"/>
-                    <Label prefWidth="50"
-                           text="or"
-                           textFill="${Palette.DARK_300}"
-                           alignment="CENTER"/>
-                    <Separator prefWidth="150"/>
+            <OButton fx:id="signInWithGitHubButton"
+                     GridPane.rowIndex="6"
+                     GridPane.columnIndex="1"
+                     GridPane.halignment="CENTER"
+                     prefWidth="356"
+                     text="  Sign In with GitHub"
+                     color="DARK_500"
+                     fill="FALSE"
+                     onAction="#handleSignInWithGitHubButtonAction">
+                <graphic>
+                    <MaterialDesignIconView glyphName="GITHUB_CIRCLE" size="20pt"/>
+                </graphic>
+            </OButton>
 
-                </HBox>
+            <HBox GridPane.rowIndex="7"
+                  GridPane.columnIndex="1"
+                  alignment="CENTER">
 
-                <OButton fx:id="signInWithGitHubButton"
-                         onAction="#handleSignInWithGitHubButtonAction"
-                         text="  Sign In with GitHub"
-                         prefWidth="350"
-                         GridPane.rowIndex="6"
-                         GridPane.columnIndex="1"
-                         GridPane.halignment="CENTER"
-                         fill="FALSE"
-                         color="DARK_500">
-                    <graphic>
-                        <FontAwesomeIconView glyphName="GITHUB" size="20pt"/>
-                    </graphic>
-                </OButton>
+                <Label text="Don't have an account? " textFill="${Palette.DARK_500}">
+                    <font>
+                        <Font name="System Bold" size="12"/>
+                    </font>
+                </Label>
 
-                <HBox GridPane.rowIndex="7"
-                      GridPane.columnIndex="1"
-                      alignment="CENTER">
+                <Hyperlink fx:id="createAnAccountButton"
+                           text="Create an account"
+                           textFill="${Palette.PRIMARY}"
+                           focusTraversable="false"
+                           onAction="#handleCreateAnAccountAction">
+                    <font>
+                        <Font name="System Bold" size="12"/>
+                    </font>
+                </Hyperlink>
 
-                    <Label text="Don't have an account? "
-                           textFill="${Palette.DARK_500}">
-                        <font>
-                            <Font name="System Bold" size="12"/>
-                        </font>
-                    </Label>
+            </HBox>
 
-                    <Hyperlink id="createAnAccountButton"
-                               text="Create an account"
-                               onAction="#handleCreateAnAccountAction"
-                               textFill="${Palette.PRIMARY}"
-                               focusTraversable="false">
-                        <font>
-                            <Font name="System Bold" size="12"/>
-                        </font>
-                    </Hyperlink>
-
-                </HBox>
-
-            </GridPane>
-
-        </VBox>
+        </GridPane>
 
     </HBox>
-
-    <!--Background Image-->
-    <ImageView fx:id="backgroundImageView" translateX="-512">
-        <image>
-            <Image url="/octillect/resources/o-bg-1024x768.png" />
-        </image>
-    </ImageView>
 
 </StackPane>

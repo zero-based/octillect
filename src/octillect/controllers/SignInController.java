@@ -9,6 +9,7 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -23,13 +24,14 @@ import octillect.styles.Animation;
 public class SignInController {
 
     @FXML private HBox signInHBox;
-    @FXML private OButton signInButton;
-    @FXML private OButton createAnAccountButton;
-    @FXML private OButton signInWithGitHubButton;
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
-    @FXML private ImageView backgroundImageView;
     @FXML private JFXCheckBox keepMeSignedInCheckBox;
+    @FXML private OButton signInButton;
+    @FXML private OButton signInWithGitHubButton;
+    @FXML private Hyperlink createAnAccountButton;
+    @FXML private ImageView backgroundImageView;
+
 
     private RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
     private RegexValidator passwordValidator              = new RegexValidator();
