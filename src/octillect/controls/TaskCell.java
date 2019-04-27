@@ -2,6 +2,7 @@ package octillect.controls;
 
 import com.jfoenix.controls.JFXNodesList;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,6 +140,8 @@ public class TaskCell extends ListCell<Task> {
 
         if (taskItem.getDueDate() == null)
             taskIconsFlowPane.getChildren().remove(2);
+        else
+            updateDueDateLabel(taskItem, taskDueDateLabel);
 
         if (!taskItem.isCompleted())
             taskIconsFlowPane.getChildren().remove(1);
@@ -192,6 +195,18 @@ public class TaskCell extends ListCell<Task> {
 
             nodesList.getChildren().add(0, stackPane);
         }
+    }
+
+    /**
+     * Populates the TaskCell's dueDateLabel with Task DueDate formatted with d-MMM Capitalized Date Format.
+     *
+     * @param taskItem         Task item which we need to populate it's assignees dueDateLabel.
+     * @param taskDueDateLabel Label Control which will be controlled.
+     */
+    private void updateDueDateLabel(Task taskItem, Label taskDueDateLabel) {
+        SimpleDateFormat sdf = new SimpleDateFormat("d-MMM");
+        String date = sdf.format(taskItem.getDueDate().getTime());
+        taskDueDateLabel.setText(date.toUpperCase());
     }
 
 }
