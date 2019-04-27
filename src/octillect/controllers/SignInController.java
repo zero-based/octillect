@@ -84,29 +84,34 @@ public class SignInController {
         emailTextField.getValidators().add(requiredFieldValidator);
         emailTextField.validate();
 
-        User user = UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText()));
 
         if (requiredFieldValidator.getHasErrors()) {
             signInButton.setOnAction(null);
-        } else if (user != null) {
-
-            // Check if the user entered the right email and password
-            if (user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
-                Main.runApplication(user);
-                /* if a validated user check keepMeSignedInCheckBox, his/her data will be saved in octillect's file. */
-                if (keepMeSignedInCheckBox.isSelected())
-                    UserRepository.rememberUser(user);
-            } else {
-                passwordValidator.setMessage("Incorrect Password!");
-                passwordTextField.getValidators().add(passwordValidator);
-                passwordTextField.validate();
-                signInButton     .setOnAction(null);
-            }
         } else {
-            emailValidator.setMessage("That Octillect account doesn't exist.");
-            emailTextField.getValidators().add(emailValidator);
-            emailTextField.validate();
-            signInButton  .setOnAction(null);
+
+            User user = UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText()));
+
+            if (user != null) {
+                // Check if the user entered the right email and password
+                if (user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
+                    Main.runApplication(user);
+
+                    /* if a validated user check keepMeSignedInCheckBox, his/her data will be saved in octillect's file. */
+                    if (keepMeSignedInCheckBox.isSelected())
+                        UserRepository.rememberUser(user);
+
+                } else {
+                    passwordValidator.setMessage("Incorrect Password!");
+                    passwordTextField.getValidators().add(passwordValidator);
+                    passwordTextField.validate();
+                    signInButton.setOnAction(null);
+                }
+            } else {
+                emailValidator.setMessage("This account doesn't exist.");
+                emailTextField.getValidators().add(emailValidator);
+                emailTextField.validate();
+                signInButton.setOnAction(null);
+            }
         }
     }
 
