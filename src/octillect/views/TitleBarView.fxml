@@ -12,8 +12,8 @@
 
 <?import octillect.styles.Palette?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx/"
+            xmlns:fx="http://javafx.com/fxml/"
             fx:controller="octillect.controllers.TitleBarController"
             stylesheets="@/octillect/styles/Palette.css"
             style="-fx-background-color: -o-dark-900;">

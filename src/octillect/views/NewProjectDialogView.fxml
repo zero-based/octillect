@@ -11,8 +11,8 @@
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
 
-<JFXDialog xmlns="http://javafx.com/javafx/8.0.201"
-           xmlns:fx="http://javafx.com/fxml/1"
+<JFXDialog xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.NewProjectDialogController"
            fx:id="newProjectDialog"
            stylesheets="@/octillect/styles/Palette.css"

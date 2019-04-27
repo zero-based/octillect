@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <StackPane xmlns="http://javafx.com/javafx/"
-           xmlns:fx="http://javafx.com/fxml/1"
+           xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.ApplicationController"
            fx:id="rootStackPane">
 

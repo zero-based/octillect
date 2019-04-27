@@ -2,9 +2,10 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 
-<JFXDrawer xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:id="rightDrawer"
+<JFXDrawer xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.RightDrawerController"
+           fx:id="rightDrawer"
+           stylesheets="@/octillect/styles/Palette.css"
            direction="RIGHT"
            defaultDrawerSize="640"/>
