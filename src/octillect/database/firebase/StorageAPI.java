@@ -28,11 +28,11 @@ public class StorageAPI {
      * @param imageStorageName The Name which the image will be uploaded by in the database.
      */
     public static void uploadImage(BufferedImage bufferedImage, String storageFolder, String imageStorageName) {
-        String storagePath = storageFolder + imageStorageName + ".jpg";
+        String storagePath = storageFolder + imageStorageName + ".png";
         try {
             // Convert Image to InputStream
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", outputStream);
+            ImageIO.write(bufferedImage, "png", outputStream);
             byte[] imageByteArray = outputStream.toByteArray();
             InputStream inputStream = new ByteArrayInputStream(imageByteArray);
 
@@ -46,7 +46,7 @@ public class StorageAPI {
     // Search for image by name on CloudStorage and return it as an Image data type
     public static Image selectImage(String folder, String imageStorageName) {
         try {
-            byte[] imageByteArray = storageClient.bucket().get(folder + imageStorageName + ".jpg").getContent();
+            byte[] imageByteArray = storageClient.bucket().get(folder + imageStorageName + ".png").getContent();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByteArray);
             return new Image(byteArrayInputStream);
         } catch (Exception e) {
@@ -56,11 +56,11 @@ public class StorageAPI {
 
     // Delete image by name from CloudStorage
     public static void deleteImage(String folder, String imageStorageName) {
-        storageClient.bucket().get(folder + imageStorageName + ".jpg").delete();
+        storageClient.bucket().get(folder + imageStorageName + ".png").delete();
     }
 
     // Download image to the Local by image name
     public static void downloadImage(String folder, String imageStorageName, String downloadPath) {
-        storageClient.bucket().get(folder + imageStorageName + ".jpg").downloadTo(Paths.get(downloadPath));
+        storageClient.bucket().get(folder + imageStorageName + ".png").downloadTo(Paths.get(downloadPath));
     }
 }

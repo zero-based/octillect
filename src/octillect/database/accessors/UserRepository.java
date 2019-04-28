@@ -38,9 +38,11 @@ public class UserRepository {
 
     public static User get(String id) {
         User user = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(User.class);
-        Image image = getImage(id);
-        if (image != null)
-            user.setImage(image);
+        if (user != null) {
+            Image image = getImage(id);
+            if (image != null)
+                user.setImage(image);
+        }
         return user;
     }
 
