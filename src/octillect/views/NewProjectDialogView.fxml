@@ -16,7 +16,8 @@
            fx:controller="octillect.controllers.NewProjectDialogController"
            fx:id="newProjectDialog"
            stylesheets="@/octillect/styles/Palette.css"
-           transitionType="CENTER">
+           transitionType="CENTER"
+           onDialogClosed="#handleNewProjectDialogClosed">
 
     <fx:define>
         <Palette fx:id="Palette"/>
