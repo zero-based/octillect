@@ -2,14 +2,14 @@
 
 <?import com.jfoenix.controls.JFXTextField?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/"
             xmlns:fx="http://javafx.com/fxml/"
@@ -32,26 +32,25 @@
                           promptText="Search"
                           prefColumnCount="30"
                           focusColor="${Palette.PRIMARY}"
-                          style="-fx-text-inner-color: -o-dark-300"
-                          labelFloat="true"/>
+                          style="-fx-text-inner-color: -o-dark-300"/>
 
-            <MaterialDesignIconView fx:id="gitHubIcon"
-                                    glyphName="GITHUB_CIRCLE"
-                                    fill="${Palette.DARK_300}"
-                                    size="22pt"
-                                    onMouseClicked="#handleGitHubIconAction"/>
+            <FontIcon fx:id="gitHubIcon"
+                      iconLiteral="oct-mark-github"
+                      iconSize="22"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleGitHubIconMouseClicked"/>
 
-            <MaterialDesignIconView fx:id="calendarIcon"
-                                    glyphName="CALENDAR"
-                                    fill="${Palette.DARK_300}"
-                                    size="22pt"
-                                    onMouseClicked="#handleCalendarIconAction"/>
+            <FontIcon fx:id="calendarIcon"
+                      iconLiteral="gmi-today"
+                      iconSize="24"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleCalendarIconMouseClicked"/>
 
-            <MaterialDesignIconView fx:id="addColumnIcon"
-                                    glyphName="PLUS_CIRCLE"
-                                    fill="${Palette.DARK_300}"
-                                    size="22pt"
-                                    onMouseClicked="#handleAddColumnIconAction"/>
+            <FontIcon fx:id="addColumnIcon"
+                      iconLiteral="gmi-add-circle"
+                      iconSize="24"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleAddColumnIconMouseClicked"/>
 
         </HBox>
     </top>

@@ -2,8 +2,6 @@
 
 <?import com.jfoenix.controls.JFXNodesList?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,6 +11,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml/"
@@ -37,12 +37,12 @@
         </left>
 
         <right>
-            <MaterialDesignIconView fx:id="moreButtonIcon"
-                                    glyphName="DOTS_VERTICAL"
-                                    fill="${Palette.DARK_300}"
-                                    size="20"
-                                    translateY="4"
-                                    opacity="0"/>
+            <FontIcon fx:id="moreButtonIcon"
+                      iconLiteral="gmi-more-vert"
+                      iconSize="20"
+                      iconColor="${Palette.DARK_300}"
+                      translateY="4"
+                      opacity="0"/>
         </right>
 
     </BorderPane>
@@ -52,13 +52,13 @@
         <left>
             <FlowPane fx:id="taskIconsFlowPane" hgap="10" prefWidth="256" alignment="BOTTOM_LEFT">
 
-                <MaterialDesignIconView glyphName="COMMENT_TEXT"
-                                        size="20"
-                                        fill="${Palette.DARK_300}"/>
+                <FontIcon iconLiteral="gmi-format-align-left"
+                          iconSize="20"
+                          iconColor="${Palette.DARK_300}"/>
 
-                <MaterialDesignIconView glyphName="CHECKBOX_MARKED"
-                                        size="20"
-                                        fill="${Palette.DARK_300}"/>
+                <FontIcon iconLiteral="gmi-check-box"
+                          iconSize="20"
+                          iconColor="${Palette.DARK_300}"/>
 
                 <Label fx:id="taskDueDateLabel"
                        textFill="${Palette.DARK_300}"

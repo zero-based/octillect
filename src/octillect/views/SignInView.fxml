@@ -4,8 +4,6 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -19,6 +17,8 @@
 
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
@@ -43,16 +43,23 @@
 
         <GridPane alignment="center"
                   hgap="16"
-                  vgap="32"
+                  vgap="40"
                   prefWidth="${signInHBox.width * 0.6}"
                   style="-fx-background-color: -o-dark-900;">
 
-            <MaterialDesignIconView glyphName="ACCOUNT"
-                                    GridPane.rowIndex="0"
-                                    GridPane.columnIndex="1"
-                                    GridPane.halignment="CENTER"
-                                    size="96"
-                                    glyphStyle="-fx-fill: -o-dark-500;"/>
+            <FontIcon GridPane.rowIndex="0"
+                      GridPane.columnIndex="1"
+                      GridPane.halignment="CENTER"
+                      iconLiteral="gmi-account-circle"
+                      iconSize="96"
+                      iconColor="${Palette.DARK_500}"/>
+
+            <FontIcon GridPane.rowIndex="1"
+                      GridPane.columnIndex="0"
+                      iconLiteral="gmi-email"
+                      iconSize="22"
+                      iconColor="${Palette.DARK_500}"
+                      translateY="4"/>
 
             <JFXTextField fx:id="emailTextField"
                           GridPane.rowIndex="1"
@@ -63,12 +70,12 @@
                           style="-fx-text-inner-color: -o-dark-300"
                           labelFloat="true"/>
 
-            <MaterialDesignIconView glyphName="EMAIL"
-                                    GridPane.columnIndex="0"
-                                    GridPane.rowIndex="1"
-                                    size="16pt"
-                                    translateY="4"
-                                    glyphStyle="-fx-fill: -o-dark-500;"/>
+            <FontIcon GridPane.rowIndex="2"
+                      GridPane.columnIndex="0"
+                      iconLiteral="gmi-lock"
+                      iconSize="22"
+                      iconColor="${Palette.DARK_500}"
+                      translateY="4"/>
 
             <JFXPasswordField fx:id="passwordTextField"
                               GridPane.rowIndex="2"
@@ -78,13 +85,6 @@
                               focusColor="${Palette.PRIMARY}"
                               style="-fx-text-inner-color: -o-dark-300"
                               labelFloat="true"/>
-
-            <MaterialDesignIconView glyphName="LOCK"
-                                    GridPane.columnIndex="0"
-                                    GridPane.rowIndex="2"
-                                    size="16pt"
-                                    translateY="4"
-                                    glyphStyle="-fx-fill: -o-dark-500;"/>
 
             <HBox GridPane.rowIndex="3" GridPane.columnIndex="1">
                 <children>
@@ -136,7 +136,7 @@
                      fill="FALSE"
                      onAction="#handleSignInWithGitHubButtonAction">
                 <graphic>
-                    <MaterialDesignIconView glyphName="GITHUB_CIRCLE" size="20pt"/>
+                    <FontIcon iconLiteral="oct-mark-github" iconSize="22"/>
                 </graphic>
             </OButton>
 

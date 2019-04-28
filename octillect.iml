@@ -10,10 +10,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="com.jfoenix:jfoenix:8.0.8" level="project" />
-    <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-admin:6.8.0" level="project" />
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
     <orderEntry type="library" name="org.slf4j:slf4j-nop:1.7.26" level="project" />
+    <orderEntry type="library" name="org.kordamp.ikonli:ikonli-material-pack:2.2.0" level="project" />
+    <orderEntry type="library" name="org.kordamp.ikonli:ikonli-javafx:2.2.0" level="project" />
+    <orderEntry type="library" name="org.kordamp.ikonli:ikonli-octicons-pack:2.2.0" level="project" />
   </component>
 </module>

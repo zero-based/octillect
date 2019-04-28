@@ -43,10 +43,12 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
         projectController          = applicationController.projectController;
     }
 
+    @FXML
     public void handleAddProjectButtonAction(ActionEvent actionEvent) {
         newProjectNameTextField.validate();
     }
 
+    @FXML
     public void handleNewProjectDialogClosed(JFXDialogEvent jfxDialogEvent) {
         newProjectNameTextField.resetValidation();
         newProjectNameTextField.setText("");

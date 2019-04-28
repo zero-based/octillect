@@ -2,8 +2,6 @@
 
 <?import com.jfoenix.controls.JFXHamburger?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,6 +9,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/"
             xmlns:fx="http://javafx.com/fxml/"
@@ -31,13 +31,11 @@
                       alignment="CENTER_LEFT"
                       prefWidth="160"
                       stylesheets="@/octillect/styles/HamburgerButton.css"
-                      onMouseClicked="#handleHamburgerButtonAction"/>
+                      onMouseClicked="#handleHamburgerButtonMouseClicked"/>
     </left>
 
     <center>
-        <Label fx:id="projectNameLabel"
-               text="Octillect"
-               textFill="${Palette.DARK_300}">
+        <Label fx:id="projectNameLabel" textFill="${Palette.DARK_300}">
             <font>
                 <Font name="Product Sans Regular" size="26"/>
             </font>
@@ -49,23 +47,23 @@
               prefWidth="160"
               spacing="16">
 
-            <MaterialDesignIconView fx:id="notificationIcon"
-                                    size="22pt"
-                                    glyphName="BELL"
-                                    fill="${Palette.DARK_300}"
-                                    onMouseClicked="#handleNotificationIconAction"/>
+            <FontIcon fx:id="settingsIcon"
+                      iconLiteral="gmi-settings"
+                      iconSize="26"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleSettingsIconMouseClicked"/>
 
-            <MaterialDesignIconView fx:id="settingsIcon"
-                                    size="22pt"
-                                    glyphName="SETTINGS"
-                                    fill="${Palette.DARK_300}"
-                                    onMouseClicked="#handleSettingsIconAction"/>
+            <FontIcon fx:id="notificationIcon"
+                      iconLiteral="gmi-notifications"
+                      iconSize="26"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleNotificationIconMouseClicked"/>
 
-            <MaterialDesignIconView fx:id="userIcon"
-                                    size="22pt"
-                                    glyphName="ACCOUNT"
-                                    fill="${Palette.DARK_300}"
-                                    onMouseClicked="#handleUserIconAction"/>
+            <FontIcon fx:id="userIcon"
+                      iconLiteral="gmi-account-circle"
+                      iconSize="26"
+                      iconColor="${Palette.DARK_300}"
+                      onMouseClicked="#handleUserIconMouseClicked"/>
 
         </HBox>
     </right>

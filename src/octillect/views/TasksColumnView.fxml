@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,6 +8,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml/"
@@ -47,15 +47,15 @@
         <right>
             <HBox>
 
-                <MaterialDesignIconView fx:id="addButtonIcon"
-                                        glyphName="PLUS_CIRCLE"
-                                        glyphSize="24"
-                                        fill="${Palette.PRIMARY}"/>
+                <FontIcon fx:id="addButtonIcon"
+                          iconLiteral="gmi-add-circle"
+                          iconSize="18"
+                          iconColor="${Palette.PRIMARY}"/>
 
-                <MaterialDesignIconView fx:id="moreButtonIcon"
-                                        glyphName="DOTS_VERTICAL"
-                                        glyphSize="24"
-                                        fill="${Palette.PRIMARY}"/>
+                <FontIcon fx:id="moreButtonIcon"
+                          iconLiteral="gmi-more-vert"
+                          iconSize="24"
+                          iconColor="${Palette.PRIMARY}"/>
 
             </HBox>
         </right>
