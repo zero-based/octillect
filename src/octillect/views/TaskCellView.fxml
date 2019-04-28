@@ -75,13 +75,6 @@
             <JFXNodesList fx:id="taskAssigneesNodesList"
                           rotate="90"
                           spacing="-10">
-
-                <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
-                <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
-                <StackPane>
-                    <Circle fill="${Palette.PRIMARY}" radius="16" stroke="${Palette.DARK_300}" strokeWidth="1.8"/>
-                    <Label text="9+" textFill="white"/>
-                </StackPane>
             </JFXNodesList>
         </right>
 
