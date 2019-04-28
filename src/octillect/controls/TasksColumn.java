@@ -15,15 +15,28 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import octillect.controllers.ApplicationController;
+import octillect.controllers.NewTaskDialogController;
 import octillect.models.Column;
+
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TasksColumn extends ListCell<Column> {
 
     @FXML private VBox tasksColumnVBox;
     @FXML private Label columnNameLabel;
     @FXML private ListView tasksListView;
+    @FXML private FontIcon addButtonIcon;
 
-    public TasksColumn() {
+    // Injected Controllers
+    private ApplicationController applicationController;
+    private NewTaskDialogController newTaskDialogController;
+
+    public TasksColumn(ApplicationController applicationController) {
+
+        // Inject Controllers
+        this.applicationController = applicationController;
+        newTaskDialogController = applicationController.newTaskDialogController;
 
         setOnDragDetected(event -> {
             if (getItem() != null) {
@@ -90,6 +103,10 @@ public class TasksColumn extends ListCell<Column> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        addButtonIcon.setOnMouseClicked(event -> {
+            newTaskDialogController.newTaskDialog.show(this.applicationController.rootStackPane);
+        });
 
         /* TODO: Populate the TasksColumn view here */
         columnNameLabel.setText(columnItem.getName());
