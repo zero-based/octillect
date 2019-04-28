@@ -2,8 +2,6 @@ package octillect.controllers;
 
 import com.jfoenix.controls.JFXTextField;
 
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -11,14 +9,16 @@ import javafx.scene.input.MouseEvent;
 import octillect.controls.TasksColumn;
 import octillect.models.Project;
 
+import org.kordamp.ikonli.javafx.FontIcon;
+
 public class ProjectController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public ListView projectListView;
     @FXML public JFXTextField searchTextField;
-    @FXML public MaterialDesignIconView gitHubIcon;
-    @FXML public MaterialDesignIconView calendarIcon;
-    @FXML public MaterialDesignIconView addColumnIcon;
+    @FXML public FontIcon gitHubIcon;
+    @FXML public FontIcon calendarIcon;
+    @FXML public FontIcon addColumnIcon;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -41,13 +41,16 @@ public class ProjectController implements Injectable<ApplicationController> {
 
     }
 
-    public void handleGitHubIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleGitHubIconMouseClicked(MouseEvent mouseEvent) {
     }
 
-    public void handleCalendarIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleCalendarIconMouseClicked(MouseEvent mouseEvent) {
     }
 
-    public void handleAddColumnIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleAddColumnIconMouseClicked(MouseEvent mouseEvent) {
     }
 
 }

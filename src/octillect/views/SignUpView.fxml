@@ -3,14 +3,14 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.shape.Circle?>
 
 <?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <HBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
@@ -39,9 +39,7 @@
                  translateY="8"
                  onAction="#handleBackButtonAction">
             <graphic>
-                <MaterialDesignIconView glyphName="ARROW_LEFT"
-                                        size="22"
-                                        glyphStyle="-fx-fill: -o-dark-500"/>
+                <FontIcon iconLiteral="gmi-arrow-back" iconSize="22"/>
             </graphic>
         </OButton>
 
@@ -62,7 +60,7 @@
                  color="DARK_500"
                  onAction="#handleImageButtonAction">
             <graphic>
-                <MaterialDesignIconView glyphName="CAMERA" size="48"/>
+                <FontIcon iconLiteral="gmi-add-a-photo" iconSize="48"/>
             </graphic>
         </OButton>
 

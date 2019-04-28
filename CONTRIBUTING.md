@@ -686,7 +686,7 @@ Use the following colors:
 
 1. [JFoenix](http://www.jfoenix.com/)
 1. [Java API for GitHub](https://github-api.kohsuke.org/)
-1. [FontawesomeFX](https://bitbucket.org/Jerady/fontawesomefx)
+1. [Ikonli](http://aalmiray.github.io/ikonli/)
 1. [Firebase Admin SDK](https://github.com/firebase/firebase-admin-java)
 1. [gson](https://github.com/google/gson)
 

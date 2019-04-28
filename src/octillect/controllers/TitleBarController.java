@@ -3,20 +3,20 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TitleBarController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public JFXHamburger hamburgerButton;
     @FXML public Label projectNameLabel;
-    @FXML public MaterialDesignIconView notificationIcon;
-    @FXML public MaterialDesignIconView settingsIcon;
-    @FXML public MaterialDesignIconView userIcon;
+    @FXML public FontIcon notificationIcon;
+    @FXML public FontIcon settingsIcon;
+    @FXML public FontIcon userIcon;
 
     private HamburgerBackArrowBasicTransition hamburgerTransition;
 
@@ -38,21 +38,25 @@ public class TitleBarController implements Injectable<ApplicationController> {
         hamburgerTransition.setRate(-1);
     }
 
-    public void handleHamburgerButtonAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleHamburgerButtonMouseClicked(MouseEvent mouseEvent) {
         hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
         hamburgerTransition.play();
         applicationController.drawersStack.toggle(leftDrawerController.leftDrawer);
     }
 
-    public void handleNotificationIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleNotificationIconMouseClicked(MouseEvent mouseEvent) {
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
-    public void handleSettingsIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleSettingsIconMouseClicked(MouseEvent mouseEvent) {
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
-    public void handleUserIconAction(MouseEvent mouseEvent) {
+    @FXML
+    public void handleUserIconMouseClicked(MouseEvent mouseEvent) {
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 

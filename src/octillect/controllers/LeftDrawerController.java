@@ -1,6 +1,5 @@
 package octillect.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 
 import javafx.collections.FXCollections;
@@ -18,11 +17,13 @@ import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.ProjectBuilder;
 import octillect.models.builders.TaskBuilder;
 
+import org.kordamp.ikonli.javafx.FontIcon;
+
 public class LeftDrawerController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public JFXDrawer leftDrawer;
-    @FXML public JFXButton addNewProjectButton;
+    @FXML public FontIcon addNewProjectIcon;
     @FXML public ListView<Project> userProjectsListView;
 
     // Injected Controllers
@@ -105,10 +106,12 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         });
     }
 
-    public void handleAddNewProjectButtonAction(ActionEvent actionEvent) {
+    @FXML
+    public void handleAddNewProjectIconMouseClicked(MouseEvent mouseEvent) {
         newProjectDialogController.newProjectDialog.show(applicationController.rootStackPane);
     }
 
+    @FXML
     public void handleUserProjectsListViewMouseClicked(MouseEvent mouseEvent) {
         projectController.loadProject(userProjectsListView.getSelectionModel().getSelectedItem());
     }

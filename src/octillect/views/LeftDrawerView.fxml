@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
-
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -13,6 +10,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <JFXDrawer xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
@@ -44,14 +43,11 @@
                 </left>
 
                 <right>
-                    <JFXButton fx:id="addNewProjectButton"
-                               onAction="#handleAddNewProjectButtonAction">
-                        <graphic>
-                            <FontAwesomeIconView glyphName="PLUS_CIRCLE"
-                                                 glyphSize="18"
-                                                 glyphStyle="-fx-fill: -o-primary;"/>
-                        </graphic>
-                    </JFXButton>
+                    <FontIcon fx:id="addNewProjectIcon"
+                              iconLiteral="gmi-add-circle"
+                              iconSize="18"
+                              iconColor="${Palette.PRIMARY}"
+                              onMouseClicked="#handleAddNewProjectIconMouseClicked"/>
                 </right>
 
             </BorderPane>
