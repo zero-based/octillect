@@ -32,95 +32,77 @@ public class SignInController {
     @FXML private Hyperlink createAnAccountButton;
     @FXML private ImageView backgroundImageView;
 
+    private RequiredFieldValidator requiredFieldValidator;
+    private RegexValidator emailValidator;
+    private RegexValidator passwordValidator;
 
-    private RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
-    private RegexValidator passwordValidator              = new RegexValidator();
-    private RegexValidator emailValidator                 = new RegexValidator();
-
-    // TextFields Validation
     @FXML
     public void initialize() {
 
         // Animation
         Animation.rotate(backgroundImageView);
-        
-        requiredFieldValidator.setMessage("Required field.");
-        emailTextField        .getValidators().add(requiredFieldValidator);
-        passwordTextField     .getValidators().add(requiredFieldValidator);
 
-        // Email validations
+        // Initialize Validations
+        requiredFieldValidator = new RequiredFieldValidator("Required field.");
+        emailValidator         = new RegexValidator("That Octillect account doesn't exist.");
+        passwordValidator      = new RegexValidator("Incorrect Password!");
+
+        emailTextField.getValidators().add(requiredFieldValidator);
         emailValidator.setRegexPattern("^((?!.*" + emailTextField.getText() + ".*).)*$");
         emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            emailTextField.getValidators().remove(requiredFieldValidator);
-            emailTextField.getValidators().remove(emailValidator);
-            passwordTextField.getValidators().remove(passwordValidator);
+            emailTextField.resetValidation();
             if (!newValue) {
                 emailTextField.validate();
-                signInButton.setOnAction(this::handleSignInButtonAction);
             }
         });
 
-        // Password validations
+        passwordTextField.getValidators().add(requiredFieldValidator);
         passwordValidator.setRegexPattern("^((?!.*" + passwordTextField.getText() + ".*).)*$");
         passwordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            emailTextField.getValidators().remove(emailValidator);
-            passwordTextField.getValidators().remove(requiredFieldValidator);
+            passwordTextField.resetValidation();
             if (!newValue) {
                 passwordTextField.validate();
-                signInButton.setOnAction(this::handleSignInButtonAction);
             }
         });
-    }
 
-    @FXML void handleSignInWithGitHubButtonAction(ActionEvent actionEvent)
-    {
     }
 
     @FXML
     public void handleSignInButtonAction(ActionEvent actionEvent) {
 
-        passwordTextField.getValidators().add(requiredFieldValidator);
-        passwordTextField.validate();
-        emailTextField.getValidators().add(requiredFieldValidator);
         emailTextField.validate();
+        passwordTextField.validate();
 
-
-        if (requiredFieldValidator.getHasErrors()) {
-            signInButton.setOnAction(null);
-        } else {
-
+        if (!requiredFieldValidator.getHasErrors()) {
             User user = UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText()));
-
-            if (user != null) {
-                // Check if the user entered the right email and password
-                if (user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
-                    Main.runApplication(user);
-
-                    /* if a validated user check keepMeSignedInCheckBox, his/her data will be saved in octillect's file. */
-                    if (keepMeSignedInCheckBox.isSelected())
-                        UserRepository.rememberUser(user);
-
-                } else {
-                    passwordValidator.setMessage("Incorrect Password!");
-                    passwordTextField.getValidators().add(passwordValidator);
-                    passwordTextField.validate();
-                    signInButton.setOnAction(null);
-                }
-            } else {
-                emailValidator.setMessage("This account doesn't exist.");
+            if (user == null) {
                 emailTextField.getValidators().add(emailValidator);
                 emailTextField.validate();
-                signInButton.setOnAction(null);
+                emailTextField.getValidators().remove(emailValidator);
+            } else if (!user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
+                passwordTextField.getValidators().add(passwordValidator);
+                passwordTextField.validate();
+                passwordTextField.getValidators().remove(passwordValidator);
+            } else {
+                if (keepMeSignedInCheckBox.isSelected()) {
+                    // Save User's data in octillect's file.
+                    UserRepository.rememberUser(user);
+                }
+                Main.runApplication(user);
             }
         }
+
+    }
+
+    @FXML
+    void handleSignInWithGitHubButtonAction(ActionEvent actionEvent) {
     }
 
     @FXML
     public void handleCreateAnAccountAction(ActionEvent actionEvent) throws Exception {
-
         HBox signUpHBox = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
         StackPane parentStackPane = (StackPane) signInHBox.getParent();
-
         Animation.easeIn(parentStackPane, signUpHBox);
     }
+
 }
