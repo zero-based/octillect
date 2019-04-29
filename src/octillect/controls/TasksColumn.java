@@ -24,9 +24,10 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class TasksColumn extends ListCell<Column> {
 
     @FXML private VBox tasksColumnVBox;
+    @FXML private FontIcon addNewTaskIcon;
+    @FXML private FontIcon columnMoreIcon;
     @FXML private Label columnNameLabel;
     @FXML private ListView tasksListView;
-    @FXML private FontIcon addButtonIcon;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -104,7 +105,7 @@ public class TasksColumn extends ListCell<Column> {
             e.printStackTrace();
         }
 
-        addButtonIcon.setOnMouseClicked(event -> {
+        addNewTaskIcon.setOnMouseClicked(event -> {
             newTaskDialogController.newTaskDialog.show(this.applicationController.rootStackPane);
         });
 
