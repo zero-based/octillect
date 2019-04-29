@@ -117,6 +117,11 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             }
         });
 
+        setOnMouseClicked(event -> {
+            /* TODO: Load RightDrawer Content Depending on the Clicked cell here. */
+            applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+        });
+
     }
 
     @Override
