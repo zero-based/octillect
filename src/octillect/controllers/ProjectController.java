@@ -37,7 +37,11 @@ public class ProjectController implements Injectable<ApplicationController> {
 
         // Populate Project Columns
         projectListView.setItems(project.getColumns());
-        projectListView.setCellFactory(param -> new TasksColumn(applicationController));
+        projectListView.setCellFactory(param -> {
+            TasksColumn tasksColumn = new TasksColumn();
+            tasksColumn.inject(applicationController);
+            return tasksColumn;
+        });
 
     }
 
