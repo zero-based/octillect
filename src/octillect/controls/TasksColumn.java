@@ -16,13 +16,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
+import octillect.controllers.Injectable;
 import octillect.controllers.NewTaskDialogController;
 import octillect.models.Column;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class TasksColumn extends ListCell<Column> {
+public class TasksColumn extends ListCell<Column> implements Injectable<ApplicationController> {
 
+    // FXML Fields
     @FXML private VBox tasksColumnVBox;
     @FXML private FontIcon addNewTaskIcon;
     @FXML private FontIcon columnMoreIcon;
@@ -33,11 +35,13 @@ public class TasksColumn extends ListCell<Column> {
     private ApplicationController applicationController;
     private NewTaskDialogController newTaskDialogController;
 
-    public TasksColumn(ApplicationController applicationController) {
-
-        // Inject Controllers
+    @Override
+    public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         newTaskDialogController = applicationController.newTaskDialogController;
+    }
+
+    public TasksColumn() {
 
         setOnDragDetected(event -> {
             if (getItem() != null) {
@@ -114,7 +118,11 @@ public class TasksColumn extends ListCell<Column> {
 
         // Populate the TasksColumn's tasksListView with columnItem's tasks
         tasksListView.setItems(columnItem.getTasks());
-        tasksListView.setCellFactory(param -> new TaskCell());
+        tasksListView.setCellFactory(param -> {
+            TaskCell taskCell = new TaskCell();
+            taskCell.inject(applicationController);
+            return taskCell;
+        });
 
         setGraphic(tasksColumnVBox);
 

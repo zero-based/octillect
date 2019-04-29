@@ -25,13 +25,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+import octillect.controllers.ApplicationController;
+import octillect.controllers.Injectable;
+import octillect.controllers.RightDrawerController;
 import octillect.models.Task;
 import octillect.styles.Palette;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class TaskCell extends ListCell<Task> {
+public class TaskCell extends ListCell<Task> implements Injectable<ApplicationController> {
 
+    // FXML Fields
     @FXML private VBox taskCellVBox;
     @FXML private FontIcon taskMoreIcon;
     @FXML private Label taskNameLabel;
@@ -39,6 +43,16 @@ public class TaskCell extends ListCell<Task> {
     @FXML private FlowPane taskIconsFlowPane;
     @FXML private JFXNodesList taskAssigneesNodesList;
     @FXML private BorderPane taskInfoBorderPane;
+
+    // Injected Controllers
+    private ApplicationController applicationController;
+    private RightDrawerController rightDrawerController;
+
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+        rightDrawerController = applicationController.rightDrawerController;
+    }
 
     public TaskCell() {
 
