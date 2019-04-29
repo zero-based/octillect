@@ -22,12 +22,23 @@ public class ApplicationController {
     private final String NEW_PROJECT_DIALOG_VIEW = "/octillect/views/NewProjectDialogView.fxml";
     public NewProjectDialogController newProjectDialogController;
 
+    private final String NEW_TASK_DIALOG_VIEW = "/octillect/views/NewTaskDialogView.fxml";
+    public NewTaskDialogController newTaskDialogController;
+
     public ApplicationController() {
         // Load Dialogs' Controllers
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(NEW_PROJECT_DIALOG_VIEW));
             fxmlLoader.load();
             newProjectDialogController = fxmlLoader.getController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(NEW_TASK_DIALOG_VIEW));
+            fxmlLoader.load();
+            newTaskDialogController = fxmlLoader.getController();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,6 +53,7 @@ public class ApplicationController {
         rightDrawerController     .inject(this);
         projectController         .inject(this);
         newProjectDialogController.inject(this);
+        newTaskDialogController   .inject(this);
     }
 
 }
