@@ -4,8 +4,8 @@ import com.jfoenix.controls.JFXDrawer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Control;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -94,6 +94,10 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
 
         userProjectsListView.setItems(userProjects);
         userProjectsListView.setCellFactory(param -> new ListCell<Project>() {
+            {
+                prefWidthProperty().bind(userProjectsListView.widthProperty().subtract(16));
+                setMaxWidth(Control.USE_PREF_SIZE);
+            }
             @Override
             protected void updateItem(Project item, boolean empty) {
                 super.updateItem(item, empty);
