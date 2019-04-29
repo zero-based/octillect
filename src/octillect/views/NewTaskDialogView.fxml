@@ -25,7 +25,6 @@
 
     <VBox alignment="CENTER"
           prefWidth="350"
-          prefHeight="200"
           spacing="45"
           style="-fx-background-color: -o-dark-900;">
 
@@ -43,6 +42,7 @@
                       labelFloat="true"/>
 
         <JFXTextArea fx:id="newTaskDescriptionTextArea"
+                     prefRowCount="3"
                      stylesheets="@/octillect/styles/TextArea.css"
                      promptText="Description"
                      focusColor="${Palette.PRIMARY}"
