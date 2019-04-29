@@ -123,23 +123,20 @@ public class SignUpController {
             } else {
                 User user = new UserBuilder().with($ -> {
                     $.id = FirestoreAPI.encrypt(emailTextField.getText());
+                    $.name = firstNameTextField.getText() + " " + lastNameTextField.getText();
                     $.email = emailTextField.getText();
                     $.password = FirestoreAPI.encrypt(passwordTextField.getText());
-                    $.name = firstNameTextField.getText() + " " + lastNameTextField.getText();
+
+                    if (chosenImage != null) {
+                        $.image = SwingFXUtils.toFXImage(chosenImage, null);
+                    } else {
+                        // Generate an Identicon for the user in case of not choosing a photo.
+                        BufferedImage identicon = UserRepository.generateIdenticon($.id, 256);
+                        $.image = SwingFXUtils.toFXImage(identicon, null);
+                    }
                 }).build();
 
                 UserRepository.add(user);
-
-                if (chosenImage != null) {
-                    UserRepository.setImage(user.getId(), chosenImage);
-                    user.setImage(SwingFXUtils.toFXImage(chosenImage, null));
-                } else {
-                    // Generate an Identicon for the user in case of not choosing a photo.
-                    BufferedImage identicon = UserRepository.generateIdenticon(user.getId(), 256);
-                    UserRepository.setImage(user.getId(), identicon);
-                    user.setImage(SwingFXUtils.toFXImage(identicon, null));
-                }
-
                 Main.runApplication(user);
 
             }
