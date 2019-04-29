@@ -13,22 +13,33 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 import octillect.Main;
+import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.User;
+import octillect.models.builders.UserBuilder;
 
 public class UserRepository {
 
     // add new user data to database.
     public static void add(User user) {
-        FirestoreAPI.insertDocument(FirestoreAPI.USERS, user.getId(), user);
+
+        UserDocument document = new UserDocument();
+        document.setId(user.getId());
+        document.setName(user.getName());
+        document.setEmail(user.getEmail());
+        document.setPassword(user.getPassword());
+        /* TODO: Add Welcome Project to document here. */
+
+        FirestoreAPI.insertDocument(FirestoreAPI.USERS, document.getId(), document);
+        setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
     }
 
     // add user's image to CloudStorage
@@ -37,12 +48,21 @@ public class UserRepository {
     }
 
     public static User get(String id) {
-        User user = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(User.class);
-        if (user != null) {
-            Image image = getImage(id);
-            if (image != null)
-                user.setImage(image);
+
+        User user = null;
+        UserDocument document;
+        document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(UserDocument.class);
+
+        if (document != null) {
+            /* TODO: Get User Projects here. */
+            user = new UserBuilder()
+                    .withId(document.getId())
+                    .withName(document.getName())
+                    .withEmail(document.getEmail())
+                    .withPassword(document.getPassword())
+                    .withImage(getImage(document.getId())).build();
         }
+
         return user;
     }
 
