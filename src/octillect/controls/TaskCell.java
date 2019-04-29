@@ -28,9 +28,12 @@ import javafx.scene.shape.Circle;
 import octillect.models.Task;
 import octillect.styles.Palette;
 
+import org.kordamp.ikonli.javafx.FontIcon;
+
 public class TaskCell extends ListCell<Task> {
 
     @FXML private VBox taskCellVBox;
+    @FXML private FontIcon taskMoreIcon;
     @FXML private Label taskNameLabel;
     @FXML private Label taskDueDateLabel;
     @FXML private FlowPane taskIconsFlowPane;

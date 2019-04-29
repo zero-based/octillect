@@ -47,12 +47,12 @@
         <right>
             <HBox>
 
-                <FontIcon fx:id="addButtonIcon"
+                <FontIcon fx:id="addNewTaskIcon"
                           iconLiteral="gmi-add-circle"
-                          iconSize="18"
+                          iconSize="24"
                           iconColor="${Palette.PRIMARY}"/>
 
-                <FontIcon fx:id="moreButtonIcon"
+                <FontIcon fx:id="columnMoreIcon"
                           iconLiteral="gmi-more-vert"
                           iconSize="24"
                           iconColor="${Palette.PRIMARY}"/>
