@@ -29,15 +29,16 @@
 
         <VBox style="-fx-background-color: -o-dark-700;">
 
-            <padding>
-                <Insets topRightBottomLeft="16"/>
-            </padding>
             <BorderPane prefWidth="${leftDrawer.defaultDrawerSize}">
+
+                <padding>
+                    <Insets topRightBottomLeft="16" />
+                </padding>
 
                 <left>
                     <Label text="Projects" textFill="${Palette.DARK_300}">
                         <font>
-                            <Font name="Product Sans Regular" size="16"/>
+                            <Font name="Product Sans Bold" size="18"/>
                         </font>
                     </Label>
                 </left>
@@ -45,7 +46,7 @@
                 <right>
                     <FontIcon fx:id="addNewProjectIcon"
                               iconLiteral="gmi-add-circle"
-                              iconSize="18"
+                              iconSize="24"
                               iconColor="${Palette.PRIMARY}"
                               onMouseClicked="#handleAddNewProjectIconMouseClicked"/>
                 </right>
@@ -53,6 +54,7 @@
             </BorderPane>
 
             <ListView fx:id="userProjectsListView"
+                      stylesheets="@/octillect/styles/UserProjectsList.css"
                       onMouseClicked="#handleUserProjectsListViewMouseClicked"/>
 
         </VBox>
