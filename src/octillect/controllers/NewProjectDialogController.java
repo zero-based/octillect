@@ -24,10 +24,11 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     private ProjectController projectController;
 
     // Empty field validation
+    RequiredFieldValidator requiredFieldValidator;
 
     @FXML
     public void initialize() {
-        RequiredFieldValidator requiredFieldValidator;
+
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
         newProjectNameTextField.getValidators().add(requiredFieldValidator);
         newProjectNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -46,6 +47,10 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     @FXML
     public void handleAddProjectButtonAction(ActionEvent actionEvent) {
         newProjectNameTextField.validate();
+        if (!requiredFieldValidator.getHasErrors()) {
+            /* TODO: Update TasksColumn's List Here. */
+            newProjectDialog.close();
+        }
     }
 
     @FXML
