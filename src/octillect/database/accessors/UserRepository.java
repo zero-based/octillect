@@ -66,6 +66,11 @@ public class UserRepository {
         return user;
     }
 
+    // Assign project to a specific contributor
+    public static void addProject(String projectId, String currentUserId) {
+        FirestoreAPI.appendAttribute(FirestoreAPI.USERS, currentUserId, "projectsIds", projectId);
+    }
+
     // Get user's image by userId
     public static Image getImage(String userId) {
         return StorageAPI.selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
