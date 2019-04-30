@@ -3,6 +3,7 @@ package octillect.database.firebase;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FieldValue;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -64,6 +65,12 @@ public class FirestoreAPI {
         Connection.firestore.collection(collection).document(document).update(key, value);
     }
 
+    // Append a specific attribute
+    public static void appendAttribute(String collection, String document, String key, Object value) {
+        DocumentReference documentReference = Connection.firestore.collection(collection).document(document);
+        documentReference.update(key, FieldValue.arrayUnion(value));
+    }
+
     // Delete the whole document
     public static void deleteDocument(String collection, String document) {
         Connection.firestore.collection(collection).document(document).delete();
@@ -104,4 +111,5 @@ public class FirestoreAPI {
     public static String encryptWithDateTime(String textToEncrypt) {
         return encrypt(textToEncrypt + java.time.LocalDateTime.now().toString());
     }
+
 }
