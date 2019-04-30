@@ -25,6 +25,9 @@ public class ApplicationController {
     private final String NEW_TASK_DIALOG_VIEW = "/octillect/views/NewTaskDialogView.fxml";
     public NewTaskDialogController newTaskDialogController;
 
+    private final String NEW_COLUMN_DIALOG_VIEW = "/octillect/views/NewColumnDialogView.fxml";
+    public NewColumnDialogController newColumnDialogController;
+
     public ApplicationController() {
         // Load Dialogs' Controllers
         try {
@@ -42,6 +45,14 @@ public class ApplicationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(NEW_COLUMN_DIALOG_VIEW));
+            fxmlLoader.load();
+            newColumnDialogController = fxmlLoader.getController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -54,6 +65,7 @@ public class ApplicationController {
         projectController         .inject(this);
         newProjectDialogController.inject(this);
         newTaskDialogController   .inject(this);
+        newColumnDialogController .inject(this);
     }
 
 }

@@ -23,11 +23,13 @@ public class ProjectController implements Injectable<ApplicationController> {
     // Injected Controllers
     private ApplicationController applicationController;
     private TitleBarController titleBarController;
+    private NewColumnDialogController newColumnDialogController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         titleBarController         = applicationController.titleBarController;
+        newColumnDialogController  = applicationController.newColumnDialogController;
     }
 
     public void loadProject(Project project) {
@@ -55,6 +57,7 @@ public class ProjectController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleAddColumnIconMouseClicked(MouseEvent mouseEvent) {
+        newColumnDialogController.newColumnDialog.show(this.applicationController.rootStackPane);
     }
 
 }
