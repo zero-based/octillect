@@ -1,15 +1,15 @@
 package octillect.models;
 
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
-public class Project implements IObservable {
+public class Project implements IObservable<Pair<User,String>> {
 
     private String id;
     private String name;
     private String description;
     private String repositoryName;
-    private User admin;
-    private ObservableList<IObserver> contributors;
+    private ObservableList<Pair<User,String>> contributors;
     private ObservableList<Column> columns;
     private ObservableList<Label> labels;
 
@@ -17,13 +17,12 @@ public class Project implements IObservable {
     public Project() {}
 
     public Project(String id, String name, String description, String repositoryName,
-                   User admin, ObservableList<IObserver> contributors,
-                   ObservableList<Column> columns, ObservableList<Label> labels) {
+                   ObservableList<Pair<User,String>> contributors, ObservableList<Column> columns,
+                   ObservableList<Label> labels) {
         this.id             = id;
         this.name           = name;
         this.description    = description;
         this.repositoryName = repositoryName;
-        this.admin          = admin;
         this.contributors   = contributors;
         this.columns        = columns;
         this.labels         = labels;
@@ -38,7 +37,6 @@ public class Project implements IObservable {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -46,7 +44,6 @@ public class Project implements IObservable {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getDescription() {
         return description;
@@ -56,7 +53,6 @@ public class Project implements IObservable {
         this.description = description;
     }
 
-
     public String getRepositoryName() {
         return repositoryName;
     }
@@ -65,15 +61,13 @@ public class Project implements IObservable {
         this.repositoryName = repositoryName;
     }
 
-
-    public ObservableList<IObserver> getContributors() {
+    public ObservableList<Pair<User, String>> getContributors() {
         return contributors;
     }
 
-    public void setContributors(ObservableList<IObserver> contributors) {
+    public void setContributors(ObservableList<Pair<User, String>> contributors) {
         this.contributors = contributors;
     }
-
 
     public ObservableList<Column> getColumns() {
         return columns;
@@ -82,7 +76,6 @@ public class Project implements IObservable {
     public void setColumns(ObservableList<Column> columns) {
         this.columns = columns;
     }
-
 
     public ObservableList<Label> getLabels() {
         return labels;
@@ -93,29 +86,20 @@ public class Project implements IObservable {
     }
 
 
-    public User getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(User admin) {
-        this.admin = admin;
-    }
-
-
     @Override
-    public void addObserver(IObserver observer) {
+    public void addObserver(Pair<User, String> observer) {
         contributors.add(observer);
     }
 
     @Override
-    public void removeObserver(IObserver observer) {
+    public void removeObserver(Pair<User, String> observer) {
         contributors.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (IObserver observer : contributors) {
-            observer.updateObserver();
+        for (Pair<User, String>  observer : contributors) {
+            observer.getKey().updateObserver();
         }
     }
 

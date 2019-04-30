@@ -1,7 +1,7 @@
 package octillect.models;
 
-public interface IObservable {
-    void addObserver(IObserver observer);
-    void removeObserver(IObserver observer);
+public interface IObservable<ObserverType> {
+    void addObserver(ObserverType observer);
+    void removeObserver(ObserverType observer);
     void notifyObservers();
 }

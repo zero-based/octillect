@@ -3,8 +3,12 @@ package octillect.models.builders;
 import java.util.function.Consumer;
 
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
-import octillect.models.*;
+import octillect.models.Column;
+import octillect.models.Label;
+import octillect.models.Project;
+import octillect.models.User;
 
 public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
 
@@ -12,8 +16,7 @@ public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
     public String name;
     public String description;
     public String repositoryName;
-    public User admin;
-    public ObservableList<IObserver> contributors;
+    public ObservableList<Pair<User,String>> contributors;
     public ObservableList<Column> columns;
     public ObservableList<Label> labels;
 
@@ -25,7 +28,7 @@ public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
 
     @Override
     public Project build() {
-        return new Project(id, name, description, repositoryName, admin, contributors, columns, labels);
+        return new Project(id, name, description, repositoryName, contributors, columns, labels);
     }
 
     public ProjectBuilder withId(String id) {
@@ -48,12 +51,7 @@ public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
         return this;
     }
 
-    public ProjectBuilder withAdmin(User admin) {
-        this.admin = admin;
-        return this;
-    }
-
-    public ProjectBuilder withContributors(ObservableList<IObserver> contributors) {
+    public ProjectBuilder withContributors(ObservableList<Pair<User,String>> contributors) {
         this.contributors = contributors;
         return this;
     }
