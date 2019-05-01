@@ -1,6 +1,7 @@
 package octillect.controllers;
 
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.events.JFXDrawerEvent;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,14 +26,16 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     private ApplicationController applicationController;
     private ProjectController projectController;
     private NewProjectDialogController newProjectDialogController;
+    private TitleBarController titleBarController;
 
     public ObservableList<Project> userProjects = FXCollections.observableArrayList();
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController = applicationController.projectController;
+        projectController          = applicationController.projectController;
         newProjectDialogController = applicationController.newProjectDialogController;
+        titleBarController         = applicationController.titleBarController;
     }
 
     @FXML
@@ -59,6 +62,7 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     @FXML
     public void handleAddNewProjectIconMouseClicked(MouseEvent mouseEvent) {
         newProjectDialogController.newProjectDialog.show(applicationController.rootStackPane);
+        leftDrawer.close();
     }
 
     @FXML
@@ -66,4 +70,8 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         projectController.loadProject(userProjectsListView.getSelectionModel().getSelectedItem());
     }
 
+    public void handleLeftDrawerClosed(JFXDrawerEvent jfxDrawerEvent) {
+        titleBarController.hamburgerTransition.setRate(titleBarController.hamburgerTransition.getRate() * -1);
+        titleBarController.hamburgerTransition.play();
+    }
 }

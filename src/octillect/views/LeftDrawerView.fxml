@@ -19,7 +19,8 @@
            fx:id="leftDrawer"
            stylesheets="@/octillect/styles/Palette.css"
            direction="LEFT"
-           defaultDrawerSize="320">
+           defaultDrawerSize="320"
+           onDrawerClosed="#handleLeftDrawerClosed">
 
     <fx:define>
         <Palette fx:id="Palette"/>

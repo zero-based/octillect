@@ -72,8 +72,11 @@ public class ApplicationController {
         newColumnDialogController .inject(this);
 
         /* TODO: Remove Condition after adding welcome project. */
-        if(user.getProjects() != null)
+        if(user.getProjects() != null) {
             leftDrawerController.userProjects.setAll(user.getProjects());
+            leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
+            projectController.loadProject(user.getProjects().get(0));
+        }
     }
 
 }
