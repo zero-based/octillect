@@ -5,9 +5,13 @@ import com.jfoenix.controls.JFXDrawersStack;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
+import octillect.Main;
+import octillect.models.User;
 
 public class ApplicationController {
 
+    // Get the current user
+    public User user = Main.signedUser;
     // FXML Fields
     @FXML public StackPane rootStackPane;
     @FXML public JFXDrawersStack drawersStack;
