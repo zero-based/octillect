@@ -6,7 +6,6 @@ public class ColumnDocument {
 
     String id;
     String name;
-    String projectId;
     ArrayList<String> tasksIds;
 
     public ColumnDocument() {
@@ -27,15 +26,6 @@ public class ColumnDocument {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
 
     public ArrayList<String> getTasksIds() {
         return tasksIds;

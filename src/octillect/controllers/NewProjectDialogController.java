@@ -77,7 +77,6 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
             Column untitledColumn = new ColumnBuilder()
                     .withId(FirestoreAPI.encryptWithDateTime("Untitled Column" + applicationController.user.getId()))
                     .withName("Untitled Column")
-                    .withProject(newProject)
                     .build();
 
             newProject.setColumns(FXCollections.observableArrayList(untitledColumn));
@@ -88,8 +87,6 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
                     .withName("Untitled Task")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withProject(newProject)
-                    .withColumn(untitledColumn)
                     .withCreator(applicationController.user)
                     .build();
 

@@ -6,16 +6,14 @@ public class Column {
 
     private String id;
     private String name;
-    private Project project;
     private ObservableList<Task> tasks;
 
 
     public Column() {}
 
-    public Column(String id, String name, Project project, ObservableList<Task> tasks) {
+    public Column(String id, String name, ObservableList<Task> tasks) {
         this.id      = id;
         this.name    = name;
-        this.project = project;
         this.tasks   = tasks;
     }
 
@@ -35,15 +33,6 @@ public class Column {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
 
 

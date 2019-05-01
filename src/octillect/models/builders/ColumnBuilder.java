@@ -12,7 +12,6 @@ public class ColumnBuilder implements Builder<Column, ColumnBuilder> {
 
     public String id;
     public String name;
-    public Project project;
     public ObservableList<Task> tasks;
 
     @Override
@@ -23,7 +22,7 @@ public class ColumnBuilder implements Builder<Column, ColumnBuilder> {
 
     @Override
     public Column build() {
-        return new Column(id, name, project, tasks);
+        return new Column(id, name, tasks);
     }
 
     public ColumnBuilder withId(String id) {
@@ -33,11 +32,6 @@ public class ColumnBuilder implements Builder<Column, ColumnBuilder> {
 
     public ColumnBuilder withName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public ColumnBuilder withProject(Project project) {
-        this.project = project;
         return this;
     }
 

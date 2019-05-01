@@ -11,8 +11,6 @@ public class TaskDocument {
     boolean isCompleted;
     Date dueDate;
     Date creationDate;
-    String projectId;
-    String columnId;
     String creatorId;
     ArrayList<String> assigneesIds;
     ArrayList<String> subTasksIds;
@@ -68,22 +66,6 @@ public class TaskDocument {
         this.creationDate = creationDate;
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getColumnId() {
-        return columnId;
-    }
-
-    public void setColumnId(String columnId) {
-        this.columnId = columnId;
-    }
-
     public String getCreatorId() {
         return creatorId;
     }
@@ -107,4 +89,5 @@ public class TaskDocument {
     public void setSubTasksIds(ArrayList<String> subTasksIds) {
         this.subTasksIds = subTasksIds;
     }
+
 }

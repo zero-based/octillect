@@ -15,11 +15,9 @@ public class TaskRepository {
         document.setId(task.getId());
         document.setName(task.getName());
         document.setDescription(task.getDescription());
-        document.setIsCompleted(task.isCompleted());
+        document.setIsCompleted(task.getIsCompleted());
         document.setDueDate(task.getDueDate());
         document.setCreationDate(task.getCreationDate());
-        document.setProjectId(task.getProject().getId());
-        document.setColumnId(task.getColumn().getId());
         document.setCreatorId(task.getCreator().getId());
 
         if (task.getAssignees() != null) {

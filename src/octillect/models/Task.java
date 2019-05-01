@@ -12,8 +12,6 @@ public class Task {
     private boolean isCompleted;
     private Date dueDate;
     private Date creationDate;
-    private Project project;
-    private Column column;
     private User creator;
     private ObservableList<User> assignees;
     private ObservableList<Task> subTasks;
@@ -22,7 +20,7 @@ public class Task {
     public Task() {}
 
     public Task(String id, String name, String description, boolean isCompleted,
-                Date dueDate, Date creationDate, Project project, Column column, User creator,
+                Date dueDate, Date creationDate, User creator,
                 ObservableList<User> assignees, ObservableList<Task> subTasks) {
         this.id           = id;
         this.name         = name;
@@ -30,8 +28,6 @@ public class Task {
         this.isCompleted  = isCompleted;
         this.dueDate      = dueDate;
         this.creationDate = creationDate;
-        this.project      = project;
-        this.column       = column;
         this.creator      = creator;
         this.assignees    = assignees;
         this.subTasks     = subTasks;
@@ -65,11 +61,11 @@ public class Task {
     }
 
 
-    public boolean isCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 
@@ -89,24 +85,6 @@ public class Task {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-
-    public Column getColumn() {
-        return column;
-    }
-
-    public void setColumn(Column column) {
-        this.column = column;
     }
 
 

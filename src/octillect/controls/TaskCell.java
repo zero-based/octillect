@@ -156,7 +156,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         taskNameLabel.setText(taskItem.getName());
 
-        if (taskItem.getDueDate() == null && !taskItem.isCompleted()
+        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
                 && taskItem.getDescription() == null && taskItem.getAssignees() == null)
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
 
@@ -165,7 +165,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         else
             updateDueDateLabel(taskItem, taskDueDateLabel);
 
-        if (!taskItem.isCompleted())
+        if (!taskItem.getIsCompleted())
             taskIconsFlowPane.getChildren().remove(1);
 
         if (taskItem.getDescription() == null)
