@@ -581,6 +581,7 @@ public class RegistrationFormController {
 
 ### 3.6. References
 
+1. [AwesomeJavaFX](https://github.com/mhrimaz/AwesomeJavaFX)
 1. [XAML Coding Guidelines](https://github.com/cmaneu/xaml-coding-guidelines)
 1. [Introduction to FXML](https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/doc-files/introduction_to_fxml.html)
 1. [JavaFX CSS Reference Guide](https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html)
