@@ -70,6 +70,10 @@ public class ApplicationController {
         newProjectDialogController.inject(this);
         newTaskDialogController   .inject(this);
         newColumnDialogController .inject(this);
+
+        /* TODO: Remove Condition after adding welcome project. */
+        if(user.getProjects() != null)
+            leftDrawerController.userProjects.setAll(user.getProjects());
     }
 
 }

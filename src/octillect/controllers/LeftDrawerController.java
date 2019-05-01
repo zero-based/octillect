@@ -37,7 +37,6 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
 
     @FXML
     public void initialize() {
-        /* TODO: Load signed in user projects here */
         userProjectsListView.setItems(userProjects);
         userProjectsListView.setCellFactory(param -> new ListCell<Project>() {
             {
