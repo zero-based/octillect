@@ -6,10 +6,24 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import java.util.Calendar;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.util.Pair;
 
 import octillect.controls.OButton;
+import octillect.database.accessors.ColumnRepository;
+import octillect.database.accessors.ProjectRepository;
+import octillect.database.accessors.TaskRepository;
+import octillect.database.accessors.UserRepository;
+import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Column;
+import octillect.models.Project;
+import octillect.models.Task;
+import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.ProjectBuilder;
+import octillect.models.builders.TaskBuilder;
 
 public class NewProjectDialogController implements Injectable<ApplicationController> {
 
@@ -22,6 +36,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     // Injected Controllers
     private ApplicationController applicationController;
     private ProjectController projectController;
+    private LeftDrawerController leftDrawerController;
 
     // Empty field validation
     RequiredFieldValidator requiredFieldValidator;
@@ -41,14 +56,53 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController          = applicationController.projectController;
+        projectController = applicationController.projectController;
+        leftDrawerController = applicationController.leftDrawerController;
     }
 
     @FXML
     public void handleAddProjectButtonAction(ActionEvent actionEvent) {
         newProjectNameTextField.validate();
         if (!requiredFieldValidator.getHasErrors()) {
-            /* TODO: Update TasksColumn's List Here. */
+            
+            // Add project.
+            Project newProject = new ProjectBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime(newProjectNameTextField.getText()))
+                    .withName(newProjectNameTextField.getText())
+                    .withDescription(newProjectDescriptionTextArea.getText())
+                    .withContributors(FXCollections.observableArrayList(new Pair<>(applicationController.user,"Owner")))
+                    .build();
+
+            // Add column.
+            Column untitledColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Column" + applicationController.user.getId()))
+                    .withName("Untitled Column")
+                    .withProject(newProject)
+                    .build();
+
+            newProject.setColumns(FXCollections.observableArrayList(untitledColumn));
+
+            // Add task.
+            Task untitledTask = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
+                    .withName("Untitled Task")
+                    .withIsCompleted(false)
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withProject(newProject)
+                    .withColumn(untitledColumn)
+                    .withCreator(applicationController.user)
+                    .build();
+
+            untitledColumn.setTasks(FXCollections.observableArrayList(untitledTask));
+
+            // Accessing the database.
+            UserRepository.addProject(newProject.getId(), applicationController.user.getId());
+            ProjectRepository.add(newProject);
+            ColumnRepository.add(untitledColumn);
+            TaskRepository.add(untitledTask);
+
+            projectController.loadProject(newProject);
+            leftDrawerController.userProjects.add(newProject);
             newProjectDialog.close();
         }
     }
