@@ -59,6 +59,7 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     @FXML
     public void handleAddNewProjectIconMouseClicked(MouseEvent mouseEvent) {
         newProjectDialogController.newProjectDialog.show(applicationController.rootStackPane);
+        leftDrawer.close();
     }
 
     @FXML

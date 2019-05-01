@@ -100,6 +100,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
 
             projectController.loadProject(newProject);
             leftDrawerController.userProjects.add(newProject);
+            leftDrawerController.userProjectsListView.getSelectionModel().selectLast();
             newProjectDialog.close();
         }
     }
