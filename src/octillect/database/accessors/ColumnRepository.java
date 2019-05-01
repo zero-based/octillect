@@ -14,7 +14,6 @@ public class ColumnRepository {
         ColumnDocument document = new ColumnDocument();
         document.setId(column.getId());
         document.setName(column.getName());
-        document.setProjectId(column.getProject().getId());
 
         if (column.getTasks() != null) {
             ArrayList<String> tasksIds= new ArrayList<>();

@@ -17,8 +17,6 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
     public boolean isCompleted;
     public Date dueDate;
     public Date creationDate;
-    public Project project;
-    public Column column;
     public User creator;
     public ObservableList<User> assignees;
     public ObservableList<Task> subTasks;
@@ -31,8 +29,7 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
 
     @Override
     public Task build() {
-        return new Task(id, name, description, isCompleted, dueDate, creationDate,
-                project, column, creator, assignees, subTasks);
+        return new Task(id, name, description, isCompleted, dueDate, creationDate, creator, assignees, subTasks);
     }
 
     public TaskBuilder withId(String id) {
@@ -62,16 +59,6 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
 
     public TaskBuilder withCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-        return this;
-    }
-
-    public TaskBuilder withProject(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public TaskBuilder withColumn(Column column) {
-        this.column = column;
         return this;
     }
 
