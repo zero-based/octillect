@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="./src/octillect/resources/o-icon.png" width="75" height="75" style="margin: -25px;">
-    <h1> Octillect </h1>
+    <img src="./src/octillect/resources/o-icon.png" width="80" height="80">
+    <h1>Octillect</h1>
 </div>
 
-Octillect can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the project's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and labeling tasks.
+Octillect _[octopus + intellect]_ can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the project's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and labeling tasks.
 
 <details><summary> Features </summary>
 
