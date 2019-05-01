@@ -23,7 +23,7 @@ public class ProjectDocument {
     String name;
     String description;
     String repositoryName;
-    ArrayList<HashMap> contributors;
+    ArrayList<HashMap<String, String>> contributors;
     ArrayList<String> columnsIds;
     ArrayList<String> labelsIds;
 
@@ -61,11 +61,11 @@ public class ProjectDocument {
         this.repositoryName = repositoryName;
     }
 
-    public ArrayList<HashMap> getContributors() {
+    public ArrayList<HashMap<String, String>> getContributors() {
         return contributors;
     }
 
-    public void setContributors(ArrayList<HashMap> contributors) {
+    public void setContributors(ArrayList<HashMap<String, String>> contributors) {
         this.contributors = contributors;
     }
 

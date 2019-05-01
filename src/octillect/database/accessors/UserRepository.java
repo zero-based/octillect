@@ -13,9 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -23,6 +25,7 @@ import octillect.Main;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
+import octillect.models.Project;
 import octillect.models.User;
 import octillect.models.builders.UserBuilder;
 
@@ -54,13 +57,43 @@ public class UserRepository {
         document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(UserDocument.class);
 
         if (document != null) {
-            /* TODO: Get User Projects here. */
-            user = new UserBuilder()
-                    .withId(document.getId())
-                    .withName(document.getName())
-                    .withEmail(document.getEmail())
-                    .withPassword(document.getPassword())
-                    .withImage(getImage(document.getId())).build();
+
+            user = new UserBuilder().with($ -> {
+                $.id = document.getId();
+                $.name = document.getName();
+                $.email = document.getEmail();
+                $.password = document.getPassword();
+                $.image = getImage(document.getId());
+                $.projects = FXCollections.observableArrayList();
+
+                if (document.getProjectsIds() != null) {
+                    ArrayList<Project> projectsIds = new ArrayList<>();
+                    for (String projectId : document.getProjectsIds()) {
+                        projectsIds.add(ProjectRepository.get(projectId));
+                    }
+                    $.projects = FXCollections.observableArrayList(projectsIds);
+                }
+            }).build();
+
+        }
+
+        return user;
+    }
+
+    public static User getContributor(String userId) {
+        User user = null;
+        UserDocument document;
+        document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, userId)).toObject(UserDocument.class);
+
+        if (document != null) {
+
+            user = new UserBuilder().with($ -> {
+                $.id = document.getId();
+                $.name = document.getName();
+                $.email = document.getEmail();
+                $.password = document.getPassword();
+                $.image = getImage(document.getId());
+            }).build();
         }
 
         return user;
@@ -131,7 +164,7 @@ public class UserRepository {
      * where the ID must be hashed using any hashing algorithm.
      *
      * @param userId User's ID that will be converted into Identicon.
-     * @param size Width and Height of the Identicon.
+     * @param size   Width and Height of the Identicon.
      * @return Square BufferedImage of the Identicon.
      */
     public static BufferedImage generateIdenticon(String userId, int size) {
