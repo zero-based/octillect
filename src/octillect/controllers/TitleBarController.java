@@ -18,7 +18,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
     @FXML public FontIcon settingsIcon;
     @FXML public FontIcon userIcon;
 
-    private HamburgerBackArrowBasicTransition hamburgerTransition;
+    public HamburgerBackArrowBasicTransition hamburgerTransition;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -40,8 +40,10 @@ public class TitleBarController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleHamburgerButtonMouseClicked(MouseEvent mouseEvent) {
-        hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
-        hamburgerTransition.play();
+        if (leftDrawerController.leftDrawer.isClosed()) {
+            hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+            hamburgerTransition.play();
+        }
         applicationController.drawersStack.toggle(leftDrawerController.leftDrawer);
     }
 
