@@ -86,5 +86,9 @@ public class ProjectRepository {
         FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
     }
 
+    public static void addColumn(String projectId, String columnId) {
+        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnId);
+    }
+
 
 }
