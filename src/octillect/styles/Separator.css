@@ -1,0 +1,6 @@
+@import "Palette.css"
+
+.separator .line {
+    -fx-border-color: -o-dark-300;
+    -fx-border-width: 2;
+}
