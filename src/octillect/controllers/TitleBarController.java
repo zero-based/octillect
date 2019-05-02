@@ -54,11 +54,13 @@ public class TitleBarController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleSettingsIconMouseClicked(MouseEvent mouseEvent) {
+        rightDrawerController.show(rightDrawerController.projectSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
     @FXML
     public void handleUserIconMouseClicked(MouseEvent mouseEvent) {
+        rightDrawerController.show(rightDrawerController.userSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 

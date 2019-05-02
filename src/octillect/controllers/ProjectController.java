@@ -26,12 +26,14 @@ public class ProjectController implements Injectable<ApplicationController> {
     private ApplicationController applicationController;
     private TitleBarController titleBarController;
     private NewColumnDialogController newColumnDialogController;
+    private RightDrawerController rightDrawerController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         titleBarController         = applicationController.titleBarController;
         newColumnDialogController  = applicationController.newColumnDialogController;
+        rightDrawerController      = applicationController.rightDrawerController;
     }
 
     public void loadProject(Project project) {
@@ -52,6 +54,8 @@ public class ProjectController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleGitHubIconMouseClicked(MouseEvent mouseEvent) {
+        rightDrawerController.show(rightDrawerController.gitHubRepository);
+        applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
     @FXML
@@ -60,7 +64,7 @@ public class ProjectController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleAddColumnIconMouseClicked(MouseEvent mouseEvent) {
-        newColumnDialogController.newColumnDialog.show(this.applicationController.rootStackPane);
+        newColumnDialogController.newColumnDialog.show(applicationController.rootStackPane);
     }
 
 }

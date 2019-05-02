@@ -153,7 +153,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         setOnMouseClicked(event -> {
-            /* TODO: Load RightDrawer Content Depending on the Clicked cell here. */
+            rightDrawerController.show(rightDrawerController.taskSettings);
             applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
         });
 
