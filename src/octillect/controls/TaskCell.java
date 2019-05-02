@@ -28,6 +28,8 @@ import javafx.scene.shape.Circle;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
+import octillect.database.accessors.ColumnRepository;
+import octillect.models.Column;
 import octillect.models.Task;
 import octillect.styles.Palette;
 
@@ -114,6 +116,39 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
                 // Add task to current position
                 currentListView.getItems().add(getIndex(), task);
+            }
+        });
+
+        setOnDragDropped(event -> {
+            if (event.getGestureSource() instanceof TaskCell && getItem() != null) {
+
+                TaskCell sourceTask = (TaskCell) event.getGestureSource();
+                TaskCell targetTask = (TaskCell) event.getGestureTarget();
+
+                Column sourceColumn = ((TasksColumn) sourceTask.getListView()   // Gets tasksListView
+                        .getParent()                                            // Gets tasksColumnVBox
+                        .getParent())                                           // Gets ListCell<Column>
+                        .getItem();
+
+                Column targetColumn = ((TasksColumn) targetTask.getListView()   // Gets tasksListView
+                        .getParent()                                            // Gets tasksColumnVBox
+                        .getParent())                                           // Gets ListCell<Column>
+                        .getItem();
+
+                ArrayList<String> sourceTasksIds = new ArrayList<>();
+                ArrayList<String> targetTasksIds = new ArrayList<>();
+
+                sourceColumn.getTasks().forEach(task -> {
+                    sourceTasksIds.add(task.getId());
+                });
+
+                targetColumn.getTasks().forEach(task -> {
+                    targetTasksIds.add(task.getId());
+                });
+
+                ColumnRepository.updateTasksIds(sourceColumn.getId(), sourceTasksIds);
+                ColumnRepository.updateTasksIds(targetColumn.getId(), targetTasksIds);
+
             }
         });
 

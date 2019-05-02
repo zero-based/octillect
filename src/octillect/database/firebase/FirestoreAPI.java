@@ -61,7 +61,7 @@ public class FirestoreAPI {
     }
 
     // Update a specific attribute.
-    public static void updateAttribute(String collection, String document, String key, String value) {
+    public static void updateAttribute(String collection, String document, String key, Object value) {
         Connection.firestore.collection(collection).document(document).update(key, value);
     }
 

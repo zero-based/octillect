@@ -90,5 +90,8 @@ public class ProjectRepository {
         FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnId);
     }
 
+    public static void updateColumnsIds(String projectId, ArrayList<String> columnsIds) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnsIds);
+    }
 
 }

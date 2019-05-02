@@ -57,4 +57,9 @@ public class ColumnRepository {
     public static void addTask(String columnId, String taskId) {
         FirestoreAPI.appendAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", taskId);
     }
+
+    public static void updateTasksIds(String columnId, ArrayList<String> tasksIds) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", tasksIds);
+    }
+
 }

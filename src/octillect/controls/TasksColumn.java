@@ -1,5 +1,6 @@
 package octillect.controls;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import javafx.fxml.FXML;
@@ -18,7 +19,11 @@ import javafx.scene.paint.Color;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.NewTaskDialogController;
+import octillect.controllers.ProjectController;
+import octillect.database.accessors.ProjectRepository;
 import octillect.models.Column;
+
+import octillect.models.Project;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -34,11 +39,13 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     // Injected Controllers
     private ApplicationController applicationController;
     private NewTaskDialogController newTaskDialogController;
+    private ProjectController projectController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        newTaskDialogController = applicationController.newTaskDialogController;
+        newTaskDialogController    = applicationController.newTaskDialogController;
+        projectController          = applicationController.projectController;
     }
 
     public TasksColumn() {
@@ -86,6 +93,13 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 int sourceIndex = ((TasksColumn) event.getGestureSource()).getIndex();
                 int targetIndex = ((TasksColumn) event.getGestureTarget()).getIndex();
                 Collections.swap(getListView().getItems(), sourceIndex, targetIndex);
+
+                ArrayList<String> columnsIds = new ArrayList<>();
+                Project project = projectController.currentProject;
+                project.getColumns().forEach(column -> {
+                    columnsIds.add(column.getId());
+                });
+                ProjectRepository.updateColumnsIds(project.getId(), columnsIds);
             }
         });
 
