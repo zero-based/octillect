@@ -25,7 +25,9 @@ import octillect.Main;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
+import octillect.models.Column;
 import octillect.models.Project;
+import octillect.models.Task;
 import octillect.models.User;
 import octillect.models.builders.UserBuilder;
 
@@ -39,10 +41,21 @@ public class UserRepository {
         document.setName(user.getName());
         document.setEmail(user.getEmail());
         document.setPassword(user.getPassword());
-        /* TODO: Add Welcome Project to document here. */
+
+        ArrayList<String> projectsIds = new ArrayList<>();
+        projectsIds.add(user.getProjects().get(0).getId());
+        document.setProjectsIds(projectsIds);
 
         FirestoreAPI.insertDocument(FirestoreAPI.USERS, document.getId(), document);
         setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
+
+        ProjectRepository.add(user.getProjects().get(0));
+        for (Column column : user.getProjects().get(0).getColumns()) {
+            ColumnRepository.add(column);
+            for (Task task : column.getTasks()) {
+                TaskRepository.add(task);
+            }
+        }
     }
 
     // add user's image to CloudStorage
@@ -64,7 +77,6 @@ public class UserRepository {
                 $.email = document.getEmail();
                 $.password = document.getPassword();
                 $.image = getImage(document.getId());
-                $.projects = FXCollections.observableArrayList();
 
                 if (document.getProjectsIds() != null) {
                     ArrayList<Project> projectsIds = new ArrayList<>();

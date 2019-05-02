@@ -1,7 +1,14 @@
 package octillect.models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
+
+import octillect.database.firebase.FirestoreAPI;
+import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.TaskBuilder;
+
+import java.util.Calendar;
 
 public class Project implements IObservable<Pair<User,String>> {
 
@@ -100,6 +107,93 @@ public class Project implements IObservable<Pair<User,String>> {
     public void notifyObservers() {
         for (Pair<User, String>  observer : contributors) {
             observer.getKey().updateObserver();
+        }
+    }
+
+
+    public static final class WelcomeProject extends Project {
+
+        public WelcomeProject(User user) {
+
+            setId(FirestoreAPI.encryptWithDateTime("Welcome Project" + user.getId()));
+            setName("Welcome Project");
+            setDescription("Welcome to Octillect");
+            setContributors(FXCollections.observableArrayList(new Pair<>(user, "Owner")));
+
+            Column essentialsColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Octillect Essentials" + user.getId()))
+                    .withName("Octillect Essentials")
+                    .build();
+
+            Column featuresColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Octillect Features" + user.getId()))
+                    .withName("Octillect Features")
+                    .build();
+
+            setColumns(FXCollections.observableArrayList(essentialsColumn, featuresColumn));
+
+
+            Task task_1 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Projects" + user.getId()))
+                    .withName("Projects")
+                    .withIsCompleted(false)
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            Task task_2 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Columns" + user.getId()))
+                    .withName("Columns")
+                    .withDescription("Columns group cards into categories, like 'Todo', 'In Progress', and 'Done'.")
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            Task task_3 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Cards" + user.getId()))
+                    .withName("Cards")
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            essentialsColumn.setTasks(FXCollections.observableArrayList(task_1, task_2, task_3));
+
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(2019, Calendar.APRIL, 5);
+
+            Task task_4 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Done CheckBox" + user.getId()))
+                    .withName("Done CheckBox")
+                    .withDescription("When a task is done, a CheckBox appears on the Task's Cell.")
+                    .withIsCompleted(true)
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            Task task_5 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Over Due Date" + user.getId()))
+                    .withName("Over Due Date")
+                    .withDescription("If Task's due date is past, the date's label turns to be red.")
+                    .withDueDate(calendar.getTime())
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            calendar.set(2019, Calendar.MAY, 11);
+
+            Task task_6 = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Assignees" + user.getId()))
+                    .withName("Assignees")
+                    .withDescription("You can add Assignees to any Task and they will appear on the Task's Cell.")
+                    .withAssignees(FXCollections.observableArrayList(user))
+                    .withDueDate(calendar.getTime())
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(user)
+                    .build();
+
+            featuresColumn.setTasks(FXCollections.observableArrayList(task_4, task_5, task_6));
+
         }
     }
 
