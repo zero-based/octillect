@@ -5,10 +5,21 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import java.util.Calendar;
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import octillect.controls.OButton;
+import octillect.database.accessors.ColumnRepository;
+import octillect.database.accessors.ProjectRepository;
+import octillect.database.accessors.TaskRepository;
+import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Column;
+import octillect.models.Task;
+import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.TaskBuilder;
 
 public class NewColumnDialogController implements Injectable<ApplicationController> {
 
@@ -26,7 +37,6 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
 
     @FXML
     public void initialize() {
-
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
         newColumnNameTextField.getValidators().add(requiredFieldValidator);
         newColumnNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -46,7 +56,28 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
     public void handleAddColumnButtonAction(ActionEvent actionEvent) {
         newColumnNameTextField.validate();
         if (!requiredFieldValidator.getHasErrors()) {
-            /* TODO: Update Column's List Here. */
+
+            Column newColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime(newColumnNameTextField.getText() + applicationController.user.getId()))
+                    .withName(newColumnNameTextField.getText())
+                    .build();
+
+            projectController.currentProject.getColumns().add(newColumn);
+
+            Task untitledTask = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
+                    .withName("Untitled Task")
+                    .withIsCompleted(false)
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(applicationController.user)
+                    .build();
+
+            newColumn.setTasks(FXCollections.observableArrayList(untitledTask));
+
+            ProjectRepository.addColumn(projectController.currentProject.getId(), newColumn.getId());
+            ColumnRepository.add(newColumn);
+            TaskRepository.add(untitledTask);
+
             newColumnDialog.close();
         }
     }

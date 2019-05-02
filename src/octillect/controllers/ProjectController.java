@@ -20,6 +20,8 @@ public class ProjectController implements Injectable<ApplicationController> {
     @FXML public FontIcon calendarIcon;
     @FXML public FontIcon addColumnIcon;
 
+    public Project currentProject;
+
     // Injected Controllers
     private ApplicationController applicationController;
     private TitleBarController titleBarController;
@@ -45,6 +47,7 @@ public class ProjectController implements Injectable<ApplicationController> {
             return tasksColumn;
         });
 
+        currentProject = project;
     }
 
     @FXML
