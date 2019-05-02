@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/"
+          xmlns="http://javafx.com/javafx/"
+          fx:id="commitCellGridPane"
+          stylesheets="@/octillect/styles/Palette.css"
+          hgap="16">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <VBox GridPane.rowIndex="0"
+          GridPane.columnIndex="0"
+          alignment="CENTER">
+
+        <Separator prefHeight="16"
+                   orientation="VERTICAL"
+                   stylesheets="@/octillect/styles/Separator.css"/>
+
+        <Circle radius="18"
+                style="-fx-fill: transparent;"
+                stroke="${Palette.DARK_300}"
+                strokeWidth="3"/>
+
+    </VBox>
+
+    <VBox GridPane.rowIndex="0"
+          GridPane.columnIndex="1"
+          alignment="BOTTOM_LEFT">
+
+        <Hyperlink fx:id="commitSubject"
+                   translateX="-4"
+                   textFill="${Palette.DARK_300}"
+                   focusTraversable="false">
+            <font>
+                <Font name="Product Sans Bold" size="16"/>
+            </font>
+        </Hyperlink>
+
+        <HBox>
+            <FontIcon iconLiteral="oct-history"
+                      iconColor="${Palette.DARK_300}"
+                      iconSize="17"/>
+
+            <Label fx:id="commitAuthor"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold Italic" size="14"/>
+                </font>
+            </Label>
+
+            <Label text=" committed on "
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Regular" size="13"/>
+                </font>
+            </Label>
+
+            <Label fx:id="commitDate"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Regular" size="13"/>
+                </font>
+            </Label>
+
+        </HBox>
+
+    </VBox>
+
+    <Separator GridPane.rowIndex="1"
+               GridPane.columnIndex="0"
+               GridPane.halignment="CENTER"
+               minHeight="16"
+               orientation="VERTICAL"
+               stylesheets="@/octillect/styles/Separator.css"/>
+
+    <Label fx:id="commitBody"
+           GridPane.rowIndex="1"
+           GridPane.columnIndex="1"
+           textFill="${Palette.DARK_300}">
+        <padding>
+            <Insets top="8" bottom="8"/>
+        </padding>
+    </Label>
+
+</GridPane>
