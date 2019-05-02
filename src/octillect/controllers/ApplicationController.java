@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDrawersStack;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
+
 import octillect.Main;
 import octillect.models.User;
 
@@ -71,12 +72,10 @@ public class ApplicationController {
         newTaskDialogController   .inject(this);
         newColumnDialogController .inject(this);
 
-        /* TODO: Remove Condition after adding welcome project. */
-        if(user.getProjects() != null) {
-            leftDrawerController.userProjects.setAll(user.getProjects());
-            leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
-            projectController.loadProject(user.getProjects().get(0));
-        }
+        leftDrawerController.userProjects.setAll(user.getProjects());
+        leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
+        projectController.loadProject(user.getProjects().get(0));
+
     }
 
 }

@@ -6,10 +6,10 @@ import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.IOException;
 
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +26,7 @@ import octillect.Main;
 import octillect.controls.OButton;
 import octillect.database.accessors.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Project;
 import octillect.models.User;
 import octillect.models.builders.UserBuilder;
 import octillect.styles.Animation;
@@ -135,6 +136,8 @@ public class SignUpController {
                         $.image = SwingFXUtils.toFXImage(identicon, null);
                     }
                 }).build();
+
+                user.setProjects(FXCollections.observableArrayList((new Project.WelcomeProject(user))));
 
                 UserRepository.add(user);
                 Main.runApplication(user);
