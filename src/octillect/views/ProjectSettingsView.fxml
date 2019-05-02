@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns="http://javafx.com/javafx/"
+      xmlns:fx="http://javafx.com/fxml/"
+      fx:controller="octillect.controllers.ProjectSettingsController"
+      alignment="CENTER">
+
+    <Label text="PROJECT SETTINGS" />
+
+</VBox>

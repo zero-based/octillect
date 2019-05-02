@@ -8,4 +8,13 @@
            fx:id="rightDrawer"
            stylesheets="@/octillect/styles/Palette.css"
            direction="RIGHT"
-           defaultDrawerSize="640"/>
+           defaultDrawerSize="640">
+
+    <sidePane>
+        <fx:include fx:id="userSettings" source="UserSettingsView.fxml"/>
+        <fx:include fx:id="projectSettings" source="ProjectSettingsView.fxml"/>
+        <fx:include fx:id="taskSettings" source="TaskSettingsView.fxml"/>
+        <fx:include fx:id="gitHubRepository" source="GitHubRepositoryView.fxml"/>
+    </sidePane>
+
+</JFXDrawer>
