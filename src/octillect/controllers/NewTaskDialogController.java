@@ -6,10 +6,18 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import java.util.Calendar;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import octillect.controls.OButton;
+import octillect.database.accessors.ColumnRepository;
+import octillect.database.accessors.TaskRepository;
+import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Column;
+import octillect.models.Task;
+import octillect.models.builders.TaskBuilder;
 
 public class NewTaskDialogController implements Injectable<ApplicationController> {
 
@@ -18,6 +26,8 @@ public class NewTaskDialogController implements Injectable<ApplicationController
     @FXML public JFXTextField newTaskNameTextField;
     @FXML public JFXTextArea newTaskDescriptionTextArea;
     @FXML public OButton addTaskButton;
+
+    public Column currentColumn;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -46,7 +56,20 @@ public class NewTaskDialogController implements Injectable<ApplicationController
     public void handleAddTaskButtonAction(ActionEvent actionEvent) {
         newTaskNameTextField.validate();
         if(!requiredFieldValidator.getHasErrors()) {
-            /* TODO: Update TasksColumn's List Here. */
+
+            Task newTask = new TaskBuilder()
+                    .withId(FirestoreAPI.encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId()))
+                    .withName(newTaskNameTextField.getText())
+                    .withDescription(newTaskDescriptionTextArea.getText())
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(applicationController.user)
+                    .build();
+
+            currentColumn.getTasks().add(newTask);
+
+            ColumnRepository.addTask(currentColumn.getId(), newTask.getId());
+            TaskRepository.add(newTask);
+
             newTaskDialog.close();
         }
     }

@@ -111,6 +111,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
         addNewTaskIcon.setOnMouseClicked(event -> {
             newTaskDialogController.newTaskDialog.show(this.applicationController.rootStackPane);
+            newTaskDialogController.currentColumn = getItem();
         });
 
         /* TODO: Populate the TasksColumn view here */

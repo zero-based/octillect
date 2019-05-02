@@ -53,4 +53,8 @@ public class ColumnRepository {
         }
         return column;
     }
+
+    public static void addTask(String columnId, String taskId) {
+        FirestoreAPI.appendAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", taskId);
+    }
 }
