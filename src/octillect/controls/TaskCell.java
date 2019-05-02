@@ -9,10 +9,15 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.SnapshotParameters;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -45,6 +50,9 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
     @FXML private FlowPane taskIconsFlowPane;
     @FXML private JFXNodesList taskAssigneesNodesList;
     @FXML private BorderPane taskInfoBorderPane;
+    @FXML private MenuItem editButton;
+    @FXML private MenuItem deleteButton;
+    @FXML private Button taskMoreButton;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -177,6 +185,21 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             e.printStackTrace();
         }
 
+        taskMoreButton.setOnMouseClicked(event -> {
+            ContextMenu contextMenu = new ContextMenu();
+            contextMenu.getItems().addAll(editButton, deleteButton);
+            contextMenu.show(taskMoreButton, Side.RIGHT, 0, 0);
+        });
+
+        /* TODO: Add ContextMenu 's methods here */
+        editButton.setOnAction(event -> {
+
+        });
+
+        deleteButton.setOnAction(event -> {
+
+        });
+
         updateTaskInfo(taskItem);
         setGraphic(taskCellVBox);
 
@@ -210,6 +233,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             taskAssigneesNodesList.setVisible(false);
         else
             updateAssigneesNodesList(taskItem, taskAssigneesNodesList);
+
     }
 
     /**

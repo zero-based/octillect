@@ -5,10 +5,14 @@ import java.util.Collections;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -22,7 +26,6 @@ import octillect.controllers.NewTaskDialogController;
 import octillect.controllers.ProjectController;
 import octillect.database.accessors.ProjectRepository;
 import octillect.models.Column;
-
 import octillect.models.Project;
 
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -35,6 +38,9 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     @FXML private FontIcon columnMoreIcon;
     @FXML private Label columnNameLabel;
     @FXML private ListView tasksListView;
+    @FXML private MenuItem editButton;
+    @FXML private MenuItem deleteButton;
+    @FXML private Button columnMoreButton;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -126,6 +132,21 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         addNewTaskIcon.setOnMouseClicked(event -> {
             newTaskDialogController.newTaskDialog.show(this.applicationController.rootStackPane);
             newTaskDialogController.currentColumn = getItem();
+        });
+
+        columnMoreButton.setOnMouseClicked(event -> {
+            ContextMenu contextMenu = new ContextMenu();
+            contextMenu.getItems().addAll(editButton, deleteButton);
+            contextMenu.show(columnMoreButton, Side.RIGHT, 0, 0);
+        });
+
+        /* TODO: Add ContextMenu 's methods here */
+        editButton.setOnAction(event -> {
+
+        });
+
+        deleteButton.setOnAction(event -> {
+
         });
 
         /* TODO: Populate the TasksColumn view here */

@@ -6,6 +6,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 
 <?import octillect.styles.Palette?>
 
@@ -19,7 +22,7 @@
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
-
+    
     <BorderPane>
 
         <left>
@@ -52,11 +55,24 @@
                           iconSize="24"
                           iconColor="${Palette.PRIMARY}"/>
 
-                <FontIcon fx:id="columnMoreIcon"
-                          iconLiteral="gmi-more-vert"
-                          iconSize="24"
-                          iconColor="${Palette.PRIMARY}"/>
-
+                <Button fx:id="columnMoreButton"
+                        style=" -fx-background-color: transparent;"
+                        stylesheets="@/octillect/styles/ContextMenu.css">
+                    <graphic>
+                        <FontIcon iconLiteral="gmi-more-vert"
+                                  iconSize="24"
+                                  iconColor="${Palette.PRIMARY}"/>
+                    </graphic>
+                    <contextMenu>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="editButton" text="edit"/>
+                                <MenuItem fx:id="deleteButton" text="Delete"/>
+                            </items>
+                        </ContextMenu>
+                    </contextMenu>
+                </Button>
+                
             </HBox>
         </right>
 

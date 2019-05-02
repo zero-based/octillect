@@ -6,9 +6,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 
 <?import octillect.styles.Palette?>
 
@@ -37,12 +38,26 @@
         </left>
 
         <right>
-            <FontIcon fx:id="taskMoreIcon"
-                      iconLiteral="gmi-more-vert"
-                      iconSize="20"
-                      iconColor="${Palette.DARK_300}"
-                      translateY="4"
-                      opacity="0"/>
+            <Button fx:id="taskMoreButton"
+                    style=" -fx-background-color: transparent;"
+                    stylesheets="@/octillect/styles/ContextMenu.css">
+                <graphic>
+                    <FontIcon iconLiteral="gmi-more-vert"
+                              iconSize="20"
+                              iconColor="${Palette.DARK_300}"
+                              translateY="4"
+                              opacity="0"/>
+                </graphic>
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem fx:id="editButton" text="edit"/>
+                            <MenuItem fx:id="deleteButton" text="Delete"/>
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </Button>
+
         </right>
 
     </BorderPane>
@@ -55,11 +70,9 @@
                 <FontIcon iconLiteral="gmi-format-align-left"
                           iconSize="20"
                           iconColor="${Palette.DARK_300}"/>
-
                 <FontIcon iconLiteral="gmi-check-box"
                           iconSize="20"
                           iconColor="${Palette.DARK_300}"/>
-
                 <Label fx:id="taskDueDateLabel"
                        textFill="${Palette.DARK_300}"
                        translateY="2">
