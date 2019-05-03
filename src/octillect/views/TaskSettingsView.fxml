@@ -1,13 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.controlsfx.control.CheckComboBox?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
       fx:controller="octillect.controllers.TaskSettingsController"
-      alignment="CENTER">
+      stylesheets="@/octillect/styles/Palette.css"
+      spacing="16">
 
-    <Label text="TASK SETTINGS" />
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <VBox spacing="8">
+        <HBox spacing="8">
+            <FontIcon iconLiteral="gmi-create"
+                      iconSize="20"
+                      iconColor="${Palette.PRIMARY}"/>
+            <Label text="Task Name"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold" size="18"/>
+                </font>
+            </Label>
+        </HBox>
+        <JFXTextField promptText="Task Name"
+                      focusColor="${Palette.PRIMARY}"
+                      style="-fx-text-inner-color: -o-dark-300">
+        </JFXTextField>
+    </VBox>
+
+    <VBox spacing="8">
+        <HBox spacing="8">
+            <FontIcon iconLiteral="gmi-format-list-bulleted"
+                      iconSize="20"
+                      iconColor="${Palette.PRIMARY}"/>
+            <Label text="Description"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold" size="18"/>
+                </font>
+            </Label>
+        </HBox>
+        <JFXTextArea promptText="Description"
+                     focusColor="${Palette.PRIMARY}"
+                     prefHeight="100"
+                     style="-fx-text-inner-color: -o-dark-300">
+        </JFXTextArea>
+    </VBox>
+
+    <VBox spacing="8">
+        <HBox spacing="8">
+            <FontIcon iconLiteral="gmi-group"
+                      iconSize="20"
+                      iconColor="${Palette.PRIMARY}"/>
+            <Label text="Assignees"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold" size="18"/>
+                </font>
+            </Label>
+        </HBox>
+        <CheckComboBox fx:id="addFeaturesCheckComboBox"
+                       stylesheets="@/octillect/styles/CheckComboBox.css"
+                       prefWidth="250">
+        </CheckComboBox>
+    </VBox>
+
+    <VBox spacing="8">
+        <HBox spacing="8">
+            <FontIcon iconLiteral="gmi-bookmark-border"
+                      iconSize="20"
+                      iconColor="${Palette.PRIMARY}"/>
+            <Label text="Labels"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold" size="18"/>
+                </font>
+            </Label>
+        </HBox>
+        <CheckComboBox fx:id="addLabelsCheckComboBox"
+                       stylesheets="@/octillect/styles/CheckComboBox.css"
+                       prefWidth="250">
+        </CheckComboBox>
+    </VBox>
+
+    <VBox spacing="8">
+        <HBox spacing="8">
+            <FontIcon iconLiteral="gmi-access-alarms"
+                      iconSize="20"
+                      iconColor="${Palette.PRIMARY}"/>
+            <Label text="Due Date"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Bold" size="18"/>
+                </font>
+            </Label>
+        </HBox>
+        <JFXDatePicker fx:id="datePicker"
+                       editable="false"
+                       defaultColor="${Palette.PRIMARY}"
+                       promptText="Pick a Date"
+                       style="-fx-text-inner-color: -o-dark-300">
+        </JFXDatePicker>
+    </VBox>
 
 </VBox>
