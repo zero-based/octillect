@@ -76,4 +76,8 @@ public class TaskRepository {
 
         return task;
     }
+
+    public static void delete(String id) {
+        FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, id);
+    }
 }

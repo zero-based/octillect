@@ -34,6 +34,7 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.database.accessors.ColumnRepository;
+import octillect.database.accessors.TaskRepository;
 import octillect.models.Column;
 import octillect.models.Task;
 import octillect.styles.Palette;
@@ -197,7 +198,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         deleteButton.setOnAction(event -> {
+            // Get tasksListView, Get tasksColumnVBox, Get ListCell<Column>
+            Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
 
+            TaskRepository.delete(getItem().getId());
+            ColumnRepository.deleteTaskId(parentColumn.getId(), getItem().getId());
+
+            parentColumn.getTasks().remove(getItem());
         });
 
         updateTaskInfo(taskItem);

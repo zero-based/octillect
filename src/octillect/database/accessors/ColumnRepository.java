@@ -63,6 +63,16 @@ public class ColumnRepository {
     }
 
     /**
+     * Deletes a task from tasksIds attribute by a given id.
+     *
+     * @param columnId Column's id where task exists.
+     * @param taskId   Task's id to Delete.
+     */
+    public static void deleteTaskId(String columnId, String taskId) {
+        FirestoreAPI.deleteArrayElement(FirestoreAPI.COLUMNS, columnId, "tasksIds", taskId);
+    }
+
+    /**
      * Deletes a Column from database and all tasks included within.
      *
      * @param column    Column to be deleted.
