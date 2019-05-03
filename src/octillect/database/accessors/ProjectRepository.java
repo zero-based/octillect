@@ -94,4 +94,14 @@ public class ProjectRepository {
         FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnsIds);
     }
 
+    /**
+     * Deletes a column from columnsIds attribute by a given id.
+     *
+     * @param projectId Project's id where column exists.
+     * @param columnId  Column's id to Delete.
+     */
+    public static void deleteColumnId(String projectId, String columnId) {
+        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnId);
+    }
+
 }

@@ -24,6 +24,7 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.NewTaskDialogController;
 import octillect.controllers.ProjectController;
+import octillect.database.accessors.ColumnRepository;
 import octillect.database.accessors.ProjectRepository;
 import octillect.models.Column;
 import octillect.models.Project;
@@ -146,7 +147,10 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         });
 
         deleteButton.setOnAction(event -> {
+            ColumnRepository.delete(getItem());
+            ProjectRepository.deleteColumnId(projectController.currentProject.getId(), getItem().getId());
 
+            projectController.currentProject.getColumns().remove(getItem());
         });
 
         /* TODO: Populate the TasksColumn view here */
