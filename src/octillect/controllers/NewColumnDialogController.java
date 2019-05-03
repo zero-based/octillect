@@ -62,8 +62,6 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
                     .withName(newColumnNameTextField.getText())
                     .build();
 
-            projectController.currentProject.getColumns().add(newColumn);
-
             Task untitledTask = new TaskBuilder()
                     .withId(FirestoreAPI.encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
                     .withName("Untitled Task")
@@ -73,6 +71,7 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
                     .build();
 
             newColumn.setTasks(FXCollections.observableArrayList(untitledTask));
+            projectController.currentProject.getColumns().add(newColumn);
 
             ProjectRepository.addColumn(projectController.currentProject.getId(), newColumn.getId());
             ColumnRepository.add(newColumn);
