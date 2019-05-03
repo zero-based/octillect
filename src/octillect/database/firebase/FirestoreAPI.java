@@ -67,8 +67,12 @@ public class FirestoreAPI {
 
     // Append a specific attribute
     public static void appendAttribute(String collection, String document, String key, Object value) {
-        DocumentReference documentReference = Connection.firestore.collection(collection).document(document);
-        documentReference.update(key, FieldValue.arrayUnion(value));
+        Connection.firestore.collection(collection).document(document).update(key, FieldValue.arrayUnion(value));
+    }
+
+    // Remove a specific Element from an array Field
+    public static void deleteArrayElement(String collection, String document, String key, Object value) {
+        Connection.firestore.collection(collection).document(document).update(key, FieldValue.arrayRemove(value));
     }
 
     // Delete the whole document
