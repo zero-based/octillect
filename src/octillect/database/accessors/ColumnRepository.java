@@ -62,4 +62,17 @@ public class ColumnRepository {
         FirestoreAPI.updateAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", tasksIds);
     }
 
+    /**
+     * Deletes a Column from database and all tasks included within.
+     *
+     * @param column    Column to be deleted.
+     */
+    public static void delete(Column column) {
+        FirestoreAPI.deleteDocument(FirestoreAPI.COLUMNS, column.getId());
+
+        for (Task task : column.getTasks()) {
+            FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, task.getId());
+        }
+    }
+
 }
