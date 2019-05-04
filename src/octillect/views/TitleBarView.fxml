@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
@@ -59,11 +60,9 @@
                       iconColor="${Palette.DARK_300}"
                       onMouseClicked="#handleNotificationIconMouseClicked"/>
 
-            <FontIcon fx:id="userIcon"
-                      iconLiteral="gmi-account-circle"
-                      iconSize="26"
-                      iconColor="${Palette.DARK_300}"
-                      onMouseClicked="#handleUserIconMouseClicked"/>
+            <Circle fx:id="userImageCircle"
+                    radius="16"
+                    onMouseClicked="#handleUserIconMouseClicked"/>
 
         </HBox>
     </right>
