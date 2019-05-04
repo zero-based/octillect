@@ -38,8 +38,13 @@ public class Main extends Application {
 
         if (octillectFile.exists()) {
             signedUser = UserRepository.getRememberedUser();
-            if (signedUser != null)
-                runApplication(signedUser);
+            if (signedUser == null) {
+                octillectFile.delete();
+            }
+        }
+
+        if (signedUser != null) {
+            runApplication(signedUser);
         } else {
             // Get screen dimensions
             double screenWidth  = Screen.getPrimary().getVisualBounds().getWidth();
