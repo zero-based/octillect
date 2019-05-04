@@ -90,11 +90,11 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         setOnDragEntered(event -> {
-            if (event.getGestureSource() instanceof TaskCell && getItem() != null) {
 
-                Dragboard dragboard = event.getDragboard();
-                ListView currentListView = getListView();
-                Task task = null;
+            String sourceTaskId = event.getDragboard().getString();
+
+            if (event.getGestureSource() instanceof TaskCell && getItem() != null
+                    && getItem().getId() != sourceTaskId) {
 
                 // Get all Tasks ListViews in the current Project
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
@@ -109,27 +109,31 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                                 allTasksListViews.add(((TasksColumn) tasksColumn).getTasksListView());
                         });
 
+                Task sourceTask = null;
+
                 // Get the Source Task using ID
                 for (ListView<Task> listView : allTasksListViews) {
                     for (Task currentTask : listView.getItems()) {
-                        if (currentTask.getId() == dragboard.getString()) {
-                            task = currentTask;
+                        if (currentTask.getId().equals(sourceTaskId)) {
+                            sourceTask = currentTask;
                         }
                     }
                 }
 
                 // Remove the Source Task from all Columns
                 for (ListView<Task> listView : allTasksListViews) {
-                    listView.getItems().remove(task);
+                    listView.getItems().remove(sourceTask);
                 }
 
                 // Add task to current position
-                currentListView.getItems().add(getIndex(), task);
+                getListView().getItems().add(getIndex(), sourceTask);
+
             }
         });
 
         setOnDragDropped(event -> {
-            if (event.getGestureSource() instanceof TaskCell && getItem() != null) {
+            if (event.getGestureSource() instanceof TaskCell
+                    && event.getGestureTarget() instanceof TaskCell) {
 
                 TaskCell sourceTask = (TaskCell) event.getGestureSource();
                 TaskCell targetTask = (TaskCell) event.getGestureTarget();
@@ -147,13 +151,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                 ArrayList<String> sourceTasksIds = new ArrayList<>();
                 ArrayList<String> targetTasksIds = new ArrayList<>();
 
-                sourceColumn.getTasks().forEach(task -> {
-                    sourceTasksIds.add(task.getId());
-                });
-
-                targetColumn.getTasks().forEach(task -> {
-                    targetTasksIds.add(task.getId());
-                });
+                sourceColumn.getTasks().forEach(task -> sourceTasksIds.add(task.getId()));
+                targetColumn.getTasks().forEach(task -> targetTasksIds.add(task.getId()));
 
                 ColumnRepository.updateTasksIds(sourceColumn.getId(), sourceTasksIds);
                 ColumnRepository.updateTasksIds(targetColumn.getId(), targetTasksIds);
