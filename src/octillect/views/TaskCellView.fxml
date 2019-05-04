@@ -39,7 +39,7 @@
 
         <right>
             <Button fx:id="taskMoreButton"
-                    style=" -fx-background-color: transparent;"
+                    style="-fx-background-color: transparent; -fx-padding: 0;"
                     stylesheets="@/octillect/styles/ContextMenu.css">
                 <graphic>
                     <FontIcon fx:id="moreButtonIcon"
@@ -52,7 +52,7 @@
                 <contextMenu>
                     <ContextMenu>
                         <items>
-                            <MenuItem fx:id="editButton" text="edit"/>
+                            <MenuItem fx:id="editButton" text="Edit"/>
                             <MenuItem fx:id="deleteButton" text="Delete"/>
                         </items>
                     </ContextMenu>
