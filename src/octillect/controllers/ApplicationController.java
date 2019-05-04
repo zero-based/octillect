@@ -75,6 +75,7 @@ public class ApplicationController {
         leftDrawerController.userProjects.setAll(user.getProjects());
         leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
         projectController.loadProject(user.getProjects().get(0));
+        titleBarController.loadUserImage(user.getImage());
 
     }
 

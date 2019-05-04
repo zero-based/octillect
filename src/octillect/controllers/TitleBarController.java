@@ -5,7 +5,10 @@ import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -16,7 +19,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
     @FXML public Label projectNameLabel;
     @FXML public FontIcon notificationIcon;
     @FXML public FontIcon settingsIcon;
-    @FXML public FontIcon userIcon;
+    @FXML public Circle userImageCircle;
 
     public HamburgerBackArrowBasicTransition hamburgerTransition;
 
@@ -62,6 +65,10 @@ public class TitleBarController implements Injectable<ApplicationController> {
     public void handleUserIconMouseClicked(MouseEvent mouseEvent) {
         rightDrawerController.show(rightDrawerController.userSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+    }
+
+    public void loadUserImage(Image image) {
+        userImageCircle.setFill(new ImagePattern(applicationController.user.getImage()));
     }
 
 }
