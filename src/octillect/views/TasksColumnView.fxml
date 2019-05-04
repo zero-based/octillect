@@ -56,17 +56,17 @@
                           iconColor="${Palette.PRIMARY}"/>
 
                 <Button fx:id="columnMoreButton"
-                        style=" -fx-background-color: transparent;"
+                        style="-fx-background-color: transparent; -fx-padding: 0;"
                         stylesheets="@/octillect/styles/ContextMenu.css">
                     <graphic>
                         <FontIcon iconLiteral="gmi-more-vert"
-                                  iconSize="24"
+                                  iconSize="26"
                                   iconColor="${Palette.PRIMARY}"/>
                     </graphic>
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <MenuItem fx:id="editButton" text="edit"/>
+                                <MenuItem fx:id="editButton" text="Edit"/>
                                 <MenuItem fx:id="deleteButton" text="Delete"/>
                             </items>
                         </ContextMenu>
