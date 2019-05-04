@@ -42,7 +42,8 @@
                     style=" -fx-background-color: transparent;"
                     stylesheets="@/octillect/styles/ContextMenu.css">
                 <graphic>
-                    <FontIcon iconLiteral="gmi-more-vert"
+                    <FontIcon fx:id="moreButtonIcon"
+                              iconLiteral="gmi-more-vert"
                               iconSize="20"
                               iconColor="${Palette.DARK_300}"
                               translateY="4"
