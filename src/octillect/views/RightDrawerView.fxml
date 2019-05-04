@@ -2,6 +2,9 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+
 <JFXDrawer xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.RightDrawerController"
@@ -11,10 +14,18 @@
            defaultDrawerSize="640">
 
     <sidePane>
-        <fx:include fx:id="userSettings" source="UserSettingsView.fxml"/>
-        <fx:include fx:id="projectSettings" source="ProjectSettingsView.fxml"/>
-        <fx:include fx:id="taskSettings" source="TaskSettingsView.fxml"/>
-        <fx:include fx:id="gitHubRepository" source="GitHubRepositoryView.fxml"/>
+        <StackPane style="-fx-background-color: -o-dark-700;">
+
+            <padding>
+                <Insets topRightBottomLeft="32"/>
+            </padding>
+
+            <fx:include fx:id="userSettings" source="UserSettingsView.fxml"/>
+            <fx:include fx:id="projectSettings" source="ProjectSettingsView.fxml"/>
+            <fx:include fx:id="taskSettings" source="TaskSettingsView.fxml"/>
+            <fx:include fx:id="gitHubRepository" source="GitHubRepositoryView.fxml"/>
+
+        </StackPane>
     </sidePane>
 
 </JFXDrawer>
