@@ -2,6 +2,7 @@ package octillect.controls;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,7 @@ import octillect.database.accessors.ColumnRepository;
 import octillect.database.accessors.ProjectRepository;
 import octillect.models.Column;
 import octillect.models.Project;
+import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -153,7 +155,6 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
             projectController.currentProject.getColumns().remove(getItem());
         });
 
-        /* TODO: Populate the TasksColumn view here */
         columnNameLabel.setText(columnItem.getName());
 
         // Populate the TasksColumn's tasksListView with columnItem's tasks
@@ -162,6 +163,76 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
             TaskCell taskCell = new TaskCell();
             taskCell.inject(applicationController);
             return taskCell;
+        });
+
+        tasksListView.setOnDragOver(event -> {
+            if (event.getGestureSource() instanceof TaskCell) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+        });
+
+        tasksListView.setOnDragEntered(event -> {
+            if (event.getGestureSource() instanceof TaskCell) {
+
+                // Get all Tasks ListViews in the current Project
+                List<ListView<Task>> allTasksListViews = new ArrayList<>();
+
+                tasksListView.getParent()               // Gets tasksColumnVBox
+                        .getParent()                    // Gets ListCell<Column>
+                        .getParent()                    // Gets projectListView
+                        .getChildrenUnmodifiable()      // Gets All ListCell<Column>'s
+                        .forEach(tasksColumn -> {
+                            if (((TasksColumn) tasksColumn).getTasksListView() != null)
+                                allTasksListViews.add(((TasksColumn) tasksColumn).getTasksListView());
+                        });
+
+                Task sourceTask = null;
+                String sourceTaskId = event.getDragboard().getString();
+
+                // Get the Source Task using ID
+                for (ListView<Task> listView : allTasksListViews) {
+                    for (Task currentTask : listView.getItems()) {
+                        if (currentTask.getId().equals(sourceTaskId)) {
+                            sourceTask = currentTask;
+                        }
+                    }
+                }
+
+                // Remove the Source Task from all Columns
+                for (ListView<Task> listView : allTasksListViews) {
+                    listView.getItems().remove(sourceTask);
+                }
+
+                // Add task to current ListView
+                tasksListView.getItems().add(sourceTask);
+            }
+        });
+
+        tasksListView.setOnDragDropped(event -> {
+            if (event.getGestureSource() instanceof TaskCell
+                    && event.getGestureTarget() instanceof ListView) {
+
+                TaskCell sourceTask = (TaskCell) event.getGestureSource();
+
+                Column sourceColumn = ((TasksColumn) sourceTask.getListView()   // Gets tasksListView
+                        .getParent()                                            // Gets tasksColumnVBox
+                        .getParent())                                           // Gets ListCell<Column>
+                        .getItem();
+
+                Column targetColumn = ((TasksColumn) tasksListView.getParent()  // Gets tasksColumnVBox                                // Gets tasksColumnVBox
+                        .getParent())                                           // Gets ListCell<Column>
+                        .getItem();
+
+                ArrayList<String> sourceTasksIds = new ArrayList<>();
+                ArrayList<String> targetTasksIds = new ArrayList<>();
+
+                sourceColumn.getTasks().forEach(task -> sourceTasksIds.add(task.getId()));
+                targetColumn.getTasks().forEach(task -> targetTasksIds.add(task.getId()));
+
+                ColumnRepository.updateTasksIds(sourceColumn.getId(), sourceTasksIds);
+                ColumnRepository.updateTasksIds(targetColumn.getId(), targetTasksIds);
+
+            }
         });
 
         setGraphic(tasksColumnVBox);
