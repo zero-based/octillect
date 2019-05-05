@@ -70,7 +70,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
                     .withId(FirestoreAPI.encryptWithDateTime(newProjectNameTextField.getText()))
                     .withName(newProjectNameTextField.getText())
                     .withDescription(newProjectDescriptionTextArea.getText())
-                    .withContributors(FXCollections.observableArrayList(new Pair<>(applicationController.user,"Owner")))
+                    .withContributors(FXCollections.observableArrayList(new Pair<>(applicationController.user, Project.Role.owner)))
                     .build();
 
             // Add column.

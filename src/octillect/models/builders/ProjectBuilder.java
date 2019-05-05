@@ -16,7 +16,7 @@ public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
     public String name;
     public String description;
     public String repositoryName;
-    public ObservableList<Pair<User,String>> contributors;
+    public ObservableList<Pair<User, Project.Role>> contributors;
     public ObservableList<Column> columns;
     public ObservableList<Label> labels;
 
@@ -51,7 +51,7 @@ public class ProjectBuilder implements Builder<Project, ProjectBuilder> {
         return this;
     }
 
-    public ProjectBuilder withContributors(ObservableList<Pair<User,String>> contributors) {
+    public ProjectBuilder withContributors(ObservableList<Pair<User, Project.Role>> contributors) {
         this.contributors = contributors;
         return this;
     }
