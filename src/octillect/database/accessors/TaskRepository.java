@@ -3,6 +3,7 @@ package octillect.database.accessors;
 import com.google.cloud.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 
@@ -96,6 +97,31 @@ public class TaskRepository {
 
         return task;
     }
+
+    public static void updateName(String taskId, String name) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "name", name);
+    }
+
+    public static void updateDescription(String taskId, String description) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "description", description);
+    }
+
+    public static void updateisCompleted(String taskId, boolean isCompleted) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "isCompleted", isCompleted);
+    }
+
+    public static void updateDueDate(String taskId, Date dueDate) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "dueDate", dueDate);
+    }
+
+    public static void updateLabelsIds(String taskId, ArrayList<String> labelIds) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "labelsIds", labelIds);
+    }
+
+    public static void updateAssigneeIds(String taskId, ArrayList<String> assigneeIds) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "assigneesIds", assigneeIds);
+    }
+
 
     public static void delete(String id) {
         FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, id);
