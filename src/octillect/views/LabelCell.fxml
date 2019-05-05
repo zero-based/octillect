@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
@@ -18,18 +20,25 @@
     </fx:define>
 
     <left>
-        <Label fx:id="labelNameLabel"
-               style="-fx-background-radius: 4px; -fx-padding: 4 8;">
-            <font>
-                <Font name="Product Sans Regular" size="14"/>
-            </font>
-        </Label>
+        <HBox fx:id="labelColorHBox" prefWidth="288">
+
+            <padding>
+                <Insets top="4" right="8" bottom="4" left="8" />
+            </padding>
+
+            <Label fx:id="labelNameLabel">
+                <font>
+                    <Font name="Product Sans Regular" size="14"/>
+                </font>
+            </Label>
+
+        </HBox>
     </left>
 
     <right>
         <FontIcon fx:id="deleteLabelIcon"
                   iconLiteral="gmi-clear"
-                  iconColor="${Palette.DARK_900}"
+                  iconColor="${Palette.DARK_300}"
                   iconSize="24"/>
     </right>
 
