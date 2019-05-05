@@ -1,13 +1,295 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXColorPicker?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.controls.OButton?>
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
       fx:controller="octillect.controllers.ProjectSettingsController"
-      alignment="CENTER">
+      stylesheets="@/octillect/styles/Palette.css"
+      spacing="16">
 
-    <Label text="PROJECT SETTINGS" />
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <!--EDIT-NAME TITLED-PANE-->
+    <TitledPane fx:id="editNameTitledPane"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                expanded="false"
+                onMouseClicked="#handleTitledPaneOnAction">
+
+        <graphic>
+
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-edit"
+                          iconColor="${Palette.PRIMARY}"
+                          iconSize="22"/>
+
+                <Label text="Edit Name"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+
+        </graphic>
+
+        <VBox spacing="16">
+
+            <JFXTextField fx:id="editNameTextArea"
+                          style="-fx-text-fill: -o-dark-300;"
+                          stylesheets="@/octillect/styles/TextArea.css"
+                          focusColor="${Palette.PRIMARY}"/>
+
+            <OButton fx:id="saveNameButton"
+                     text="Save"
+                     color="PRIMARY"
+                     fill="TRUE"
+                     style="-fx-font-size: 14;"
+                     onMouseClicked="#handleSaveNameButtonAction"/>
+
+        </VBox>
+
+    </TitledPane>
+
+    <!--EDIT-DESCRIPTION TITLED-PANE-->
+    <TitledPane fx:id="editDescriptionTitledPane"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                expanded="false"
+                onMouseClicked="#handleTitledPaneOnAction">
+
+        <graphic>
+
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-description"
+                          iconColor="${Palette.PRIMARY}"
+                          iconSize="22"/>
+
+                <Label text="Edit Description"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+
+        </graphic>
+
+        <VBox spacing="16">
+
+            <JFXTextArea fx:id="editDescriptionTextArea"
+                         prefHeight="3"
+                         style="-fx-text-fill: -o-dark-300;"
+                         stylesheets="@/octillect/styles/TextArea.css"
+                         focusColor="${Palette.PRIMARY}"/>
+
+            <OButton fx:id="saveDescriptionButton"
+                     text="Save"
+                     style="-fx-font-size: 14;"
+                     fill="TRUE"
+                     color="PRIMARY"
+                     onMouseClicked="#handleSaveDescriptionButtonAction"/>
+
+        </VBox>
+
+    </TitledPane>
+
+    <!--CONTRIBUTORS TITLED-PANE-->
+    <TitledPane fx:id="contributorsTitledPane"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                expanded="false"
+                onMouseClicked="#handleTitledPaneOnAction">
+
+        <graphic>
+
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-group"
+                          iconColor="${Palette.PRIMARY}"
+                          iconSize="22"/>
+
+                <Label text="Contributors"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+
+        </graphic>
+
+        <VBox spacing="16">
+
+            <JFXListView fx:id="contributorsListView"
+                         stylesheets="@/octillect/styles/ListView.css"/>
+
+            <BorderPane>
+
+                <padding>
+                    <Insets topRightBottomLeft="8"/>
+                </padding>
+
+                <left>
+
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+
+                        <JFXTextField fx:id="inviteContributorByEmailTextField"
+                                      prefColumnCount="20"
+                                      promptText="or Invite by Email"
+                                      focusColor="${Palette.PRIMARY}"
+                                      style="-fx-text-inner-color: -o-dark-300;"/>
+
+
+                        <JFXComboBox fx:id="rolesComboBox"
+                                     promptText="Select Role"
+                                     focusColor="${Palette.PRIMARY}"
+                                     stylesheets="@/octillect/styles/ComboBox.css"/>
+
+                    </HBox>
+
+                </left>
+
+                <right>
+
+                    <HBox>
+
+                        <OButton fx:id="inviteContributorButton"
+                                 text="Invite"
+                                 color="PRIMARY"
+                                 fill="TRUE"
+                                 style="-fx-font-size: 14;"
+                                 onMouseClicked="#handleInviteContributorButtonAction"/>
+
+
+                    </HBox>
+
+                </right>
+
+            </BorderPane>
+
+        </VBox>
+
+    </TitledPane>
+
+    <!--LABELS TITLED-PANE-->
+    <TitledPane fx:id="labelsTitledPane"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                expanded="false"
+                onMouseClicked="#handleTitledPaneOnAction">
+
+        <graphic>
+
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-label"
+                          iconColor="${Palette.PRIMARY}"
+                          iconSize="22"/>
+
+                <Label text="Labels"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+
+        </graphic>
+
+
+        <VBox>
+
+            <JFXListView fx:id="labelsListView"
+                         stylesheets="@/octillect/styles/ListView.css"/>
+
+            <BorderPane>
+
+                <padding>
+                    <Insets topRightBottomLeft="8"/>
+                </padding>
+
+                <left>
+
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+
+                        <JFXTextField fx:id="newLabelTextField"
+                                      promptText="or Add New Label"
+                                      focusColor="${Palette.PRIMARY}"
+                                      style="-fx-text-inner-color: -o-dark-300;"/>
+
+                        <JFXColorPicker fx:id="labelColorPicker"
+                                        promptText="Choose Label Color"
+                                        stylesheets="@/octillect/styles/ColorPicker.css"/>
+
+                    </HBox>
+
+                </left>
+
+                <right>
+
+                    <OButton fx:id="addLabelButton"
+                             text="Add"
+                             color="PRIMARY"
+                             fill="TRUE"
+                             style="-fx-font-size: 14;"
+                             onMouseClicked="#handleAddLabelButtonAction"/>
+
+                </right>
+
+            </BorderPane>
+
+        </VBox>
+
+    </TitledPane>
+
+    <!--DELETE PROJECT-->
+    <TitledPane fx:id="deleteProjectTitledPane"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                expanded="false"
+                onMouseClicked="#handleDeleteProjectAction">
+
+        <graphic>
+
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-delete"
+                          iconColor="${Palette.PRIMARY}"
+                          iconSize="22"/>
+
+                <Label text="Delete Project"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+
+        </graphic>
+
+    </TitledPane>
 
 </VBox>

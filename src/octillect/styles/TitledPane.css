@@ -1,0 +1,20 @@
+@import "Palette.css"
+
+.titled-pane,
+.titled-pane > * {
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -o-dark-300;
+}
+
+.titled-pane > .title {
+    -fx-translate-x: -24;
+}
+
+.titled-pane > .title > .arrow-button,
+.titled-pane > .title > .arrow-button .arrow,
+.titled-pane:focused > .title > .arrow-button .arrow,
+.titled-pane:collapsed > .title > .arrow-button .arrow {
+    -fx-background-color: transparent;
+}
