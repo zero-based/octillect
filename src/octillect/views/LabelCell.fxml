@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/"
+            xmlns:fx="http://javafx.com/fxml/"
+            fx:id="labelCellBorderPane"
+            stylesheets="@/octillect/styles/Palette.css">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <left>
+        <Label fx:id="labelNameLabel"
+               style="-fx-background-radius: 4px; -fx-padding: 4 8;">
+            <font>
+                <Font name="Product Sans Regular" size="14"/>
+            </font>
+        </Label>
+    </left>
+
+    <right>
+        <FontIcon fx:id="deleteLabelIcon"
+                  iconLiteral="gmi-clear"
+                  iconColor="${Palette.DARK_900}"
+                  iconSize="24"/>
+    </right>
+
+</BorderPane>
