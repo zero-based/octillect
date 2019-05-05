@@ -105,7 +105,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
         }).build();
         octillect.models.Label label3 = new LabelBuilder().with($_label3 -> {
             $_label3.name = "improvement";
-            $_label3.color = Color.TURQUOISE;
+            $_label3.color = Color.BLACK;
         }).build();
 
         ObservableList<octillect.models.Label> labels = FXCollections.observableArrayList(label1, label2, label3);

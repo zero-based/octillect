@@ -38,6 +38,14 @@ public class LabelCell extends ListCell<Label> {
         labelColorHBox.setStyle("-fx-background-color: " + labelItem.getColorHex() + "; -fx-background-radius: 4px;");
         labelNameLabel.setText(labelItem.getName());
 
+        // Counting the perceptive luminance
+        double luminance = 0.299 * labelItem.getColor().getRed()
+                + 0.587 * labelItem.getColor().getGreen()
+                + 0.114 * labelItem.getColor().getBlue();
+
+        String textFillStyle = luminance > 0.5 ? "-fx-text-fill: black;" : "-fx-text-fill: white;";
+        labelNameLabel.setStyle(textFillStyle);
+
         deleteLabelIcon.setOnMouseClicked(event -> {
         });
 
