@@ -27,7 +27,7 @@ public class ProjectRepository {
         document.setRepositoryName(project.getRepositoryName());
 
         ArrayList<HashMap<String, String>> contributorIds = new ArrayList<>();
-        for (Pair<User, String> contributor : project.getContributors()) {
+        for (Pair<User, Project.Role> contributor : project.getContributors()) {
             ContributorMap contributorMap = new ContributorMap(contributor.getKey().getId(), contributor.getValue());
             contributorIds.add(contributorMap.getMap());
         }
@@ -66,11 +66,11 @@ public class ProjectRepository {
                     $.columns = FXCollections.observableArrayList(columnsIds);
                 }
 
-                ArrayList<Pair<User, String>> contributorsIds = new ArrayList<>();
+                ArrayList<Pair<User, Project.Role>> contributorsIds = new ArrayList<>();
                 for (HashMap<String, String> contributor : document.getContributors()) {
                     User user = UserRepository.getContributor(contributor.get("id"));
-                    String role = contributor.get("role");
-                    Pair<User, String> pair = new Pair(user, role);
+                    Project.Role role = Project.Role.valueOf(contributor.get("role"));
+                    Pair<User, Project.Role> pair = new Pair(user, role);
                     contributorsIds.add(pair);
                 }
                 $.contributors = FXCollections.observableArrayList(contributorsIds);
@@ -81,7 +81,7 @@ public class ProjectRepository {
         return project;
     }
 
-    public static void addContributor(String projectId, String email, String role) {
+    public static void addContributor(String projectId, String email, Project.Role role) {
         ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
         FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
     }

@@ -7,11 +7,12 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Pair;
 
+import octillect.models.Project;
 import octillect.models.User;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class ContributorCell extends ListCell<Pair<User, String>> {
+public class ContributorCell extends ListCell<Pair<User, Project.Role>> {
 
     //FXML Fields
     @FXML public BorderPane contributorCellBorderPane;
@@ -21,7 +22,7 @@ public class ContributorCell extends ListCell<Pair<User, String>> {
     @FXML public FontIcon closeIcon;
 
     @Override
-    public void updateItem(Pair<User, String> contributorItem, boolean empty) {
+    public void updateItem(Pair<User, Project.Role> contributorItem, boolean empty) {
 
         super.updateItem(contributorItem, empty);
 
@@ -40,7 +41,7 @@ public class ContributorCell extends ListCell<Pair<User, String>> {
 
         usernameLabel.setText(contributorItem.getKey().getName());
         emailLabel.setText(contributorItem.getKey().getEmail());
-        roleLabel.setText(contributorItem.getValue());
+        roleLabel.setText(contributorItem.getValue().toString());
 
         closeIcon.setOnMouseClicked(event -> {
         });

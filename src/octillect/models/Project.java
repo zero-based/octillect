@@ -1,5 +1,7 @@
 package octillect.models;
 
+import java.util.Calendar;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
@@ -8,15 +10,19 @@ import octillect.database.firebase.FirestoreAPI;
 import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.TaskBuilder;
 
-import java.util.Calendar;
+public class Project implements IObservable<Pair<User, Project.Role>> {
 
-public class Project implements IObservable<Pair<User,String>> {
+    public enum Role {
+        owner,
+        admin,
+        viewer
+    }
 
     private String id;
     private String name;
     private String description;
     private String repositoryName;
-    private ObservableList<Pair<User,String>> contributors;
+    private ObservableList<Pair<User, Role>> contributors;
     private ObservableList<Column> columns;
     private ObservableList<Label> labels;
 
@@ -24,7 +30,7 @@ public class Project implements IObservable<Pair<User,String>> {
     public Project() {}
 
     public Project(String id, String name, String description, String repositoryName,
-                   ObservableList<Pair<User,String>> contributors, ObservableList<Column> columns,
+                   ObservableList<Pair<User, Role>> contributors, ObservableList<Column> columns,
                    ObservableList<Label> labels) {
         this.id             = id;
         this.name           = name;
@@ -68,11 +74,11 @@ public class Project implements IObservable<Pair<User,String>> {
         this.repositoryName = repositoryName;
     }
 
-    public ObservableList<Pair<User, String>> getContributors() {
+    public ObservableList<Pair<User, Role>> getContributors() {
         return contributors;
     }
 
-    public void setContributors(ObservableList<Pair<User, String>> contributors) {
+    public void setContributors(ObservableList<Pair<User, Role>> contributors) {
         this.contributors = contributors;
     }
 
@@ -94,18 +100,18 @@ public class Project implements IObservable<Pair<User,String>> {
 
 
     @Override
-    public void addObserver(Pair<User, String> observer) {
+    public void addObserver(Pair<User, Project.Role> observer) {
         contributors.add(observer);
     }
 
     @Override
-    public void removeObserver(Pair<User, String> observer) {
+    public void removeObserver(Pair<User, Project.Role> observer) {
         contributors.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Pair<User, String>  observer : contributors) {
+        for (Pair<User, Project.Role>  observer : contributors) {
             observer.getKey().updateObserver();
         }
     }
@@ -118,7 +124,7 @@ public class Project implements IObservable<Pair<User,String>> {
             setId(FirestoreAPI.encryptWithDateTime("Welcome Project" + user.getId()));
             setName("Welcome Project");
             setDescription("Welcome to Octillect");
-            setContributors(FXCollections.observableArrayList(new Pair<>(user, "Owner")));
+            setContributors(FXCollections.observableArrayList(new Pair<>(user, Role.owner)));
 
             Column essentialsColumn = new ColumnBuilder()
                     .withId(FirestoreAPI.encryptWithDateTime("Octillect Essentials" + user.getId()))

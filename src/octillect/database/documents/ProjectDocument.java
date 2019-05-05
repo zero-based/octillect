@@ -3,15 +3,17 @@ package octillect.database.documents;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import octillect.models.Project;
+
 public class ProjectDocument {
 
     public static class ContributorMap {
 
         HashMap<String, String> map = new HashMap();
 
-        public ContributorMap(String id, String role) {
+        public ContributorMap(String id, Project.Role role) {
             map.put("id", id);
-            map.put("role", role);
+            map.put("role", role.toString());
         }
 
         public HashMap<String, String> getMap() {

@@ -19,6 +19,7 @@ import javafx.util.StringConverter;
 import octillect.controls.ContributorCell;
 import octillect.controls.LabelCell;
 import octillect.controls.OButton;
+import octillect.models.Project;
 import octillect.models.User;
 import octillect.models.builders.LabelBuilder;
 import octillect.models.builders.UserBuilder;
@@ -33,7 +34,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
     @FXML public JFXTextArea editDescriptionTextArea;
     @FXML public OButton saveDescriptionButton;
     @FXML public TitledPane contributorsTitledPane;
-    @FXML public JFXListView<Pair<User, String>> contributorsListView;
+    @FXML public JFXListView<Pair<User, Project.Role>> contributorsListView;
     @FXML public JFXTextField inviteContributorByEmailTextField;
     @FXML public JFXComboBox rolesComboBox;
     @FXML public OButton inviteContributorButton;
@@ -55,10 +56,10 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
     public void initialize() {
 
         //Initializing rolesComboBox
-        rolesComboBox.getItems().add(new Label("Admin"));
-        rolesComboBox.getItems().add(new Label("User"));
-        rolesComboBox.getItems().add(new Label("FrontEnd Developer"));
-        rolesComboBox.getItems().add(new Label("BackEnd Developer"));
+        for (Project.Role role : Project.Role.values()) {
+            rolesComboBox.getItems().add(new Label(role.toString()));
+        }
+
         rolesComboBox.setEditable(true);
         rolesComboBox.setConverter(new StringConverter<Label>() {
             @Override
@@ -86,9 +87,11 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
             $.email = "monica@hotmail.com";
         }).build();
 
-        ObservableList<Pair<User, String>> users = FXCollections.observableArrayList(new Pair(user1, "admin"),
-                new Pair(user2, "user"), new Pair(user3, "developer"));
-        contributorsListView.setItems(users);
+        ObservableList<Pair<User, Project.Role>> contributors = FXCollections.observableArrayList(
+                new Pair(user1, Project.Role.owner),
+                new Pair(user2, Project.Role.admin),
+                new Pair(user3, Project.Role.viewer));
+        contributorsListView.setItems(contributors);
         contributorsListView.setCellFactory(param -> new ContributorCell());
 
         //Initializing labelsListView
@@ -107,8 +110,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
 
         ObservableList<octillect.models.Label> labels = FXCollections.observableArrayList(label1, label2, label3);
         labelsListView.setItems(labels);
-        labelsListView.setCellFactory(param -> new LabelCell() {
-        });
+        labelsListView.setCellFactory(param -> new LabelCell());
 
     }
 
