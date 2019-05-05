@@ -1,0 +1,7 @@
+@import "Palette.css"
+
+.label {
+    -fx-background-color: -o-info;
+    -fx-padding: 0 4;
+    -fx-background-radius: 50ex;
+}
