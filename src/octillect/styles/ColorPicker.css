@@ -1,0 +1,21 @@
+@import "Palette.css"
+
+.jfx-color-picker .color-label {
+    -fx-background-color: derive(-o-dark-700, -16%);
+    -fx-text-fill: -o-dark-300;
+    -fx-padding: 0 4;
+    -fx-background-radius: 50ex;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.jfx-color-picker .color-label:selected {
+    -fx-background-color: derive(-o-dark-700, -16%);
+    -fx-text-fill: -o-dark-300;
+}
+
+.jfx-color-picker .color-box {
+    -fx-background-color: derive(-o-dark-700, -16%);
+    -fx-background-radius: 3px;
+}
