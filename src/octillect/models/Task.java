@@ -15,13 +15,13 @@ public class Task {
     private User creator;
     private ObservableList<User> assignees;
     private ObservableList<Task> subTasks;
-
+    private ObservableList<Label> labels;
 
     public Task() {}
 
     public Task(String id, String name, String description, boolean isCompleted,
                 Date dueDate, Date creationDate, User creator,
-                ObservableList<User> assignees, ObservableList<Task> subTasks) {
+                ObservableList<User> assignees, ObservableList<Task> subTasks, ObservableList<Label> labels ) {
         this.id           = id;
         this.name         = name;
         this.description  = description;
@@ -31,6 +31,7 @@ public class Task {
         this.creator      = creator;
         this.assignees    = assignees;
         this.subTasks     = subTasks;
+        this.labels       = labels;
     }
 
 
@@ -113,5 +114,10 @@ public class Task {
     public void setSubTasks(ObservableList<Task> subTasks) {
         this.subTasks = subTasks;
     }
+
+
+    public ObservableList<Label> getLabels() { return labels; }
+
+    public void setLabels(ObservableList<Label> labels) { this.labels = labels; }
 
 }
