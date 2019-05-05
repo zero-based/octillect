@@ -14,6 +14,7 @@ public class TaskDocument {
     String creatorId;
     ArrayList<String> assigneesIds;
     ArrayList<String> subTasksIds;
+    ArrayList<String> labelsIds;
 
     public TaskDocument() {
     }
@@ -88,6 +89,14 @@ public class TaskDocument {
 
     public void setSubTasksIds(ArrayList<String> subTasksIds) {
         this.subTasksIds = subTasksIds;
+    }
+
+    public ArrayList<String> getLabelsIds() {
+        return labelsIds;
+    }
+
+    public void setLabelsIds(ArrayList<String> labelsIds) {
+        this.labelsIds = labelsIds;
     }
 
 }

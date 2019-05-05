@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 
 import octillect.database.documents.TaskDocument;
 import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Label;
 import octillect.models.Task;
 import octillect.models.User;
 import octillect.models.builders.TaskBuilder;
@@ -32,6 +33,7 @@ public class TaskRepository {
             }
             document.setAssigneesIds(assigneesIds);
         }
+
         if (task.getSubTasks() != null) {
             ArrayList<String> subTasksIds = new ArrayList<>();
             for (Task subTasks : task.getSubTasks()) {
@@ -39,6 +41,15 @@ public class TaskRepository {
             }
             document.setSubTasksIds(subTasksIds);
         }
+
+        if (task.getLabels() != null) {
+            ArrayList<String> labelsIds = new ArrayList<>();
+            for (Label label : task.getLabels()) {
+                labelsIds.add(label.getId());
+            }
+            document.setLabelsIds(labelsIds);
+        }
+
         FirestoreAPI.insertDocument(FirestoreAPI.TASKS, document.getId(), document);
     }
 
@@ -65,12 +76,21 @@ public class TaskRepository {
                 }
                 task.setAssignees(FXCollections.observableArrayList(tempAssignees));
             }
+
             if (document.getSubTasksIds() != null) {
                 ArrayList<Task> tempSubTasks = new ArrayList<>();
                 for (String subTaskId : document.getSubTasksIds()) {
                     tempSubTasks.add(TaskRepository.get(subTaskId));
                 }
                 task.setSubTasks(FXCollections.observableArrayList(tempSubTasks));
+            }
+
+            if (document.getLabelsIds() != null) {
+                ArrayList<Label> tempLabels = new ArrayList<>();
+                for (String labelId : document.getLabelsIds()) {
+                    tempLabels.add(LabelRepository.get(labelId));
+                }
+                task.setLabels(FXCollections.observableArrayList(tempLabels));
             }
         }
 
