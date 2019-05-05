@@ -57,13 +57,17 @@ public class NewTaskDialogController implements Injectable<ApplicationController
         newTaskNameTextField.validate();
         if(!requiredFieldValidator.getHasErrors()) {
 
-            Task newTask = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId()))
-                    .withName(newTaskNameTextField.getText())
-                    .withDescription(newTaskDescriptionTextArea.getText())
-                    .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(applicationController.user)
-                    .build();
+            Task newTask = new TaskBuilder().with($ -> {
+                $.id = FirestoreAPI.encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId());
+                $.name = newTaskNameTextField.getText();
+
+                if (!newTaskDescriptionTextArea.getText().equals("")) {
+                    $.description = newTaskDescriptionTextArea.getText();
+                }
+
+                $.creationDate = Calendar.getInstance().getTime();
+                $.creator = applicationController.user;
+            }).build();
 
             currentColumn.getTasks().add(newTask);
 
