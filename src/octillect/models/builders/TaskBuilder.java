@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.function.Consumer;
 
 import javafx.collections.ObservableList;
-import octillect.models.Column;
-import octillect.models.Project;
+
+import octillect.models.Label;
 import octillect.models.Task;
 import octillect.models.User;
 
@@ -20,6 +20,7 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
     public User creator;
     public ObservableList<User> assignees;
     public ObservableList<Task> subTasks;
+    public ObservableList<Label> labels;
 
     @Override
     public TaskBuilder with(Consumer<TaskBuilder> builderFunction) {
@@ -29,7 +30,7 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
 
     @Override
     public Task build() {
-        return new Task(id, name, description, isCompleted, dueDate, creationDate, creator, assignees, subTasks);
+        return new Task(id, name, description, isCompleted, dueDate, creationDate, creator, assignees, subTasks, labels);
     }
 
     public TaskBuilder withId(String id) {
@@ -74,6 +75,11 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
 
     public TaskBuilder withSubTasks(ObservableList<Task> subTasks) {
         this.subTasks = subTasks;
+        return this;
+    }
+
+    public TaskBuilder withLabels(ObservableList<Label> labels) {
+        this.labels = labels;
         return this;
     }
 

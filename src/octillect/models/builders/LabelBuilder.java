@@ -8,6 +8,7 @@ import octillect.models.Label;
 
 public class LabelBuilder implements Builder<Label, LabelBuilder> {
 
+    public String id;
     public String name;
     public Color color;
 
@@ -19,7 +20,12 @@ public class LabelBuilder implements Builder<Label, LabelBuilder> {
 
     @Override
     public Label build() {
-        return new Label(name, color);
+        return new Label(id, name, color);
+    }
+
+    public LabelBuilder withId(String id) {
+        this.id = id;
+        return this;
     }
 
     public LabelBuilder withName(String name) {
