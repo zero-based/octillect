@@ -2,20 +2,19 @@ package octillect.controls;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+
 import octillect.models.Label;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class LabelCell extends ListCell<Label> {
 
     //FXML Fields
     @FXML public BorderPane labelCellBorderPane;
+    @FXML public HBox labelColorHBox;
     @FXML public javafx.scene.control.Label labelNameLabel;
     @FXML public FontIcon deleteLabelIcon;
 
@@ -36,13 +35,8 @@ public class LabelCell extends ListCell<Label> {
             e.printStackTrace();
         }
 
-        String hexCode = String.format( "#%02X%02X%02X",
-                (int) labelItem.getColor().getRed() * 255,
-                (int) labelItem.getColor().getGreen() * 255,
-                (int) labelItem.getColor().getBlue() * 255);
-
+        labelColorHBox.setStyle("-fx-background-color: " + labelItem.getColorHex() + "; -fx-background-radius: 4px;");
         labelNameLabel.setText(labelItem.getName());
-        labelNameLabel.setStyle(labelNameLabel.getStyle() + " -fx-background-color: " + hexCode + ";");
 
         deleteLabelIcon.setOnMouseClicked(event -> {
         });
