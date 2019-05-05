@@ -7,7 +7,6 @@ import javax.swing.filechooser.FileSystemView;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -46,26 +45,21 @@ public class Main extends Application {
         if (signedUser != null) {
             runApplication(signedUser);
         } else {
-            // Get screen dimensions
-            double screenWidth  = Screen.getPrimary().getVisualBounds().getWidth();
-            double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
             // Create Signing Stage and Sign in Scene
             Parent root = FXMLLoader.load(getClass().getResource("views/SignInView.fxml"));
             signingStage = primaryStage;
             signingStage.setTitle("Octillect | Sign in/up");
-            signingStage.setScene(new Scene(root, screenWidth * 0.56, screenHeight * 0.76));
+            signingStage.setScene(new Scene(root));
             signingStage.show();
 
             // Set stage Icon
             signingStage.getIcons().add(O_ICON);
 
             // Center stage according to screen
+            double screenWidth  = Screen.getPrimary().getVisualBounds().getWidth();
+            double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
             signingStage.setX((screenWidth  - signingStage.getWidth())  / 2);
             signingStage.setY((screenHeight - signingStage.getHeight()) / 2);
-
-            // Make Stage not resizable
-            signingStage.setResizable(false);
         }
     }
 

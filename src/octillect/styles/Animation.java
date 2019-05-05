@@ -12,10 +12,10 @@ import javafx.util.Duration;
 public class Animation {
 
     // Rotate Transition
-    public static void rotate(Node node) {
+    public static void rotate(Node node, Duration duration) {
         RotateTransition rotateTransition = new RotateTransition();
         rotateTransition.setNode(node);
-        rotateTransition.setDuration(Duration.seconds(8));
+        rotateTransition.setDuration(duration);
         rotateTransition.setFromAngle(0);
         rotateTransition.setByAngle(360);
         rotateTransition.setCycleCount(javafx.animation.Animation.INDEFINITE);

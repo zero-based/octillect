@@ -13,6 +13,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import octillect.Main;
 import octillect.controls.OButton;
@@ -40,7 +41,7 @@ public class SignInController {
     public void initialize() {
 
         // Animation
-        Animation.rotate(backgroundImageView);
+        Animation.rotate(backgroundImageView, Duration.seconds(16));
 
         // Initialize Validations
         requiredFieldValidator = new RequiredFieldValidator("Required field.");

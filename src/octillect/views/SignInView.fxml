@@ -31,13 +31,6 @@
         <Palette fx:id="Palette"/>
     </fx:define>
 
-    <!--Background Image-->
-    <ImageView fx:id="backgroundImageView" translateX="${signingStackPane.width * -0.5}">
-        <image>
-            <Image url="/octillect/resources/o-bg-1024x768.png"/>
-        </image>
-    </ImageView>
-
     <!--Sign In Controls-->
     <HBox fx:id="signInHBox" alignment="CENTER_RIGHT">
 
@@ -165,5 +158,15 @@
         </GridPane>
 
     </HBox>
+
+    <!--Background Image-->
+    <ImageView fx:id="backgroundImageView"
+               fitWidth="${signingStackPane.height * 1.34 - 88}"
+               fitHeight="${signingStackPane.height - 88}"
+               translateX="-472">
+        <image>
+            <Image url="/octillect/resources/o-bg-1024x768.png"/>
+        </image>
+    </ImageView>
 
 </StackPane>
