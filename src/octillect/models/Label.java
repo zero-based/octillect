@@ -45,10 +45,10 @@ public class Label {
     }
 
     public String getColorHex() {
-        return String.format("#%02X%02X%02X",
-                (int) color.getRed() * 255,
-                (int) color.getGreen() * 255,
-                (int) color.getBlue() * 255);
+        double r = color.getRed() * 255;
+        double g = color.getGreen() * 255;
+        double b = color.getBlue() * 255;
+        return String.format("#%02X%02X%02X", (int) r, (int) g, (int) b);
     }
 
 }
