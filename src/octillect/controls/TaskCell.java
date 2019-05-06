@@ -33,6 +33,7 @@ import javafx.scene.shape.Circle;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
+import octillect.controllers.TaskSettingsController;
 import octillect.database.accessors.ColumnRepository;
 import octillect.database.accessors.TaskRepository;
 import octillect.models.Column;
@@ -58,11 +59,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
     // Injected Controllers
     private ApplicationController applicationController;
     private RightDrawerController rightDrawerController;
+    private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        rightDrawerController = applicationController.rightDrawerController;
+        rightDrawerController      = applicationController.rightDrawerController;
+        taskSettingsController     = rightDrawerController.taskSettingsController;
     }
 
     public TaskCell() {
@@ -161,8 +164,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         setOnMouseClicked(event -> {
-            rightDrawerController.show(rightDrawerController.taskSettings);
-            applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+            Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
+            taskSettingsController.loadTask(getItem(), parentColumn);
         });
 
     }
@@ -191,9 +194,9 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             contextMenu.show(taskMoreButton, Side.RIGHT, 0, 0);
         });
 
-        /* TODO: Add ContextMenu 's methods here */
         editButton.setOnAction(event -> {
-
+            Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
+            taskSettingsController.loadTask(getItem(), parentColumn);
         });
 
         deleteButton.setOnAction(event -> {
