@@ -3,8 +3,6 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.events.JFXDrawerEvent;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
 import javafx.scene.control.ListCell;
@@ -28,7 +26,6 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     private NewProjectDialogController newProjectDialogController;
     private TitleBarController titleBarController;
 
-    public ObservableList<Project> userProjects = FXCollections.observableArrayList();
 
     @Override
     public void inject(ApplicationController applicationController) {
@@ -38,9 +35,12 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         titleBarController         = applicationController.titleBarController;
     }
 
-    @FXML
-    public void initialize() {
-        userProjectsListView.setItems(userProjects);
+    @Override
+    public void init() {
+
+        userProjectsListView.setItems(applicationController.user.getProjects());
+        userProjectsListView.getSelectionModel().selectFirst();
+
         userProjectsListView.setCellFactory(param -> new ListCell<Project>() {
             {
                 prefWidthProperty().bind(userProjectsListView.widthProperty().subtract(16));
@@ -70,6 +70,7 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         projectController.loadProject(userProjectsListView.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
     public void handleLeftDrawerClosed(JFXDrawerEvent jfxDrawerEvent) {
         titleBarController.hamburgerTransition.setRate(titleBarController.hamburgerTransition.getRate() * -1);
         titleBarController.hamburgerTransition.play();

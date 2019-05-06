@@ -41,9 +41,8 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     // Empty field validation
     RequiredFieldValidator requiredFieldValidator;
 
-    @FXML
-    public void initialize() {
-
+    @Override
+    public void init() {
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
         newProjectNameTextField.getValidators().add(requiredFieldValidator);
         newProjectNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -56,8 +55,8 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController = applicationController.projectController;
-        leftDrawerController = applicationController.leftDrawerController;
+        projectController          = applicationController.projectController;
+        leftDrawerController       = applicationController.leftDrawerController;
     }
 
     @FXML
@@ -99,7 +98,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
             TaskRepository.add(untitledTask);
 
             projectController.loadProject(newProject);
-            leftDrawerController.userProjects.add(newProject);
+            leftDrawerController.userProjectsListView.getItems().add(newProject);
             leftDrawerController.userProjectsListView.getSelectionModel().selectLast();
             newProjectDialog.close();
         }

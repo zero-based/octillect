@@ -65,12 +65,12 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController = applicationController.projectController;
-        rightDrawerController = applicationController.rightDrawerController;
+        projectController          = applicationController.projectController;
+        rightDrawerController      = applicationController.rightDrawerController;
     }
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void init() {
 
         assigneesCheckComboBox.setConverter(new AssigneesStringConverter());
         labelsCheckComboBox.setConverter(new LabelStringConverter());
