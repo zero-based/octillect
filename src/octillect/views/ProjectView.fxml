@@ -3,9 +3,12 @@
 <?import com.jfoenix.controls.JFXTextField?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
 
@@ -56,12 +59,24 @@
         </HBox>
     </top>
 
-    <!-- TODO: Style the ProjectView -->
     <center>
-        <ListView fx:id="projectListView"
-                  orientation="HORIZONTAL"
-                  translateY="8"
-                  stylesheets="@/octillect/styles/ProjectListView.css"/>
+        <StackPane>
+
+            <ListView fx:id="projectListView"
+                      orientation="HORIZONTAL"
+                      translateY="8"
+                      stylesheets="@/octillect/styles/ProjectListView.css"/>
+
+            <Label fx:id="noProjectsLabel"
+                   text="All your Projects are lost in Space,&#10;Now What...?"
+                   textAlignment="CENTER"
+                   textFill="${Palette.PRIMARY_DARK}">
+                <font>
+                    <Font name="Product Sans Regular" size="16"/>
+                </font>
+            </Label>
+
+        </StackPane>
     </center>
 
 </BorderPane>
