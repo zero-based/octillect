@@ -30,8 +30,7 @@
 
             <Circle fx:id="contributorImage"
                     GridPane.columnIndex="0"
-                    radius="16"
-                    fill="${Palette.BLUE_GRAY_50}"/>
+                    radius="16"/>
 
             <VBox GridPane.columnIndex="1">
 
