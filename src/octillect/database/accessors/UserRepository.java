@@ -116,6 +116,11 @@ public class UserRepository {
         FirestoreAPI.appendAttribute(FirestoreAPI.USERS, currentUserId, "projectsIds", projectId);
     }
 
+    // Deletes projectId from User's projectsIds Field
+    public static void deleteProjectId( String userId, String projectId) {
+        FirestoreAPI.deleteArrayElement(FirestoreAPI.USERS, userId, "projectsIds", projectId);
+    }
+
     // Get user's image by userId
     public static Image getImage(String userId) {
         return StorageAPI.selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
