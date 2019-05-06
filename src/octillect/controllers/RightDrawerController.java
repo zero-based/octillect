@@ -27,20 +27,10 @@ public class RightDrawerController implements Injectable<ApplicationController> 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-
-        // Inject into Nested Controllers
-        userSettingsController.inject(applicationController);
-        projectSettingsController.inject(applicationController);
-        taskSettingsController.inject(applicationController);
-        gitHubRepositoryController.inject(applicationController);
     }
 
-    @FXML
-    public void initialize() {
-        userSettings.setVisible(false);
-        projectSettings.setVisible(false);
-        taskSettings.setVisible(false);
-        gitHubRepository.setVisible(false);
+    @Override
+    public void init() {
     }
 
     public void show(Pane pane) {

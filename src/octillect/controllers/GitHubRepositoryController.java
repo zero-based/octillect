@@ -10,4 +10,8 @@ public class GitHubRepositoryController implements Injectable<ApplicationControl
         this.applicationController = applicationController;
     }
 
+    @Override
+    public void init() {
+    }
+
 }

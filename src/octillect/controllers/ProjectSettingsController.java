@@ -53,7 +53,8 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
         this.applicationController = applicationController;
     }
 
-    public void initialize() {
+    @Override
+    public void init() {
 
         //Initializing rolesComboBox
         for (Project.Role role : Project.Role.values()) {

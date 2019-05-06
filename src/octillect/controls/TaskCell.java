@@ -68,6 +68,11 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         taskSettingsController     = rightDrawerController.taskSettingsController;
     }
 
+    @Override
+    public void init() {
+        throw new UnsupportedOperationException("TaskCell cannot be initialized");
+    }
+
     public TaskCell() {
 
         setOnDragDetected(event -> {

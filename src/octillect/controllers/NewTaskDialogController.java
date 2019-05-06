@@ -35,12 +35,10 @@ public class NewTaskDialogController implements Injectable<ApplicationController
     // Empty field validation
     RequiredFieldValidator requiredFieldValidator;
 
-    @FXML
-    public void initialize() {
-
+    @Override
+    public void init() {
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
         newTaskNameTextField.getValidators().add(requiredFieldValidator);
-
         newTaskNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 newTaskNameTextField.validate();

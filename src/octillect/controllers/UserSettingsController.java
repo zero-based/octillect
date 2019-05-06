@@ -27,6 +27,11 @@ public class UserSettingsController implements Injectable<ApplicationController>
         this.applicationController = applicationController;
     }
 
+    @Override
+    public void init() {
+    }
+
+    @FXML
     public void HandleLogOutButton(MouseEvent mouseEvent) {
     }
 

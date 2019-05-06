@@ -36,6 +36,11 @@ public class ProjectController implements Injectable<ApplicationController> {
         rightDrawerController      = applicationController.rightDrawerController;
     }
 
+    @Override
+    public void init() {
+        loadProject(applicationController.user.getProjects().get(0));
+    }
+
     public void loadProject(Project project) {
 
         // Set Project Name in the Title Bar

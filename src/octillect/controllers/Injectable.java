@@ -7,4 +7,5 @@ package octillect.controllers;
  */
 public interface Injectable<ParentController> {
     void inject(ParentController parentController);
+    void init();
 }

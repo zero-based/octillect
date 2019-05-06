@@ -35,8 +35,8 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
     // Empty field validation
     RequiredFieldValidator requiredFieldValidator;
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void init() {
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
         newColumnNameTextField.getValidators().add(requiredFieldValidator);
         newColumnNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {

@@ -57,6 +57,11 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         projectController          = applicationController.projectController;
     }
 
+    @Override
+    public void init() {
+        throw new UnsupportedOperationException("TasksColumn cannot be initialized");
+    }
+
     public TasksColumn() {
 
         setOnDragDetected(event -> {

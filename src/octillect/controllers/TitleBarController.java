@@ -35,8 +35,9 @@ public class TitleBarController implements Injectable<ApplicationController> {
         rightDrawerController      = applicationController.rightDrawerController;
     }
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void init() {
+        loadUserImage(applicationController.user.getImage());
         hamburgerTransition = new HamburgerBackArrowBasicTransition(hamburgerButton);
         hamburgerTransition.setRate(-1);
     }
@@ -68,7 +69,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
     }
 
     public void loadUserImage(Image image) {
-        userImageCircle.setFill(new ImagePattern(applicationController.user.getImage()));
+        userImageCircle.setFill(new ImagePattern(image));
     }
 
 }
