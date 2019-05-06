@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.MenuItem?>
 
 <?import octillect.styles.Palette?>
 
@@ -78,16 +78,9 @@
 
     </BorderPane>
 
-    <ListView fx:id="tasksListView" prefWidth="368"/>
-
-    <Label fx:id="addTaskLabel"
-           text="Add a Task"
-           translateX="12"
-           textFill="${Palette.PRIMARY}">
-        <font>
-            <Font size="15"/>
-        </font>
-    </Label>
+    <ListView fx:id="tasksListView"
+              prefWidth="368"
+              VBox.vgrow="ALWAYS"/>
 
 </VBox>
 
