@@ -37,10 +37,7 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
 
     @Override
     public void init() {
-
         userProjectsListView.setItems(applicationController.user.getProjects());
-        userProjectsListView.getSelectionModel().selectFirst();
-
         userProjectsListView.setCellFactory(param -> new ListCell<Project>() {
             {
                 prefWidthProperty().bind(userProjectsListView.widthProperty().subtract(16));

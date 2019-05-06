@@ -68,17 +68,15 @@ public class ApplicationController {
         descendants.add(newTaskDialogController);
         descendants.add(newColumnDialogController);
 
-        // Add nested controllers to descendants
-        descendants.add(titleBarController);
-        descendants.add(leftDrawerController);
+        // Add nested & sub-nested controllers to descendants
         descendants.add(rightDrawerController);
-        descendants.add(projectController);
-
-        // Add sub-nested controllers to descendants
         descendants.add(rightDrawerController.taskSettingsController);
         descendants.add(rightDrawerController.gitHubRepositoryController);
         descendants.add(rightDrawerController.projectSettingsController);
         descendants.add(rightDrawerController.userSettingsController);
+        descendants.add(leftDrawerController);
+        descendants.add(titleBarController);
+        descendants.add(projectController);
 
         for (Injectable<ApplicationController> controller : descendants) {
             controller.inject(this);

@@ -27,6 +27,7 @@ public class ProjectController implements Injectable<ApplicationController> {
     private TitleBarController titleBarController;
     private NewColumnDialogController newColumnDialogController;
     private RightDrawerController rightDrawerController;
+    private LeftDrawerController leftDrawerController;
 
     @Override
     public void inject(ApplicationController applicationController) {
@@ -34,14 +35,18 @@ public class ProjectController implements Injectable<ApplicationController> {
         titleBarController         = applicationController.titleBarController;
         newColumnDialogController  = applicationController.newColumnDialogController;
         rightDrawerController      = applicationController.rightDrawerController;
+        leftDrawerController       = applicationController.leftDrawerController;
     }
 
     @Override
     public void init() {
         loadProject(applicationController.user.getProjects().get(0));
+        leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
     }
 
     public void loadProject(Project project) {
+
+        currentProject = project;
 
         // Set Project Name in the Title Bar
         titleBarController.projectNameLabel.setText(project.getName());
@@ -54,7 +59,6 @@ public class ProjectController implements Injectable<ApplicationController> {
             return tasksColumn;
         });
 
-        currentProject = project;
     }
 
     @FXML
