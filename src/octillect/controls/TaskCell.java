@@ -37,6 +37,7 @@ import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.models.Column;
+import octillect.models.Tag;
 import octillect.models.Task;
 import octillect.styles.Palette;
 
@@ -49,9 +50,10 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
     @FXML private FontIcon taskMoreIcon;
     @FXML private Label taskNameLabel;
     @FXML private Label taskDueDateLabel;
-    @FXML private FlowPane taskIconsFlowPane;
-    @FXML private JFXNodesList taskAssigneesNodesList;
     @FXML private BorderPane taskInfoBorderPane;
+    @FXML private FlowPane taskIconsFlowPane;
+    @FXML private FlowPane tagsFlowPane;
+    @FXML private JFXNodesList taskAssigneesNodesList;
     @FXML private MenuItem editButton;
     @FXML private MenuItem deleteButton;
     @FXML private Button taskMoreButton;
@@ -233,9 +235,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         taskNameLabel.setText(taskItem.getName());
 
-        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
-                && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))
-                && taskItem.getAssignees() == null) {
+        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted() && taskItem.getAssignees() == null
+                && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))) {
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
         }
 
@@ -257,6 +258,12 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             taskAssigneesNodesList.setVisible(false);
         } else {
             updateAssigneesNodesList(taskItem, taskAssigneesNodesList);
+        }
+
+        if (taskItem.getTags() == null) {
+            taskCellVBox.getChildren().remove(tagsFlowPane);
+        } else {
+            updateTagsFlowPane(taskItem, tagsFlowPane);
         }
     }
 
@@ -293,12 +300,30 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                 label.setText(String.valueOf(taskItem.getAssignees().size()));
             else
                 label.setText("9+");
-            
+
             label.setTextFill(Palette.DARK_300);
 
             stackPane.getChildren().add(label);
 
             nodesList.getChildren().add(0, stackPane);
+        }
+    }
+
+    /**
+     * Populates the TaskCell's tagsFlowPane with Task Tags,
+     * and sets the styling of Tag.
+     *
+     * @param taskItem     Task item which we need to populate it's tags.
+     * @param tagsFlowPane FlowPane Control which will be controlled.
+     */
+    private void updateTagsFlowPane(Task taskItem, FlowPane tagsFlowPane)
+    {
+        for (Tag tag : taskItem.getTags()) {
+            Label label = new Label(tag.getName());
+            label.setStyle("-fx-background-color: " + tag.getColorHex() + "; -fx-background-radius: 4px; " +
+                           "-fx-padding: 4 8;" + TagCell.determineTextFillStyle(tag.getColor()));
+
+            tagsFlowPane.getChildren().add(label);
         }
     }
 
@@ -320,5 +345,4 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             taskDueDateLabel.setTextFill(Palette.DANGER);
         }
     }
-
 }
