@@ -98,6 +98,14 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
         this.labels = labels;
     }
 
+    public Role getUserRole(String userId) {
+        for (Pair<User, Role> contributor : contributors) {
+            if (contributor.getKey().getId().equals(userId)) {
+                return contributor.getValue();
+            }
+        }
+        return null;
+    }
 
     @Override
     public void addObserver(Pair<User, Project.Role> observer) {

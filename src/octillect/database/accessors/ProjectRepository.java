@@ -11,9 +11,7 @@ import javafx.util.Pair;
 import octillect.database.documents.ProjectDocument;
 import octillect.database.documents.ProjectDocument.ContributorMap;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Column;
-import octillect.models.Project;
-import octillect.models.User;
+import octillect.models.*;
 import octillect.models.builders.ProjectBuilder;
 
 public class ProjectRepository {
@@ -41,7 +39,14 @@ public class ProjectRepository {
             document.setColumnsIds(columnsIds);
         }
 
-        /* TODO : Add Labels' Ids  */
+        if (project.getLabels() != null) {
+            ArrayList<String> labelsIds = new ArrayList<>();
+            for (Label label : project.getLabels()) {
+                labelsIds.add(label.getId());
+            }
+            document.setLabelsIds(labelsIds);
+        }
+
         FirestoreAPI.insertDocument(FirestoreAPI.PROJECTS, document.getId(), document);
     }
 
@@ -75,15 +80,18 @@ public class ProjectRepository {
                 }
                 $.contributors = FXCollections.observableArrayList(contributorsIds);
 
+                if (document.getLabelsIds() != null) {
+                    ArrayList<Label> labels = new ArrayList<>();
+                    for (String labelId : document.getLabelsIds()) {
+                        labels.add(LabelRepository.get(labelId));
+                    }
+                    $.labels = FXCollections.observableArrayList(labels);
+                }
+
             }).build();
 
         }
         return project;
-    }
-
-    public static void addContributor(String projectId, String email, Project.Role role) {
-        ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
-        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
     }
 
     public static void addColumn(String projectId, String columnId) {
@@ -92,6 +100,48 @@ public class ProjectRepository {
 
     public static void updateColumnsIds(String projectId, ArrayList<String> columnsIds) {
         FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnsIds);
+    }
+
+    public static void updateName(String id, String name) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, id, "name", name);
+    }
+
+    public static void updateDescription(String id, String description) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, id, "description", description);
+    }
+
+    public static void addContributor(String projectId, String email, Project.Role role) {
+        ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
+        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
+    }
+
+    public static void deleteContributor(String projectId, String email, Project.Role role) {
+        ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
+        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
+    }
+
+    public static void addLabelId(String projectId, String labelId) {
+        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "labelsIds", labelId);
+    }
+
+    public static void deleteLabelId(String projectId, String labelId) {
+        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "labelsIds", labelId);
+    }
+
+    public static void delete(Project project) {
+        FirestoreAPI.deleteDocument(FirestoreAPI.PROJECTS, project.getId());
+
+        for (Column column : project.getColumns()) {
+            for (Task task : column.getTasks()) {
+                FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, task.getId());
+            }
+            FirestoreAPI.deleteDocument(FirestoreAPI.COLUMNS, column.getId());
+        }
+        if (project.getLabels() != null) {
+            for (Label label : project.getLabels()) {
+                LabelRepository.delete(label.getId());
+            }
+        }
     }
 
     /**

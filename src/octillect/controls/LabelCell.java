@@ -5,18 +5,41 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
+import octillect.controllers.ApplicationController;
+import octillect.controllers.Injectable;
+import octillect.controllers.ProjectController;
+import octillect.database.accessors.LabelRepository;
+import octillect.database.accessors.ProjectRepository;
 import octillect.models.Label;
+import octillect.models.Project;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class LabelCell extends ListCell<Label> {
+public class LabelCell extends ListCell<Label> implements Injectable<ApplicationController> {
 
     //FXML Fields
-    @FXML public BorderPane labelCellBorderPane;
-    @FXML public HBox labelColorHBox;
-    @FXML public javafx.scene.control.Label labelNameLabel;
-    @FXML public FontIcon deleteLabelIcon;
+    @FXML private BorderPane labelCellBorderPane;
+    @FXML private HBox labelColorHBox;
+    @FXML private javafx.scene.control.Label labelNameLabel;
+    @FXML private FontIcon deleteLabelIcon;
+
+    // Injected Controllers
+    private ApplicationController applicationController;
+    private ProjectController projectController;
+
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+        projectController          = applicationController.projectController;
+    }
+
+    @Override
+    public void init() {
+        throw new UnsupportedOperationException("LabelCell cannot be initialized");
+    }
+
 
     public void updateItem(Label labelItem, boolean empty) {
 
@@ -37,20 +60,34 @@ public class LabelCell extends ListCell<Label> {
 
         labelColorHBox.setStyle("-fx-background-color: " + labelItem.getColorHex() + "; -fx-background-radius: 4px;");
         labelNameLabel.setText(labelItem.getName());
+        labelNameLabel.setStyle(determineTextFillStyle((labelItem.getColor())));
 
-        // Counting the perceptive luminance
-        double luminance = 0.299 * labelItem.getColor().getRed()
-                + 0.587 * labelItem.getColor().getGreen()
-                + 0.114 * labelItem.getColor().getBlue();
-
-        String textFillStyle = luminance > 0.5 ? "-fx-text-fill: black;" : "-fx-text-fill: white;";
-        labelNameLabel.setStyle(textFillStyle);
+        if (projectController.currentProject.getUserRole(applicationController.user.getId())
+                .equals(Project.Role.viewer)) {
+            deleteLabelIcon.setDisable(true);
+            deleteLabelIcon.setOpacity(0);
+        }
 
         deleteLabelIcon.setOnMouseClicked(event -> {
+            /* TODO: Add Confirmation Here. */
+            ProjectRepository.deleteLabelId(projectController.currentProject.getId(),
+                    getItem().getId());
+            LabelRepository.delete(getItem().getId());
+            getListView().getItems().remove(getItem());
         });
 
         setGraphic(labelCellBorderPane);
 
+    }
+
+    private String determineTextFillStyle(Color labelColor) {
+
+        // Counting the perceptive luminance
+        double luminance = 0.299 * labelColor.getRed()
+                + 0.587 * labelColor.getGreen()
+                + 0.114 * labelColor.getBlue();
+
+        return luminance > 0.5 ? "-fx-text-fill: black;" : "-fx-text-fill: white;";
     }
 
 }

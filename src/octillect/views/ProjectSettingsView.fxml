@@ -54,21 +54,10 @@
 
         </graphic>
 
-        <VBox spacing="16">
-
-            <JFXTextField fx:id="editNameTextArea"
-                          style="-fx-text-fill: -o-dark-300;"
-                          stylesheets="@/octillect/styles/TextArea.css"
-                          focusColor="${Palette.PRIMARY}"/>
-
-            <OButton fx:id="saveNameButton"
-                     text="Save"
-                     color="PRIMARY"
-                     fill="TRUE"
-                     style="-fx-font-size: 14;"
-                     onMouseClicked="#handleSaveNameButtonAction"/>
-
-        </VBox>
+        <JFXTextField fx:id="editNameTextField"
+                      focusColor="${Palette.PRIMARY}"
+                      focusTraversable="false"
+                      style="-fx-text-fill: -o-dark-300;"/>
 
     </TitledPane>
 
@@ -97,22 +86,12 @@
 
         </graphic>
 
-        <VBox spacing="16">
-
-            <JFXTextArea fx:id="editDescriptionTextArea"
-                         prefHeight="3"
-                         style="-fx-text-fill: -o-dark-300;"
-                         stylesheets="@/octillect/styles/TextArea.css"
-                         focusColor="${Palette.PRIMARY}"/>
-
-            <OButton fx:id="saveDescriptionButton"
-                     text="Save"
-                     style="-fx-font-size: 14;"
-                     fill="TRUE"
-                     color="PRIMARY"
-                     onMouseClicked="#handleSaveDescriptionButtonAction"/>
-
-        </VBox>
+        <JFXTextArea fx:id="editDescriptionTextArea"
+                     prefRowCount="3"
+                     focusColor="${Palette.PRIMARY}"
+                     focusTraversable="false"
+                     style="-fx-text-fill: -o-dark-300;"
+                     stylesheets="@/octillect/styles/TextArea.css"/>
 
     </TitledPane>
 
@@ -146,7 +125,7 @@
             <JFXListView fx:id="contributorsListView"
                          stylesheets="@/octillect/styles/ListView.css"/>
 
-            <BorderPane>
+            <BorderPane fx:id="inviteContributorBorderPane">
 
                 <padding>
                     <Insets topRightBottomLeft="8"/>
@@ -160,6 +139,7 @@
                                       prefColumnCount="20"
                                       promptText="or Invite by Email"
                                       focusColor="${Palette.PRIMARY}"
+                                      focusTraversable="false"
                                       style="-fx-text-inner-color: -o-dark-300;"/>
 
 
@@ -220,12 +200,12 @@
         </graphic>
 
 
-        <VBox>
+        <VBox spacing="16">
 
             <JFXListView fx:id="labelsListView"
                          stylesheets="@/octillect/styles/ListView.css"/>
 
-            <BorderPane>
+            <BorderPane fx:id="newLabelBorderPane">
 
                 <padding>
                     <Insets topRightBottomLeft="8"/>
@@ -238,6 +218,7 @@
                         <JFXTextField fx:id="newLabelTextField"
                                       promptText="or Add New Label"
                                       focusColor="${Palette.PRIMARY}"
+                                      focusTraversable="false"
                                       style="-fx-text-inner-color: -o-dark-300;"/>
 
                         <JFXColorPicker fx:id="labelColorPicker"

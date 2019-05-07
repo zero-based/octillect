@@ -30,6 +30,7 @@ public class ProjectController implements Injectable<ApplicationController> {
     private NewColumnDialogController newColumnDialogController;
     private RightDrawerController rightDrawerController;
     private LeftDrawerController leftDrawerController;
+    private ProjectSettingsController projectSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
@@ -38,16 +39,19 @@ public class ProjectController implements Injectable<ApplicationController> {
         newColumnDialogController  = applicationController.newColumnDialogController;
         rightDrawerController      = applicationController.rightDrawerController;
         leftDrawerController       = applicationController.leftDrawerController;
+        projectSettingsController  = rightDrawerController.projectSettingsController;
     }
 
     @Override
     public void init() {
+        projectSettingsController.resetProjectSettings();
         if (!applicationController.user.getProjects().isEmpty()) {
             loadProject(applicationController.user.getProjects().get(0));
             leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
         } else {
             showToolbar(false);
             titleBarController.projectNameLabel.setText("Octillect");
+            projectListView.getItems().clear();
         }
     }
 
@@ -57,6 +61,7 @@ public class ProjectController implements Injectable<ApplicationController> {
 
         showToolbar(true);
         titleBarController.projectNameLabel.setText(project.getName());
+        projectSettingsController.loadProjectSettings();
 
         // Populate Project Columns
         projectListView.setItems(project.getColumns());
