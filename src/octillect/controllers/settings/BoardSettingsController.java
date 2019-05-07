@@ -161,15 +161,20 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     newContributorTextField.validate();
                     newContributorTextField.getValidators().remove(emailValidator);
                 } else {
+                    Pair<User, Board.Role> contributor = new Pair<>(user, rolesComboBox.getValue());
                     BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(),
-                            newContributorTextField.getText(), rolesComboBox.getValue());
-                    UserRepository.getInstance().addBoardId(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()), boardController.currentBoard.getId()
-                    );
-                    contributorsListView.getItems().add(new Pair<>(user, rolesComboBox.getValue()));
-                    resetRequiredFieldValidators();
+                            contributor.getKey().getEmail(), contributor.getValue());
+                    UserRepository.getInstance().addBoardId(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()), boardController.currentBoard.getId());
+
+                    int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
+                    applicationController.user.getBoards().get(index).getContributors().add(contributor);
+                    boardController.currentBoard.getContributors().add(contributor);
+                    contributorsListView.getItems().add(contributor);
 
                     newContributorTextField.setText(null);
                     rolesComboBox.getSelectionModel().clearSelection();
+                    resetRequiredFieldValidators();
+
                 }
             }
         }
@@ -203,7 +208,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     public void handleDeleteBoardAction(MouseEvent mouseEvent) {
         BoardRepository.getInstance().delete(boardController.currentBoard);
         for (Pair<User, Board.Role> collaborator : boardController.currentBoard.getContributors()) {
-            UserRepository.getInstance().deleteBoardId(applicationController.user.getId(), boardController.currentBoard.getId());
+            UserRepository.getInstance().deleteBoardId(collaborator.getKey().getId(), boardController.currentBoard.getId());
         }
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
