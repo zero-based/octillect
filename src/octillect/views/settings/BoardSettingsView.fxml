@@ -211,13 +211,12 @@
                     <HBox spacing="16" alignment="CENTER_LEFT">
 
                         <JFXTextField fx:id="newTagTextField"
-                                      promptText="or Add New Label"
+                                      promptText="or Add a New Tag"
                                       focusColor="${Palette.PRIMARY}"
                                       focusTraversable="false"
                                       style="-fx-text-inner-color: -o-dark-300;"/>
 
                         <JFXColorPicker fx:id="tagColorPicker"
-                                        promptText="Choose Label Color"
                                         stylesheets="@/octillect/styles/ColorPicker.css"/>
 
                     </HBox>
@@ -231,7 +230,7 @@
                              color="PRIMARY"
                              fill="TRUE"
                              style="-fx-font-size: 14;"
-                             onMouseClicked="#handleAddLabelButtonAction"/>
+                             onMouseClicked="#handleAddTagButtonAction"/>
 
                 </right>
 
