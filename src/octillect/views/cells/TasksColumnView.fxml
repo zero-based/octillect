@@ -26,7 +26,7 @@
     <BorderPane>
 
         <left>
-            <VBox translateX="${addTaskLabel.translateX}">
+            <VBox translateX="12">
 
                 <Label fx:id="columnNameLabel"
                        textFill="${Palette.DARK_300}"

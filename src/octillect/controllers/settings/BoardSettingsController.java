@@ -179,7 +179,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     }
 
     @FXML
-    public void handleAddLabelButtonAction(MouseEvent mouseEvent) {
+    public void handleAddTagButtonAction(MouseEvent mouseEvent) {
 
         resetRequiredFieldValidators();
         newTagTextField.validate();
