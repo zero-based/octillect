@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.controls.OButton?>
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/"
+      xmlns:fx="http://javafx.com/fxml/"
+      fx:controller="octillect.controllers.settings.UserSettingsController"
+      stylesheets="@/octillect/styles/Palette.css"
+      style="-fx-background-color: -o-dark-700;">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <TitledPane stylesheets="@/octillect/styles/TitledPane.css">
+
+        <graphic>
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-perm-identity"
+                          iconSize="23"
+                          iconColor="${Palette.PRIMARY}"/>
+
+                <Label text="Profile And Password"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+        </graphic>
+
+        <VBox style="-fx-background-color: -o-dark-700;" spacing="12">
+
+            <JFXTextField fx:id="changeNameText"
+                          prefHeight="26.0"
+                          promptText="Change Name"
+                          focusColor="${Palette.PRIMARY}">
+                <font>
+                    <Font name="System Regular" size="14"/>
+                </font>
+            </JFXTextField>
+
+            <JFXTextField fx:id="changeEmailText"
+                          promptText="Change Email"
+                          focusColor="${Palette.PRIMARY}">
+                <font>
+                    <Font name="System Regular" size="14"/>
+                </font>
+            </JFXTextField>
+
+            <JFXTextField fx:id="oldPasswordText"
+                          promptText="Old Password"
+                          focusColor="${Palette.PRIMARY}">
+                <font>
+                    <Font name="System Regular" size="14"/>
+                </font>
+            </JFXTextField>
+
+            <JFXTextField fx:id="newPasswordText"
+                          promptText="New Password"
+                          focusColor="${Palette.PRIMARY}">
+                <font>
+                    <Font name="System Regular" size="14"/>
+                </font>
+            </JFXTextField>
+
+            <JFXTextField fx:id="confirmPasswordText"
+                          promptText="Confirm Password"
+                          focusColor="${Palette.PRIMARY}">
+                <font>
+                    <Font name="System Regular" size="14"/>
+                </font>
+            </JFXTextField>
+
+            <HBox alignment="CENTER_RIGHT">
+                <OButton fx:id="saveButton"
+                         text="Save"
+                         textFill="${Palette.DARK_300}"
+                         fill="true"
+                         color="PRIMARY"
+                         style="-fx-font-size: 14;"
+                         translateY="12"/>
+            </HBox>
+
+        </VBox>
+
+    </TitledPane>
+
+    <TitledPane fx:id="logOutTitlePane"
+                expanded="false"
+                stylesheets="@/octillect/styles/TitledPane.css"
+                onMouseClicked="#HandleLogOutButton">
+
+        <graphic>
+            <HBox spacing="8">
+
+                <FontIcon iconLiteral="gmi-lock-outline"
+                          iconSize="22"
+                          iconColor="${Palette.PRIMARY}"/>
+
+                <Label text="Log Out"
+                       textFill="${Palette.DARK_300}">
+                    <font>
+                        <Font name="Product Sans Regular" size="16"/>
+                    </font>
+                </Label>
+
+            </HBox>
+        </graphic>
+
+    </TitledPane>
+
+
+</VBox>

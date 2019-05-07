@@ -23,12 +23,12 @@ import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
-import octillect.controllers.NewTaskDialogController;
-import octillect.controllers.ProjectController;
-import octillect.database.accessors.ColumnRepository;
-import octillect.database.accessors.ProjectRepository;
+import octillect.controllers.dialogs.NewTaskDialogController;
+import octillect.controllers.BoardController;
+import octillect.database.repositories.ColumnRepository;
+import octillect.database.repositories.BoardRepository;
+import octillect.models.Board;
 import octillect.models.Column;
-import octillect.models.Project;
 import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -48,13 +48,13 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     // Injected Controllers
     private ApplicationController applicationController;
     private NewTaskDialogController newTaskDialogController;
-    private ProjectController projectController;
+    private BoardController boardController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         newTaskDialogController    = applicationController.newTaskDialogController;
-        projectController          = applicationController.projectController;
+        boardController = applicationController.boardController;
     }
 
     @Override
@@ -109,11 +109,11 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 Collections.swap(getListView().getItems(), sourceIndex, targetIndex);
 
                 ArrayList<String> columnsIds = new ArrayList<>();
-                Project project = projectController.currentProject;
-                project.getColumns().forEach(column -> {
+                Board board = boardController.currentBoard;
+                board.getColumns().forEach(column -> {
                     columnsIds.add(column.getId());
                 });
-                ProjectRepository.getInstance().updateColumnsIds(project.getId(), columnsIds);
+                BoardRepository.getInstance().updateColumnsIds(board.getId(), columnsIds);
             }
         });
 
@@ -130,7 +130,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/TasksColumnView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/TasksColumnView.fxml"));
             fxmlLoader.setController(this);
             tasksColumnVBox = fxmlLoader.load();
         } catch (Exception e) {
@@ -138,7 +138,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         }
 
         addNewTaskIcon.setOnMouseClicked(event -> {
-            newTaskDialogController.newTaskDialog.show(this.applicationController.rootStackPane);
+            newTaskDialogController.newTaskDialog.show(applicationController.rootStackPane);
             newTaskDialogController.currentColumn = getItem();
         });
 
@@ -155,9 +155,9 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
         deleteButton.setOnAction(event -> {
             ColumnRepository.getInstance().delete(getItem());
-            ProjectRepository.getInstance().deleteColumnId(projectController.currentProject.getId(), getItem().getId());
+            BoardRepository.getInstance().deleteColumnId(boardController.currentBoard.getId(), getItem().getId());
 
-            projectController.currentProject.getColumns().remove(getItem());
+            boardController.currentBoard.getColumns().remove(getItem());
         });
 
         columnNameLabel.setText(columnItem.getName());
@@ -179,12 +179,12 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         tasksListView.setOnDragEntered(event -> {
             if (event.getGestureSource() instanceof TaskCell) {
 
-                // Get all Tasks ListViews in the current Project
+                // Get all Tasks ListViews in the current Board
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
 
                 tasksListView.getParent()               // Gets tasksColumnVBox
                         .getParent()                    // Gets ListCell<Column>
-                        .getParent()                    // Gets projectListView
+                        .getParent()                    // Gets boardListView
                         .getChildrenUnmodifiable()      // Gets All ListCell<Column>'s
                         .forEach(tasksColumn -> {
                             if (((TasksColumn) tasksColumn).getTasksListView() != null)

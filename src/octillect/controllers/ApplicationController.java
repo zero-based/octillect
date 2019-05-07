@@ -9,6 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 import octillect.Main;
+import octillect.controllers.dialogs.NewBoardDialogController;
+import octillect.controllers.dialogs.NewColumnDialogController;
+import octillect.controllers.dialogs.NewTaskDialogController;
 import octillect.models.User;
 
 public class ApplicationController {
@@ -26,10 +29,10 @@ public class ApplicationController {
     @FXML public TitleBarController titleBarController;
     @FXML public LeftDrawerController leftDrawerController;
     @FXML public RightDrawerController rightDrawerController;
-    @FXML public ProjectController projectController;
+    @FXML public BoardController boardController;
 
     // Dialogs' Controllers
-    public NewProjectDialogController newProjectDialogController;
+    public NewBoardDialogController newBoardDialogController;
     public NewTaskDialogController newTaskDialogController;
     public NewColumnDialogController newColumnDialogController;
 
@@ -39,17 +42,17 @@ public class ApplicationController {
         try {
             FXMLLoader fxmlLoader;
 
-            final String NEW_PROJECT_DIALOG_VIEW = "/octillect/views/NewProjectDialogView.fxml";
-            fxmlLoader = new FXMLLoader(getClass().getResource(NEW_PROJECT_DIALOG_VIEW));
+            final String NEW_BOARD_DIALOG_VIEW = "/octillect/views/dialogs/NewBoardDialogView.fxml";
+            fxmlLoader = new FXMLLoader(getClass().getResource(NEW_BOARD_DIALOG_VIEW));
             fxmlLoader.load();
-            newProjectDialogController = fxmlLoader.getController();
+            newBoardDialogController = fxmlLoader.getController();
 
-            final String NEW_TASK_DIALOG_VIEW = "/octillect/views/NewTaskDialogView.fxml";
+            final String NEW_TASK_DIALOG_VIEW = "/octillect/views/dialogs/NewTaskDialogView.fxml";
             fxmlLoader = new FXMLLoader(getClass().getResource(NEW_TASK_DIALOG_VIEW));
             fxmlLoader.load();
             newTaskDialogController = fxmlLoader.getController();
 
-            final String NEW_COLUMN_DIALOG_VIEW = "/octillect/views/NewColumnDialogView.fxml";
+            final String NEW_COLUMN_DIALOG_VIEW = "/octillect/views/dialogs/NewColumnDialogView.fxml";
             fxmlLoader = new FXMLLoader(getClass().getResource(NEW_COLUMN_DIALOG_VIEW));
             fxmlLoader.load();
             newColumnDialogController = fxmlLoader.getController();
@@ -64,7 +67,7 @@ public class ApplicationController {
     public void initialize() {
 
         // Add dialogs' controllers to descendants
-        descendants.add(newProjectDialogController);
+        descendants.add(newBoardDialogController);
         descendants.add(newTaskDialogController);
         descendants.add(newColumnDialogController);
 
@@ -72,11 +75,11 @@ public class ApplicationController {
         descendants.add(rightDrawerController);
         descendants.add(rightDrawerController.taskSettingsController);
         descendants.add(rightDrawerController.gitHubRepositoryController);
-        descendants.add(rightDrawerController.projectSettingsController);
+        descendants.add(rightDrawerController.boardSettingsController);
         descendants.add(rightDrawerController.userSettingsController);
         descendants.add(leftDrawerController);
         descendants.add(titleBarController);
-        descendants.add(projectController);
+        descendants.add(boardController);
 
         for (Injectable<ApplicationController> controller : descendants) {
             controller.inject(this);

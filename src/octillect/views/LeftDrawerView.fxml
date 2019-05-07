@@ -37,7 +37,7 @@
                 </padding>
 
                 <left>
-                    <Label text="Projects" textFill="${Palette.DARK_300}">
+                    <Label text="Boards" textFill="${Palette.DARK_300}">
                         <font>
                             <Font name="Product Sans Bold" size="18"/>
                         </font>
@@ -45,18 +45,18 @@
                 </left>
 
                 <right>
-                    <FontIcon fx:id="addNewProjectIcon"
+                    <FontIcon fx:id="addNewBoardIcon"
                               iconLiteral="gmi-add-circle"
                               iconSize="24"
                               iconColor="${Palette.PRIMARY}"
-                              onMouseClicked="#handleAddNewProjectIconMouseClicked"/>
+                              onMouseClicked="#handleAddNewBoardIconMouseClicked"/>
                 </right>
 
             </BorderPane>
 
-            <ListView fx:id="userProjectsListView"
-                      stylesheets="@/octillect/styles/UserProjectsList.css"
-                      onMouseClicked="#handleUserProjectsListViewMouseClicked"/>
+            <ListView fx:id="userBoardsListView"
+                      stylesheets="@/octillect/styles/UserBoardsList.css"
+                      onMouseClicked="#handleUserBoardsListViewMouseClicked"/>
 
         </VBox>
 

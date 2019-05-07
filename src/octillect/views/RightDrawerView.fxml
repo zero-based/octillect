@@ -20,10 +20,10 @@
                 <Insets topRightBottomLeft="32"/>
             </padding>
 
-            <fx:include fx:id="userSettings" source="UserSettingsView.fxml"/>
-            <fx:include fx:id="projectSettings" source="ProjectSettingsView.fxml"/>
-            <fx:include fx:id="taskSettings" source="TaskSettingsView.fxml"/>
-            <fx:include fx:id="gitHubRepository" source="GitHubRepositoryView.fxml"/>
+            <fx:include fx:id="userSettings" source="settings/UserSettingsView.fxml"/>
+            <fx:include fx:id="boardSettings" source="settings/BoardSettingsView.fxml"/>
+            <fx:include fx:id="taskSettings" source="settings/TaskSettingsView.fxml"/>
+            <fx:include fx:id="gitHubRepository" source="settings/GitHubRepositoryView.fxml"/>
 
         </StackPane>
     </sidePane>

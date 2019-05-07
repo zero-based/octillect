@@ -9,7 +9,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
-import octillect.models.Project;
+import octillect.controllers.dialogs.NewBoardDialogController;
+import octillect.models.Board;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -17,35 +18,35 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public JFXDrawer leftDrawer;
-    @FXML public FontIcon addNewProjectIcon;
-    @FXML public ListView<Project> userProjectsListView;
+    @FXML public FontIcon addNewBoardIcon;
+    @FXML public ListView<Board> userBoardsListView;
 
     // Injected Controllers
     private ApplicationController applicationController;
-    private ProjectController projectController;
-    private NewProjectDialogController newProjectDialogController;
+    private BoardController boardController;
+    private NewBoardDialogController newBoardDialogController;
     private TitleBarController titleBarController;
 
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController          = applicationController.projectController;
-        newProjectDialogController = applicationController.newProjectDialogController;
+        boardController = applicationController.boardController;
+        newBoardDialogController = applicationController.newBoardDialogController;
         titleBarController         = applicationController.titleBarController;
     }
 
     @Override
     public void init() {
-        userProjectsListView.setItems(applicationController.user.getProjects());
-        userProjectsListView.setCellFactory(param -> new ListCell<Project>() {
+        userBoardsListView.setItems(applicationController.user.getBoards());
+        userBoardsListView.setCellFactory(param -> new ListCell<Board>() {
             {
-                prefWidthProperty().bind(userProjectsListView.widthProperty().subtract(16));
+                prefWidthProperty().bind(userBoardsListView.widthProperty().subtract(16));
                 setMaxWidth(Control.USE_PREF_SIZE);
             }
 
             @Override
-            protected void updateItem(Project item, boolean empty) {
+            protected void updateItem(Board item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
@@ -57,14 +58,14 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     }
 
     @FXML
-    public void handleAddNewProjectIconMouseClicked(MouseEvent mouseEvent) {
-        newProjectDialogController.newProjectDialog.show(applicationController.rootStackPane);
+    public void handleAddNewBoardIconMouseClicked(MouseEvent mouseEvent) {
+        newBoardDialogController.newBoardDialog.show(applicationController.rootStackPane);
         leftDrawer.close();
     }
 
     @FXML
-    public void handleUserProjectsListViewMouseClicked(MouseEvent mouseEvent) {
-        projectController.loadProject(userProjectsListView.getSelectionModel().getSelectedItem());
+    public void handleUserBoardsListViewMouseClicked(MouseEvent mouseEvent) {
+        boardController.loadBoard(userBoardsListView.getSelectionModel().getSelectedItem());
     }
 
     @FXML

@@ -16,9 +16,9 @@ public class FirestoreAPI {
 
     // Collections' names constants
     public final String USERS    = "users";
-    public final String PROJECTS = "projects";
+    public final String BOARDS   = "boards";
     public final String TASKS    = "tasks";
-    public final String LABELS   = "labels";
+    public final String TAGS     = "tags";
     public final String COLUMNS  = "columns";
 
     private static FirestoreAPI ourInstance = new FirestoreAPI();
@@ -27,7 +27,8 @@ public class FirestoreAPI {
         return ourInstance;
     }
 
-    private FirestoreAPI() {}
+    private FirestoreAPI() {
+    }
 
     // Select a whole document
     public Object selectDocument(String collection, String document) {
@@ -74,7 +75,7 @@ public class FirestoreAPI {
     }
 
     // Append a specific attribute
-    public void appendAttribute(String collection, String document, String key, Object value) {
+    public void appendArrayElement(String collection, String document, String key, Object value) {
         Connection.getInstance().firestore.collection(collection).document(document).update(key, FieldValue.arrayUnion(value));
     }
 

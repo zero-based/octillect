@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXTextField?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import octillect.controls.OButton?>
+<?import octillect.styles.Palette?>
+
+<JFXDialog xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
+           fx:controller="octillect.controllers.dialogs.NewColumnDialogController"
+           fx:id="newColumnDialog"
+           stylesheets="@/octillect/styles/Palette.css"
+           transitionType="CENTER"
+           onDialogClosed="#handleNewColumnDialogClosed">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <VBox alignment="CENTER"
+          prefWidth="350"
+          spacing="45"
+          style="-fx-background-color: -o-dark-900;">
+
+        <padding>
+            <Insets topRightBottomLeft="32"/>
+        </padding>
+
+        <Label text="New Column"
+               textFill="white"/>
+
+        <JFXTextField fx:id="newColumnNameTextField"
+                      promptText="Name"
+                      focusColor="${Palette.PRIMARY}"
+                      style="-fx-text-inner-color: -o-dark-300"
+                      labelFloat="true"/>
+
+        <OButton fx:id="addColumnButton"
+                 fill="TRUE"
+                 color="PRIMARY"
+                 prefWidth="150"
+                 text="Add"
+                 onAction="#handleAddColumnButtonAction"/>
+
+    </VBox>
+
+</JFXDialog>

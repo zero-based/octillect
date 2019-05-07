@@ -12,15 +12,15 @@ import javafx.util.Pair;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
-import octillect.controllers.ProjectController;
-import octillect.database.accessors.ProjectRepository;
-import octillect.database.accessors.UserRepository;
-import octillect.models.Project;
+import octillect.controllers.BoardController;
+import octillect.database.repositories.BoardRepository;
+import octillect.database.repositories.UserRepository;
+import octillect.models.Board;
 import octillect.models.User;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class ContributorCell extends ListCell<Pair<User, Project.Role>> implements Injectable<ApplicationController> {
+public class ContributorCell extends ListCell<Pair<User, Board.Role>> implements Injectable<ApplicationController> {
 
     //FXML Fields
     @FXML private BorderPane contributorCellBorderPane;
@@ -28,17 +28,17 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
     @FXML private Label usernameLabel;
     @FXML private Label emailLabel;
     @FXML private Label roleLabel;
-    @FXML private FontIcon closeIcon;
+    @FXML private FontIcon deleteContributorIcon;
 
     //Injected Controllers
     private ApplicationController applicationController;
-    private ProjectController projectController;
+    private BoardController boardController;
     private LeftDrawerController leftDrawerController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        projectController          = applicationController.projectController;
+        boardController = applicationController.boardController;
         leftDrawerController       = applicationController.leftDrawerController;
     }
 
@@ -48,7 +48,7 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
     }
 
     @Override
-    public void updateItem(Pair<User, Project.Role> contributorItem, boolean empty) {
+    public void updateItem(Pair<User, Board.Role> contributorItem, boolean empty) {
 
         super.updateItem(contributorItem, empty);
 
@@ -58,7 +58,7 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/ContributorCellView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/ContributorCellView.fxml"));
             fxmlLoader.setController(this);
             contributorCellBorderPane = fxmlLoader.load();
         } catch (Exception e) {
@@ -72,31 +72,31 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
         emailLabel.setText(contributorItem.getKey().getEmail());
         roleLabel.setText(contributorItem.getValue().toString());
 
-        if (projectController.currentProject.getUserRole(applicationController.user.getId())
-                .equals(Project.Role.viewer)) {
-            closeIcon.setDisable(true);
-            closeIcon.setOpacity(0);
+        if (boardController.currentBoard.getUserRole(applicationController.user.getId())
+                .equals(Board.Role.viewer)) {
+            deleteContributorIcon.setDisable(true);
+            deleteContributorIcon.setOpacity(0);
         }
 
-        closeIcon.setOnMouseClicked(event -> {
+        deleteContributorIcon.setOnMouseClicked(event -> {
             /* TODO: Add Confirmation Here. */
-            ProjectRepository.getInstance().deleteContributor(projectController.currentProject.getId(),
+            BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(),
                     getItem().getKey().getEmail(), getItem().getValue());
-            UserRepository.getInstance().deleteProjectId(getItem().getKey().getId(), projectController.currentProject.getId());
+            UserRepository.getInstance().deleteBoardId(getItem().getKey().getId(), boardController.currentBoard.getId());
 
-            if (projectController.currentProject.getContributors().size() == 1) {
-                // Delete whole project in case no contributors left
-                ProjectRepository.getInstance().delete(projectController.currentProject);
+            if (boardController.currentBoard.getContributors().size() == 1) {
+                // Delete whole board in case no contributors left
+                BoardRepository.getInstance().delete(boardController.currentBoard);
             }
 
             if (getItem().getKey().getId().equals(applicationController.user.getId())) {
-                applicationController.user.getProjects().remove(projectController.currentProject);
-                projectController.init();
+                applicationController.user.getBoards().remove(boardController.currentBoard);
+                boardController.init();
                 leftDrawerController.init();
             } else {
-                int index = applicationController.user.getProjects().indexOf(projectController.currentProject);
-                applicationController.user.getProjects().get(index).getContributors().remove(getItem());
-                projectController.currentProject.getContributors().remove(getItem());
+                int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
+                applicationController.user.getBoards().get(index).getContributors().remove(getItem());
+                boardController.currentBoard.getContributors().remove(getItem());
                 getListView().getItems().remove(getItem());
             }
 

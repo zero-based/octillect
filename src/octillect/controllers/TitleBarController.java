@@ -16,7 +16,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public JFXHamburger hamburgerButton;
-    @FXML public Label projectNameLabel;
+    @FXML public Label boardNameLabel;
     @FXML public FontIcon notificationIcon;
     @FXML public FontIcon settingsIcon;
     @FXML public Circle userImageCircle;
@@ -58,7 +58,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleSettingsIconMouseClicked(MouseEvent mouseEvent) {
-        rightDrawerController.show(rightDrawerController.projectSettings);
+        rightDrawerController.show(rightDrawerController.boardSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 

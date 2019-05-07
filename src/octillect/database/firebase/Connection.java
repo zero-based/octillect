@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Connection {
 
     Firestore firestore;
-    final String PROJECT_ID                  = "octillect-a01c0";
+    final String BOARD_ID                    = "octillect-a01c0";
     private final String DATABASE_URL        = "https://octillect-a01c0.firebaseio.com";
     private final String SERVICE_ACCOUNT_KEY = "src/octillect/database/firebase/firebase-key.json";
     private final String STORAGE_BUCKET_NAME = "octillect-a01c0.appspot.com";

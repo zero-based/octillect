@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import javafx.collections.ObservableList;
 
 import octillect.models.Column;
-import octillect.models.Project;
 import octillect.models.Task;
 
 public class ColumnBuilder implements Builder<Column, ColumnBuilder> {

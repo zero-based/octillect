@@ -2,7 +2,7 @@ package octillect.models.builders;
 
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import octillect.models.Project;
+import octillect.models.Board;
 import octillect.models.User;
 
 import java.util.function.Consumer;
@@ -14,7 +14,7 @@ public class UserBuilder implements Builder<User, UserBuilder> {
     public String email;
     public String password;
     public Image image;
-    public ObservableList<Project> projects;
+    public ObservableList<Board> boards;
 
     @Override
     public UserBuilder with(Consumer<UserBuilder> builderFunction) {
@@ -24,7 +24,7 @@ public class UserBuilder implements Builder<User, UserBuilder> {
 
     @Override
     public User build() {
-        return new User(id, name, email, password, image, projects);
+        return new User(id, name, email, password, image, boards);
     }
 
     public UserBuilder withId(String id) {
@@ -52,8 +52,8 @@ public class UserBuilder implements Builder<User, UserBuilder> {
         return this;
     }
 
-    public UserBuilder withProjects(ObservableList<Project> projects) {
-        this.projects = projects;
+    public UserBuilder withBoards(ObservableList<Board> boards) {
+        this.boards = boards;
         return this;
     }
 

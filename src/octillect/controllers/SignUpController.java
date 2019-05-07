@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -20,13 +22,11 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-import javax.imageio.ImageIO;
-
 import octillect.Main;
 import octillect.controls.OButton;
-import octillect.database.accessors.UserRepository;
+import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Project;
+import octillect.models.Board;
 import octillect.models.User;
 import octillect.models.builders.UserBuilder;
 import octillect.styles.Animation;
@@ -137,7 +137,7 @@ public class SignUpController {
                     }
                 }).build();
 
-                user.setProjects(FXCollections.observableArrayList((new Project.WelcomeProject(user))));
+                user.setBoards(FXCollections.observableArrayList((new Board.WelcomeBoard(user))));
 
                 UserRepository.getInstance().add(user);
                 Main.runApplication(user);

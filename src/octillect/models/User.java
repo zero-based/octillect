@@ -10,19 +10,19 @@ public class User implements IObserver {
     private String email;
     private String password;
     private Image image;
-    private ObservableList<Project> projects;
+    private ObservableList<Board> boards;
 
 
     public User() {}
 
     public User(String id, String name, String email, String password,
-                Image image, ObservableList<Project> projects) {
+                Image image, ObservableList<Board> boards) {
         this.id       = id;
         this.name     = name;
         this.email    = email;
         this.password = password;
         this.image    = image;
-        this.projects = projects;
+        this.boards = boards;
     }
 
 
@@ -71,12 +71,12 @@ public class User implements IObserver {
     }
 
 
-    public ObservableList<Project> getProjects() {
-        return projects;
+    public ObservableList<Board> getBoards() {
+        return boards;
     }
 
-    public void setProjects(ObservableList<Project> projects) {
-        this.projects = projects;
+    public void setBoards(ObservableList<Board> boards) {
+        this.boards = boards;
     }
 
     @Override
