@@ -15,15 +15,23 @@ import java.util.concurrent.ExecutionException;
 public class FirestoreAPI {
 
     // Collections' names constants
-    public static final String USERS    = "users";
-    public static final String PROJECTS = "projects";
-    public static final String TASKS    = "tasks";
-    public static final String LABELS   = "labels";
-    public static final String COLUMNS  = "columns";
+    public final String USERS    = "users";
+    public final String PROJECTS = "projects";
+    public final String TASKS    = "tasks";
+    public final String LABELS   = "labels";
+    public final String COLUMNS  = "columns";
+
+    private static FirestoreAPI ourInstance = new FirestoreAPI();
+
+    public static FirestoreAPI getInstance() {
+        return ourInstance;
+    }
+
+    private FirestoreAPI() {}
 
     // Select a whole document
-    public static Object selectDocument(String collection, String document) {
-        DocumentReference docRef = Connection.firestore.collection(collection).document(document);
+    public Object selectDocument(String collection, String document) {
+        DocumentReference docRef = Connection.getInstance().firestore.collection(collection).document(document);
         ApiFuture<DocumentSnapshot> documentSnapshot = docRef.get();
         try {
             return documentSnapshot.get();
@@ -33,8 +41,8 @@ public class FirestoreAPI {
     }
 
     // Select a specific attribute from a document
-    public static Object selectAttribute(String collection, String document, String key) {
-        DocumentReference docRef = Connection.firestore.collection(collection).document(document);
+    public Object selectAttribute(String collection, String document, String key) {
+        DocumentReference docRef = Connection.getInstance().firestore.collection(collection).document(document);
         ApiFuture<DocumentSnapshot> documentSnapshot = docRef.get();
         try {
             return documentSnapshot.get().getData().get(key);
@@ -44,45 +52,45 @@ public class FirestoreAPI {
     }
 
     // Add new document
-    public static void insertDocument(String collection, String document, Object object) {
-        Connection.firestore.collection(collection).document(document).set(object);
+    public void insertDocument(String collection, String document, Object object) {
+        Connection.getInstance().firestore.collection(collection).document(document).set(object);
     }
 
     // Add new attribute to a document
-    public static void insertAttribute(String collection, String document, String key, Object value) {
+    public void insertAttribute(String collection, String document, String key, Object value) {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
-        Connection.firestore.collection(collection).document(document).set(map);
+        Connection.getInstance().firestore.collection(collection).document(document).set(map);
     }
 
     // Update a document.
-    public static void updateDocument(String collection, String document, Object object) {
-        Connection.firestore.collection(collection).document(document).set(object);
+    public void updateDocument(String collection, String document, Object object) {
+        Connection.getInstance().firestore.collection(collection).document(document).set(object);
     }
 
     // Update a specific attribute.
-    public static void updateAttribute(String collection, String document, String key, Object value) {
-        Connection.firestore.collection(collection).document(document).update(key, value);
+    public void updateAttribute(String collection, String document, String key, Object value) {
+        Connection.getInstance().firestore.collection(collection).document(document).update(key, value);
     }
 
     // Append a specific attribute
-    public static void appendAttribute(String collection, String document, String key, Object value) {
-        Connection.firestore.collection(collection).document(document).update(key, FieldValue.arrayUnion(value));
+    public void appendAttribute(String collection, String document, String key, Object value) {
+        Connection.getInstance().firestore.collection(collection).document(document).update(key, FieldValue.arrayUnion(value));
     }
 
     // Remove a specific Element from an array Field
-    public static void deleteArrayElement(String collection, String document, String key, Object value) {
-        Connection.firestore.collection(collection).document(document).update(key, FieldValue.arrayRemove(value));
+    public void deleteArrayElement(String collection, String document, String key, Object value) {
+        Connection.getInstance().firestore.collection(collection).document(document).update(key, FieldValue.arrayRemove(value));
     }
 
     // Delete the whole document
-    public static void deleteDocument(String collection, String document) {
-        Connection.firestore.collection(collection).document(document).delete();
+    public void deleteDocument(String collection, String document) {
+        Connection.getInstance().firestore.collection(collection).document(document).delete();
     }
 
     // Delete a specific attribute in a document
-    public static void deleteAttribute(String collection, String document, String key) {
-        Connection.firestore.collection(collection).document(document).update(key, null);
+    public void deleteAttribute(String collection, String document, String key) {
+        Connection.getInstance().firestore.collection(collection).document(document).update(key, null);
     }
 
     /**
@@ -91,7 +99,7 @@ public class FirestoreAPI {
      * @param textToEncrypt text to be encrypted
      * @return encrypted String
      */
-    public static String encrypt(String textToEncrypt) {
+    public String encrypt(String textToEncrypt) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(textToEncrypt.getBytes());
@@ -112,7 +120,7 @@ public class FirestoreAPI {
      * @param textToEncrypt text to be encrypted
      * @return encrypted String
      */
-    public static String encryptWithDateTime(String textToEncrypt) {
+    public String encryptWithDateTime(String textToEncrypt) {
         return encrypt(textToEncrypt + java.time.LocalDateTime.now().toString());
     }
 

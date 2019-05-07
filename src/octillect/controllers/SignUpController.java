@@ -117,29 +117,29 @@ public class SignUpController {
         if (!requiredFieldValidator.getHasErrors() && !emailValidator.getHasErrors()
             && !passwordValidator.getHasErrors() && !confirmPasswordValidator.getHasErrors()) {
 
-            if (UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText())) != null) {
+            if (UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText())) != null) {
                 emailTextField.getValidators().add(emailUsedValidator);
                 emailTextField.validate();
                 emailTextField.getValidators().remove(emailUsedValidator);
             } else {
                 User user = new UserBuilder().with($ -> {
-                    $.id = FirestoreAPI.encrypt(emailTextField.getText());
+                    $.id = FirestoreAPI.getInstance().encrypt(emailTextField.getText());
                     $.name = firstNameTextField.getText() + " " + lastNameTextField.getText();
                     $.email = emailTextField.getText();
-                    $.password = FirestoreAPI.encrypt(passwordTextField.getText());
+                    $.password = FirestoreAPI.getInstance().encrypt(passwordTextField.getText());
 
                     if (chosenImage != null) {
                         $.image = SwingFXUtils.toFXImage(chosenImage, null);
                     } else {
                         // Generate an Identicon for the user in case of not choosing a photo.
-                        BufferedImage identicon = UserRepository.generateIdenticon($.id, 256);
+                        BufferedImage identicon = UserRepository.getInstance().generateIdenticon($.id, 256);
                         $.image = SwingFXUtils.toFXImage(identicon, null);
                     }
                 }).build();
 
                 user.setProjects(FXCollections.observableArrayList((new Project.WelcomeProject(user))));
 
-                UserRepository.add(user);
+                UserRepository.getInstance().add(user);
                 Main.runApplication(user);
 
             }

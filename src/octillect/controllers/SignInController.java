@@ -75,19 +75,19 @@ public class SignInController {
         passwordTextField.validate();
 
         if (!requiredFieldValidator.getHasErrors()) {
-            User user = UserRepository.get(FirestoreAPI.encrypt(emailTextField.getText()));
+            User user = UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText()));
             if (user == null) {
                 emailTextField.getValidators().add(emailValidator);
                 emailTextField.validate();
                 emailTextField.getValidators().remove(emailValidator);
-            } else if (!user.getPassword().equals(FirestoreAPI.encrypt(passwordTextField.getText()))) {
+            } else if (!user.getPassword().equals(FirestoreAPI.getInstance().encrypt(passwordTextField.getText()))) {
                 passwordTextField.getValidators().add(passwordValidator);
                 passwordTextField.validate();
                 passwordTextField.getValidators().remove(passwordValidator);
             } else {
                 if (keepMeSignedInCheckBox.isSelected()) {
                     // Save User's data in octillect's file.
-                    UserRepository.rememberUser(user);
+                    UserRepository.getInstance().rememberUser(user);
                 }
                 Main.runApplication(user);
             }

@@ -66,7 +66,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
             
             // Add project.
             Project newProject = new ProjectBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime(newProjectNameTextField.getText()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime(newProjectNameTextField.getText()))
                     .withName(newProjectNameTextField.getText())
                     .withDescription(newProjectDescriptionTextArea.getText())
                     .withContributors(FXCollections.observableArrayList(new Pair<>(applicationController.user, Project.Role.owner)))
@@ -74,7 +74,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
 
             // Add column.
             Column untitledColumn = new ColumnBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Column" + applicationController.user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Untitled Column" + applicationController.user.getId()))
                     .withName("Untitled Column")
                     .build();
 
@@ -82,7 +82,7 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
 
             // Add task.
             Task untitledTask = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
                     .withName("Untitled Task")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
@@ -92,10 +92,10 @@ public class NewProjectDialogController implements Injectable<ApplicationControl
             untitledColumn.setTasks(FXCollections.observableArrayList(untitledTask));
 
             // Accessing the database.
-            UserRepository.addProject(newProject.getId(), applicationController.user.getId());
-            ProjectRepository.add(newProject);
-            ColumnRepository.add(untitledColumn);
-            TaskRepository.add(untitledTask);
+            UserRepository.getInstance().addProject(newProject.getId(), applicationController.user.getId());
+            ProjectRepository.getInstance().add(newProject);
+            ColumnRepository.getInstance().add(untitledColumn);
+            TaskRepository.getInstance().add(untitledTask);
 
             projectController.loadProject(newProject);
             leftDrawerController.userProjectsListView.getItems().add(newProject);

@@ -113,7 +113,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 project.getColumns().forEach(column -> {
                     columnsIds.add(column.getId());
                 });
-                ProjectRepository.updateColumnsIds(project.getId(), columnsIds);
+                ProjectRepository.getInstance().updateColumnsIds(project.getId(), columnsIds);
             }
         });
 
@@ -154,8 +154,8 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         });
 
         deleteButton.setOnAction(event -> {
-            ColumnRepository.delete(getItem());
-            ProjectRepository.deleteColumnId(projectController.currentProject.getId(), getItem().getId());
+            ColumnRepository.getInstance().delete(getItem());
+            ProjectRepository.getInstance().deleteColumnId(projectController.currentProject.getId(), getItem().getId());
 
             projectController.currentProject.getColumns().remove(getItem());
         });
@@ -234,8 +234,8 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 sourceColumn.getTasks().forEach(task -> sourceTasksIds.add(task.getId()));
                 targetColumn.getTasks().forEach(task -> targetTasksIds.add(task.getId()));
 
-                ColumnRepository.updateTasksIds(sourceColumn.getId(), sourceTasksIds);
-                ColumnRepository.updateTasksIds(targetColumn.getId(), targetTasksIds);
+                ColumnRepository.getInstance().updateTasksIds(sourceColumn.getId(), sourceTasksIds);
+                ColumnRepository.getInstance().updateTasksIds(targetColumn.getId(), targetTasksIds);
 
             }
         });

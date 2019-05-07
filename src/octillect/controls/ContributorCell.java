@@ -80,13 +80,13 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
 
         closeIcon.setOnMouseClicked(event -> {
             /* TODO: Add Confirmation Here. */
-            ProjectRepository.deleteContributor(projectController.currentProject.getId(),
+            ProjectRepository.getInstance().deleteContributor(projectController.currentProject.getId(),
                     getItem().getKey().getEmail(), getItem().getValue());
-            UserRepository.deleteProjectId(getItem().getKey().getId(), projectController.currentProject.getId());
+            UserRepository.getInstance().deleteProjectId(getItem().getKey().getId(), projectController.currentProject.getId());
 
             if (projectController.currentProject.getContributors().size() == 1) {
                 // Delete whole project in case no contributors left
-                ProjectRepository.delete(projectController.currentProject);
+                ProjectRepository.getInstance().delete(projectController.currentProject);
             }
 
             if (getItem().getKey().getId().equals(applicationController.user.getId())) {

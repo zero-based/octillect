@@ -56,7 +56,7 @@ public class NewTaskDialogController implements Injectable<ApplicationController
         if(!requiredFieldValidator.getHasErrors()) {
 
             Task newTask = new TaskBuilder().with($ -> {
-                $.id = FirestoreAPI.encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId());
+                $.id = FirestoreAPI.getInstance().encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId());
                 $.name = newTaskNameTextField.getText();
 
                 if (!newTaskDescriptionTextArea.getText().equals("")) {
@@ -69,8 +69,8 @@ public class NewTaskDialogController implements Injectable<ApplicationController
 
             currentColumn.getTasks().add(newTask);
 
-            ColumnRepository.addTask(currentColumn.getId(), newTask.getId());
-            TaskRepository.add(newTask);
+            ColumnRepository.getInstance().addTask(currentColumn.getId(), newTask.getId());
+            TaskRepository.getInstance().add(newTask);
 
             newTaskDialog.close();
         }

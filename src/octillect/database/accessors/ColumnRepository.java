@@ -14,8 +14,16 @@ import octillect.models.builders.ColumnBuilder;
 
 public class ColumnRepository {
 
+    private static ColumnRepository ourInstance = new ColumnRepository();
+
+    public static ColumnRepository getInstance() {
+        return ourInstance;
+    }
+
+    private ColumnRepository() {}
+
     // Add new column data to database.
-    public static void add(Column column) {
+    public void add(Column column) {
         ColumnDocument document = new ColumnDocument();
         document.setId(column.getId());
         document.setName(column.getName());
@@ -27,12 +35,12 @@ public class ColumnRepository {
             }
             document.setTasksIds(tasksIds);
         }
-        FirestoreAPI.insertDocument(FirestoreAPI.COLUMNS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().COLUMNS, document.getId(), document);
     }
 
-    public static Column get(String columnId) {
+    public Column get(String columnId) {
         Column column = null;
-        ColumnDocument document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.COLUMNS, columnId)).toObject(ColumnDocument.class);
+        ColumnDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().COLUMNS, columnId)).toObject(ColumnDocument.class);
 
         if (document != null) {
 
@@ -43,7 +51,7 @@ public class ColumnRepository {
                 if (document.getTasksIds() != null) {
                     ArrayList<Task> tasksIds = new ArrayList<>();
                     for (String taskId : document.getTasksIds()) {
-                        tasksIds.add(TaskRepository.get(taskId));
+                        tasksIds.add(TaskRepository.getInstance().get(taskId));
                     }
                     $.tasks = FXCollections.observableArrayList(tasksIds);
 
@@ -54,12 +62,12 @@ public class ColumnRepository {
         return column;
     }
 
-    public static void addTask(String columnId, String taskId) {
-        FirestoreAPI.appendAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", taskId);
+    public void addTask(String columnId, String taskId) {
+        FirestoreAPI.getInstance().appendAttribute(FirestoreAPI.getInstance().COLUMNS, columnId, "tasksIds", taskId);
     }
 
-    public static void updateTasksIds(String columnId, ArrayList<String> tasksIds) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.COLUMNS, columnId, "tasksIds", tasksIds);
+    public void updateTasksIds(String columnId, ArrayList<String> tasksIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().COLUMNS, columnId, "tasksIds", tasksIds);
     }
 
     /**
@@ -68,8 +76,8 @@ public class ColumnRepository {
      * @param columnId Column's id where task exists.
      * @param taskId   Task's id to Delete.
      */
-    public static void deleteTaskId(String columnId, String taskId) {
-        FirestoreAPI.deleteArrayElement(FirestoreAPI.COLUMNS, columnId, "tasksIds", taskId);
+    public void deleteTaskId(String columnId, String taskId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().COLUMNS, columnId, "tasksIds", taskId);
     }
 
     /**
@@ -77,11 +85,11 @@ public class ColumnRepository {
      *
      * @param column    Column to be deleted.
      */
-    public static void delete(Column column) {
-        FirestoreAPI.deleteDocument(FirestoreAPI.COLUMNS, column.getId());
+    public void delete(Column column) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
 
         for (Task task : column.getTasks()) {
-            FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, task.getId());
+            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
         }
     }
 

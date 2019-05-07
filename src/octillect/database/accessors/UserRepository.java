@@ -33,8 +33,17 @@ import octillect.models.builders.UserBuilder;
 
 public class UserRepository {
 
+    private static UserRepository ourInstance = new UserRepository();
+
+    public static UserRepository getInstance() {
+        return ourInstance;
+    }
+
+    private UserRepository() {}
+
+
     // add new user data to database.
-    public static void add(User user) {
+    public void add(User user) {
 
         UserDocument document = new UserDocument();
         document.setId(user.getId());
@@ -46,28 +55,28 @@ public class UserRepository {
         projectsIds.add(user.getProjects().get(0).getId());
         document.setProjectsIds(projectsIds);
 
-        FirestoreAPI.insertDocument(FirestoreAPI.USERS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().USERS, document.getId(), document);
         setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
 
-        ProjectRepository.add(user.getProjects().get(0));
+        ProjectRepository.getInstance().add(user.getProjects().get(0));
         for (Column column : user.getProjects().get(0).getColumns()) {
-            ColumnRepository.add(column);
+            ColumnRepository.getInstance().add(column);
             for (Task task : column.getTasks()) {
-                TaskRepository.add(task);
+                TaskRepository.getInstance().add(task);
             }
         }
     }
 
     // add user's image to CloudStorage
-    public static void setImage(String userId, BufferedImage userBufferedImage) {
-        StorageAPI.uploadImage(userBufferedImage, StorageAPI.USER_PHOTOS_FOLDER, userId);
+    public void setImage(String userId, BufferedImage userBufferedImage) {
+        StorageAPI.getInstance().uploadImage(userBufferedImage, StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);
     }
 
-    public static User get(String id) {
+    public User get(String id) {
 
         User user = null;
         UserDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, id)).toObject(UserDocument.class);
+        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, id)).toObject(UserDocument.class);
 
         if (document != null) {
 
@@ -81,7 +90,7 @@ public class UserRepository {
                 if (document.getProjectsIds() != null) {
                     ArrayList<Project> projectsIds = new ArrayList<>();
                     for (String projectId : document.getProjectsIds()) {
-                        projectsIds.add(ProjectRepository.get(projectId));
+                        projectsIds.add(ProjectRepository.getInstance().get(projectId));
                     }
                     $.projects = FXCollections.observableArrayList(projectsIds);
                 }
@@ -92,10 +101,10 @@ public class UserRepository {
         return user;
     }
 
-    public static User getContributor(String userId) {
+    public User getContributor(String userId) {
         User user = null;
         UserDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.USERS, userId)).toObject(UserDocument.class);
+        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, userId)).toObject(UserDocument.class);
 
         if (document != null) {
 
@@ -112,8 +121,8 @@ public class UserRepository {
     }
 
     // Assign project to a specific contributor
-    public static void addProject(String projectId, String currentUserId) {
-        FirestoreAPI.appendAttribute(FirestoreAPI.USERS, currentUserId, "projectsIds", projectId);
+    public void addProject(String projectId, String currentUserId) {
+        FirestoreAPI.getInstance().appendAttribute(FirestoreAPI.getInstance().USERS, currentUserId, "projectsIds", projectId);
     }
 
     /**
@@ -122,8 +131,8 @@ public class UserRepository {
      * @param userId Id of user whom name will be changed.
      * @param name   Updated Name.
      */
-    public static void updateName(String userId, String name) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.USERS, userId, "name", name);
+    public void updateName(String userId, String name) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().USERS, userId, "name", name);
     }
 
     /**
@@ -132,18 +141,18 @@ public class UserRepository {
      * @param userId            Id of user whom password will be changed.
      * @param encryptedPassword Updated password after encryption.
      */
-    public static void updatePassword(String userId, String encryptedPassword) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.USERS, userId, "password", encryptedPassword);
+    public void updatePassword(String userId, String encryptedPassword) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().USERS, userId, "password", encryptedPassword);
     }
 
     // Deletes projectId from User's projectsIds Field
-    public static void deleteProjectId( String userId, String projectId) {
-        FirestoreAPI.deleteArrayElement(FirestoreAPI.USERS, userId, "projectsIds", projectId);
+    public void deleteProjectId( String userId, String projectId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().USERS, userId, "projectsIds", projectId);
     }
 
     // Get user's image by userId
-    public static Image getImage(String userId) {
-        return StorageAPI.selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
+    public Image getImage(String userId) {
+        return StorageAPI.getInstance().selectImage(StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);
     }
 
     /**
@@ -151,7 +160,7 @@ public class UserRepository {
      *
      * @param user signing user
      */
-    public static void rememberUser(User user) {
+    public void rememberUser(User user) {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         /* Use Map to convert a key/value object to a json object*/
@@ -175,7 +184,7 @@ public class UserRepository {
      *
      * @return a user object filled from the database.
      */
-    public static User getRememberedUser() {
+    public User getRememberedUser() {
 
         FileReader fileReader = null;
         try {
@@ -192,7 +201,7 @@ public class UserRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return UserRepository.get(fileContent.get("id"));
+        return UserRepository.getInstance().get(fileContent.get("id"));
     }
 
 
@@ -204,7 +213,7 @@ public class UserRepository {
      * @param size   Width and Height of the Identicon.
      * @return Square BufferedImage of the Identicon.
      */
-    public static BufferedImage generateIdenticon(String userId, int size) {
+    public BufferedImage generateIdenticon(String userId, int size) {
 
         int width = 5;
         int height = 5;

@@ -16,8 +16,16 @@ import octillect.models.builders.TaskBuilder;
 
 public class TaskRepository {
 
+    private static TaskRepository ourInstance = new TaskRepository();
+
+    public static TaskRepository getInstance() {
+        return ourInstance;
+    }
+
+    private TaskRepository() {}
+
     // Add new task data to database.
-    public static void add(Task task) {
+    public void add(Task task) {
         TaskDocument document = new TaskDocument();
         document.setId(task.getId());
         document.setName(task.getName());
@@ -51,12 +59,12 @@ public class TaskRepository {
             document.setLabelsIds(labelsIds);
         }
 
-        FirestoreAPI.insertDocument(FirestoreAPI.TASKS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TASKS, document.getId(), document);
     }
 
-    public static Task get(String taskId) {
+    public Task get(String taskId) {
         Task task = null;
-        TaskDocument document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.TASKS, taskId)).toObject(TaskDocument.class);
+        TaskDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().TASKS, taskId)).toObject(TaskDocument.class);
 
         if (document != null) {
 
@@ -67,13 +75,13 @@ public class TaskRepository {
                 $.isCompleted = document.getIsCompleted();
                 $.dueDate = document.getDueDate();
                 $.creationDate = document.getCreationDate();
-                $.creator = UserRepository.getContributor(document.getCreatorId());
+                $.creator = UserRepository.getInstance().getContributor(document.getCreatorId());
             }).build();
 
             if (document.getAssigneesIds() != null) {
                 ArrayList<User> tempAssignees = new ArrayList<>();
                 for (String assigneeID : document.getAssigneesIds()) {
-                    tempAssignees.add(UserRepository.getContributor(assigneeID));
+                    tempAssignees.add(UserRepository.getInstance().getContributor(assigneeID));
                 }
                 task.setAssignees(FXCollections.observableArrayList(tempAssignees));
             }
@@ -81,7 +89,7 @@ public class TaskRepository {
             if (document.getSubTasksIds() != null) {
                 ArrayList<Task> tempSubTasks = new ArrayList<>();
                 for (String subTaskId : document.getSubTasksIds()) {
-                    tempSubTasks.add(TaskRepository.get(subTaskId));
+                    tempSubTasks.add(TaskRepository.getInstance().get(subTaskId));
                 }
                 task.setSubTasks(FXCollections.observableArrayList(tempSubTasks));
             }
@@ -89,7 +97,7 @@ public class TaskRepository {
             if (document.getLabelsIds() != null) {
                 ArrayList<Label> tempLabels = new ArrayList<>();
                 for (String labelId : document.getLabelsIds()) {
-                    tempLabels.add(LabelRepository.get(labelId));
+                    tempLabels.add(LabelRepository.getInstance().get(labelId));
                 }
                 task.setLabels(FXCollections.observableArrayList(tempLabels));
             }
@@ -98,32 +106,32 @@ public class TaskRepository {
         return task;
     }
 
-    public static void updateName(String taskId, String name) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "name", name);
+    public void updateName(String taskId, String name) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "name", name);
     }
 
-    public static void updateDescription(String taskId, String description) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "description", description);
+    public void updateDescription(String taskId, String description) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "description", description);
     }
 
-    public static void updateisCompleted(String taskId, boolean isCompleted) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "isCompleted", isCompleted);
+    public void updateisCompleted(String taskId, boolean isCompleted) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "isCompleted", isCompleted);
     }
 
-    public static void updateDueDate(String taskId, Date dueDate) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "dueDate", dueDate);
+    public void updateDueDate(String taskId, Date dueDate) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "dueDate", dueDate);
     }
 
-    public static void updateLabelsIds(String taskId, ArrayList<String> labelIds) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "labelsIds", labelIds);
+    public void updateLabelsIds(String taskId, ArrayList<String> labelIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "labelsIds", labelIds);
     }
 
-    public static void updateAssigneeIds(String taskId, ArrayList<String> assigneeIds) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.TASKS, taskId, "assigneesIds", assigneeIds);
+    public void updateAssigneeIds(String taskId, ArrayList<String> assigneeIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
     }
 
 
-    public static void delete(String id) {
-        FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, id);
+    public void delete(String id) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, id);
     }
 }

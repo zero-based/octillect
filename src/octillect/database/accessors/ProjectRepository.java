@@ -16,8 +16,16 @@ import octillect.models.builders.ProjectBuilder;
 
 public class ProjectRepository {
 
+    private static ProjectRepository ourInstance = new ProjectRepository();
+
+    public static ProjectRepository getInstance() {
+        return ourInstance;
+    }
+
+    private ProjectRepository() {}
+
     // Add new project data to database.
-    public static void add(Project project) {
+    public void add(Project project) {
         ProjectDocument document = new ProjectDocument();
         document.setId(project.getId());
         document.setName(project.getName());
@@ -47,13 +55,13 @@ public class ProjectRepository {
             document.setLabelsIds(labelsIds);
         }
 
-        FirestoreAPI.insertDocument(FirestoreAPI.PROJECTS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().PROJECTS, document.getId(), document);
     }
 
-    public static Project get(String projectId) {
+    public Project get(String projectId) {
         Project project = null;
         ProjectDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.PROJECTS, projectId)).toObject(ProjectDocument.class);
+        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().PROJECTS, projectId)).toObject(ProjectDocument.class);
 
         if (document != null) {
 
@@ -66,14 +74,14 @@ public class ProjectRepository {
                 if (document.getColumnsIds() != null) {
                     ArrayList<Column> columnsIds = new ArrayList<>();
                     for (String columnId : document.getColumnsIds()) {
-                        columnsIds.add(ColumnRepository.get(columnId));
+                        columnsIds.add(ColumnRepository.getInstance().get(columnId));
                     }
                     $.columns = FXCollections.observableArrayList(columnsIds);
                 }
 
                 ArrayList<Pair<User, Project.Role>> contributorsIds = new ArrayList<>();
                 for (HashMap<String, String> contributor : document.getContributors()) {
-                    User user = UserRepository.getContributor(contributor.get("id"));
+                    User user = UserRepository.getInstance().getContributor(contributor.get("id"));
                     Project.Role role = Project.Role.valueOf(contributor.get("role"));
                     Pair<User, Project.Role> pair = new Pair(user, role);
                     contributorsIds.add(pair);
@@ -83,7 +91,7 @@ public class ProjectRepository {
                 if (document.getLabelsIds() != null) {
                     ArrayList<Label> labels = new ArrayList<>();
                     for (String labelId : document.getLabelsIds()) {
-                        labels.add(LabelRepository.get(labelId));
+                        labels.add(LabelRepository.getInstance().get(labelId));
                     }
                     $.labels = FXCollections.observableArrayList(labels);
                 }
@@ -94,52 +102,52 @@ public class ProjectRepository {
         return project;
     }
 
-    public static void addColumn(String projectId, String columnId) {
-        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnId);
+    public void addColumn(String projectId, String columnId) {
+        FirestoreAPI.getInstance().appendAttribute(FirestoreAPI.getInstance().PROJECTS, projectId, "columnsIds", columnId);
     }
 
-    public static void updateColumnsIds(String projectId, ArrayList<String> columnsIds) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnsIds);
+    public void updateColumnsIds(String projectId, ArrayList<String> columnsIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().PROJECTS, projectId, "columnsIds", columnsIds);
     }
 
-    public static void updateName(String id, String name) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, id, "name", name);
+    public void updateName(String id, String name) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().PROJECTS, id, "name", name);
     }
 
-    public static void updateDescription(String id, String description) {
-        FirestoreAPI.updateAttribute(FirestoreAPI.PROJECTS, id, "description", description);
+    public void updateDescription(String id, String description) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().PROJECTS, id, "description", description);
     }
 
-    public static void addContributor(String projectId, String email, Project.Role role) {
-        ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
-        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
+    public void addContributor(String projectId, String email, Project.Role role) {
+        ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
+        FirestoreAPI.getInstance().appendAttribute(FirestoreAPI.getInstance().PROJECTS, projectId, "contributors", contributor.getMap());
     }
 
-    public static void deleteContributor(String projectId, String email, Project.Role role) {
-        ContributorMap contributor = new ContributorMap(FirestoreAPI.encrypt(email), role);
-        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "contributors", contributor.getMap());
+    public void deleteContributor(String projectId, String email, Project.Role role) {
+        ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().PROJECTS, projectId, "contributors", contributor.getMap());
     }
 
-    public static void addLabelId(String projectId, String labelId) {
-        FirestoreAPI.appendAttribute(FirestoreAPI.PROJECTS, projectId, "labelsIds", labelId);
+    public void addLabelId(String projectId, String labelId) {
+        FirestoreAPI.getInstance().appendAttribute(FirestoreAPI.getInstance().PROJECTS, projectId, "labelsIds", labelId);
     }
 
-    public static void deleteLabelId(String projectId, String labelId) {
-        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "labelsIds", labelId);
+    public void deleteLabelId(String projectId, String labelId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().PROJECTS, projectId, "labelsIds", labelId);
     }
 
-    public static void delete(Project project) {
-        FirestoreAPI.deleteDocument(FirestoreAPI.PROJECTS, project.getId());
+    public void delete(Project project) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().PROJECTS, project.getId());
 
         for (Column column : project.getColumns()) {
             for (Task task : column.getTasks()) {
-                FirestoreAPI.deleteDocument(FirestoreAPI.TASKS, task.getId());
+                FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
             }
-            FirestoreAPI.deleteDocument(FirestoreAPI.COLUMNS, column.getId());
+            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
         }
         if (project.getLabels() != null) {
             for (Label label : project.getLabels()) {
-                LabelRepository.delete(label.getId());
+                LabelRepository.getInstance().delete(label.getId());
             }
         }
     }
@@ -150,8 +158,8 @@ public class ProjectRepository {
      * @param projectId Project's id where column exists.
      * @param columnId  Column's id to Delete.
      */
-    public static void deleteColumnId(String projectId, String columnId) {
-        FirestoreAPI.deleteArrayElement(FirestoreAPI.PROJECTS, projectId, "columnsIds", columnId);
+    public void deleteColumnId(String projectId, String columnId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().PROJECTS, projectId, "columnsIds", columnId);
     }
 
 }

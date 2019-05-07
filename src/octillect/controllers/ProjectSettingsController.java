@@ -87,7 +87,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
 
         editNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && projectController.currentProject != null) {
-                ProjectRepository.updateName(projectController.currentProject.getId(), editNameTextField.getText());
+                ProjectRepository.getInstance().updateName(projectController.currentProject.getId(), editNameTextField.getText());
                 projectController.currentProject.setName(editNameTextField.getText());
                 titleBarController.projectNameLabel.setText(editNameTextField.getText());
                 int index = leftDrawerController.userProjectsListView.getItems().indexOf(projectController.currentProject);
@@ -97,7 +97,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
 
         editDescriptionTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && projectController.currentProject != null) {
-                ProjectRepository.updateDescription(projectController.currentProject.getId(), editDescriptionTextArea.getText());
+                ProjectRepository.getInstance().updateDescription(projectController.currentProject.getId(), editDescriptionTextArea.getText());
                 projectController.currentProject.setDescription(editDescriptionTextArea.getText());
             }
         });
@@ -148,7 +148,7 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
                 inviteContributorByEmailTextField.validate();
                 inviteContributorByEmailTextField.getValidators().remove(emailValidator);
             } else {
-                User user = UserRepository.get(FirestoreAPI.encrypt(inviteContributorByEmailTextField.getText()));
+                User user = UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(inviteContributorByEmailTextField.getText()));
 
                 if (user == null) {
                     emailValidator.setMessage("That Octillect account doesn't exist.");
@@ -156,10 +156,10 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
                     inviteContributorByEmailTextField.validate();
                     inviteContributorByEmailTextField.getValidators().remove(emailValidator);
                 } else {
-                    ProjectRepository.addContributor(projectController.currentProject.getId(),
+                    ProjectRepository.getInstance().addContributor(projectController.currentProject.getId(),
                             inviteContributorByEmailTextField.getText(), rolesComboBox.getValue());
-                    UserRepository.addProject(projectController.currentProject.getId(),
-                            FirestoreAPI.encrypt(inviteContributorByEmailTextField.getText()));
+                    UserRepository.getInstance().addProject(projectController.currentProject.getId(),
+                            FirestoreAPI.getInstance().encrypt(inviteContributorByEmailTextField.getText()));
                     contributorsListView.getItems().add(new Pair<>(user, rolesComboBox.getValue()));
                     resetRequiredFieldValidators();
                 }
@@ -176,13 +176,13 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
         if (!requiredFieldValidator.getHasErrors()) {
 
             Label label = new LabelBuilder().with($ -> {
-                $.id = FirestoreAPI.encryptWithDateTime(newLabelTextField.getText() + applicationController.user.getId());
+                $.id = FirestoreAPI.getInstance().encryptWithDateTime(newLabelTextField.getText() + applicationController.user.getId());
                 $.name = newLabelTextField.getText();
                 $.color = labelColorPicker.getValue();
             }).build();
 
-            LabelRepository.add(label);
-            ProjectRepository.addLabelId(projectController.currentProject.getId(), label.getId());
+            LabelRepository.getInstance().add(label);
+            ProjectRepository.getInstance().addLabelId(projectController.currentProject.getId(), label.getId());
             labelsListView.getItems().add(label);
             resetRequiredFieldValidators();
         }
@@ -190,9 +190,9 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
 
     @FXML
     public void handleDeleteProjectAction(MouseEvent mouseEvent) {
-        ProjectRepository.delete(projectController.currentProject);
+        ProjectRepository.getInstance().delete(projectController.currentProject);
         for (Pair<User, Project.Role> collaborator : projectController.currentProject.getContributors()) {
-            UserRepository.deleteProjectId(applicationController.user.getId(), projectController.currentProject.getId());
+            UserRepository.getInstance().deleteProjectId(applicationController.user.getId(), projectController.currentProject.getId());
         }
 
         applicationController.user.getProjects().remove(projectController.currentProject);
