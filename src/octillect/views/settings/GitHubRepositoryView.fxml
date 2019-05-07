@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
       fx:controller="octillect.controllers.settings.GitHubRepositoryController"
-      alignment="CENTER">
+      spacing="32"
+      stylesheets="@/octillect/styles/Palette.css">
 
-    <Label text="GITHUB REPOSITORY" />
+    <padding>
+        <Insets left="48" right="48"/>
+    </padding>
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <HBox alignment="CENTER" spacing="8">
+
+        <FontIcon iconLiteral="oct-repo"
+                  iconColor="${Palette.DARK_300}"
+                  iconSize="22"/>
+
+        <Label fx:id="repositoryName"
+               text="MonicaTanios/octillect"
+               textFill="${Palette.DARK_300}">
+            <font>
+                <Font name="Product Sans Regular" size="22"/>
+            </font>
+        </Label>
+
+    </HBox>
+
+    <ListView fx:id="commitsHistoryListView"
+              VBox.vgrow="ALWAYS"
+              translateX="16"
+              stylesheets="@/octillect/styles/CommitsHistoryListView.css"/>
 
 </VBox>
