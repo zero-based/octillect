@@ -94,5 +94,10 @@
 
     </BorderPane>
 
+    <FlowPane fx:id="tagsFlowPane"
+              hgap="4"
+              vgap="4"
+              prefWidth="296"/>
+
 </VBox>
 

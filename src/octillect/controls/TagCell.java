@@ -81,7 +81,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
 
     }
 
-    private String determineTextFillStyle(Color tagColor) {
+    static String determineTextFillStyle(Color tagColor) {
 
         // Counting the perceptive luminance
         double luminance = 0.299 * tagColor.getRed()
