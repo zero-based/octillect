@@ -30,6 +30,7 @@ public class ProjectController implements Injectable<ApplicationController> {
     private NewColumnDialogController newColumnDialogController;
     private RightDrawerController rightDrawerController;
     private LeftDrawerController leftDrawerController;
+    private ProjectSettingsController projectSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
@@ -38,6 +39,7 @@ public class ProjectController implements Injectable<ApplicationController> {
         newColumnDialogController  = applicationController.newColumnDialogController;
         rightDrawerController      = applicationController.rightDrawerController;
         leftDrawerController       = applicationController.leftDrawerController;
+        projectSettingsController  = rightDrawerController.projectSettingsController;
     }
 
     @Override
@@ -57,6 +59,7 @@ public class ProjectController implements Injectable<ApplicationController> {
 
         showToolbar(true);
         titleBarController.projectNameLabel.setText(project.getName());
+        projectSettingsController.loadProjectSettings();
 
         // Populate Project Columns
         projectListView.setItems(project.getColumns());

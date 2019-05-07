@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
@@ -32,22 +33,22 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
 
     //FXML Fields
     @FXML public TitledPane editNameTitledPane;
-    @FXML public JFXTextField editNameTextArea;
-    @FXML public OButton saveNameButton;
     @FXML public TitledPane editDescriptionTitledPane;
-    @FXML public JFXTextArea editDescriptionTextArea;
-    @FXML public OButton saveDescriptionButton;
     @FXML public TitledPane contributorsTitledPane;
-    @FXML public JFXListView<Pair<User, Project.Role>> contributorsListView;
-    @FXML public JFXTextField inviteContributorByEmailTextField;
-    @FXML public JFXComboBox rolesComboBox;
-    @FXML public OButton inviteContributorButton;
     @FXML public TitledPane labelsTitledPane;
-    @FXML public JFXListView labelsListView;
-    @FXML public JFXTextField newLabelTextField;
-    @FXML public JFXColorPicker labelColorPicker;
-    @FXML public OButton addLabelButton;
     @FXML public TitledPane deleteProjectTitledPane;
+    @FXML public BorderPane inviteContributorBorderPane;
+    @FXML public BorderPane newLabelBorderPane;
+    @FXML public JFXTextField editNameTextField;
+    @FXML public JFXTextField inviteContributorByEmailTextField;
+    @FXML public JFXTextField newLabelTextField;
+    @FXML public JFXTextArea editDescriptionTextArea;
+    @FXML public JFXListView<Pair<User, Project.Role>> contributorsListView;
+    @FXML public JFXListView labelsListView;
+    @FXML public JFXComboBox rolesComboBox;
+    @FXML public JFXColorPicker labelColorPicker;
+    @FXML public OButton inviteContributorButton;
+    @FXML public OButton addLabelButton;
 
     // Validators
     private RequiredFieldValidator requiredFieldValidator;
@@ -218,5 +219,54 @@ public class ProjectSettingsController implements Injectable<ApplicationControll
         newLabelTextField.resetValidation();
         rolesComboBox.resetValidation();
     }
+
+    public void loadProjectSettings() {
+        controlRoleAccess(projectController.currentProject.getUserRole(applicationController.user.getId()));
+    }
+
+    private void controlRoleAccess(Project.Role role) {
+
+        if (role.equals(Project.Role.owner)) {
+            deleteProjectTitledPane.setDisable(false);
+            deleteProjectTitledPane.setOpacity(1);
+        } else {
+            deleteProjectTitledPane.setDisable(true);
+            deleteProjectTitledPane.setOpacity(0);
+        }
+
+        if (role.equals(Project.Role.viewer)) {
+
+            inviteContributorByEmailTextField.setDisable(true);
+            rolesComboBox.setDisable(true);
+            inviteContributorButton.setDisable(true);
+            inviteContributorBorderPane.setManaged(false);
+            inviteContributorBorderPane.setOpacity(0);
+
+            newLabelTextField.setDisable(true);
+            labelColorPicker.setDisable(true);
+            addLabelButton.setDisable(true);
+            newLabelBorderPane.setDisable(true);
+            newLabelBorderPane.setManaged(false);
+            newLabelBorderPane.setOpacity(0);
+
+        } else {
+
+            inviteContributorByEmailTextField.setDisable(false);
+            rolesComboBox.setDisable(false);
+            inviteContributorButton.setDisable(false);
+            inviteContributorBorderPane.setManaged(true);
+            inviteContributorBorderPane.setOpacity(1);
+
+            newLabelTextField.setDisable(false);
+            labelColorPicker.setDisable(false);
+            addLabelButton.setDisable(false);
+            newLabelBorderPane.setDisable(false);
+            newLabelBorderPane.setManaged(true);
+            newLabelBorderPane.setOpacity(1);
+
+        }
+
+    }
+
 
 }

@@ -9,8 +9,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
+import octillect.controllers.ProjectController;
 import octillect.models.Label;
 
+import octillect.models.Project;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class LabelCell extends ListCell<Label> implements Injectable<ApplicationController> {
@@ -23,10 +25,12 @@ public class LabelCell extends ListCell<Label> implements Injectable<Application
 
     // Injected Controllers
     private ApplicationController applicationController;
+    private ProjectController projectController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
+        projectController          = applicationController.projectController;
     }
 
     @Override
@@ -55,6 +59,12 @@ public class LabelCell extends ListCell<Label> implements Injectable<Application
         labelColorHBox.setStyle("-fx-background-color: " + labelItem.getColorHex() + "; -fx-background-radius: 4px;");
         labelNameLabel.setText(labelItem.getName());
         labelNameLabel.setStyle(determineTextFillStyle((labelItem.getColor())));
+
+        if (projectController.currentProject.getUserRole(applicationController.user.getId())
+                .equals(Project.Role.viewer)) {
+            deleteLabelIcon.setDisable(true);
+            deleteLabelIcon.setOpacity(0);
+        }
 
         deleteLabelIcon.setOnMouseClicked(event -> {
         });

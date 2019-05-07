@@ -11,6 +11,7 @@ import javafx.util.Pair;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
+import octillect.controllers.ProjectController;
 import octillect.models.Project;
 import octillect.models.User;
 
@@ -28,10 +29,12 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
 
     //Injected Controllers
     private ApplicationController applicationController;
+    private ProjectController projectController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
+        projectController          = applicationController.projectController;
     }
 
     @Override
@@ -63,6 +66,12 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
         usernameLabel.setText(contributorItem.getKey().getName());
         emailLabel.setText(contributorItem.getKey().getEmail());
         roleLabel.setText(contributorItem.getValue().toString());
+
+        if (projectController.currentProject.getUserRole(applicationController.user.getId())
+                .equals(Project.Role.viewer)) {
+            closeIcon.setDisable(true);
+            closeIcon.setOpacity(0);
+        }
 
         closeIcon.setOnMouseClicked(event -> {
         });
