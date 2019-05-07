@@ -5,14 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
 import javafx.scene.paint.Color;
+
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.ProjectController;
+import octillect.database.accessors.LabelRepository;
+import octillect.database.accessors.ProjectRepository;
 import octillect.models.Label;
-
 import octillect.models.Project;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class LabelCell extends ListCell<Label> implements Injectable<ApplicationController> {
@@ -67,13 +69,18 @@ public class LabelCell extends ListCell<Label> implements Injectable<Application
         }
 
         deleteLabelIcon.setOnMouseClicked(event -> {
+            /* TODO: Add Confirmation Here. */
+            ProjectRepository.deleteLabelId(projectController.currentProject.getId(),
+                    getItem().getId());
+            LabelRepository.delete(getItem().getId());
+            getListView().getItems().remove(getItem());
         });
 
         setGraphic(labelCellBorderPane);
 
     }
 
-    private String determineTextFillStyle(Color labelColor){
+    private String determineTextFillStyle(Color labelColor) {
 
         // Counting the perceptive luminance
         double luminance = 0.299 * labelColor.getRed()

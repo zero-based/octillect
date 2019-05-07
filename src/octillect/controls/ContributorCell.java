@@ -11,7 +11,10 @@ import javafx.util.Pair;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
+import octillect.controllers.LeftDrawerController;
 import octillect.controllers.ProjectController;
+import octillect.database.accessors.ProjectRepository;
+import octillect.database.accessors.UserRepository;
 import octillect.models.Project;
 import octillect.models.User;
 
@@ -30,11 +33,13 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
     //Injected Controllers
     private ApplicationController applicationController;
     private ProjectController projectController;
+    private LeftDrawerController leftDrawerController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         projectController          = applicationController.projectController;
+        leftDrawerController       = applicationController.leftDrawerController;
     }
 
     @Override
@@ -74,8 +79,30 @@ public class ContributorCell extends ListCell<Pair<User, Project.Role>> implemen
         }
 
         closeIcon.setOnMouseClicked(event -> {
+            /* TODO: Add Confirmation Here. */
+            ProjectRepository.deleteContributor(projectController.currentProject.getId(),
+                    getItem().getKey().getEmail(), getItem().getValue());
+            UserRepository.deleteProjectId(getItem().getKey().getId(), projectController.currentProject.getId());
+
+            if (projectController.currentProject.getContributors().size() == 1) {
+                // Delete whole project in case no contributors left
+                ProjectRepository.delete(projectController.currentProject);
+            }
+
+            if (getItem().getKey().getId().equals(applicationController.user.getId())) {
+                applicationController.user.getProjects().remove(projectController.currentProject);
+                projectController.init();
+                leftDrawerController.init();
+            } else {
+                int index = applicationController.user.getProjects().indexOf(projectController.currentProject);
+                applicationController.user.getProjects().get(index).getContributors().remove(getItem());
+                projectController.currentProject.getContributors().remove(getItem());
+                getListView().getItems().remove(getItem());
+            }
+
         });
 
         setGraphic(contributorCellBorderPane);
     }
+
 }

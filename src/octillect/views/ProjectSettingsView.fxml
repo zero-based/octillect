@@ -54,21 +54,10 @@
 
         </graphic>
 
-        <VBox spacing="16">
-
-            <JFXTextField fx:id="editNameTextField"
-                          focusColor="${Palette.PRIMARY}"
-                          focusTraversable="false"
-                          style="-fx-text-fill: -o-dark-300;"/>
-
-            <OButton fx:id="saveNameButton"
-                     text="Save"
-                     color="PRIMARY"
-                     fill="TRUE"
-                     style="-fx-font-size: 14;"
-                     onMouseClicked="#handleSaveNameButtonAction"/>
-
-        </VBox>
+        <JFXTextField fx:id="editNameTextField"
+                      focusColor="${Palette.PRIMARY}"
+                      focusTraversable="false"
+                      style="-fx-text-fill: -o-dark-300;"/>
 
     </TitledPane>
 
@@ -97,23 +86,12 @@
 
         </graphic>
 
-        <VBox spacing="16">
-
-            <JFXTextArea fx:id="editDescriptionTextArea"
-                         prefRowCount="3"
-                         focusColor="${Palette.PRIMARY}"
-                         focusTraversable="false"
-                         style="-fx-text-fill: -o-dark-300;"
-                         stylesheets="@/octillect/styles/TextArea.css"/>
-
-            <OButton fx:id="saveDescriptionButton"
-                     text="Save"
-                     style="-fx-font-size: 14;"
-                     fill="TRUE"
-                     color="PRIMARY"
-                     onMouseClicked="#handleSaveDescriptionButtonAction"/>
-
-        </VBox>
+        <JFXTextArea fx:id="editDescriptionTextArea"
+                     prefRowCount="3"
+                     focusColor="${Palette.PRIMARY}"
+                     focusTraversable="false"
+                     style="-fx-text-fill: -o-dark-300;"
+                     stylesheets="@/octillect/styles/TextArea.css"/>
 
     </TitledPane>
 

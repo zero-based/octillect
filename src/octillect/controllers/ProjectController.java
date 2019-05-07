@@ -44,12 +44,14 @@ public class ProjectController implements Injectable<ApplicationController> {
 
     @Override
     public void init() {
+        projectSettingsController.resetProjectSettings();
         if (!applicationController.user.getProjects().isEmpty()) {
             loadProject(applicationController.user.getProjects().get(0));
             leftDrawerController.userProjectsListView.getSelectionModel().selectFirst();
         } else {
             showToolbar(false);
             titleBarController.projectNameLabel.setText("Octillect");
+            projectListView.getItems().clear();
         }
     }
 
