@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import octillect.Main;
 import octillect.controllers.dialogs.NewBoardDialogController;
 import octillect.controllers.dialogs.NewColumnDialogController;
+import octillect.controllers.dialogs.NewRepositoryDialogController;
 import octillect.controllers.dialogs.NewTaskDialogController;
 import octillect.models.User;
 
@@ -35,6 +36,7 @@ public class ApplicationController {
     public NewBoardDialogController newBoardDialogController;
     public NewTaskDialogController newTaskDialogController;
     public NewColumnDialogController newColumnDialogController;
+    public NewRepositoryDialogController newRepositoryDialogController;
 
     public ApplicationController() {
 
@@ -57,6 +59,11 @@ public class ApplicationController {
             fxmlLoader.load();
             newColumnDialogController = fxmlLoader.getController();
 
+            final String NEW_REPOSITORY_DIALOG_VIEW = "/octillect/views/dialogs/NewRepositoryDialogView.fxml";
+            fxmlLoader = new FXMLLoader(getClass().getResource(NEW_REPOSITORY_DIALOG_VIEW));
+            fxmlLoader.load();
+            newRepositoryDialogController = fxmlLoader.getController();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,6 +77,7 @@ public class ApplicationController {
         descendants.add(newBoardDialogController);
         descendants.add(newTaskDialogController);
         descendants.add(newColumnDialogController);
+        descendants.add(newRepositoryDialogController);
 
         // Add nested & sub-nested controllers to descendants
         descendants.add(rightDrawerController);
