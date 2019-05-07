@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.collections.FXCollections;
-import javafx.util.Pair;
 
 import octillect.database.documents.BoardDocument;
 import octillect.database.documents.BoardDocument.ContributorMap;
@@ -14,7 +13,7 @@ import octillect.database.firebase.FirestoreAPI;
 import octillect.models.*;
 import octillect.models.builders.BoardBuilder;
 
-public class BoardRepository {
+public class BoardRepository implements Repository<Board> {
 
     private static BoardRepository ourInstance = new BoardRepository();
 
@@ -25,7 +24,8 @@ public class BoardRepository {
     private BoardRepository() {
     }
 
-    // Add new board data to database.
+
+    @Override
     public void add(Board board) {
         BoardDocument document = new BoardDocument();
         document.setId(board.getId());
@@ -34,15 +34,15 @@ public class BoardRepository {
         document.setRepositoryName(board.getRepositoryName());
 
         ArrayList<HashMap<String, String>> contributorIds = new ArrayList<>();
-        for (Pair<User, Board.Role> contributor : board.getContributors()) {
-            ContributorMap contributorMap = new ContributorMap(contributor.getKey().getId(), contributor.getValue());
+        for (Contributor contributor : board.getContributors()) {
+            ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
             contributorIds.add(contributorMap.getMap());
         }
         document.setContributors(contributorIds);
 
-        if (board.getColumns() != null) {
+        if (board.getChildren() != null) {
             ArrayList<String> columnsIds = new ArrayList<>();
-            for (Column column : board.getColumns()) {
+            for (TaskBase column : board.getChildren()) {
                 columnsIds.add(column.getId());
             }
             document.setColumnsIds(columnsIds);
@@ -59,6 +59,7 @@ public class BoardRepository {
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().BOARDS, document.getId(), document);
     }
 
+    @Override
     public Board get(String boardId) {
 
         BoardDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().BOARDS, boardId)).toObject(BoardDocument.class);
@@ -69,12 +70,11 @@ public class BoardRepository {
             $.description = document.getDescription();
             $.repositoryName = document.getRepositoryName();
 
-            ArrayList<Pair<User, Board.Role>> contributorsIds = new ArrayList<>();
-            for (HashMap<String, String> contributor : document.getContributors()) {
-                User user = UserRepository.getInstance().getContributor(contributor.get("id"));
-                Board.Role role = Board.Role.valueOf(contributor.get("role"));
-                Pair<User, Board.Role> pair = new Pair(user, role);
-                contributorsIds.add(pair);
+            ArrayList<Contributor> contributorsIds = new ArrayList<>();
+            for (HashMap<String, String> contributorMap : document.getContributors()) {
+                Contributor contributor = UserRepository.getInstance().getContributor(contributorMap.get("id"));
+                contributor.setRole(Board.Role.valueOf(contributorMap.get("role")));
+                contributorsIds.add(contributor);
             }
             $.contributors = FXCollections.observableArrayList(contributorsIds);
 
@@ -97,6 +97,23 @@ public class BoardRepository {
         }).build();
 
         return board;
+    }
+
+    @Override
+    public void delete(Board board) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().BOARDS, board.getId());
+
+        for (TaskBase column : board.getChildren()) {
+            for (TaskBase task : column.getChildren()) {
+                FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
+            }
+            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
+        }
+        if (board.getTags() != null) {
+            for (Tag tag : board.getTags()) {
+                TagRepository.getInstance().delete(tag);
+            }
+        }
     }
 
     public void addColumnId(String boardId, String columnId) {
@@ -131,22 +148,6 @@ public class BoardRepository {
 
     public void deleteTagId(String boardId, String tagId) {
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "tagsIds", tagId);
-    }
-
-    public void delete(Board board) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().BOARDS, board.getId());
-
-        for (Column column : board.getColumns()) {
-            for (Task task : column.getTasks()) {
-                FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
-            }
-            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
-        }
-        if (board.getTags() != null) {
-            for (Tag tag : board.getTags()) {
-                TagRepository.getInstance().delete(tag.getId());
-            }
-        }
     }
 
     /**

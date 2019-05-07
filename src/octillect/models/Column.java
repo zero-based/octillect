@@ -2,46 +2,20 @@ package octillect.models;
 
 import javafx.collections.ObservableList;
 
-public class Column {
+public class Column extends TaskBase {
 
-    private String id;
-    private String name;
-    private ObservableList<Task> tasks;
-
-
-    public Column() {}
-
-    public Column(String id, String name, ObservableList<Task> tasks) {
-        this.id      = id;
-        this.name    = name;
-        this.tasks   = tasks;
+    public Column(String id, String name, ObservableList<TaskBase> tasks) {
+        super(id, name, null, tasks);
     }
 
-
-    public String getId() {
-        return id;
+    @Override
+    public String getDescription() {
+        throw new UnsupportedOperationException("Columns have no Description");
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public ObservableList<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(ObservableList<Task> tasks) {
-        this.tasks = tasks;
+    @Override
+    public void setDescription(String description) {
+        throw new UnsupportedOperationException("Columns have no Description");
     }
 
 }

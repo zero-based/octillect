@@ -19,7 +19,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.util.Pair;
 import javafx.util.StringConverter;
 
 import octillect.controllers.ApplicationController;
@@ -52,7 +51,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public JFXTextField taskNameTextField;
     @FXML public JFXTextArea taskDescriptionTextArea;
     @FXML public JFXDatePicker taskDueDatePicker;
-    @FXML public CheckComboBox<User> assigneesCheckComboBox;
+    @FXML public CheckComboBox<Contributor> assigneesCheckComboBox;
     @FXML public CheckComboBox<Tag> tagsCheckComboBox;
 
     private Task currentTask;
@@ -95,8 +94,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
         assigneesCheckComboBox.getCheckModel()
                 .getCheckedItems()
-                .addListener((ListChangeListener<User>) c -> {
-                    ObservableList<User> selectedAssignees = assigneesCheckComboBox.getCheckModel().getCheckedItems();
+                .addListener((ListChangeListener<Contributor>) c -> {
+                    ObservableList<Contributor> selectedAssignees = assigneesCheckComboBox.getCheckModel().getCheckedItems();
 
                     ArrayList<String> selectedAssigneesIds = new ArrayList<>();
                     selectedAssignees.forEach(assignee -> selectedAssigneesIds.add(assignee.getId()));
@@ -157,10 +156,10 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleDeleteTaskAction(MouseEvent mouseEvent) {
-        TaskRepository.getInstance().delete(currentTask.getId());
+        TaskRepository.getInstance().delete(currentTask);
         ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), currentTask.getId());
-        int columnIndex = boardController.currentBoard.getColumns().indexOf(parentColumn);
-        boardController.currentBoard.getColumns().get(columnIndex).getTasks().remove(currentTask);
+        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
+        boardController.currentBoard.getChildren().get(columnIndex).getChildren().remove(currentTask);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
@@ -193,15 +192,15 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     public void loadBoardContributorsCheckComboBox() {
         assigneesCheckComboBox.getItems().clear();
-        for (Pair<User, Board.Role> contributor : boardController.currentBoard.getContributors()) {
-            assigneesCheckComboBox.getItems().add(contributor.getKey());
+        for (Contributor contributor : boardController.currentBoard.getContributors()) {
+            assigneesCheckComboBox.getItems().add(contributor);
         }
     }
 
     private void selectTaskAssignees() {
         if (currentTask.getAssignees() != null) {
-            for (User user : currentTask.getAssignees()) {
-                assigneesCheckComboBox.getCheckModel().check(getAssigneeIndex(user));
+            for (Contributor assignee : currentTask.getAssignees()) {
+                assigneesCheckComboBox.getCheckModel().check(getAssigneeIndex(assignee));
             }
         }
     }
@@ -241,14 +240,14 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     }
 
     private void refreshTask() {
-        int columnIndex = boardController.currentBoard.getColumns().indexOf(parentColumn);
-        int taskIndex = boardController.currentBoard.getColumns().get(columnIndex).getTasks().indexOf(currentTask);
-        boardController.currentBoard.getColumns().get(columnIndex).getTasks().set(taskIndex, currentTask);
+        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
+        int taskIndex = boardController.currentBoard.getChildren().get(columnIndex).getChildren().indexOf(currentTask);
+        boardController.currentBoard.getChildren().get(columnIndex).getChildren().set(taskIndex, currentTask);
     }
 
-    private int getAssigneeIndex(User user) {
+    private int getAssigneeIndex(Contributor assignee) {
         for (int i = 0; i < assigneesCheckComboBox.getItems().size(); i++) {
-            if (assigneesCheckComboBox.getItems().get(i).getId().equals(user.getId())) {
+            if (assigneesCheckComboBox.getItems().get(i).getId().equals(assignee.getId())) {
                 return i;
             }
         }
@@ -264,19 +263,19 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         return -1;
     }
 
-    private class AssigneesStringConverter extends StringConverter<User> {
+    private class AssigneesStringConverter extends StringConverter<Contributor> {
 
-        User user = null;
+        Contributor contributor = null;
 
         @Override
-        public String toString(User user) {
-            this.user = user;
-            return user.getEmail();
+        public String toString(Contributor contributor) {
+            this.contributor = contributor;
+            return contributor.getEmail();
         }
 
         @Override
-        public User fromString(String string) {
-            return user;
+        public Contributor fromString(String string) {
+            return contributor;
         }
 
     }

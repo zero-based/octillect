@@ -3,12 +3,8 @@ package octillect.models.builders;
 import java.util.function.Consumer;
 
 import javafx.collections.ObservableList;
-import javafx.util.Pair;
 
-import octillect.models.Column;
-import octillect.models.Tag;
-import octillect.models.Board;
-import octillect.models.User;
+import octillect.models.*;
 
 public class BoardBuilder implements Builder<Board, BoardBuilder> {
 
@@ -16,8 +12,8 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
     public String name;
     public String description;
     public String repositoryName;
-    public ObservableList<Pair<User, Board.Role>> contributors;
-    public ObservableList<Column> columns;
+    public ObservableList<Contributor> contributors;
+    public ObservableList<TaskBase> columns;
     public ObservableList<Tag> tags;
 
     @Override
@@ -51,12 +47,12 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
         return this;
     }
 
-    public BoardBuilder withContributors(ObservableList<Pair<User, Board.Role>> contributors) {
+    public BoardBuilder withContributors(ObservableList<Contributor> contributors) {
         this.contributors = contributors;
         return this;
     }
 
-    public BoardBuilder withColumns(ObservableList<Column> columns) {
+    public BoardBuilder withColumns(ObservableList<TaskBase> columns) {
         this.columns = columns;
         return this;
     }

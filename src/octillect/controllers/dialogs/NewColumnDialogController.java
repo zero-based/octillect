@@ -19,9 +19,12 @@ import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Board;
 import octillect.models.Column;
+import octillect.models.Contributor;
 import octillect.models.Task;
 import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.TaskBuilder;
 
 public class NewColumnDialogController implements Injectable<ApplicationController> {
@@ -60,6 +63,14 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
         newColumnNameTextField.validate();
         if (!requiredFieldValidator.getHasErrors()) {
 
+            Contributor creator = new ContributorBuilder().with($ -> {
+                $.id    = applicationController.user.getId();
+                $.name  = applicationController.user.getName();
+                $.email = applicationController.user.getEmail();
+                $.image = applicationController.user.getImage();
+                $.role  = Board.Role.owner;
+            }).build();
+
             Column newColumn = new ColumnBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime(newColumnNameTextField.getText() + applicationController.user.getId()))
                     .withName(newColumnNameTextField.getText())
@@ -70,11 +81,11 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
                     .withName("Untitled Task")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(applicationController.user)
+                    .withCreator(creator)
                     .build();
 
-            newColumn.setTasks(FXCollections.observableArrayList(untitledTask));
-            boardController.currentBoard.getColumns().add(newColumn);
+            newColumn.setChildren(FXCollections.observableArrayList(untitledTask));
+            boardController.currentBoard.getChildren().add(newColumn);
 
             BoardRepository.getInstance().addColumnId(boardController.currentBoard.getId(), newColumn.getId());
             ColumnRepository.getInstance().add(newColumn);

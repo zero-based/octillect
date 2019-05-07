@@ -10,7 +10,6 @@ import java.util.Calendar;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.util.Pair;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
@@ -24,9 +23,11 @@ import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Column;
 import octillect.models.Board;
+import octillect.models.Contributor;
 import octillect.models.Task;
 import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.BoardBuilder;
+import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.TaskBuilder;
 
 public class NewBoardDialogController implements Injectable<ApplicationController> {
@@ -67,13 +68,20 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
     public void handleAddBoardButtonAction(ActionEvent actionEvent) {
         newBoardNameTextField.validate();
         if (!requiredFieldValidator.getHasErrors()) {
-            
-            // Add board.
+
+            Contributor owner = new ContributorBuilder().with($ -> {
+                $.id    = applicationController.user.getId();
+                $.name  = applicationController.user.getName();
+                $.email = applicationController.user.getEmail();
+                $.image = applicationController.user.getImage();
+                $.role  = Board.Role.owner;
+            }).build();
+
             Board newBoard = new BoardBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime(newBoardNameTextField.getText()))
                     .withName(newBoardNameTextField.getText())
                     .withDescription(newBoardDescriptionTextArea.getText())
-                    .withContributors(FXCollections.observableArrayList(new Pair<>(applicationController.user, Board.Role.owner)))
+                    .withContributors(FXCollections.observableArrayList(owner))
                     .build();
 
             // Add column.
@@ -82,7 +90,7 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
                     .withName("Untitled Column")
                     .build();
 
-            newBoard.setColumns(FXCollections.observableArrayList(untitledColumn));
+            newBoard.setChildren(FXCollections.observableArrayList(untitledColumn));
 
             // Add task.
             Task untitledTask = new TaskBuilder()
@@ -90,10 +98,10 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
                     .withName("Untitled Task")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(applicationController.user)
+                    .withCreator(owner)
                     .build();
 
-            untitledColumn.setTasks(FXCollections.observableArrayList(untitledTask));
+            untitledColumn.setChildren(FXCollections.observableArrayList(untitledTask));
 
             // Accessing the database.
             UserRepository.getInstance().addBoardId(applicationController.user.getId(), newBoard.getId());

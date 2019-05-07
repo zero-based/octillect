@@ -4,61 +4,26 @@ import javafx.collections.ObservableList;
 
 import java.util.Date;
 
-public class Task {
+public class Task extends TaskBase {
 
-    private String id;
-    private String name;
-    private String description;
     private boolean isCompleted;
     private Date dueDate;
     private Date creationDate;
-    private User creator;
-    private ObservableList<User> assignees;
-    private ObservableList<Task> subTasks;
+    private Contributor creator;
+    private ObservableList<Contributor> assignees;
     private ObservableList<Tag> tags;
 
-    public Task() {}
 
     public Task(String id, String name, String description, boolean isCompleted,
-                Date dueDate, Date creationDate, User creator,
-                ObservableList<User> assignees, ObservableList<Task> subTasks, ObservableList<Tag> tags) {
-        this.id           = id;
-        this.name         = name;
-        this.description  = description;
+                Date dueDate, Date creationDate, Contributor creator, ObservableList<Contributor> assignees,
+                ObservableList<TaskBase> subTasks, ObservableList<Tag> tags) {
+        super(id, name, description, subTasks);
         this.isCompleted  = isCompleted;
         this.dueDate      = dueDate;
         this.creationDate = creationDate;
         this.creator      = creator;
         this.assignees    = assignees;
-        this.subTasks     = subTasks;
         this.tags = tags;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
 
@@ -89,30 +54,21 @@ public class Task {
     }
 
 
-    public User getCreator() {
+    public Contributor getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(Contributor creator) {
         this.creator = creator;
     }
 
 
-    public ObservableList<User> getAssignees() {
+    public ObservableList<Contributor> getAssignees() {
         return assignees;
     }
 
-    public void setAssignees(ObservableList<User> assignees) {
+    public void setAssignees(ObservableList<Contributor> assignees) {
         this.assignees = assignees;
-    }
-
-
-    public ObservableList<Task> getSubTasks() {
-        return subTasks;
-    }
-
-    public void setSubTasks(ObservableList<Task> subTasks) {
-        this.subTasks = subTasks;
     }
 
 

@@ -17,8 +17,11 @@ import octillect.controls.OButton;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.firebase.FirestoreAPI;
+import octillect.models.Board;
 import octillect.models.Column;
+import octillect.models.Contributor;
 import octillect.models.Task;
+import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.TaskBuilder;
 
 public class NewTaskDialogController implements Injectable<ApplicationController> {
@@ -57,15 +60,23 @@ public class NewTaskDialogController implements Injectable<ApplicationController
         newTaskNameTextField.validate();
         if(!requiredFieldValidator.getHasErrors()) {
 
+            Contributor creator = new ContributorBuilder().with($ -> {
+                $.id    = applicationController.user.getId();
+                $.name  = applicationController.user.getName();
+                $.email = applicationController.user.getEmail();
+                $.image = applicationController.user.getImage();
+                $.role  = Board.Role.owner;
+            }).build();
+
             Task newTask = new TaskBuilder().with($ -> {
                 $.id = FirestoreAPI.getInstance().encryptWithDateTime(newTaskNameTextField.getText() + applicationController.user.getId());
                 $.name = newTaskNameTextField.getText();
                 $.description = newTaskDescriptionTextArea.getText();
                 $.creationDate = Calendar.getInstance().getTime();
-                $.creator = applicationController.user;
+                $.creator = creator;
             }).build();
 
-            currentColumn.getTasks().add(newTask);
+            currentColumn.getChildren().add(newTask);
 
             ColumnRepository.getInstance().addTask(currentColumn.getId(), newTask.getId());
             TaskRepository.getInstance().add(newTask);

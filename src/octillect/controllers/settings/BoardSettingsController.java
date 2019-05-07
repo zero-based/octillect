@@ -15,7 +15,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.util.Pair;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
@@ -30,8 +29,8 @@ import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Board;
+import octillect.models.Contributor;
 import octillect.models.Tag;
-import octillect.models.User;
 import octillect.models.builders.TagBuilder;
 
 public class BoardSettingsController implements Injectable<ApplicationController> {
@@ -48,7 +47,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML public JFXTextField newContributorTextField;
     @FXML public JFXTextField newTagTextField;
     @FXML public JFXTextArea editDescriptionTextArea;
-    @FXML public JFXListView<Pair<User, Board.Role>> contributorsListView;
+    @FXML public JFXListView<Contributor> contributorsListView;
     @FXML public JFXListView<Tag> tagsListView;
     @FXML public JFXComboBox<Board.Role> rolesComboBox;
     @FXML public JFXColorPicker tagColorPicker;
@@ -68,9 +67,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        boardController            = applicationController.boardController;
-        leftDrawerController       = applicationController.leftDrawerController;
-        titleBarController         = applicationController.titleBarController;
+        boardController = applicationController.boardController;
+        leftDrawerController = applicationController.leftDrawerController;
+        titleBarController = applicationController.titleBarController;
     }
 
     @Override
@@ -141,8 +140,8 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         if (!requiredFieldValidator.getHasErrors()) {
 
-            for (Pair<User, Board.Role> contributor : boardController.currentBoard.getContributors()) {
-                if (contributor.getKey().getEmail().equals(newContributorTextField.getText())) {
+            for (Contributor contributor : boardController.currentBoard.getContributors()) {
+                if (contributor.getEmail().equals(newContributorTextField.getText())) {
                     isContributor = true;
                 }
             }
@@ -153,17 +152,17 @@ public class BoardSettingsController implements Injectable<ApplicationController
                 newContributorTextField.validate();
                 newContributorTextField.getValidators().remove(emailValidator);
             } else {
-                User user = UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
+                Contributor contributor = UserRepository.getInstance().getContributor(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
 
-                if (user == null) {
+                if (contributor == null) {
                     emailValidator.setMessage("That Octillect account doesn't exist.");
                     newContributorTextField.getValidators().add(emailValidator);
                     newContributorTextField.validate();
                     newContributorTextField.getValidators().remove(emailValidator);
                 } else {
-                    Pair<User, Board.Role> contributor = new Pair<>(user, rolesComboBox.getValue());
-                    BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(),
-                            contributor.getKey().getEmail(), contributor.getValue());
+                    contributor.setRole(rolesComboBox.getValue());
+
+                    BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor.getEmail(), contributor.getRole());
                     UserRepository.getInstance().addBoardId(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()), boardController.currentBoard.getId());
 
                     int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
@@ -174,7 +173,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     newContributorTextField.setText(null);
                     rolesComboBox.getSelectionModel().clearSelection();
                     resetRequiredFieldValidators();
-
                 }
             }
         }
@@ -207,8 +205,8 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML
     public void handleDeleteBoardAction(MouseEvent mouseEvent) {
         BoardRepository.getInstance().delete(boardController.currentBoard);
-        for (Pair<User, Board.Role> collaborator : boardController.currentBoard.getContributors()) {
-            UserRepository.getInstance().deleteBoardId(collaborator.getKey().getId(), boardController.currentBoard.getId());
+        for (Contributor contributor : boardController.currentBoard.getContributors()) {
+            UserRepository.getInstance().deleteBoardId(contributor.getId(), boardController.currentBoard.getId());
         }
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
@@ -231,7 +229,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     }
 
     private void loadContributors() {
-        ObservableList<Pair<User, Board.Role>> users = FXCollections.observableArrayList();
+        ObservableList<Contributor> users = FXCollections.observableArrayList();
         boardController.currentBoard.getContributors().forEach(users::add);
         contributorsListView.setItems(users);
     }
