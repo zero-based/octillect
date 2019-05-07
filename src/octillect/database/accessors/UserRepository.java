@@ -116,6 +116,26 @@ public class UserRepository {
         FirestoreAPI.appendAttribute(FirestoreAPI.USERS, currentUserId, "projectsIds", projectId);
     }
 
+    /**
+     * Updates User's Name field in database.
+     *
+     * @param userId Id of user whom name will be changed.
+     * @param name   Updated Name.
+     */
+    public static void updateName(String userId, String name) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.USERS, userId, "name", name);
+    }
+
+    /**
+     * Updates User's password field in database.
+     *
+     * @param userId            Id of user whom password will be changed.
+     * @param encryptedPassword Updated password after encryption.
+     */
+    public static void updatePassword(String userId, String encryptedPassword) {
+        FirestoreAPI.updateAttribute(FirestoreAPI.USERS, userId, "password", encryptedPassword);
+    }
+
     // Deletes projectId from User's projectsIds Field
     public static void deleteProjectId( String userId, String projectId) {
         FirestoreAPI.deleteArrayElement(FirestoreAPI.USERS, userId, "projectsIds", projectId);
