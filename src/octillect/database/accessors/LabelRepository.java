@@ -11,18 +11,26 @@ import octillect.models.builders.LabelBuilder;
 
 public class LabelRepository {
 
+    private static LabelRepository ourInstance = new LabelRepository();
+
+    public static LabelRepository getInstance() {
+        return ourInstance;
+    }
+
+    private LabelRepository() {}
+
     // add new label data to database.
-    public static void add(Label label) {
+    public void add(Label label) {
         LabelDocument document = new LabelDocument();
         document.setId(label.getId());
         document.setName(label.getName());
         document.setColor(label.getColorHex());
-        FirestoreAPI.insertDocument(FirestoreAPI.LABELS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().LABELS, document.getId(), document);
     }
 
-    public static Label get(String labelId) {
+    public Label get(String labelId) {
         Label label = null;
-        LabelDocument document = ((DocumentSnapshot) FirestoreAPI.selectDocument(FirestoreAPI.LABELS, labelId)).toObject(LabelDocument.class);
+        LabelDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().LABELS, labelId)).toObject(LabelDocument.class);
 
         if (document != null) {
 
@@ -35,8 +43,8 @@ public class LabelRepository {
         return label;
     }
 
-    public static void delete(String id) {
-        FirestoreAPI.deleteDocument(FirestoreAPI.LABELS, id);
+    public void delete(String id) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().LABELS, id);
     }
 
 }

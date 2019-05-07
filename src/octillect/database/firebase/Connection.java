@@ -12,14 +12,19 @@ import java.io.IOException;
 
 public class Connection {
 
-    public  static final String PROJECT_ID           = "octillect-a01c0";
-    private static final String DATABASE_URL         = "https://octillect-a01c0.firebaseio.com";
-    private static final String SERVICE_ACCOUNT_KEY  = "src/octillect/database/firebase/firebase-key.json";
-    private static final String STORAGE_BUCKET_NAME  = "octillect-a01c0.appspot.com";
-    static Firestore firestore;
+    Firestore firestore;
+    final String PROJECT_ID                  = "octillect-a01c0";
+    private final String DATABASE_URL        = "https://octillect-a01c0.firebaseio.com";
+    private final String SERVICE_ACCOUNT_KEY = "src/octillect/database/firebase/firebase-key.json";
+    private final String STORAGE_BUCKET_NAME = "octillect-a01c0.appspot.com";
 
-    public static void initializeFirebase(){
+    private static Connection ourInstance = new Connection();
 
+    public static Connection getInstance() {
+        return ourInstance;
+    }
+
+    private Connection() {
         FileInputStream serviceAccount;
         try {
             serviceAccount = new FileInputStream(SERVICE_ACCOUNT_KEY);

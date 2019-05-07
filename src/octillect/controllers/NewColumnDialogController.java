@@ -58,12 +58,12 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
         if (!requiredFieldValidator.getHasErrors()) {
 
             Column newColumn = new ColumnBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime(newColumnNameTextField.getText() + applicationController.user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime(newColumnNameTextField.getText() + applicationController.user.getId()))
                     .withName(newColumnNameTextField.getText())
                     .build();
 
             Task untitledTask = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
                     .withName("Untitled Task")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
@@ -73,9 +73,9 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
             newColumn.setTasks(FXCollections.observableArrayList(untitledTask));
             projectController.currentProject.getColumns().add(newColumn);
 
-            ProjectRepository.addColumn(projectController.currentProject.getId(), newColumn.getId());
-            ColumnRepository.add(newColumn);
-            TaskRepository.add(untitledTask);
+            ProjectRepository.getInstance().addColumn(projectController.currentProject.getId(), newColumn.getId());
+            ColumnRepository.getInstance().add(newColumn);
+            TaskRepository.getInstance().add(untitledTask);
 
             newColumnDialog.close();
         }

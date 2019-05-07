@@ -129,18 +129,18 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
 
         public WelcomeProject(User user) {
 
-            setId(FirestoreAPI.encryptWithDateTime("Welcome Project" + user.getId()));
+            setId(FirestoreAPI.getInstance().encryptWithDateTime("Welcome Project" + user.getId()));
             setName("Welcome Project");
             setDescription("Welcome to Octillect");
             setContributors(FXCollections.observableArrayList(new Pair<>(user, Role.owner)));
 
             Column essentialsColumn = new ColumnBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Octillect Essentials" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Octillect Essentials" + user.getId()))
                     .withName("Octillect Essentials")
                     .build();
 
             Column featuresColumn = new ColumnBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Octillect Features" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Octillect Features" + user.getId()))
                     .withName("Octillect Features")
                     .build();
 
@@ -148,7 +148,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
 
 
             Task task_1 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Projects" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Projects" + user.getId()))
                     .withName("Projects")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
@@ -156,7 +156,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
                     .build();
 
             Task task_2 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Columns" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Columns" + user.getId()))
                     .withName("Columns")
                     .withDescription("Columns group cards into categories, like 'Todo', 'In Progress', and 'Done'.")
                     .withCreationDate(Calendar.getInstance().getTime())
@@ -164,7 +164,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
                     .build();
 
             Task task_3 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Cards" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Cards" + user.getId()))
                     .withName("Cards")
                     .withCreationDate(Calendar.getInstance().getTime())
                     .withCreator(user)
@@ -177,7 +177,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
             calendar.set(2019, Calendar.APRIL, 5);
 
             Task task_4 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Done CheckBox" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Done CheckBox" + user.getId()))
                     .withName("Done CheckBox")
                     .withDescription("When a task is done, a CheckBox appears on the Task's Cell.")
                     .withIsCompleted(true)
@@ -186,7 +186,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
                     .build();
 
             Task task_5 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Over Due Date" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Over Due Date" + user.getId()))
                     .withName("Over Due Date")
                     .withDescription("If Task's due date is past, the date's label turns to be red.")
                     .withDueDate(calendar.getTime())
@@ -197,7 +197,7 @@ public class Project implements IObservable<Pair<User, Project.Role>> {
             calendar.set(2019, Calendar.MAY, 11);
 
             Task task_6 = new TaskBuilder()
-                    .withId(FirestoreAPI.encryptWithDateTime("Assignees" + user.getId()))
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Assignees" + user.getId()))
                     .withName("Assignees")
                     .withDescription("You can add Assignees to any Task and they will appear on the Task's Cell.")
                     .withAssignees(FXCollections.observableArrayList(user))

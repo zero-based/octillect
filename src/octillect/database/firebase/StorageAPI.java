@@ -16,9 +16,17 @@ import javax.imageio.ImageIO;
 
 public class StorageAPI {
 
-    public static final String USER_PHOTOS_FOLDER       = "userPhotos/";
-    public static final String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
-    private static StorageClient storageClient          = StorageClient.getInstance();
+    public final String USER_PHOTOS_FOLDER       = "userPhotos/";
+    public final String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
+    private StorageClient storageClient          = StorageClient.getInstance();
+
+    private static StorageAPI ourInstance = new StorageAPI();
+
+    public static StorageAPI getInstance() {
+        return ourInstance;
+    }
+
+    private StorageAPI() {}
 
     /**
      * Uploads given Image to Firebase CloudStorage.
@@ -27,7 +35,7 @@ public class StorageAPI {
      * @param storageFolder    Firebase Storage Folder name.
      * @param imageStorageName The Name which the image will be uploaded by in the database.
      */
-    public static void uploadImage(BufferedImage bufferedImage, String storageFolder, String imageStorageName) {
+    public void uploadImage(BufferedImage bufferedImage, String storageFolder, String imageStorageName) {
         String storagePath = storageFolder + imageStorageName + ".png";
         try {
             // Convert Image to InputStream
@@ -37,14 +45,14 @@ public class StorageAPI {
             InputStream inputStream = new ByteArrayInputStream(imageByteArray);
 
             // Upload Image inputStream to Storage
-            storageClient.bucket().create(storagePath, inputStream, Bucket.BlobWriteOption.userProject(Connection.PROJECT_ID));
+            storageClient.bucket().create(storagePath, inputStream, Bucket.BlobWriteOption.userProject(Connection.getInstance().PROJECT_ID));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // Search for image by name on CloudStorage and return it as an Image data type
-    public static Image selectImage(String folder, String imageStorageName) {
+    public Image selectImage(String folder, String imageStorageName) {
         try {
             byte[] imageByteArray = storageClient.bucket().get(folder + imageStorageName + ".png").getContent();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByteArray);
@@ -55,12 +63,12 @@ public class StorageAPI {
     }
 
     // Delete image by name from CloudStorage
-    public static void deleteImage(String folder, String imageStorageName) {
+    public void deleteImage(String folder, String imageStorageName) {
         storageClient.bucket().get(folder + imageStorageName + ".png").delete();
     }
 
     // Download image to the Local by image name
-    public static void downloadImage(String folder, String imageStorageName, String downloadPath) {
+    public void downloadImage(String folder, String imageStorageName, String downloadPath) {
         storageClient.bucket().get(folder + imageStorageName + ".png").downloadTo(Paths.get(downloadPath));
     }
 }

@@ -70,9 +70,9 @@ public class LabelCell extends ListCell<Label> implements Injectable<Application
 
         deleteLabelIcon.setOnMouseClicked(event -> {
             /* TODO: Add Confirmation Here. */
-            ProjectRepository.deleteLabelId(projectController.currentProject.getId(),
+            ProjectRepository.getInstance().deleteLabelId(projectController.currentProject.getId(),
                     getItem().getId());
-            LabelRepository.delete(getItem().getId());
+            LabelRepository.getInstance().delete(getItem().getId());
             getListView().getItems().remove(getItem());
         });
 

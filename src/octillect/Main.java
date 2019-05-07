@@ -30,13 +30,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Initialize Firebase connection
-        Connection.initializeFirebase();
+        Connection.getInstance();
 
         // Load Application Fonts
         Fonts.load();
 
         if (octillectFile.exists()) {
-            signedUser = UserRepository.getRememberedUser();
+            signedUser = UserRepository.getInstance().getRememberedUser();
             if (signedUser == null) {
                 octillectFile.delete();
             }

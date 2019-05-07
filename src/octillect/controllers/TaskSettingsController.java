@@ -78,7 +78,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
         taskNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                TaskRepository.updateName(currentTask.getId(), taskNameTextField.getText());
+                TaskRepository.getInstance().updateName(currentTask.getId(), taskNameTextField.getText());
                 currentTask.setName(taskNameTextField.getText());
                 refreshTask();
             }
@@ -86,7 +86,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
         taskDescriptionTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                TaskRepository.updateDescription(currentTask.getId(), taskDescriptionTextArea.getText());
+                TaskRepository.getInstance().updateDescription(currentTask.getId(), taskDescriptionTextArea.getText());
                 currentTask.setDescription(taskDescriptionTextArea.getText());
                 refreshTask();
             }
@@ -99,7 +99,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
                     ArrayList<String> selectedAssigneesIds = new ArrayList<>();
                     selectedAssignees.forEach(assignee -> selectedAssigneesIds.add(assignee.getId()));
-                    TaskRepository.updateAssigneeIds(currentTask.getId(), selectedAssigneesIds);
+                    TaskRepository.getInstance().updateAssigneeIds(currentTask.getId(), selectedAssigneesIds);
 
                     currentTask.setAssignees(selectedAssignees);
                     refreshTask();
@@ -112,7 +112,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
                     ArrayList<String> selectedLabelsIds = new ArrayList<>();
                     selectedLabels.forEach(label -> selectedLabelsIds.add(label.getId()));
-                    TaskRepository.updateLabelsIds(currentTask.getId(), selectedLabelsIds);
+                    TaskRepository.getInstance().updateLabelsIds(currentTask.getId(), selectedLabelsIds);
 
                     currentTask.setLabels(selectedLabels);
                     refreshTask();
@@ -121,7 +121,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         taskDueDatePicker.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 Date date = Date.from(taskDueDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                TaskRepository.updateDueDate(currentTask.getId(), date);
+                TaskRepository.getInstance().updateDueDate(currentTask.getId(), date);
                 currentTask.setDueDate(date);
                 refreshTask();
             }
@@ -143,12 +143,12 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     public void handleIsCompletedTaskAction(MouseEvent mouseEvent) {
         if (currentTask.getIsCompleted()) {
             isCompletedTaskIcon.setIconColor(Palette.PRIMARY);
-            TaskRepository.updateisCompleted(currentTask.getId(), false);
+            TaskRepository.getInstance().updateisCompleted(currentTask.getId(), false);
             currentTask.setIsCompleted(false);
             refreshTask();
         } else {
             isCompletedTaskIcon.setIconColor(Palette.SUCCESS);
-            TaskRepository.updateisCompleted(currentTask.getId(), true);
+            TaskRepository.getInstance().updateisCompleted(currentTask.getId(), true);
             currentTask.setIsCompleted(true);
             refreshTask();
         }
@@ -156,8 +156,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleDeleteTaskAction(MouseEvent mouseEvent) {
-        TaskRepository.delete(currentTask.getId());
-        ColumnRepository.deleteTaskId(parentColumn.getId(), currentTask.getId());
+        TaskRepository.getInstance().delete(currentTask.getId());
+        ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), currentTask.getId());
         int columnIndex = projectController.currentProject.getColumns().indexOf(parentColumn);
         projectController.currentProject.getColumns().get(columnIndex).getTasks().remove(currentTask);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
