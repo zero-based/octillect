@@ -5,13 +5,13 @@ import java.util.function.Consumer;
 import javafx.collections.ObservableList;
 
 import octillect.models.Column;
-import octillect.models.Task;
+import octillect.models.TaskBase;
 
 public class ColumnBuilder implements Builder<Column, ColumnBuilder> {
 
     public String id;
     public String name;
-    public ObservableList<Task> tasks;
+    public ObservableList<TaskBase> tasks;
 
     @Override
     public ColumnBuilder with(Consumer<ColumnBuilder> builderFunction) {
@@ -34,7 +34,7 @@ public class ColumnBuilder implements Builder<Column, ColumnBuilder> {
         return this;
     }
 
-    public ColumnBuilder withTasks(ObservableList<Task> tasks) {
+    public ColumnBuilder withTasks(ObservableList<TaskBase> tasks) {
         this.tasks = tasks;
         return this;
     }

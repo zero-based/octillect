@@ -25,13 +25,11 @@ import octillect.Main;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
-import octillect.models.Board;
-import octillect.models.Column;
-import octillect.models.Task;
-import octillect.models.User;
+import octillect.models.*;
+import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.UserBuilder;
 
-public class UserRepository {
+public class UserRepository implements Repository<User> {
 
     private static UserRepository ourInstance = new UserRepository();
 
@@ -43,7 +41,7 @@ public class UserRepository {
     }
 
 
-    // add new user data to database.
+    @Override
     public void add(User user) {
 
         UserDocument document = new UserDocument();
@@ -60,14 +58,15 @@ public class UserRepository {
         setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
 
         BoardRepository.getInstance().add(user.getBoards().get(0));
-        for (Column column : user.getBoards().get(0).getColumns()) {
-            ColumnRepository.getInstance().add(column);
-            for (Task task : column.getTasks()) {
-                TaskRepository.getInstance().add(task);
+        for (TaskBase column : user.getBoards().get(0).getChildren()) {
+            ColumnRepository.getInstance().add((Column) column);
+            for (TaskBase task : column.getChildren()) {
+                TaskRepository.getInstance().add((Task) task);
             }
         }
     }
 
+    @Override
     public User get(String userId) {
 
         User user = null;
@@ -97,19 +96,22 @@ public class UserRepository {
         return user;
     }
 
-    public User getContributor(String userId) {
+    @Override
+    public void delete(User user) {
+    }
 
-        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, userId)).toObject(UserDocument.class);
+    public Contributor getContributor(String contributorId) {
 
-        User user = new UserBuilder().with($ -> {
+        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
+
+        Contributor contributor = new ContributorBuilder().with($ -> {
             $.id = document.getId();
             $.name = document.getName();
             $.email = document.getEmail();
-            $.password = document.getPassword();
             $.image = getImage(document.getId());
         }).build();
 
-        return user;
+        return contributor;
     }
 
     // add user's image to CloudStorage

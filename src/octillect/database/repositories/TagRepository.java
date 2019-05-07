@@ -9,7 +9,7 @@ import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Tag;
 import octillect.models.builders.TagBuilder;
 
-public class TagRepository {
+public class TagRepository implements Repository<Tag> {
 
     private static TagRepository ourInstance = new TagRepository();
 
@@ -20,7 +20,8 @@ public class TagRepository {
     private TagRepository() {
     }
 
-    // add new tag data to database.
+
+    @Override
     public void add(Tag tag) {
         TagDocument document = new TagDocument();
         document.setId(tag.getId());
@@ -29,6 +30,7 @@ public class TagRepository {
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TAGS, document.getId(), document);
     }
 
+    @Override
     public Tag get(String tagId) {
 
         TagDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().TAGS, tagId)).toObject(TagDocument.class);
@@ -42,8 +44,9 @@ public class TagRepository {
         return tag;
     }
 
-    public void delete(String tagId) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TAGS, tagId);
+    @Override
+    public void delete(Tag tag) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TAGS, tag.getId());
     }
 
 }

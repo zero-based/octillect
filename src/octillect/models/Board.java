@@ -4,13 +4,13 @@ import java.util.Calendar;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.Pair;
 
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.builders.ColumnBuilder;
+import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.TaskBuilder;
 
-public class Board implements IObservable<Pair<User, Board.Role>> {
+public class Board extends TaskBase implements IObservable<Contributor> {
 
     public enum Role {
         owner,
@@ -18,53 +18,22 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
         viewer
     }
 
-    private String id;
-    private String name;
-    private String description;
     private String repositoryName;
-    private ObservableList<Pair<User, Role>> contributors;
-    private ObservableList<Column> columns;
+    private ObservableList<Contributor> contributors;
     private ObservableList<Tag> tags;
 
-
-    public Board() {}
+    public Board() {
+    }
 
     public Board(String id, String name, String description, String repositoryName,
-                 ObservableList<Pair<User, Role>> contributors, ObservableList<Column> columns,
+                 ObservableList<Contributor> contributors, ObservableList<TaskBase> columns,
                  ObservableList<Tag> tags) {
-        this.id             = id;
-        this.name           = name;
-        this.description    = description;
+        super(id, name, description, columns);
         this.repositoryName = repositoryName;
-        this.contributors   = contributors;
-        this.columns        = columns;
+        this.contributors = contributors;
         this.tags = tags;
     }
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getRepositoryName() {
         return repositoryName;
@@ -74,21 +43,14 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
         this.repositoryName = repositoryName;
     }
 
-    public ObservableList<Pair<User, Role>> getContributors() {
+    public ObservableList<Contributor> getContributors() {
         return contributors;
     }
 
-    public void setContributors(ObservableList<Pair<User, Role>> contributors) {
+    public void setContributors(ObservableList<Contributor> contributors) {
         this.contributors = contributors;
     }
 
-    public ObservableList<Column> getColumns() {
-        return columns;
-    }
-
-    public void setColumns(ObservableList<Column> columns) {
-        this.columns = columns;
-    }
 
     public ObservableList<Tag> getTags() {
         return tags;
@@ -98,29 +60,31 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
         this.tags = tags;
     }
 
+
     public Role getUserRole(String userId) {
-        for (Pair<User, Role> contributor : contributors) {
-            if (contributor.getKey().getId().equals(userId)) {
-                return contributor.getValue();
+        for (Contributor contributor : contributors) {
+            if (contributor.getId().equals(userId)) {
+                return contributor.getRole();
             }
         }
         return null;
     }
 
+
     @Override
-    public void addObserver(Pair<User, Board.Role> observer) {
+    public void addObserver(Contributor observer) {
         contributors.add(observer);
     }
 
     @Override
-    public void removeObserver(Pair<User, Board.Role> observer) {
+    public void removeObserver(Contributor observer) {
         contributors.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Pair<User, Board.Role>  observer : contributors) {
-            observer.getKey().updateObserver();
+        for (UserBase observer : contributors) {
+            ((User) observer).updateObserver();
         }
     }
 
@@ -129,10 +93,18 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
 
         public WelcomeBoard(User user) {
 
+            Contributor owner = new ContributorBuilder().with($ -> {
+                $.id = user.getId();
+                $.name = user.getName();
+                $.email = user.getEmail();
+                $.image = user.getImage();
+                $.role = Role.owner;
+            }).build();
+
             setId(FirestoreAPI.getInstance().encryptWithDateTime("Welcome Board" + user.getId()));
             setName("Welcome Board");
             setDescription("Welcome to Octillect");
-            setContributors(FXCollections.observableArrayList(new Pair<>(user, Role.owner)));
+            setContributors(FXCollections.observableArrayList(owner));
 
             Column essentialsColumn = new ColumnBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Octillect Essentials" + user.getId()))
@@ -144,7 +116,7 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withName("Octillect Features")
                     .build();
 
-            setColumns(FXCollections.observableArrayList(essentialsColumn, featuresColumn));
+            setChildren(FXCollections.observableArrayList(essentialsColumn, featuresColumn));
 
 
             Task task_1 = new TaskBuilder()
@@ -152,7 +124,7 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withName("Boards")
                     .withIsCompleted(false)
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
             Task task_2 = new TaskBuilder()
@@ -160,17 +132,17 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withName("Columns")
                     .withDescription("Columns group cards into categories, like 'Todo', 'In Progress', and 'Done'.")
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
             Task task_3 = new TaskBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Cards" + user.getId()))
                     .withName("Cards")
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
-            essentialsColumn.setTasks(FXCollections.observableArrayList(task_1, task_2, task_3));
+            essentialsColumn.setChildren(FXCollections.observableArrayList(task_1, task_2, task_3));
 
 
             Calendar calendar = Calendar.getInstance();
@@ -182,7 +154,7 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withDescription("When a task is done, a CheckBox appears on the Task's Cell.")
                     .withIsCompleted(true)
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
             Task task_5 = new TaskBuilder()
@@ -191,7 +163,7 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withDescription("If Task's due date is past, the date's label turns to be red.")
                     .withDueDate(calendar.getTime())
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
             calendar.set(2019, Calendar.MAY, 11);
@@ -200,13 +172,13 @@ public class Board implements IObservable<Pair<User, Board.Role>> {
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Assignees" + user.getId()))
                     .withName("Assignees")
                     .withDescription("You can add Assignees to any Task and they will appear on the Task's Cell.")
-                    .withAssignees(FXCollections.observableArrayList(user))
+                    .withAssignees(FXCollections.observableArrayList(owner))
                     .withDueDate(calendar.getTime())
                     .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(user)
+                    .withCreator(owner)
                     .build();
 
-            featuresColumn.setTasks(FXCollections.observableArrayList(task_4, task_5, task_6));
+            featuresColumn.setChildren(FXCollections.observableArrayList(task_4, task_5, task_6));
 
         }
     }

@@ -159,8 +159,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                 ArrayList<String> sourceTasksIds = new ArrayList<>();
                 ArrayList<String> targetTasksIds = new ArrayList<>();
 
-                sourceColumn.getTasks().forEach(task -> sourceTasksIds.add(task.getId()));
-                targetColumn.getTasks().forEach(task -> targetTasksIds.add(task.getId()));
+                sourceColumn.getChildren().forEach(task -> sourceTasksIds.add(task.getId()));
+                targetColumn.getChildren().forEach(task -> targetTasksIds.add(task.getId()));
 
                 ColumnRepository.getInstance().updateTasksIds(sourceColumn.getId(), sourceTasksIds);
                 ColumnRepository.getInstance().updateTasksIds(targetColumn.getId(), targetTasksIds);
@@ -214,9 +214,9 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                     .getItem();
 
             ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), getItem().getId());
-            TaskRepository.getInstance().delete(getItem().getId());
+            TaskRepository.getInstance().delete(getItem());
 
-            parentColumn.getTasks().remove(getItem());
+            parentColumn.getChildren().remove(getItem());
         });
 
         updateTaskInfo(taskItem);

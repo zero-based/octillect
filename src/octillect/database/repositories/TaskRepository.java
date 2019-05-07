@@ -9,12 +9,10 @@ import javafx.collections.FXCollections;
 
 import octillect.database.documents.TaskDocument;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Tag;
-import octillect.models.Task;
-import octillect.models.User;
+import octillect.models.*;
 import octillect.models.builders.TaskBuilder;
 
-public class TaskRepository {
+public class TaskRepository implements Repository<Task> {
 
     private static TaskRepository ourInstance = new TaskRepository();
 
@@ -25,7 +23,8 @@ public class TaskRepository {
     private TaskRepository() {
     }
 
-    // Add new task data to database.
+
+    @Override
     public void add(Task task) {
         TaskDocument document = new TaskDocument();
         document.setId(task.getId());
@@ -38,15 +37,15 @@ public class TaskRepository {
 
         if (task.getAssignees() != null) {
             ArrayList<String> assigneesIds = new ArrayList<>();
-            for (User assignee : task.getAssignees()) {
+            for (Contributor assignee : task.getAssignees()) {
                 assigneesIds.add(assignee.getId());
             }
             document.setAssigneesIds(assigneesIds);
         }
 
-        if (task.getSubTasks() != null) {
+        if (task.getChildren() != null) {
             ArrayList<String> subTasksIds = new ArrayList<>();
-            for (Task subTasks : task.getSubTasks()) {
+            for (TaskBase subTasks : task.getChildren()) {
                 subTasksIds.add(subTasks.getId());
             }
             document.setSubTasksIds(subTasksIds);
@@ -63,6 +62,7 @@ public class TaskRepository {
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TASKS, document.getId(), document);
     }
 
+    @Override
     public Task get(String taskId) {
 
         TaskDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().TASKS, taskId)).toObject(TaskDocument.class);
@@ -77,7 +77,7 @@ public class TaskRepository {
             $.creator = UserRepository.getInstance().getContributor(document.getCreatorId());
 
             if (document.getAssigneesIds() != null) {
-                ArrayList<User> assignees = new ArrayList<>();
+                ArrayList<Contributor> assignees = new ArrayList<>();
                 for (String assigneeID : document.getAssigneesIds()) {
                     assignees.add(UserRepository.getInstance().getContributor(assigneeID));
                 }
@@ -105,6 +105,11 @@ public class TaskRepository {
         return task;
     }
 
+    @Override
+    public void delete(Task task) {
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
+    }
+
     public void updateName(String taskId, String name) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "name", name);
     }
@@ -129,8 +134,4 @@ public class TaskRepository {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
     }
 
-
-    public void delete(String taskId) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, taskId);
-    }
 }

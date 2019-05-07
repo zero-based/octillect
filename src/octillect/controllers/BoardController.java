@@ -66,7 +66,7 @@ public class BoardController implements Injectable<ApplicationController> {
         boardSettingsController.loadBoardSettings();
 
         // Populate Board Columns
-        boardListView.setItems(board.getColumns());
+        boardListView.setItems(board.getChildren());
         boardListView.setCellFactory(param -> {
             TasksColumn tasksColumn = new TasksColumn();
             tasksColumn.inject(applicationController);

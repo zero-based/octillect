@@ -7,7 +7,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.util.Pair;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
@@ -16,11 +15,11 @@ import octillect.controllers.BoardController;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.models.Board;
-import octillect.models.User;
+import octillect.models.Contributor;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class ContributorCell extends ListCell<Pair<User, Board.Role>> implements Injectable<ApplicationController> {
+public class ContributorCell extends ListCell<Contributor> implements Injectable<ApplicationController> {
 
     //FXML Fields
     @FXML private BorderPane contributorCellBorderPane;
@@ -48,7 +47,7 @@ public class ContributorCell extends ListCell<Pair<User, Board.Role>> implements
     }
 
     @Override
-    public void updateItem(Pair<User, Board.Role> contributorItem, boolean empty) {
+    public void updateItem(Contributor contributorItem, boolean empty) {
 
         super.updateItem(contributorItem, empty);
 
@@ -65,12 +64,10 @@ public class ContributorCell extends ListCell<Pair<User, Board.Role>> implements
             e.printStackTrace();
         }
 
-        if (contributorItem.getKey().getImage() != null) {
-            contributorImage.setFill(new ImagePattern(contributorItem.getKey().getImage()));
-        }
-        usernameLabel.setText(contributorItem.getKey().getName());
-        emailLabel.setText(contributorItem.getKey().getEmail());
-        roleLabel.setText(contributorItem.getValue().toString());
+        contributorImage.setFill(new ImagePattern(contributorItem.getImage()));
+        usernameLabel.setText(contributorItem.getName());
+        emailLabel.setText(contributorItem.getEmail());
+        roleLabel.setText(contributorItem.getRole().toString());
 
         if (boardController.currentBoard.getUserRole(applicationController.user.getId())
                 .equals(Board.Role.viewer)) {
@@ -81,15 +78,15 @@ public class ContributorCell extends ListCell<Pair<User, Board.Role>> implements
         deleteContributorIcon.setOnMouseClicked(event -> {
             /* TODO: Add Confirmation Here. */
             BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(),
-                    getItem().getKey().getEmail(), getItem().getValue());
-            UserRepository.getInstance().deleteBoardId(getItem().getKey().getId(), boardController.currentBoard.getId());
+                    getItem().getEmail(), getItem().getRole());
+            UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
             if (boardController.currentBoard.getContributors().size() == 1) {
                 // Delete whole board in case no contributors left
                 BoardRepository.getInstance().delete(boardController.currentBoard);
             }
 
-            if (getItem().getKey().getId().equals(applicationController.user.getId())) {
+            if (getItem().getId().equals(applicationController.user.getId())) {
                 applicationController.user.getBoards().remove(boardController.currentBoard);
                 boardController.init();
                 leftDrawerController.init();

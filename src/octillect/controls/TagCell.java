@@ -73,7 +73,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
             /* TODO: Add Confirmation Here. */
             BoardRepository.getInstance().deleteTagId(boardController.currentBoard.getId(),
                     getItem().getId());
-            TagRepository.getInstance().delete(getItem().getId());
+            TagRepository.getInstance().delete(getItem());
             getListView().getItems().remove(getItem());
         });
 
