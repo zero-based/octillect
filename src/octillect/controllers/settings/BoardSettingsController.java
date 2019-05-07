@@ -167,6 +167,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     );
                     contributorsListView.getItems().add(new Pair<>(user, rolesComboBox.getValue()));
                     resetRequiredFieldValidators();
+
+                    newContributorTextField.setText(null);
+                    rolesComboBox.getSelectionModel().clearSelection();
                 }
             }
         }
@@ -190,6 +193,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
             BoardRepository.getInstance().addTagId(boardController.currentBoard.getId(), tag.getId());
             tagsListView.getItems().add(tag);
             resetRequiredFieldValidators();
+
+            newTagTextField.setText(null);
+            tagColorPicker.setValue(Color.WHITE);
         }
     }
 

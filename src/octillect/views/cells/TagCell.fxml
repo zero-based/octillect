@@ -36,7 +36,7 @@
     </left>
 
     <right>
-        <FontIcon fx:id="deleteTagsIcon"
+        <FontIcon fx:id="deleteTagIcon"
                   iconLiteral="gmi-clear"
                   iconColor="${Palette.DARK_300}"
                   iconSize="24"/>
