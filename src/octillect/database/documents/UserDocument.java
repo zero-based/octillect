@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class UserDocument {
 
-    String id;
-    String name;
-    String email;
-    String password;
-    ArrayList<String> projectsIds;
+    private String id;
+    private String name;
+    private String email;
+    private String password;
+    private ArrayList<String> boardsIds;
 
     public UserDocument() {
     }
@@ -45,12 +45,12 @@ public class UserDocument {
         this.password = password;
     }
 
-    public ArrayList<String> getProjectsIds() {
-        return projectsIds;
+    public ArrayList<String> getBoardsIds() {
+        return boardsIds;
     }
 
-    public void setProjectsIds(ArrayList<String> projectsIds) {
-        this.projectsIds = projectsIds;
+    public void setBoardsIds(ArrayList<String> boardsIds) {
+        this.boardsIds = boardsIds;
     }
     
 }

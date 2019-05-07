@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 
 public class CommitBuilder implements Builder<Commit, CommitBuilder> {
 
-    public String committerName;
-    public Date date;
-    public String message;
     public String url;
+    public String subject;
     public String body;
+    public String authorName;
+    public Date date;
 
     @Override
     public CommitBuilder with(Consumer<CommitBuilder> builderFunction) {
@@ -20,22 +20,7 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
 
     @Override
     public Commit build() {
-        return new Commit(committerName, date, message, url, body);
-    }
-
-    public CommitBuilder withCommitterName(String committerName) {
-        this.committerName = committerName;
-        return this;
-    }
-
-    public CommitBuilder withDate(Date date) {
-        this.date = date;
-        return this;
-    }
-
-    public CommitBuilder withMessage(String message) {
-        this.message = message;
-        return this;
+        return new Commit(url, subject, body, authorName, date);
     }
 
     public CommitBuilder withURL(String url) {
@@ -43,8 +28,23 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
         return this;
     }
 
+    public CommitBuilder withSubject(String subject) {
+        this.subject = subject;
+        return this;
+    }
+
     public CommitBuilder withBody(String body) {
         this.body = body;
+        return this;
+    }
+
+    public CommitBuilder withAuthorName(String committerName) {
+        this.authorName = committerName;
+        return this;
+    }
+
+    public CommitBuilder withDate(Date date) {
+        this.date = date;
         return this;
     }
 }

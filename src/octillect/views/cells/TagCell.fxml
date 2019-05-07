@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/"
+            xmlns:fx="http://javafx.com/fxml/"
+            fx:id="tagCellBorderPane"
+            stylesheets="@/octillect/styles/Palette.css">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <left>
+        <HBox fx:id="tagColorHBox" prefWidth="288">
+
+            <padding>
+                <Insets top="4" right="8" bottom="4" left="8" />
+            </padding>
+
+            <Label fx:id="tagNameLabel">
+                <font>
+                    <Font name="Product Sans Regular" size="14"/>
+                </font>
+            </Label>
+
+        </HBox>
+    </left>
+
+    <right>
+        <FontIcon fx:id="deleteTagsIcon"
+                  iconLiteral="gmi-clear"
+                  iconColor="${Palette.DARK_300}"
+                  iconSize="24"/>
+    </right>
+
+</BorderPane>

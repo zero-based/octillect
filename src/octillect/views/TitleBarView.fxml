@@ -36,7 +36,7 @@
     </left>
 
     <center>
-        <Label fx:id="projectNameLabel" textFill="${Palette.DARK_300}">
+        <Label fx:id="boardNameLabel" textFill="${Palette.DARK_300}">
             <font>
                 <Font name="Product Sans Regular" size="26"/>
             </font>

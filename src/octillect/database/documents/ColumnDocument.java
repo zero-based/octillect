@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class ColumnDocument {
 
-    String id;
-    String name;
-    ArrayList<String> tasksIds;
+    private String id;
+    private String name;
+    private ArrayList<String> tasksIds;
 
     public ColumnDocument() {
     }

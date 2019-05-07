@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 import octillect.Main;
 import octillect.controls.OButton;
-import octillect.database.accessors.UserRepository;
+import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
 import octillect.styles.Animation;

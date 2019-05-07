@@ -30,14 +30,14 @@ public class CommitCell extends ListCell<Commit> {
 
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/CommitCellView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/CommitCellView.fxml"));
             fxmlLoader.setController(this);
             commitCellGridPane = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        String commitMessage =  commitItem.getMessage();
+        String commitMessage =  commitItem.getSubject();
         commitMessage = commitMessage.length() >= 50 ? commitMessage.substring(0, 50) + "..." : commitMessage;
         commitSubject.setText(commitMessage);
 

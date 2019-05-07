@@ -26,7 +26,8 @@ public class StorageAPI {
         return ourInstance;
     }
 
-    private StorageAPI() {}
+    private StorageAPI() {
+    }
 
     /**
      * Uploads given Image to Firebase CloudStorage.
@@ -45,7 +46,7 @@ public class StorageAPI {
             InputStream inputStream = new ByteArrayInputStream(imageByteArray);
 
             // Upload Image inputStream to Storage
-            storageClient.bucket().create(storagePath, inputStream, Bucket.BlobWriteOption.userProject(Connection.getInstance().PROJECT_ID));
+            storageClient.bucket().create(storagePath, inputStream, Bucket.BlobWriteOption.userProject(Connection.getInstance().BOARD_ID));
         } catch (IOException e) {
             e.printStackTrace();
         }

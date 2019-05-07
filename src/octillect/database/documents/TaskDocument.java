@@ -5,16 +5,16 @@ import java.util.Date;
 
 public class TaskDocument {
 
-    String id;
-    String name;
-    String description;
-    boolean isCompleted;
-    Date dueDate;
-    Date creationDate;
-    String creatorId;
-    ArrayList<String> assigneesIds;
-    ArrayList<String> subTasksIds;
-    ArrayList<String> labelsIds;
+    private String id;
+    private String name;
+    private String description;
+    private boolean isCompleted;
+    private Date dueDate;
+    private Date creationDate;
+    private String creatorId;
+    private ArrayList<String> assigneesIds;
+    private ArrayList<String> subTasksIds;
+    private ArrayList<String> tagsIds;
 
     public TaskDocument() {
     }
@@ -91,12 +91,12 @@ public class TaskDocument {
         this.subTasksIds = subTasksIds;
     }
 
-    public ArrayList<String> getLabelsIds() {
-        return labelsIds;
+    public ArrayList<String> getTagsIds() {
+        return tagsIds;
     }
 
-    public void setLabelsIds(ArrayList<String> labelsIds) {
-        this.labelsIds = labelsIds;
+    public void setTagsIds(ArrayList<String> tagsIds) {
+        this.tagsIds = tagsIds;
     }
 
 }

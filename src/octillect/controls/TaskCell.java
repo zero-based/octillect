@@ -33,9 +33,9 @@ import javafx.scene.shape.Circle;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
-import octillect.controllers.TaskSettingsController;
-import octillect.database.accessors.ColumnRepository;
-import octillect.database.accessors.TaskRepository;
+import octillect.controllers.settings.TaskSettingsController;
+import octillect.database.repositories.ColumnRepository;
+import octillect.database.repositories.TaskRepository;
 import octillect.models.Column;
 import octillect.models.Task;
 import octillect.styles.Palette;
@@ -104,13 +104,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             if (event.getGestureSource() instanceof TaskCell && getItem() != null
                     && getItem().getId() != sourceTaskId) {
 
-                // Get all Tasks ListViews in the current Project
+                // Get all Tasks ListViews in the current Board
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
 
                 this.getListView()                 // Gets tasksListView
                         .getParent()               // Gets tasksColumnVBox
                         .getParent()               // Gets ListCell<Column>
-                        .getParent()               // Gets projectListView
+                        .getParent()               // Gets boardListView
                         .getChildrenUnmodifiable() // Gets All ListCell<Column>'s
                         .forEach(tasksColumn -> {
                             if (((TasksColumn) tasksColumn).getTasksListView() != null)
@@ -186,7 +186,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/TaskCellView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/TaskCellView.fxml"));
             fxmlLoader.setController(this);
             taskCellVBox = fxmlLoader.load();
         } catch (Exception e) {
@@ -200,16 +200,21 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         editButton.setOnAction(event -> {
-            Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
+            Column parentColumn = ((TasksColumn) getListView()   // Gets tasksListView
+                    .getParent()                                 // Gets tasksColumnVBox
+                    .getParent())                                // Gets ListCell<Column>
+                    .getItem();
             taskSettingsController.loadTask(getItem(), parentColumn);
         });
 
         deleteButton.setOnAction(event -> {
-            // Get tasksListView, Get tasksColumnVBox, Get ListCell<Column>
-            Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
+            Column parentColumn = ((TasksColumn) getListView()   // Gets tasksListView
+                    .getParent()                                 // Gets tasksColumnVBox
+                    .getParent())                                // Gets ListCell<Column>
+                    .getItem();
 
-            TaskRepository.getInstance().delete(getItem().getId());
             ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), getItem().getId());
+            TaskRepository.getInstance().delete(getItem().getId());
 
             parentColumn.getTasks().remove(getItem());
         });
@@ -229,25 +234,30 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         taskNameLabel.setText(taskItem.getName());
 
         if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
-                && taskItem.getDescription() == null && taskItem.getAssignees() == null)
+                && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))
+                && taskItem.getAssignees() == null) {
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
+        }
 
-        if (taskItem.getDueDate() == null)
+        if (taskItem.getDueDate() == null) {
             taskIconsFlowPane.getChildren().remove(2);
-        else
+        } else {
             updateDueDateLabel(taskItem, taskDueDateLabel);
+        }
 
-        if (!taskItem.getIsCompleted())
+        if (!taskItem.getIsCompleted()) {
             taskIconsFlowPane.getChildren().remove(1);
+        }
 
-        if (taskItem.getDescription() == null)
+        if (taskItem.getDescription() == null || taskItem.getDescription().equals("")) {
             taskIconsFlowPane.getChildren().remove(0);
+        }
 
-        if (taskItem.getAssignees() == null)
+        if (taskItem.getAssignees() == null) {
             taskAssigneesNodesList.setVisible(false);
-        else
+        } else {
             updateAssigneesNodesList(taskItem, taskAssigneesNodesList);
-
+        }
     }
 
     /**
@@ -294,7 +304,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
     /**
      * Populates the TaskCell's dueDateLabel with Task DueDate formatted with d-MMM Capitalized Date Format,
-     * and sets the Label's TextFill to Palette.DANGER if the Due Date is Past.
+     * and sets the Tag's TextFill to Palette.DANGER if the Due Date is Past.
      *
      * @param taskItem         Task item which we need to populate it's assignees dueDateLabel.
      * @param taskDueDateLabel Label Control which will be controlled.
@@ -304,7 +314,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         String date = sdf.format(taskItem.getDueDate().getTime());
         taskDueDateLabel.setText(date.toUpperCase());
 
-        /* Set the Label's TextFill to Palette.DANGER if the Due Date is Past. */
+        /* Set the Tag's TextFill to Palette.DANGER if the Due Date is Past. */
         if(taskItem.getDueDate().before(Calendar.getInstance().getTime())) {
             taskDueDateLabel.textFillProperty().unbind();
             taskDueDateLabel.setTextFill(Palette.DANGER);

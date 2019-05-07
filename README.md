@@ -3,13 +3,13 @@
     <h1>Octillect</h1>
 </div>
 
-Octillect _[octopus + intellect]_ can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the project's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and labeling tasks.
+Octillect _[octopus + intellect]_ can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the board's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and taging tasks.
 
 <details><summary> Features </summary>
 
-- User can sign in using his unique account and create his own projects or participate in projects he was invited to collaborate into.
-- Project creator can add collaborators to his project.
-- Any collaborator can add tasks to a project and set its due date, description, title, label or even assign it to another collaborator(s).
+- User can sign in using his unique account and create his own boards or participate in boards he was invited to collaborate into.
+- Board creator can add collaborators to his board.
+- Any collaborator can add tasks to a board and set its due date, description, title, tag or even assign it to another collaborator(s).
 - The assignee is notified when he is assigned to a task.
 - A task can have a list of sub-tasks, too.
 - Tasks can be filtered by due date or assignee.

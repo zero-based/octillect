@@ -21,7 +21,7 @@
                 <fx:include fx:id="rightDrawer" source="RightDrawerView.fxml"/>
 
                 <content>
-                    <fx:include fx:id="project" source="ProjectView.fxml"/>
+                    <fx:include fx:id="board" source="BoardView.fxml"/>
                 </content>
             </JFXDrawersStack>
         </center>
