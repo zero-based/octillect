@@ -4,7 +4,7 @@
 
 - [1. Git & GitHub Guidelines](#1-git--github-guidelines)
   - [1.1. Commit](#11-commit)
-  - [1.2. Commit Message](#12-commit-subject)
+  - [1.2. Commit Message](#12-commit-message)
   - [1.3. Submitting Pull Requests](#13-submitting-pull-requests)
 - [2. Java Programming Guidelines](#2-java-programming-guidelines)
   - [2.1. Naming Conventions](#21-naming-conventions)
@@ -45,15 +45,15 @@
 
 ### 1.2. Commit Message
 
-- Separate subject from body with a **blank line**.
-- **Do not** end the subject line with a **period**.
-- **Capitalize** the subject line and each paragraph.
-- Use the **imperative mood** in the subject line.
-- Limit the **subject line** to **50 characters**.
+- Separate message from body with a **blank line**.
+- **Do not** end the message line with a **period**.
+- **Capitalize** the message line and each paragraph.
+- Use the **imperative mood** in the message line.
+- Limit the **message line** to **50 characters**.
 - Wrap lines of the **body** at **72 characters**.
-- **Asterisks** are used for the bullets in subject's body.
-- **Punctuate** your commit subject's body.
-- Add **two blank lines** followed by **Co-authors**, if found, at the end of your commit subject.
+- **Asterisks** are used for the bullets in message's body.
+- **Punctuate** your commit message's body.
+- Add **two blank lines** followed by **Co-authors**, if found, at the end of your commit message.
 - Example:
 
 ```unix shell
@@ -83,7 +83,7 @@ Co-authored-by: Youssef Raafat <YoussefRaafatNasry@gmail.com>
 
    > **Here are a few things you have to do:**
    >
-   > - Write a good commit subject.
+   > - Write a good commit message.
    > - Follow the style guide where possible.
    > - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
 
