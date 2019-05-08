@@ -3,79 +3,93 @@ package octillect.controllers.settings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import octillect.controllers.ApplicationController;
+import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controls.CommitCell;
 import octillect.models.Commit;
 import octillect.models.builders.CommitBuilder;
+import org.kohsuke.github.GHCommit;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 public class GitHubRepositoryController implements Injectable<ApplicationController> {
 
     //FXML Fields
     @FXML public ListView<Commit> commitsHistoryListView;
+    @FXML public Label repositoryNameLabel;
+    @FXML public Label noGitHubFileFoundLabel;
 
     // Injected Controllers
     private ApplicationController applicationController;
+    private BoardController boardController;
+
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
+        boardController            = applicationController.boardController;
     }
 
     @Override
     public void init() {
-
+        commitsHistoryListView.setCellFactory(param -> new CommitCell());
     }
 
-    @FXML
-    public void initialize() {
-        /* TODO: Remove this temporary commits */
-        Commit commit1 = new CommitBuilder().with($_commit1 -> {
-            $_commit1.subject = "This is a very long sentence where its length exceeds 50 characters";
-            $_commit1.authorName = "MonicaTanios";
-            $_commit1.body = "*Lorem Ipusm \n*Lorem Ipusm";
-            $_commit1.date = new GregorianCalendar(2015, Calendar.JUNE, 1).getTime();
-            $_commit1.url = "https://github.com/MonicaTanios/octillect/commits/";
-        }).build();
-        Commit commit2 = new CommitBuilder().with($_commit2 -> {
-            $_commit2.subject = "Improve Sign Up View";
-            $_commit2.authorName = "MichaMedhat";
-            $_commit2.body = "*Lorem Ipusm \n*Lorem Ipusm";
-            $_commit2.date = new GregorianCalendar(2016, Calendar.MAY, 21).getTime();
-            $_commit2.url = "https://github.com/MonicaTanios/octillect/commits/";
-        }).build();
-        Commit commit3 = new CommitBuilder().with($_commit3 -> {
-            $_commit3.subject = "Improve Sign In View";
-            $_commit3.authorName = "Michael Safwat";
-            $_commit3.body = "*Lorem Ipusm \n*Lorem Ipusm \n*Lorem Ipusm";
-            $_commit3.date = new GregorianCalendar(2016, Calendar.MAY, 21).getTime();
-            $_commit3.url = "https://github.com/MonicaTanios/octillect/commits/";
-        }).build();
-        Commit commit4 = new CommitBuilder().with($_commit4 -> {
-            $_commit4.subject = "Sign Up View";
-            $_commit4.authorName = "Monica Atef";
-            $_commit4.body = "*Lorem Ipusm \n*Lorem Ipusm";
-            $_commit4.date = new GregorianCalendar(2016, Calendar.MAY, 21).getTime();
-            $_commit4.url = "https://github.com/MonicaTanios/octillect/commits/";
-        }).build();
-        Commit commit5 = new CommitBuilder().with($_commit5 -> {
-            $_commit5.subject = "Improve Sign Up View";
-            $_commit5.authorName = "No One";
-            $_commit5.body = "*Lorem Ipusm \n*Lorem Ipusm";
-            $_commit5.date = new GregorianCalendar(2016, Calendar.MAY, 21).getTime();
-            $_commit5.url = "https://github.com/MonicaTanios/octillect/commits/";
-        }).build();
+    public void loadGithubRepository() {
 
-        ObservableList<Commit> userCommits = FXCollections.observableArrayList(commit1, commit2, commit3, commit4, commit5);
+        try {
 
-        commitsHistoryListView.setItems(userCommits);
-        commitsHistoryListView.setCellFactory(param -> new CommitCell() {
-        });
+            GitHub github = GitHub.connect();
+            GHRepository repo = github.getRepository(boardController.currentBoard.getRepositoryName());
+
+            int commitsCounter = 0;
+            ObservableList<Commit> commits = FXCollections.observableArrayList();
+
+            for (GHCommit commit : repo.listCommits()) {
+
+                if (commitsCounter > 15) {
+                    break;
+                }
+
+                String message = commit.getCommitShortInfo().getMessage();
+                int index = message.indexOf('\n');
+                String subject = index == -1 ? message : message.substring(0, index);
+                String body = index == -1 ? null : message.substring(index + 2);
+
+                String authorName = commit.getAuthor().getName();
+                Date date = commit.getCommitDate();
+                String url = commit.getHtmlUrl().toString();
+
+                Commit commitModel = new CommitBuilder().with($ -> {
+                    $.subject = subject;
+                    $.body = body;
+                    $.authorName = authorName;
+                    $.date = date;
+                    $.url = url;
+                }).build();
+
+                commits.add(commitModel);
+                commitsCounter++;
+            }
+
+            noGitHubFileFoundLabel.setOpacity(0);
+            commitsHistoryListView.setItems(commits);
+            repositoryNameLabel.setText(boardController.currentBoard.getRepositoryName());
+
+        } catch (IOException e) {
+            noGitHubFileFoundLabel.setOpacity(1);
+        }
+
     }
 
 }

@@ -1,5 +1,10 @@
 package octillect.controls;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
@@ -46,8 +51,13 @@ public class CommitCell extends ListCell<Commit> {
         commitBody.setText(commitItem.getBody());
 
         commitSubject.setOnMouseClicked(event -> {
-            //write code here..
+            try {
+                Desktop.getDesktop().browse(new URI(commitItem.url));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
         });
+
         setGraphic(commitCellGridPane);
 
     }
