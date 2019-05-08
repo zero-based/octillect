@@ -154,5 +154,8 @@ public class TaskRepository implements Repository<Task> {
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
     }
 
+    public void updateCreatorId(String taskId, String userId) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "creatorId", userId);
+    }
 
 }

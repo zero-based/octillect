@@ -145,6 +145,75 @@ public class UserRepository implements Repository<User> {
     }
 
     /**
+     * Updates User's email field in database and consequently it's Id too.
+     *
+     * @param user     Object of user whom email will be changed.
+     * @param newEmail Updated email.
+     */
+    public void updateEmail(User user, String newEmail) {
+
+        // Update all instances of user's id in all Database
+        updateId(user, newEmail);
+
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().USERS, user.getId());
+        StorageAPI.getInstance().deleteImage(StorageAPI.getInstance().USER_PHOTOS_FOLDER, user.getId());
+
+        UserDocument document = new UserDocument();
+        document.setId(FirestoreAPI.getInstance().encrypt(newEmail));
+        document.setName(user.getName());
+        document.setEmail(newEmail);
+        document.setPassword(user.getPassword());
+
+        ArrayList<String> boardsIds = new ArrayList<>();
+        user.getBoards().forEach(board -> boardsIds.add(board.getId()));
+        document.setBoardsIds(boardsIds);
+
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().USERS, document.getId(), document);
+        setImage(document.getId(), generateIdenticon(document.getId(),256));
+    }
+
+    private static void updateId(User user, String updatedEmail) {
+
+        for (Board board : user.getBoards()) {
+
+            // Update Contributors emails
+            for (Contributor contributor : board.getContributors()) {
+                if (contributor.getEmail().equals(user.getEmail())) {
+                    BoardRepository.getInstance().deleteContributor(board.getId(), contributor.getEmail(), contributor.getRole());
+                    BoardRepository.getInstance().addContributor(board.getId(), updatedEmail, contributor.getRole());
+                }
+            }
+
+            for (TaskBase column : board.getChildren()) {
+
+                // Update tasks' creatorId
+                for (TaskBase task : column.getChildren()) {
+                    if (((Task) task).getCreator().getEmail().equals(user.getEmail())) {
+                        TaskRepository.getInstance().updateCreatorId(task.getId(),
+                                FirestoreAPI.getInstance().encrypt(updatedEmail));
+                    }
+
+                    // Update tasks' assignees' emails
+                    if (((Task) task).getAssignees() != null) {
+
+                        ArrayList<String> assigneesIds = new ArrayList<>();
+                        ((Task) task).getAssignees().forEach(assignee -> {
+
+                            if (assignee.getEmail().equals(user.getEmail())) {
+                                assigneesIds.add(FirestoreAPI.getInstance().encrypt(updatedEmail));
+                            } else {
+                                assigneesIds.add(assignee.getId());
+                            }
+
+                            TaskRepository.getInstance().updateAssigneeIds(task.getId(), assigneesIds);
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Updates User's password field in database.
      *
      * @param userId            Id of user whom password will be changed.
