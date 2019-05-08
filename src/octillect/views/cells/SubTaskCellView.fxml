@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<?import octillect.styles.Palette?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/"
+            xmlns:fx="http://javafx.com/fxml/"
+            fx:id="subTaskBorderPane">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <left>
+        <JFXCheckBox fx:id="subTaskCheckBox"
+                     checkedColor="${Palette.PRIMARY}"
+                     textFill="${Palette.PRIMARY_DARK}"/>
+    </left>
+
+    <right>
+        <FontIcon fx:id="deleteSubTaskIcon"
+                  iconLiteral="gmi-clear"
+                  iconColor="${Palette.DARK_300}"
+                  iconSize="24"/>
+    </right>
+
+</BorderPane>

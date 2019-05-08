@@ -1,6 +1,7 @@
 package octillect.controllers.settings;
 
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
@@ -25,6 +26,8 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
+import octillect.controls.OButton;
+import octillect.controls.SubTaskCell;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.models.*;
@@ -39,6 +42,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     // FXML Fields
     @FXML public TitledPane editNameTitledPane;
     @FXML public TitledPane editDescriptionTitledPane;
+    @FXML public TitledPane subTasksTitledPane;
     @FXML public TitledPane assigneesTitledPane;
     @FXML public TitledPane tagsTitledPane;
     @FXML public TitledPane dueDateTitledPane;
@@ -49,10 +53,13 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public Label taskCreatorLabel;
     @FXML public Label taskCreationDateLabel;
     @FXML public JFXTextField taskNameTextField;
+    @FXML public JFXTextField newSubTaskTextField;
     @FXML public JFXTextArea taskDescriptionTextArea;
     @FXML public JFXDatePicker taskDueDatePicker;
+    @FXML public JFXListView<Task> subTasksListView;
     @FXML public CheckComboBox<Contributor> assigneesCheckComboBox;
     @FXML public CheckComboBox<Tag> tagsCheckComboBox;
+    @FXML public OButton addSubTaskButton;
 
     private Task currentTask;
     private Column parentColumn;
@@ -71,6 +78,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @Override
     public void init() {
+
+        subTasksListView.setCellFactory(param -> new SubTaskCell());
 
         assigneesCheckComboBox.setConverter(new AssigneesStringConverter());
         tagsCheckComboBox.setConverter(new TagStringConverter());
@@ -133,10 +142,15 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     public void handleTitledPaneOnAction(MouseEvent mouseEvent) {
         editNameTitledPane.setExpanded(false);
         editDescriptionTitledPane.setExpanded(false);
+        subTasksTitledPane.setExpanded(false);
         assigneesTitledPane.setExpanded(false);
         tagsTitledPane.setExpanded(false);
         dueDateTitledPane.setExpanded(false);
         ((TitledPane) mouseEvent.getSource()).setExpanded(true);
+    }
+
+    @FXML
+    public void handleAddSubTaskButtonAction(MouseEvent mouseEvent) {
     }
 
     @FXML
@@ -176,6 +190,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         selectTaskTags();
         loadDueDateDatePicker();
         loadIsCompletedIcon();
+        loadSubTasksListView();
 
         rightDrawerController.show(rightDrawerController.taskSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
@@ -194,6 +209,14 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         assigneesCheckComboBox.getItems().clear();
         for (Contributor contributor : boardController.currentBoard.getContributors()) {
             assigneesCheckComboBox.getItems().add(contributor);
+        }
+    }
+
+    public void loadSubTasksListView() {
+        if (currentTask.getChildren() != null) {
+            for (TaskBase subTask : currentTask.getChildren()) {
+                subTasksListView.getItems().add((Task) subTask);
+            }
         }
     }
 
