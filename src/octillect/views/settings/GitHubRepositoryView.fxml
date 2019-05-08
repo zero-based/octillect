@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -11,39 +12,51 @@
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox xmlns="http://javafx.com/javafx/"
-      xmlns:fx="http://javafx.com/fxml/"
-      fx:controller="octillect.controllers.settings.GitHubRepositoryController"
-      spacing="32"
-      stylesheets="@/octillect/styles/Palette.css">
+<StackPane xmlns="http://javafx.com/javafx/"
+           xmlns:fx="http://javafx.com/fxml/"
+           fx:controller="octillect.controllers.settings.GitHubRepositoryController"
+           stylesheets="@/octillect/styles/Palette.css">
 
-    <padding>
-        <Insets left="48" right="48"/>
-    </padding>
+    <VBox spacing="32">
+        <padding>
+            <Insets left="48" right="48"/>
+        </padding>
 
-    <fx:define>
-        <Palette fx:id="Palette"/>
-    </fx:define>
+        <fx:define>
+            <Palette fx:id="Palette"/>
+        </fx:define>
 
-    <HBox alignment="CENTER" spacing="8">
+        <HBox alignment="CENTER" spacing="8">
 
-        <FontIcon iconLiteral="oct-repo"
-                  iconColor="${Palette.DARK_300}"
-                  iconSize="22"/>
+            <FontIcon iconLiteral="oct-repo"
+                      iconColor="${Palette.DARK_300}"
+                      iconSize="22"/>
 
-        <Label fx:id="repositoryName"
-               text="MonicaTanios/octillect"
-               textFill="${Palette.DARK_300}">
-            <font>
-                <Font name="Product Sans Regular" size="22"/>
-            </font>
-        </Label>
+            <Label fx:id="repositoryNameLabel"
+                   textFill="${Palette.DARK_300}">
+                <font>
+                    <Font name="Product Sans Regular" size="22"/>
+                </font>
+            </Label>
 
-    </HBox>
+        </HBox>
 
-    <ListView fx:id="commitsHistoryListView"
-              VBox.vgrow="ALWAYS"
-              translateX="16"
-              stylesheets="@/octillect/styles/CommitsHistoryListView.css"/>
+        <ListView fx:id="commitsHistoryListView"
+                  VBox.vgrow="ALWAYS"
+                  translateX="16"
+                  stylesheets="@/octillect/styles/CommitsHistoryListView.css"/>
+    </VBox>
 
-</VBox>
+    <Label fx:id="noGitHubFileFoundLabel"
+           text="Please check your ~/.github file!!"
+           textAlignment="CENTER"
+           textFill="${Palette.PRIMARY_DARK}"
+            opacity="0">
+        <font>
+            <Font name="Product Sans Regular" size="16"/>
+        </font>
+    </Label>
+
+</StackPane>
+
+

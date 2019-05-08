@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXDrawer;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import octillect.controllers.settings.BoardSettingsController;
@@ -18,7 +19,7 @@ public class RightDrawerController implements Injectable<ApplicationController> 
     @FXML public VBox userSettings;
     @FXML public VBox boardSettings;
     @FXML public VBox taskSettings;
-    @FXML public VBox gitHubRepository;
+    @FXML public StackPane gitHubRepository;
 
     //Nested Controllers
     @FXML public UserSettingsController userSettingsController;
