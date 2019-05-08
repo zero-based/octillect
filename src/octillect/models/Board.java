@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.ContributorBuilder;
+import octillect.models.builders.TagBuilder;
 import octillect.models.builders.TaskBuilder;
+import octillect.styles.Palette;
 
 public class Board extends TaskBase implements IObservable<Contributor> {
 
@@ -93,6 +95,9 @@ public class Board extends TaskBase implements IObservable<Contributor> {
 
         public WelcomeBoard(User user) {
 
+
+            // Metadata
+
             Contributor owner = new ContributorBuilder().with($ -> {
                 $.id = user.getId();
                 $.name = user.getName();
@@ -106,6 +111,9 @@ public class Board extends TaskBase implements IObservable<Contributor> {
             setDescription("Welcome to Octillect");
             setContributors(FXCollections.observableArrayList(owner));
 
+
+            // Columns
+
             Column essentialsColumn = new ColumnBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Octillect Essentials" + user.getId()))
                     .withName("Octillect Essentials")
@@ -118,6 +126,8 @@ public class Board extends TaskBase implements IObservable<Contributor> {
 
             setChildren(FXCollections.observableArrayList(essentialsColumn, featuresColumn));
 
+
+            // Tasks
 
             Task task_1 = new TaskBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Boards" + user.getId()))
@@ -183,4 +193,101 @@ public class Board extends TaskBase implements IObservable<Contributor> {
         }
     }
 
+    public static final class TemplateBoard extends Board {
+
+        public TemplateBoard(String name, String description, User user) {
+
+
+            // Metadata
+
+            Contributor owner = new ContributorBuilder().with($ -> {
+                $.id    = user.getId();
+                $.name  = user.getName();
+                $.email = user.getEmail();
+                $.image = user.getImage();
+                $.role  = Role.owner;
+            }).build();
+
+            setId(FirestoreAPI.getInstance().encryptWithDateTime(name + user.getId()));
+            setName(name);
+            setDescription(description);
+            setContributors(FXCollections.observableArrayList(owner));
+
+
+            // Columns
+
+            Column todoColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("To-do" + user.getId()))
+                    .withName("To-do")
+                    .build();
+
+            Column inProgressColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("In Progress" + user.getId()))
+                    .withName("In Progress")
+                    .build();
+
+            Column doneColumn = new ColumnBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Done" + user.getId()))
+                    .withName("Done")
+                    .build();
+
+            setChildren(FXCollections.observableArrayList(todoColumn, inProgressColumn, doneColumn));
+
+
+            // Tasks
+
+            Task todoTask = new TaskBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("To-do Task" + user.getId()))
+                    .withName("To-do Task")
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(owner)
+                    .build();
+
+            todoColumn.setChildren(FXCollections.observableArrayList(todoTask));
+
+            Task inProgressTask = new TaskBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("In Progress Task" + user.getId()))
+                    .withName("In Progress Task")
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(owner)
+                    .build();
+
+            inProgressColumn.setChildren(FXCollections.observableArrayList(inProgressTask));
+
+            Task doneTask = new TaskBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Done Task" + user.getId()))
+                    .withName("Done Task")
+                    .withCreationDate(Calendar.getInstance().getTime())
+                    .withCreator(owner)
+                    .build();
+
+            doneColumn.setChildren(FXCollections.observableArrayList(doneTask));
+
+
+            // Tags
+
+            Tag bugTag = new TagBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("bug" + user.getId()))
+                    .withName("bug")
+                    .withColor(Palette.DANGER)
+                    .build();
+
+            Tag featureTag = new TagBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("feature" + user.getId()))
+                    .withName("feature")
+                    .withColor(Palette.INFO)
+                    .build();
+
+            Tag improvementTag = new TagBuilder()
+                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("improvement" + user.getId()))
+                    .withName("improvement")
+                    .withColor(Palette.PRIMARY_DARK)
+                    .build();
+
+            setTags(FXCollections.observableArrayList(bugTag, featureTag, improvementTag));
+
+        }
+
+
+    }
 }
