@@ -145,7 +145,7 @@
 
         <VBox spacing="16">
 
-            <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/ListView.css"/>
+            <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/HoverableListView.css"/>
 
             <BorderPane>
 
@@ -155,7 +155,6 @@
 
                 <left>
                     <JFXTextField fx:id="newSubTaskTextField"
-                                  prefColumnCount="40"
                                   promptText="or Add New Sub-Task"
                                   focusColor="${Palette.PRIMARY}"
                                   focusTraversable="false"

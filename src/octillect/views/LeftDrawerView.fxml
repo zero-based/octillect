@@ -33,7 +33,7 @@
             <BorderPane prefWidth="${leftDrawer.defaultDrawerSize}">
 
                 <padding>
-                    <Insets topRightBottomLeft="16" />
+                    <Insets topRightBottomLeft="16"/>
                 </padding>
 
                 <left>
@@ -56,7 +56,8 @@
 
             <ListView fx:id="userBoardsListView"
                       stylesheets="@/octillect/styles/UserBoardsList.css"
-                      onMouseClicked="#handleUserBoardsListViewMouseClicked"/>
+                      onMouseClicked="#handleUserBoardsListViewMouseClicked"
+                      VBox.vgrow="ALWAYS"/>
 
         </VBox>
 

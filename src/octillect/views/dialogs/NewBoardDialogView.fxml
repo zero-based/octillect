@@ -45,8 +45,8 @@
                      prefRowCount="3"
                      stylesheets="@/octillect/styles/TextArea.css"
                      promptText="Description"
+
                      focusColor="${Palette.PRIMARY}"
-                     style="-fx-text-inner-color: -o-dark-300"
                      labelFloat="true"/>
 
         <OButton fx:id="addBoardButton"

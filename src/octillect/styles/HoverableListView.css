@@ -12,6 +12,14 @@
     -fx-background-color: transparent;
 }
 
+.list-cell:filled:hover {
+     -fx-background-color: derive(-o-dark-700, -8%);
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: derive(-o-dark-700, -8%);
+}
+
 /*To Remove Horizontal Scroll-Bar*/
 .list-view .scroll-bar:horizontal .increment-arrow,
 .list-view .scroll-bar:horizontal .decrement-arrow,
@@ -40,7 +48,6 @@
     visibility: hidden;
 }
 
-.list-view .scroll-bar:vertical .track,
 .list-view .scroll-bar:vertical .track {
     visibility: hidden;
 }

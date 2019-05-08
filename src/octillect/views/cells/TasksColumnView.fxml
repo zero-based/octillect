@@ -22,7 +22,7 @@
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
-    
+
     <BorderPane>
 
         <left>
@@ -72,7 +72,7 @@
                         </ContextMenu>
                     </contextMenu>
                 </Button>
-                
+
             </HBox>
         </right>
 
@@ -80,7 +80,8 @@
 
     <ListView fx:id="tasksListView"
               prefWidth="368"
-              VBox.vgrow="ALWAYS"/>
+              VBox.vgrow="ALWAYS"
+              stylesheets="@/octillect/styles/ListView.css"/>
 
 </VBox>
 

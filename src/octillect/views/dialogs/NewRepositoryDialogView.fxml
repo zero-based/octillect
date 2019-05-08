@@ -37,7 +37,7 @@
         <JFXTextField fx:id="usernameAndRepositoryNameTextField"
                       promptText="username/repository-name"
                       focusColor="${Palette.PRIMARY}"
-                      style="-fx-text-inner-color: -o-dark-300"
+                      style="-fx-text-fill: white;"
                       labelFloat="true"/>
 
         <OButton fx:id="addRepositoryButton"

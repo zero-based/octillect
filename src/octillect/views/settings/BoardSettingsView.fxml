@@ -89,8 +89,8 @@
         <JFXTextArea fx:id="editDescriptionTextArea"
                      prefRowCount="3"
                      focusColor="${Palette.PRIMARY}"
-                     focusTraversable="false"
-                     style="-fx-text-fill: -o-dark-300;"
+                     style="-fx-text-inner-color: -o-dark-300;"
+                     labelFloat="true"
                      stylesheets="@/octillect/styles/TextArea.css"/>
 
     </TitledPane>
@@ -123,7 +123,7 @@
         <VBox spacing="16">
 
             <JFXListView fx:id="contributorsListView"
-                         stylesheets="@/octillect/styles/ListView.css"/>
+                         stylesheets="@/octillect/styles/HoverableListView.css"/>
 
             <BorderPane fx:id="newContributorBorderPane">
 
@@ -198,7 +198,7 @@
         <VBox spacing="16">
 
             <JFXListView fx:id="tagsListView"
-                         stylesheets="@/octillect/styles/ListView.css"/>
+                         stylesheets="@/octillect/styles/HoverableListView.css"/>
 
             <BorderPane fx:id="newTagBorderPane">
 

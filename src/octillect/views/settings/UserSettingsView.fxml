@@ -47,6 +47,7 @@
             <JFXTextField fx:id="changeNameText"
                           prefHeight="26.0"
                           promptText="Change Name"
+                          style="-fx-text-fill: white;"
                           focusColor="${Palette.PRIMARY}">
                 <font>
                     <Font name="System Regular" size="14"/>
@@ -55,6 +56,7 @@
 
             <JFXTextField fx:id="changeEmailText"
                           promptText="Change Email"
+                          style="-fx-text-fill: white;"
                           focusColor="${Palette.PRIMARY}">
                 <font>
                     <Font name="System Regular" size="14"/>
@@ -63,6 +65,7 @@
 
             <JFXTextField fx:id="oldPasswordText"
                           promptText="Old Password"
+                          style="-fx-text-fill: white;"
                           focusColor="${Palette.PRIMARY}">
                 <font>
                     <Font name="System Regular" size="14"/>
@@ -71,6 +74,7 @@
 
             <JFXTextField fx:id="newPasswordText"
                           promptText="New Password"
+                          style="-fx-text-fill: white;"
                           focusColor="${Palette.PRIMARY}">
                 <font>
                     <Font name="System Regular" size="14"/>
@@ -79,6 +83,7 @@
 
             <JFXTextField fx:id="confirmPasswordText"
                           promptText="Confirm Password"
+                          style="-fx-text-fill: white;"
                           focusColor="${Palette.PRIMARY}">
                 <font>
                     <Font name="System Regular" size="14"/>
