@@ -1,19 +1,15 @@
 package octillect.controllers;
 
 import com.jfoenix.controls.JFXDrawersStack;
-
-import java.util.ArrayList;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 import octillect.Main;
-import octillect.controllers.dialogs.NewBoardDialogController;
-import octillect.controllers.dialogs.NewColumnDialogController;
-import octillect.controllers.dialogs.NewRepositoryDialogController;
-import octillect.controllers.dialogs.NewTaskDialogController;
+import octillect.controllers.dialogs.*;
 import octillect.models.User;
+
+import java.util.ArrayList;
 
 public class ApplicationController {
 
@@ -37,6 +33,7 @@ public class ApplicationController {
     public NewTaskDialogController newTaskDialogController;
     public NewColumnDialogController newColumnDialogController;
     public NewRepositoryDialogController newRepositoryDialogController;
+    public EditColumnDialogController editColumnDialogController;
 
     public ApplicationController() {
 
@@ -64,6 +61,11 @@ public class ApplicationController {
             fxmlLoader.load();
             newRepositoryDialogController = fxmlLoader.getController();
 
+            final String EDIT_COLUMN_DIALOG_VIEW = "/octillect/views/dialogs/EditColumnDialogView.fxml";
+            fxmlLoader = new FXMLLoader(getClass().getResource(EDIT_COLUMN_DIALOG_VIEW));
+            fxmlLoader.load();
+            editColumnDialogController = fxmlLoader.getController();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +80,7 @@ public class ApplicationController {
         descendants.add(newTaskDialogController);
         descendants.add(newColumnDialogController);
         descendants.add(newRepositoryDialogController);
+        descendants.add(editColumnDialogController);
 
         // Add nested & sub-nested controllers to descendants
         descendants.add(rightDrawerController);

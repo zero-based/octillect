@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
+import octillect.controllers.dialogs.EditColumnDialogController;
 import octillect.controllers.dialogs.NewTaskDialogController;
 import octillect.controllers.BoardController;
 import octillect.database.repositories.ColumnRepository;
@@ -49,12 +50,14 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     private ApplicationController applicationController;
     private NewTaskDialogController newTaskDialogController;
     private BoardController boardController;
+    private EditColumnDialogController editColumnDialogController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         newTaskDialogController    = applicationController.newTaskDialogController;
-        boardController = applicationController.boardController;
+        boardController            = applicationController.boardController;
+        editColumnDialogController = applicationController.editColumnDialogController;
     }
 
     @Override
@@ -148,9 +151,8 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
             contextMenu.show(columnMoreButton, Side.RIGHT, 0, 0);
         });
 
-        /* TODO: Add ContextMenu 's methods here */
         editButton.setOnAction(event -> {
-
+            editColumnDialogController.editColumnDialog.show(applicationController.rootStackPane);
         });
 
         deleteButton.setOnAction(event -> {
