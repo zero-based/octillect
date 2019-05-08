@@ -2,8 +2,24 @@ package octillect.database.documents;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class TaskDocument {
+
+    public static class SubTaskMap {
+
+        HashMap<String, String> map = new HashMap();
+
+        public SubTaskMap(String id, String name , boolean isCompleted) {
+            map.put("id", id);
+            map.put("name", name);
+            map.put("isCompleted", String.valueOf(isCompleted));
+        }
+
+        public HashMap<String, String> getMap() {
+            return map;
+        }
+    }
 
     private String id;
     private String name;
@@ -13,7 +29,7 @@ public class TaskDocument {
     private Date creationDate;
     private String creatorId;
     private ArrayList<String> assigneesIds;
-    private ArrayList<String> subTasksIds;
+    private ArrayList<HashMap<String, String>> subTasks;
     private ArrayList<String> tagsIds;
 
     public TaskDocument() {
@@ -83,12 +99,12 @@ public class TaskDocument {
         this.assigneesIds = assigneesIds;
     }
 
-    public ArrayList<String> getSubTasksIds() {
-        return subTasksIds;
+    public ArrayList<HashMap<String, String>> getSubTasks() {
+        return subTasks;
     }
 
-    public void setSubTasksIds(ArrayList<String> subTasksIds) {
-        this.subTasksIds = subTasksIds;
+    public void setSubTasks(ArrayList<HashMap<String, String>> subTasks) {
+        this.subTasks = subTasks;
     }
 
     public ArrayList<String> getTagsIds() {

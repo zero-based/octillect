@@ -1,5 +1,6 @@
 package octillect.controllers.settings;
 
+import com.jfoenix.animation.alert.JFXAlertAnimation$;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
@@ -28,9 +29,11 @@ import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.controls.OButton;
 import octillect.controls.SubTaskCell;
+import octillect.database.firebase.FirestoreAPI;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.models.*;
+import octillect.models.builders.TaskBuilder;
 import octillect.styles.Palette;
 
 import org.controlsfx.control.CheckComboBox;
@@ -61,8 +64,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public CheckComboBox<Tag> tagsCheckComboBox;
     @FXML public OButton addSubTaskButton;
 
-    private Task currentTask;
-    private Column parentColumn;
+    public Task currentTask;
+    public Column parentColumn;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -79,7 +82,11 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @Override
     public void init() {
 
-        subTasksListView.setCellFactory(param -> new SubTaskCell());
+        subTasksListView.setCellFactory(param -> {
+            SubTaskCell subTaskCell = new SubTaskCell();
+            subTaskCell.inject(applicationController);
+            return subTaskCell;
+        });
 
         assigneesCheckComboBox.setConverter(new AssigneesStringConverter());
         tagsCheckComboBox.setConverter(new TagStringConverter());
@@ -151,6 +158,21 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleAddSubTaskButtonAction(MouseEvent mouseEvent) {
+        Task subTask = new TaskBuilder().with($ -> {
+            $.id = FirestoreAPI.getInstance()
+                    .encryptWithDateTime(newSubTaskTextField.getText() + applicationController.user.getName());
+            $.name = newSubTaskTextField.getText();
+            $.isCompleted = false;
+        }).build();
+
+        TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
+
+        subTasksListView.getItems().add(subTask);
+
+        currentTask.getChildren().add(subTask);
+        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
+        int taskIndex = boardController.currentBoard.getChildren().get(columnIndex).getChildren().indexOf(currentTask);
+        boardController.currentBoard.getChildren().get(columnIndex).getChildren().set(taskIndex, currentTask);
     }
 
     @FXML
@@ -179,7 +201,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     public void loadTask(Task task, Column column) {
         parentColumn = column;
-        currentTask = task;
+        currentTask  = task;
 
         loadCreationInfo();
         taskNameTextField.setText(task.getName());

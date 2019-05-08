@@ -4,10 +4,12 @@ import com.google.cloud.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javafx.collections.FXCollections;
 
 import octillect.database.documents.TaskDocument;
+import octillect.database.documents.TaskDocument.SubTaskMap;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.*;
 import octillect.models.builders.TaskBuilder;
@@ -44,11 +46,12 @@ public class TaskRepository implements Repository<Task> {
         }
 
         if (task.getChildren() != null) {
-            ArrayList<String> subTasksIds = new ArrayList<>();
-            for (TaskBase subTasks : task.getChildren()) {
-                subTasksIds.add(subTasks.getId());
+            ArrayList<HashMap<String, String>> subTasks = new ArrayList<>();
+            for (TaskBase subTask : task.getChildren()) {
+                SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(),subTask.getName(),((Task) subTask).getIsCompleted());
+                subTasks.add(subTaskMap.getMap());
             }
-            document.setSubTasksIds(subTasksIds);
+            document.setSubTasks(subTasks);
         }
 
         if (task.getTags() != null) {
@@ -84,10 +87,17 @@ public class TaskRepository implements Repository<Task> {
                 $.assignees = FXCollections.observableArrayList(assignees);
             }
 
-            if (document.getSubTasksIds() != null) {
+            if (document.getSubTasks() != null) {
                 ArrayList<Task> subTasks = new ArrayList<>();
-                for (String subTaskId : document.getSubTasksIds()) {
-                    subTasks.add(TaskRepository.getInstance().get(subTaskId));
+                for (HashMap<String, String> subTaskMap : document.getSubTasks()) {
+
+                    Task subTask = new TaskBuilder().with($_subTask -> {
+                        $_subTask.id          = subTaskMap.get("id");
+                        $_subTask.name        = subTaskMap.get("name");
+                        $_subTask.isCompleted = Boolean.valueOf(subTaskMap.get("isCompleted"));
+                    }).build();
+
+                    subTasks.add(subTask);
                 }
                 $.subTasks = FXCollections.observableArrayList(subTasks);
             }
@@ -133,5 +143,16 @@ public class TaskRepository implements Repository<Task> {
     public void updateAssigneeIds(String taskId, ArrayList<String> assigneeIds) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
     }
+
+    public void addSubTask(String parentTaskId, Task subTask) {
+        SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), subTask.getIsCompleted());
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
+    }
+
+    public void deleteSubTask(String parentTaskId, Task subTask) {
+        SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), subTask.getIsCompleted());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
+    }
+
 
 }
