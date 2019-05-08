@@ -152,6 +152,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         });
 
         editButton.setOnAction(event -> {
+            editColumnDialogController.currentColumn = getItem();
             editColumnDialogController.editColumnDialog.show(applicationController.rootStackPane);
         });
 
