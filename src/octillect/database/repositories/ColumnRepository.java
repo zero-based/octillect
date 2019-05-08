@@ -79,6 +79,10 @@ public class ColumnRepository implements Repository<Column> {
         FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().COLUMNS, columnId, "tasksIds", taskId);
     }
 
+    public void updateName(String columnId, String name) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().COLUMNS, columnId, "name", name);
+    }
+
     public void updateTasksIds(String columnId, ArrayList<String> tasksIds) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().COLUMNS, columnId, "tasksIds", tasksIds);
     }
