@@ -1,3 +1,5 @@
+@import "Palette.css"
+
 .list-view {
     -fx-background-color: transparent;
     -fx-selection-bar: transparent;
@@ -6,4 +8,34 @@
 .list-cell {
     -fx-background-color: transparent;
     -fx-padding: 8px
+}
+
+/*Adjusting Scroll-Bar Style*/
+.list-view .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar-horizontal .increment-button,
+.list-view .scroll-bar-horizontal .decrement-button,
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow {
+    visibility: hidden;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:horizontal .track-background {
+    visibility: hidden;
+}
+
+.list-view .scroll-bar:horizontal .track,
+.list-view .scroll-bar:horizontal .track {
+    visibility: hidden;
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: derive(-o-dark-900, -8%);
+    -fx-background-radius: 12;
 }

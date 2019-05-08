@@ -145,7 +145,7 @@
 
         <VBox spacing="16">
 
-            <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/ListView.css"/>
+            <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/HoverableListView.css"/>
 
             <BorderPane>
 

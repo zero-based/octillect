@@ -8,6 +8,7 @@
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
+<?import javafx.scene.text.Font?>
 <BorderPane xmlns="http://javafx.com/javafx/"
             xmlns:fx="http://javafx.com/fxml/"
             fx:id="subTaskBorderPane">
@@ -19,7 +20,11 @@
     <left>
         <JFXCheckBox fx:id="subTaskCheckBox"
                      checkedColor="${Palette.PRIMARY}"
-                     textFill="${Palette.PRIMARY_DARK}"/>
+                     textFill="${Palette.PRIMARY_DARK}">
+                <font>
+                    <Font name="Product Sans" size="16"/>
+                </font>
+        </JFXCheckBox>
     </left>
 
     <right>
