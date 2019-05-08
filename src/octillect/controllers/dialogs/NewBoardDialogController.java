@@ -6,8 +6,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import java.util.Calendar;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -16,19 +14,12 @@ import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controls.OButton;
-import octillect.database.repositories.ColumnRepository;
-import octillect.database.repositories.BoardRepository;
-import octillect.database.repositories.TaskRepository;
-import octillect.database.repositories.UserRepository;
-import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Column;
+import octillect.database.repositories.*;
 import octillect.models.Board;
-import octillect.models.Contributor;
+import octillect.models.Column;
+import octillect.models.Tag;
 import octillect.models.Task;
-import octillect.models.builders.ColumnBuilder;
-import octillect.models.builders.BoardBuilder;
-import octillect.models.builders.ContributorBuilder;
-import octillect.models.builders.TaskBuilder;
+import octillect.models.TaskBase;
 
 public class NewBoardDialogController implements Injectable<ApplicationController> {
 
@@ -69,45 +60,23 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
         newBoardNameTextField.validate();
         if (!requiredFieldValidator.getHasErrors()) {
 
-            Contributor owner = new ContributorBuilder().with($ -> {
-                $.id    = applicationController.user.getId();
-                $.name  = applicationController.user.getName();
-                $.email = applicationController.user.getEmail();
-                $.image = applicationController.user.getImage();
-                $.role  = Board.Role.owner;
-            }).build();
-
-            Board newBoard = new BoardBuilder()
-                    .withId(FirestoreAPI.getInstance().encryptWithDateTime(newBoardNameTextField.getText()))
-                    .withName(newBoardNameTextField.getText())
-                    .withDescription(newBoardDescriptionTextArea.getText())
-                    .withContributors(FXCollections.observableArrayList(owner))
-                    .build();
-
-            // Add column.
-            Column untitledColumn = new ColumnBuilder()
-                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Untitled Column" + applicationController.user.getId()))
-                    .withName("Untitled Column")
-                    .build();
-
-            newBoard.setChildren(FXCollections.observableArrayList(untitledColumn));
-
-            // Add task.
-            Task untitledTask = new TaskBuilder()
-                    .withId(FirestoreAPI.getInstance().encryptWithDateTime("Untitled Task" + applicationController.user.getId()))
-                    .withName("Untitled Task")
-                    .withIsCompleted(false)
-                    .withCreationDate(Calendar.getInstance().getTime())
-                    .withCreator(owner)
-                    .build();
-
-            untitledColumn.setChildren(FXCollections.observableArrayList(untitledTask));
+            Board newBoard = new Board.TemplateBoard(newBoardNameTextField.getText(),
+                    newBoardDescriptionTextArea.getText(), applicationController.user);
 
             // Accessing the database.
             UserRepository.getInstance().addBoardId(applicationController.user.getId(), newBoard.getId());
             BoardRepository.getInstance().add(newBoard);
-            ColumnRepository.getInstance().add(untitledColumn);
-            TaskRepository.getInstance().add(untitledTask);
+
+            for (TaskBase column : newBoard.getChildren()){
+                ColumnRepository.getInstance().add((Column) column);
+                for (TaskBase task : column.getChildren()){
+                    TaskRepository.getInstance().add((Task) task);
+                }
+            }
+
+            for (Tag tag : newBoard.getTags()){
+                TagRepository.getInstance().add(tag);
+            }
 
             boardController.loadBoard(newBoard);
             leftDrawerController.userBoardsListView.getItems().add(newBoard);
