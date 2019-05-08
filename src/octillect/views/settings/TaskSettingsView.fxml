@@ -155,7 +155,6 @@
 
                 <left>
                     <JFXTextField fx:id="newSubTaskTextField"
-                                  prefColumnCount="40"
                                   promptText="or Add New Sub-Task"
                                   focusColor="${Palette.PRIMARY}"
                                   focusTraversable="false"
