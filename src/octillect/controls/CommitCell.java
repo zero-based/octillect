@@ -2,8 +2,7 @@ package octillect.controls;
 
 import java.awt.Desktop;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,17 +10,20 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import octillect.models.Commit;
 
 public class CommitCell extends ListCell<Commit> {
 
     //FXML Fields
-    @FXML public GridPane commitCellGridPane;
-    @FXML public Hyperlink commitSubject;
-    @FXML public Label commitAuthor;
-    @FXML public Label commitDate;
-    @FXML public Label commitBody;
+    @FXML private GridPane commitCellGridPane;
+    @FXML private Circle authorAvatarCircle;
+    @FXML private Hyperlink subjectHyperlink;
+    @FXML private Label bodyLabel;
+    @FXML private Label authorUsernameLabel;
+    @FXML private Label dateLabel;
 
     @Override
     public void updateItem(Commit commitItem, boolean empty) {
@@ -42,18 +44,23 @@ public class CommitCell extends ListCell<Commit> {
             e.printStackTrace();
         }
 
-        String commitMessage =  commitItem.getSubject();
-        commitMessage = commitMessage.length() >= 50 ? commitMessage.substring(0, 50) + "..." : commitMessage;
-        commitSubject.setText(commitMessage);
+        // Modifying Values
+        String subject = commitItem.getSubject();
+        subject = subject.length() <= 50 ? subject : subject.substring(0, 50) + "...";
 
-        commitAuthor.setText(commitItem.getAuthorName());
-        commitDate.setText(commitItem.getDate().toString());
-        commitBody.setText(commitItem.getBody());
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, HH:mm");
+        String date = sdf.format(commitItem.getDate());
 
-        commitSubject.setOnMouseClicked(event -> {
+        authorAvatarCircle.setFill(new ImagePattern(commitItem.getAuthorAvatar()));
+        subjectHyperlink.setText(subject);
+        bodyLabel.setText(commitItem.getBody());
+        authorUsernameLabel.setText(commitItem.getAuthorUsername());
+        dateLabel.setText(date);
+
+        subjectHyperlink.setOnMouseClicked(event -> {
             try {
-                Desktop.getDesktop().browse(new URI(commitItem.url));
-            } catch (IOException | URISyntaxException e) {
+                Desktop.getDesktop().browse(commitItem.getUrl());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });

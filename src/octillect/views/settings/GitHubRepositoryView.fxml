@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
@@ -17,10 +16,7 @@
            fx:controller="octillect.controllers.settings.GitHubRepositoryController"
            stylesheets="@/octillect/styles/Palette.css">
 
-    <VBox spacing="32">
-        <padding>
-            <Insets left="48" right="48"/>
-        </padding>
+    <VBox fx:id="repositoryVBox" spacing="32" alignment="TOP_CENTER">
 
         <fx:define>
             <Palette fx:id="Palette"/>
@@ -39,19 +35,37 @@
                 </font>
             </Label>
 
+            <FontIcon iconLiteral="gmi-edit"
+                      iconColor="${Palette.DARK_300}"
+                      iconSize="16"
+                      onMouseClicked="#handleEditRepositoryNameMouseClicked"/>
+
         </HBox>
 
-        <ListView fx:id="commitsHistoryListView"
-                  VBox.vgrow="ALWAYS"
-                  translateX="16"
-                  stylesheets="@/octillect/styles/CommitsHistoryListView.css"/>
+        <StackPane VBox.vgrow="ALWAYS">
+
+            <ListView fx:id="commitsListView"
+                      maxWidth="480"
+                      translateX="8"
+                      stylesheets="@/octillect/styles/CommitsListView.css"/>
+
+            <Label fx:id="invalidRepositoryLabel"
+                   text="Repository doesn't exist."
+                   textAlignment="CENTER"
+                   textFill="${Palette.PRIMARY_DARK}">
+                <font>
+                    <Font name="Product Sans Regular" size="16"/>
+                </font>
+            </Label>
+
+        </StackPane>
+
     </VBox>
 
     <Label fx:id="noGitHubFileFoundLabel"
-           text="Please check your ~/.github file!!"
+           text="Please check your ~/.github file."
            textAlignment="CENTER"
-           textFill="${Palette.PRIMARY_DARK}"
-            opacity="0">
+           textFill="${Palette.PRIMARY_DARK}">
         <font>
             <Font name="Product Sans Regular" size="16"/>
         </font>

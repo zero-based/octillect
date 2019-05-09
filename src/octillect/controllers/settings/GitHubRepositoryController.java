@@ -1,95 +1,125 @@
 package octillect.controllers.settings;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
+import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controls.CommitCell;
 import octillect.models.Commit;
 import octillect.models.builders.CommitBuilder;
+
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
-import javax.swing.filechooser.FileSystemView;
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 public class GitHubRepositoryController implements Injectable<ApplicationController> {
 
     //FXML Fields
-    @FXML public ListView<Commit> commitsHistoryListView;
+    @FXML public VBox repositoryVBox;
+    @FXML public ListView<Commit> commitsListView;
     @FXML public Label repositoryNameLabel;
+    @FXML public Label invalidRepositoryLabel;
     @FXML public Label noGitHubFileFoundLabel;
 
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
+    private RepositoryNameDialogController repositoryNameDialogController;
 
 
     @Override
     public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        boardController            = applicationController.boardController;
+        this.applicationController     = applicationController;
+        boardController                = applicationController.boardController;
+        repositoryNameDialogController = applicationController.repositoryNameDialogController;
     }
 
     @Override
     public void init() {
-        commitsHistoryListView.setCellFactory(param -> new CommitCell());
+        commitsListView.setCellFactory(param -> new CommitCell());
     }
 
-    public void loadGithubRepository() {
+    public void loadGitHubRepository() {
 
         try {
 
-            GitHub github = GitHub.connect();
-            GHRepository repo = github.getRepository(boardController.currentBoard.getRepositoryName());
-
-            int commitsCounter = 0;
-            ObservableList<Commit> commits = FXCollections.observableArrayList();
-
-            for (GHCommit commit : repo.listCommits()) {
-
-                if (commitsCounter > 15) {
-                    break;
-                }
-
-                String message = commit.getCommitShortInfo().getMessage();
-                int index = message.indexOf('\n');
-                String subject = index == -1 ? message : message.substring(0, index);
-                String body = index == -1 ? null : message.substring(index + 2);
-
-                String authorName = commit.getAuthor().getName();
-                Date date = commit.getCommitDate();
-                String url = commit.getHtmlUrl().toString();
-
-                Commit commitModel = new CommitBuilder().with($ -> {
-                    $.subject = subject;
-                    $.body = body;
-                    $.authorName = authorName;
-                    $.date = date;
-                    $.url = url;
-                }).build();
-
-                commits.add(commitModel);
-                commitsCounter++;
-            }
-
-            noGitHubFileFoundLabel.setOpacity(0);
-            commitsHistoryListView.setItems(commits);
+            commitsListView.getItems().clear();
             repositoryNameLabel.setText(boardController.currentBoard.getRepositoryName());
 
+            repositoryVBox.setOpacity(1);
+            commitsListView.setOpacity(1);
+            invalidRepositoryLabel.setOpacity(0);
+            noGitHubFileFoundLabel.setOpacity(0);
+
+            GitHub github = GitHub.connect();
+
+            try {
+
+                GHRepository repository = github.getRepository(boardController.currentBoard.getRepositoryName());
+
+                int commitsLimit = 15;
+                List<GHCommit> commits = repository.listCommits()._iterator(commitsLimit).nextPage();
+
+                for (GHCommit commit : commits) {
+
+                    URI url   = commit.getHtmlUrl().toURI();
+                    Date date = commit.getCommitDate();
+
+                    String message = commit.getCommitShortInfo().getMessage();
+                    int index      = message.indexOf('\n');
+                    String subject = index == -1 ? message : message.substring(0, index);
+                    String body    = index == -1 ? null : message.substring(index + 2);
+
+                    String authorUsername  = commit.getAuthor().getLogin();
+                    String authorAvatarUrl = commit.getAuthor().getAvatarUrl().replace("s=460", "s=128");
+                    Image authorAvatar     = new Image(authorAvatarUrl);
+
+                    Commit commitModel = new CommitBuilder().with($ -> {
+                        $.url            = url;
+                        $.subject        = subject;
+                        $.body           = body;
+                        $.authorUsername = authorUsername;
+                        $.authorAvatar   = authorAvatar;
+                        $.date           = date;
+                    }).build();
+
+                    commitsListView.getItems().add(commitModel);
+                }
+
+            } catch (IOException e) {
+                // If the given Repository name is invalid
+                commitsListView.setOpacity(0);
+                invalidRepositoryLabel.setOpacity(1);
+                noGitHubFileFoundLabel.setOpacity(0);
+            } catch (URISyntaxException e) {
+                e.getReason();
+            }
+
         } catch (IOException e) {
+            // If ~/.github is not found
+            repositoryVBox.setOpacity(0);
+            invalidRepositoryLabel.setOpacity(0);
             noGitHubFileFoundLabel.setOpacity(1);
         }
 
+    }
+
+    public void handleEditRepositoryNameMouseClicked(MouseEvent mouseEvent) {
+        repositoryNameDialogController.repositoryNameTextField.setText(boardController.currentBoard.getRepositoryName());
+        repositoryNameDialogController.repositoryNameDialog.show(applicationController.rootStackPane);
     }
 
 }

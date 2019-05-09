@@ -32,8 +32,8 @@
                    orientation="VERTICAL"
                    stylesheets="@/octillect/styles/Separator.css"/>
 
-        <Circle radius="18"
-                style="-fx-fill: transparent;"
+        <Circle fx:id="authorAvatarCircle"
+                radius="18"
                 stroke="${Palette.DARK_300}"
                 strokeWidth="3"/>
 
@@ -43,7 +43,7 @@
           GridPane.columnIndex="1"
           alignment="BOTTOM_LEFT">
 
-        <Hyperlink fx:id="commitSubject"
+        <Hyperlink fx:id="subjectHyperlink"
                    translateX="-4"
                    textFill="${Palette.DARK_300}"
                    focusTraversable="false">
@@ -55,9 +55,9 @@
         <HBox>
             <FontIcon iconLiteral="oct-history"
                       iconColor="${Palette.DARK_300}"
-                      iconSize="17"/>
+                      iconSize="16"/>
 
-            <Label fx:id="commitAuthor"
+            <Label fx:id="authorUsernameLabel"
                    textFill="${Palette.DARK_300}">
                 <font>
                     <Font name="Product Sans Bold Italic" size="14"/>
@@ -71,7 +71,7 @@
                 </font>
             </Label>
 
-            <Label fx:id="commitDate"
+            <Label fx:id="dateLabel"
                    textFill="${Palette.DARK_300}">
                 <font>
                     <Font name="Product Sans Regular" size="13"/>
@@ -89,10 +89,12 @@
                orientation="VERTICAL"
                stylesheets="@/octillect/styles/Separator.css"/>
 
-    <Label fx:id="commitBody"
+    <Label fx:id="bodyLabel"
            GridPane.rowIndex="1"
            GridPane.columnIndex="1"
-           textFill="${Palette.DARK_300}">
+           textFill="${Palette.DARK_300}"
+           prefWidth="400"
+           wrapText="true">
         <padding>
             <Insets top="8" bottom="8"/>
         </padding>

@@ -1,12 +1,14 @@
 package octillect.controllers.dialogs;
 
-import com.jfoenix.validation.RequiredFieldValidator;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
@@ -16,11 +18,11 @@ import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.OButton;
 import octillect.database.firebase.FirestoreAPI;
 
-public class NewRepositoryDialogController implements Injectable<ApplicationController> {
+public class RepositoryNameDialogController implements Injectable<ApplicationController> {
 
     //FXML Fields
-    @FXML public JFXDialog newRepoDialog;
-    @FXML public JFXTextField usernameAndRepositoryNameTextField;
+    @FXML public JFXDialog repositoryNameDialog;
+    @FXML public JFXTextField repositoryNameTextField;
     @FXML public OButton addRepositoryButton;
 
     // Injected Controllers
@@ -30,15 +32,22 @@ public class NewRepositoryDialogController implements Injectable<ApplicationCont
     private GitHubRepositoryController gitHubRepositoryController;
 
     // Empty field validation
-    RequiredFieldValidator requiredFieldValidator;
+    private RequiredFieldValidator requiredFieldValidator;
+    private RegexValidator nameRegexValidator;
 
     @Override
     public void init(){
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        usernameAndRepositoryNameTextField.getValidators().add(requiredFieldValidator);
-        usernameAndRepositoryNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        nameRegexValidator     = new RegexValidator("Invalid repository name.");
+
+        nameRegexValidator.setRegexPattern("^(?=.*?[0-9a-zA-Z])[0-9a-zA-Z]*[/][0-9a-zA-Z]*$");
+
+        repositoryNameTextField.getValidators().add(requiredFieldValidator);
+        repositoryNameTextField.getValidators().add(nameRegexValidator);
+
+        repositoryNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                usernameAndRepositoryNameTextField.validate();
+                repositoryNameTextField.validate();
             }
         });
     }
@@ -49,28 +58,33 @@ public class NewRepositoryDialogController implements Injectable<ApplicationCont
         rightDrawerController      = applicationController.rightDrawerController;
         boardController            = applicationController.boardController;
         gitHubRepositoryController = rightDrawerController.gitHubRepositoryController;
-
     }
 
     @FXML
     public void handleAddRepositoryButtonAction(ActionEvent actionEvent) {
-        usernameAndRepositoryNameTextField.validate();
-        if (!requiredFieldValidator.getHasErrors()) {
-            FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardController.currentBoard.getId(), "repositoryName", usernameAndRepositoryNameTextField.getText());
+
+        repositoryNameTextField.validate();
+
+        if (!requiredFieldValidator.getHasErrors() && !nameRegexValidator.getHasErrors()) {
+
+            FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardController.currentBoard.getId(), "repositoryName", repositoryNameTextField.getText());
+
             int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
-            applicationController.user.getBoards().get(index).setRepositoryName(usernameAndRepositoryNameTextField.getText());
-            boardController.currentBoard.setRepositoryName(usernameAndRepositoryNameTextField.getText());
-            gitHubRepositoryController.loadGithubRepository();
+            applicationController.user.getBoards().get(index).setRepositoryName(repositoryNameTextField.getText());
+            boardController.currentBoard.setRepositoryName(repositoryNameTextField.getText());
+            gitHubRepositoryController.loadGitHubRepository();
+
             rightDrawerController.show(rightDrawerController.gitHubRepository);
             applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
-            newRepoDialog.close();
+
+            repositoryNameDialog.close();
         }
     }
 
     @FXML
     public void handleNewRepoDialogClosed(JFXDialogEvent jfxDialogEvent) {
-        usernameAndRepositoryNameTextField.resetValidation();
-        usernameAndRepositoryNameTextField.setText("");
-        usernameAndRepositoryNameTextField.setText("");
+        repositoryNameTextField.resetValidation();
+        repositoryNameTextField.setText("");
+        repositoryNameTextField.setText("");
     }
 }

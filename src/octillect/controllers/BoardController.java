@@ -8,7 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
 import octillect.controllers.dialogs.NewColumnDialogController;
-import octillect.controllers.dialogs.NewRepositoryDialogController;
+import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.TasksColumn;
@@ -35,19 +35,19 @@ public class BoardController implements Injectable<ApplicationController> {
     private RightDrawerController rightDrawerController;
     private LeftDrawerController leftDrawerController;
     private BoardSettingsController boardSettingsController;
-    private NewRepositoryDialogController newRepositoryDialogController;
+    private RepositoryNameDialogController repositoryNameDialogController;
     private GitHubRepositoryController gitHubRepositoryController;
 
     @Override
     public void inject(ApplicationController applicationController) {
-        this.applicationController    = applicationController;
-        titleBarController            = applicationController.titleBarController;
-        newColumnDialogController     = applicationController.newColumnDialogController;
-        rightDrawerController         = applicationController.rightDrawerController;
-        leftDrawerController          = applicationController.leftDrawerController;
-        newRepositoryDialogController = applicationController.newRepositoryDialogController;
-        boardSettingsController       = rightDrawerController.boardSettingsController;
-        gitHubRepositoryController    = rightDrawerController.gitHubRepositoryController;
+        this.applicationController     = applicationController;
+        titleBarController             = applicationController.titleBarController;
+        newColumnDialogController      = applicationController.newColumnDialogController;
+        rightDrawerController          = applicationController.rightDrawerController;
+        leftDrawerController           = applicationController.leftDrawerController;
+        repositoryNameDialogController = applicationController.repositoryNameDialogController;
+        boardSettingsController        = rightDrawerController.boardSettingsController;
+        gitHubRepositoryController     = rightDrawerController.gitHubRepositoryController;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class BoardController implements Injectable<ApplicationController> {
         boardSettingsController.loadBoardSettings();
 
         if (currentBoard.getRepositoryName() != null) {
-            gitHubRepositoryController.loadGithubRepository();
+            gitHubRepositoryController.loadGitHubRepository();
         }
 
         // Populate Board Columns
@@ -91,7 +91,7 @@ public class BoardController implements Injectable<ApplicationController> {
             rightDrawerController.show(rightDrawerController.gitHubRepository);
             applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
         } else {
-            newRepositoryDialogController.newRepoDialog.show(applicationController.rootStackPane);
+            repositoryNameDialogController.repositoryNameDialog.show(applicationController.rootStackPane);
         }
     }
 
