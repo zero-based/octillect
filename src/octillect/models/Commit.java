@@ -1,30 +1,34 @@
 package octillect.models;
 
+import java.net.URI;
 import java.util.Date;
+
+import javafx.scene.image.Image;
 
 public class Commit {
 
-    public String url;
-    public String subject;
-    public String body;
-    public String authorName;
-    public Date date;
+    private URI url;
+    private String subject;
+    private String body;
+    private String authorUsername;
+    private Image authorAvatar;
+    private Date date;
 
-
-    public Commit(String url, String subject, String body, String authorName, Date date) {
+    public Commit(URI url, String subject, String body, String authorUsername, Image authorAvatar, Date date) {
         this.url = url;
         this.subject = subject;
         this.body = body;
-        this.authorName = authorName;
+        this.authorUsername = authorUsername;
+        this.authorAvatar = authorAvatar;
         this.date = date;
     }
 
 
-    public String getUrl() {
+    public URI getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(URI url) {
         this.url = url;
     }
 
@@ -47,12 +51,21 @@ public class Commit {
     }
 
 
-    public String getAuthorName() {
-        return authorName;
+    public String getAuthorUsername() {
+        return authorUsername;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+    }
+
+
+    public Image getAuthorAvatar() {
+        return authorAvatar;
+    }
+
+    public void setAuthorAvatar(Image authorAvatar) {
+        this.authorAvatar = authorAvatar;
     }
 
 

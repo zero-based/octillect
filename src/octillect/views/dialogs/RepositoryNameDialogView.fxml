@@ -12,8 +12,8 @@
 
 <JFXDialog xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
-           fx:controller="octillect.controllers.dialogs.NewRepositoryDialogController"
-           fx:id="newRepoDialog"
+           fx:controller="octillect.controllers.dialogs.RepositoryNameDialogController"
+           fx:id="repositoryNameDialog"
            stylesheets="@/octillect/styles/Palette.css"
            transitionType="CENTER"
            onDialogClosed="#handleNewRepoDialogClosed">
@@ -34,7 +34,7 @@
         <Label text="Repository Name"
                textFill="white"/>
 
-        <JFXTextField fx:id="usernameAndRepositoryNameTextField"
+        <JFXTextField fx:id="repositoryNameTextField"
                       promptText="username/repository-name"
                       focusColor="${Palette.PRIMARY}"
                       style="-fx-text-fill: white;"

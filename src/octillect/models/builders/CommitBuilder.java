@@ -1,15 +1,20 @@
 package octillect.models.builders;
 
-import octillect.models.Commit;
+import java.net.URI;
 import java.util.Date;
 import java.util.function.Consumer;
 
+import javafx.scene.image.Image;
+
+import octillect.models.Commit;
+
 public class CommitBuilder implements Builder<Commit, CommitBuilder> {
 
-    public String url;
+    public URI url;
     public String subject;
     public String body;
-    public String authorName;
+    public String authorUsername;
+    public Image authorAvatar;
     public Date date;
 
     @Override
@@ -20,10 +25,11 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
 
     @Override
     public Commit build() {
-        return new Commit(url, subject, body, authorName, date);
+        return new Commit(url, subject, body, authorUsername, authorAvatar, date);
     }
 
-    public CommitBuilder withURL(String url) {
+
+    public CommitBuilder withURL(URI url) {
         this.url = url;
         return this;
     }
@@ -38,8 +44,13 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
         return this;
     }
 
-    public CommitBuilder withAuthorName(String committerName) {
-        this.authorName = committerName;
+    public CommitBuilder withAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+        return this;
+    }
+
+    public CommitBuilder withAuthorAvatar(Image authorAvatar) {
+        this.authorAvatar = authorAvatar;
         return this;
     }
 
@@ -47,4 +58,5 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
         this.date = date;
         return this;
     }
+
 }

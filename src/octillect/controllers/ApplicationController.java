@@ -32,7 +32,7 @@ public class ApplicationController {
     public NewBoardDialogController newBoardDialogController;
     public NewTaskDialogController newTaskDialogController;
     public NewColumnDialogController newColumnDialogController;
-    public NewRepositoryDialogController newRepositoryDialogController;
+    public RepositoryNameDialogController repositoryNameDialogController;
     public EditColumnDialogController editColumnDialogController;
 
     public ApplicationController() {
@@ -56,10 +56,10 @@ public class ApplicationController {
             fxmlLoader.load();
             newColumnDialogController = fxmlLoader.getController();
 
-            final String NEW_REPOSITORY_DIALOG_VIEW = "/octillect/views/dialogs/NewRepositoryDialogView.fxml";
-            fxmlLoader = new FXMLLoader(getClass().getResource(NEW_REPOSITORY_DIALOG_VIEW));
+            final String REPOSITORY_NAME_DIALOG_VIEW = "/octillect/views/dialogs/RepositoryNameDialogView.fxml";
+            fxmlLoader = new FXMLLoader(getClass().getResource(REPOSITORY_NAME_DIALOG_VIEW));
             fxmlLoader.load();
-            newRepositoryDialogController = fxmlLoader.getController();
+            repositoryNameDialogController = fxmlLoader.getController();
 
             final String EDIT_COLUMN_DIALOG_VIEW = "/octillect/views/dialogs/EditColumnDialogView.fxml";
             fxmlLoader = new FXMLLoader(getClass().getResource(EDIT_COLUMN_DIALOG_VIEW));
@@ -79,7 +79,7 @@ public class ApplicationController {
         descendants.add(newBoardDialogController);
         descendants.add(newTaskDialogController);
         descendants.add(newColumnDialogController);
-        descendants.add(newRepositoryDialogController);
+        descendants.add(repositoryNameDialogController);
         descendants.add(editColumnDialogController);
 
         // Add nested & sub-nested controllers to descendants
