@@ -1,0 +1,60 @@
+<section id="highlights">
+
+    {% for highlight in site.highlights %}
+
+    {% assign mod = forloop.index | modulo: 2 %}
+
+    {% if mod == 0 %}
+
+    <div class="content-section-a">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-5 col-sm-6 mb-auto">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">{{ highlight.title }}</h2>
+                    <div class="lead">{{ highlight.content }}</div>
+                </div>
+
+                <div class="col-lg-5 col-sm-6 my-auto ml-auto">
+                    <img class="img-fluid" src="{{ highlight.img }}" alt="">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row align-items-start">
+
+                <div class="col-lg-5 col-sm-6 my-auto mr-auto">
+                    <img class="img-fluid" src="{{ highlight.img }}" alt="">
+                </div>
+
+                <div class="col-lg-6 col-sm-6 mb-auto">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">{{ highlight.title }}</h2>
+                    <div class="lead">{{ highlight.content }}</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+</section>

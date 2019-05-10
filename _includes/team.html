@@ -1,0 +1,20 @@
+<section id="team" class="container-fluid py-5 bg-dark text-light">
+
+    <div class="row justify-content-center">
+
+      <div class="col-12 mb-4 text-center">
+        <h3>Meet the Team</h3>
+      </div>
+
+      {% for member in site.data.team %}
+      <div class="col-lg-1 col-6 m-3 text-center">
+        <a href="https://github.com/{{ member.username }}">
+          <img src="{{ member.image }}" class="figure-img img-fluid rounded-circle" alt="{{ member.name }}">
+        </a>
+        <h6>{{ member.name }}</h6>
+      </div>
+      {% endfor %}
+
+    </div>
+
+</section>

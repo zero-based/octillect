@@ -1,0 +1,13 @@
+# Site settings
+title: Octillect
+description: An Intellectual Octopus for managing your tasks and projects.
+repository: MonicaTanios/octillect
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+collections:
+
+  highlights:
+    output: true  

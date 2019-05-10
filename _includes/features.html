@@ -1,0 +1,23 @@
+<section id="features" class="bg-light py-5">
+
+  <div class="container">
+
+    <div class="row justify-content-center">
+
+      <div class="col-12 mb-4 text-center">
+        <h2>Features</h2>
+      </div>
+
+      {% for feature in site.data.features %}
+      <div class="col-lg-3 col-md-6 text-center py-3">
+        <i class="fa-4x {{ feature.icon }}"></i>
+        <h3 class="mt-2">{{ feature.title }}</h3>
+        <p class="text-muted">{{ feature.description }}</p>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+</section>
