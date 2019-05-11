@@ -22,10 +22,13 @@ h3 {
     color: #f8f8f8;
     background: url(../assets/octo.png) no-repeat center center;
     background-size: cover;
+}
+
+.dark-background {
     background-color: #1b1b1b;
 }
 
-.network-name {
+.button {
     text-transform: uppercase;
     font-size: 14px;
     font-weight: 400;
