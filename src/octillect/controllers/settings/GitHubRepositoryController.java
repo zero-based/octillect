@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
@@ -73,6 +75,8 @@ public class GitHubRepositoryController implements Injectable<ApplicationControl
                 int commitsLimit = 15;
                 List<GHCommit> commits = repository.listCommits()._iterator(commitsLimit).nextPage();
 
+                HashMap<String, ImagePattern> avatars = new HashMap<>();
+
                 for (GHCommit commit : commits) {
 
                     URI url   = commit.getHtmlUrl().toURI();
@@ -85,7 +89,14 @@ public class GitHubRepositoryController implements Injectable<ApplicationControl
 
                     String authorUsername  = commit.getAuthor().getLogin();
                     String authorAvatarUrl = commit.getAuthor().getAvatarUrl().replace("s=460", "s=128");
-                    Image authorAvatar     = new Image(authorAvatarUrl);
+
+                    ImagePattern authorAvatar;
+                    if (avatars.containsKey(authorAvatarUrl)) {
+                        authorAvatar = avatars.get(authorAvatarUrl);
+                    } else {
+                        authorAvatar = new ImagePattern(new Image(authorAvatarUrl));
+                        avatars.put(authorAvatarUrl, authorAvatar);
+                    }
 
                     Commit commitModel = new CommitBuilder().with($ -> {
                         $.url            = url;

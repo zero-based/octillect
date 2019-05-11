@@ -3,7 +3,7 @@ package octillect.models;
 import java.net.URI;
 import java.util.Date;
 
-import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 public class Commit {
 
@@ -11,10 +11,10 @@ public class Commit {
     private String subject;
     private String body;
     private String authorUsername;
-    private Image authorAvatar;
+    private ImagePattern authorAvatar;
     private Date date;
 
-    public Commit(URI url, String subject, String body, String authorUsername, Image authorAvatar, Date date) {
+    public Commit(URI url, String subject, String body, String authorUsername, ImagePattern authorAvatar, Date date) {
         this.url = url;
         this.subject = subject;
         this.body = body;
@@ -60,11 +60,11 @@ public class Commit {
     }
 
 
-    public Image getAuthorAvatar() {
+    public ImagePattern getAuthorAvatar() {
         return authorAvatar;
     }
 
-    public void setAuthorAvatar(Image authorAvatar) {
+    public void setAuthorAvatar(ImagePattern authorAvatar) {
         this.authorAvatar = authorAvatar;
     }
 

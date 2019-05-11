@@ -48,10 +48,10 @@ public class CommitCell extends ListCell<Commit> {
         String subject = commitItem.getSubject();
         subject = subject.length() <= 50 ? subject : subject.substring(0, 50) + "...";
 
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
         String date = sdf.format(commitItem.getDate());
 
-        authorAvatarCircle.setFill(new ImagePattern(commitItem.getAuthorAvatar()));
+        authorAvatarCircle.setFill(commitItem.getAuthorAvatar());
         subjectHyperlink.setText(subject);
         bodyLabel.setText(commitItem.getBody());
         authorUsernameLabel.setText(commitItem.getAuthorUsername());
