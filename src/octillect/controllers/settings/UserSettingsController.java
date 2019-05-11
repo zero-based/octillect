@@ -27,15 +27,13 @@ import octillect.models.TaskBase;
 public class UserSettingsController implements Injectable<ApplicationController> {
 
     //Fxml fields
-    @FXML public TitledPane profileTitledPane;
-    @FXML public TitledPane passwordTitledPane;
-    @FXML public TitledPane logOutTitlePane;
     @FXML public JFXTextField nameTextField;
     @FXML public JFXTextField emailTextField;
     @FXML public JFXPasswordField newPasswordPasswordField;
     @FXML public JFXPasswordField oldPasswordPasswordField;
     @FXML public JFXPasswordField confirmPasswordPasswordField;
 
+    // Validators
     private RequiredFieldValidator requiredFieldValidator;
     private RegexValidator emailValidator;
     private RegexValidator emailUsedValidator;
@@ -171,7 +169,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
     }
 
     @FXML
-    public void handleLogOutButton(MouseEvent mouseEvent) {
+    public void handleLogOutButtonAction(MouseEvent mouseEvent) {
         Main.applicationStage.close();
         Main.signingStage.show();
 
@@ -183,13 +181,6 @@ public class UserSettingsController implements Injectable<ApplicationController>
     private void LoadUserSettings() {
         nameTextField.setText(applicationController.user.getName());
         emailTextField.setText(applicationController.user.getEmail());
-    }
-
-    @FXML
-    public void handleTitledPaneOnAction(MouseEvent mouseEvent) {
-        profileTitledPane.setExpanded(false);
-        passwordTitledPane.setExpanded(false);
-        ((TitledPane) mouseEvent.getSource()).setExpanded(true);
     }
 
     private void updateUser(String updatedEmail) {

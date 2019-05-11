@@ -36,10 +36,6 @@ import octillect.models.builders.TagBuilder;
 public class BoardSettingsController implements Injectable<ApplicationController> {
 
     //FXML Fields
-    @FXML public TitledPane editNameTitledPane;
-    @FXML public TitledPane editDescriptionTitledPane;
-    @FXML public TitledPane contributorsTitledPane;
-    @FXML public TitledPane tagsTitledPane;
     @FXML public TitledPane deleteBoardTitledPane;
     @FXML public BorderPane newContributorBorderPane;
     @FXML public BorderPane newTagBorderPane;
@@ -121,16 +117,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
     }
 
-    @FXML
-    public void handleTitledPaneOnAction(MouseEvent mouseEvent) {
-        editNameTitledPane.setExpanded(false);
-        editDescriptionTitledPane.setExpanded(false);
-        contributorsTitledPane.setExpanded(false);
-        tagsTitledPane.setExpanded(false);
-        ((TitledPane) mouseEvent.getSource()).setExpanded(true);
-    }
-
-    @FXML
     public void handleAddContributorButtonAction(MouseEvent mouseEvent) {
 
         resetRequiredFieldValidators();
