@@ -170,12 +170,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleLogOutButtonAction(MouseEvent mouseEvent) {
-        Main.applicationStage.close();
-        Main.signingStage.show();
-
-        if (Main.octillectFile.exists()) {
-            Main.octillectFile.delete();
-        }
+        Main.showSigningStage();
     }
 
     private void LoadUserSettings() {

@@ -27,7 +27,7 @@ public class Main extends Application {
     public static File octillectFile = new File(FileSystemView.getFileSystemView().getHomeDirectory().getParent() + "/.octillet");
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         //Initialize Firebase connection
         Connection.getInstance();
@@ -35,38 +35,39 @@ public class Main extends Application {
         // Load Application Fonts
         Fonts.load();
 
-        if (octillectFile.exists()) {
-            signedUser = UserRepository.getInstance().getRememberedUser();
-            if (signedUser == null) {
-                octillectFile.delete();
-            }
-        }
+        signedUser = UserRepository.getInstance().getRememberedUser();
+        initSigningStage(primaryStage);
 
-        if (signedUser != null) {
-            runApplication(signedUser);
+        if (signedUser == null) {
+            showSigningStage();
         } else {
-            // Create Signing Stage and Sign in Scene
-            Parent root = FXMLLoader.load(getClass().getResource("views/SignInView.fxml"));
-            signingStage = primaryStage;
-            signingStage.setTitle("Octillect | Sign in/up");
-            signingStage.setScene(new Scene(root));
-            signingStage.show();
-
-            // Set stage Icon
-            signingStage.getIcons().add(O_ICON);
-
-            // Center stage according to screen
-            double screenWidth  = Screen.getPrimary().getVisualBounds().getWidth();
-            double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-            signingStage.setX((screenWidth  - signingStage.getWidth())  / 2);
-            signingStage.setY((screenHeight - signingStage.getHeight()) / 2);
+            initApplicationStage(signedUser);
+            showApplicationStage();
         }
+
     }
 
-    public static void runApplication(User user) {
+    private static void initSigningStage(Stage primaryStage) {
+
+        signingStage = primaryStage;
+
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(Main.class.getResource("views/SignInView.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        signingStage.setTitle("Octillect | Sign in/up");
+        signingStage.getIcons().add(O_ICON);
+        signingStage.setScene(new Scene(root, 1024, 768));
+
+    }
+
+    public static void initApplicationStage(User user) {
 
         signedUser = user;
-        // Create Application Stage and Scene
+
         Parent root = null;
         try {
             root = FXMLLoader.load(Main.class.getResource("views/ApplicationView.fxml"));
@@ -76,21 +77,35 @@ public class Main extends Application {
 
         applicationStage = new Stage();
         applicationStage.setTitle("Octillect");
-        applicationStage.setScene(new Scene(root));
-        applicationStage.show();
-
-        // Set stage Icon
         applicationStage.getIcons().add(O_ICON);
+        applicationStage.setScene(new Scene(root));
 
-        // Open Stage Maximized
+    }
+
+    public static void showSigningStage() {
+
+        signingStage.show();
+        double screenWidth  = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        signingStage.setX((screenWidth  - signingStage.getWidth())  / 2);
+        signingStage.setY((screenHeight - signingStage.getHeight()) / 2);
+
+        octillectFile.delete();
+
+        if (applicationStage != null) {
+            applicationStage.close();
+        }
+
+    }
+
+    public static void showApplicationStage() {
+        applicationStage.show();
         applicationStage.setMaximized(true);
-
-        /* Close Signing stage and Check if it's not null in case of auto-signing-in.*/
-        if (signingStage != null)
-            signingStage.close();
+        signingStage.close();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }

@@ -137,11 +137,22 @@ public class SignUpController {
                     }
                 }).build();
 
-                user.setBoards(FXCollections.observableArrayList((new Board.WelcomeBoard(user))));
-
+                user.setBoards(FXCollections.observableArrayList(new Board.WelcomeBoard(user)));
                 UserRepository.getInstance().add(user);
-                Main.runApplication(user);
 
+                // Reset Input Fields
+                firstNameTextField.setText(null);
+                lastNameTextField.setText(null);
+                emailTextField.setText(null);
+                passwordTextField.setText(null);
+                confirmPasswordTextField.setText(null);
+                userImage.setOpacity(0);
+                imageButton.setOpacity(1);
+
+                closeSignUpView();
+
+                Main.initApplicationStage(user);
+                Main.showApplicationStage();
             }
         }
     }
@@ -157,14 +168,18 @@ public class SignUpController {
         if (file != null) {
             chosenImage = ImageIO.read(new File(file.getPath()));
             userImage.setFill(new ImagePattern(SwingFXUtils.toFXImage(chosenImage, null)));
-            userImage.setOpacity(100);
+            userImage.setOpacity(1);
             imageButton.setOpacity(0);
         }
 
     }
 
     @FXML
-    public void handleBackButtonAction(ActionEvent actionEvent) {
+    public void handleBackButtonAction() {
+        closeSignUpView();
+    }
+
+    private void closeSignUpView() {
         StackPane parentStackPane = (StackPane) signUpHBox.getParent();
         Animation.easeOut(parentStackPane, signUpHBox);
     }
