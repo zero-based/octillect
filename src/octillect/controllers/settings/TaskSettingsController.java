@@ -1,6 +1,5 @@
 package octillect.controllers.settings;
 
-import com.jfoenix.animation.alert.JFXAlertAnimation$;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
@@ -235,6 +234,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     }
 
     public void loadSubTasksListView() {
+        subTasksListView.getItems().clear();
         if (currentTask.getChildren() != null) {
             for (TaskBase subTask : currentTask.getChildren()) {
                 subTasksListView.getItems().add((Task) subTask);
@@ -262,7 +262,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     private void selectTaskTags() {
         if (currentTask.getTags() != null) {
             for (Tag tag : currentTask.getTags()) {
-                tagsCheckComboBox.getCheckModel().check(gettagIndex(tag));
+                tagsCheckComboBox.getCheckModel().check(getTagIndex(tag));
             }
         }
     }
@@ -299,7 +299,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         return -1;
     }
 
-    private int gettagIndex(Tag tag) {
+    private int getTagIndex(Tag tag) {
         for (int i = 0; i < tagsCheckComboBox.getItems().size(); i++) {
             if (tagsCheckComboBox.getItems().get(i).getId().equals(tag.getId())) {
                 return i;
