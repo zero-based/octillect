@@ -250,9 +250,14 @@ public class UserRepository implements Repository<User> {
     /**
      * Gets the user from database by id saved in .octillect file.
      *
-     * @return a user object filled from the database.
+     * @return a user object filled from the database
+     *         or null if .octillect file doesn't exist.
      */
     public User getRememberedUser() {
+
+        if (!Main.octillectFile.exists()) {
+            return null;
+        }
 
         FileReader fileReader = null;
         try {
@@ -264,11 +269,13 @@ public class UserRepository implements Repository<User> {
         LinkedHashMap<String, String> fileContent;
         Gson gson = new Gson();
         fileContent = gson.fromJson(fileReader, LinkedHashMap.class);
+
         try {
             fileReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return UserRepository.getInstance().get(fileContent.get("id"));
     }
 

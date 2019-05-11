@@ -89,7 +89,14 @@ public class SignInController {
                     // Save User's data in octillect's file.
                     UserRepository.getInstance().rememberUser(user);
                 }
-                Main.runApplication(user);
+
+                // Reset Input Fields
+                emailTextField.setText(null);
+                passwordTextField.setText(null);
+                keepMeSignedInCheckBox.setSelected(false);
+
+                Main.initApplicationStage(user);
+                Main.showApplicationStage();
             }
         }
 
