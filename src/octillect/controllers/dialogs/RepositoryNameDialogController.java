@@ -74,8 +74,11 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
             boardController.currentBoard.setRepositoryName(repositoryNameTextField.getText());
             gitHubRepositoryController.loadGitHubRepository();
 
-            rightDrawerController.show(rightDrawerController.gitHubRepository);
-            applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+            if (rightDrawerController.rightDrawer.isClosed()) {
+                // Prevent Drawer toggling if the drawer is already open
+                rightDrawerController.show(rightDrawerController.gitHubRepository);
+                applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+            }
 
             repositoryNameDialog.close();
         }

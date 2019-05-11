@@ -71,10 +71,6 @@ public class BoardController implements Injectable<ApplicationController> {
         titleBarController.boardNameLabel.setText(board.getName());
         boardSettingsController.loadBoardSettings();
 
-        if (currentBoard.getRepositoryName() != null) {
-            gitHubRepositoryController.loadGitHubRepository();
-        }
-
         // Populate Board Columns
         boardListView.setItems(board.getChildren());
         boardListView.setCellFactory(param -> {
@@ -88,6 +84,7 @@ public class BoardController implements Injectable<ApplicationController> {
     @FXML
     public void handleGitHubIconMouseClicked(MouseEvent mouseEvent) {
         if (currentBoard.getRepositoryName() != null) {
+            gitHubRepositoryController.loadGitHubRepository();
             rightDrawerController.show(rightDrawerController.gitHubRepository);
             applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
         } else {

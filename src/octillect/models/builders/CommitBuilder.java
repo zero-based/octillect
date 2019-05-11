@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.function.Consumer;
 
-import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 import octillect.models.Commit;
 
@@ -14,7 +14,7 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
     public String subject;
     public String body;
     public String authorUsername;
-    public Image authorAvatar;
+    public ImagePattern authorAvatar;
     public Date date;
 
     @Override
@@ -49,7 +49,7 @@ public class CommitBuilder implements Builder<Commit, CommitBuilder> {
         return this;
     }
 
-    public CommitBuilder withAuthorAvatar(Image authorAvatar) {
+    public CommitBuilder withAuthorAvatar(ImagePattern authorAvatar) {
         this.authorAvatar = authorAvatar;
         return this;
     }
