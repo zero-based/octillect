@@ -42,14 +42,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class TaskSettingsController implements Injectable<ApplicationController> {
 
     // FXML Fields
-    @FXML public TitledPane editNameTitledPane;
-    @FXML public TitledPane editDescriptionTitledPane;
-    @FXML public TitledPane subTasksTitledPane;
-    @FXML public TitledPane assigneesTitledPane;
-    @FXML public TitledPane tagsTitledPane;
-    @FXML public TitledPane dueDateTitledPane;
-    @FXML public TitledPane isCompletedTaskTitledPane;
-    @FXML public TitledPane deleteTaskTitledPane;
     @FXML public Circle taskCreatorImageCircle;
     @FXML public FontIcon isCompletedTaskIcon;
     @FXML public Label taskCreatorLabel;
@@ -142,17 +134,6 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             }
         });
 
-    }
-
-    @FXML
-    public void handleTitledPaneOnAction(MouseEvent mouseEvent) {
-        editNameTitledPane.setExpanded(false);
-        editDescriptionTitledPane.setExpanded(false);
-        subTasksTitledPane.setExpanded(false);
-        assigneesTitledPane.setExpanded(false);
-        tagsTitledPane.setExpanded(false);
-        dueDateTitledPane.setExpanded(false);
-        ((TitledPane) mouseEvent.getSource()).setExpanded(true);
     }
 
     @FXML

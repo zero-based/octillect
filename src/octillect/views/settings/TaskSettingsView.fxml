@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -24,285 +25,270 @@
 <VBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
       fx:controller="octillect.controllers.settings.TaskSettingsController"
-      stylesheets="@/octillect/styles/Palette.css"
-      spacing="16">
+      stylesheets="@/octillect/styles/Palette.css">
 
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
 
-    <!--NAME TITLED-PANE-->
-    <TitledPane fx:id="editNameTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
+    <Accordion stylesheets="@/octillect/styles/TitledPane.css">
 
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-create"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Task Name"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
+        <panes>
 
-        <VBox spacing="16">
+            <!--NAME TITLED-PANE-->
+            <TitledPane expanded="false">
 
-            <JFXTextField fx:id="taskNameTextField"
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-create"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Task Name"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
 
-                          focusColor="${Palette.PRIMARY}"
-                          style="-fx-text-inner-color: -o-dark-300">
-            </JFXTextField>
+                <VBox spacing="16">
 
-            <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <JFXTextField fx:id="taskNameTextField"
 
-                <Circle fx:id="taskCreatorImageCircle"
-                        radius="12"
-                        stroke="${Palette.DARK_300}"/>
-
-                <HBox spacing="8" alignment="BASELINE_LEFT">
-                    <Label fx:id="taskCreatorLabel"
-                           textFill="${Palette.PRIMARY_DARK}">
-                        <font>
-                            <Font name="Product Sans Regular" size="16"/>
-                        </font>
-                    </Label>
-
-                    <Label text="created on"
-                           textFill="${Palette.DARK_500}">
-                        <font>
-                            <Font name="Product Sans Regular" size="14"/>
-                        </font>
-                    </Label>
-
-                    <Label fx:id="taskCreationDateLabel"
-                           textFill="${Palette.DARK_500}">
-                        <font>
-                            <Font name="Product Sans Regular" size="14"/>
-                        </font>
-                    </Label>
-                </HBox>
-
-            </HBox>
-
-        </VBox>
-
-    </TitledPane>
-
-    <!--DESCRIPTION TITLED-PANE-->
-    <TitledPane fx:id="editDescriptionTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
-
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-format-align-left"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Description"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
-
-        <JFXTextArea fx:id="taskDescriptionTextArea"
-                     focusColor="${Palette.PRIMARY}"
-                     prefRowCount="3"
-                     stylesheets="@/octillect/styles/TextArea.css"
-                     style="-fx-text-fill: -o-dark-300;">
-        </JFXTextArea>
-
-    </TitledPane>
-
-    <!--SUB-TASKS TITLED-PANE-->
-    <TitledPane fx:id="subTasksTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
-
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-assignment"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Sub-Tasks"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
-
-        <VBox spacing="16">
-
-            <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/HoverableListView.css"/>
-
-            <BorderPane>
-
-                <padding>
-                    <Insets topRightBottomLeft="8"/>
-                </padding>
-
-                <left>
-                    <JFXTextField fx:id="newSubTaskTextField"
-                                  promptText="or Add New Sub-Task"
                                   focusColor="${Palette.PRIMARY}"
-                                  focusTraversable="false"
-                                  style="-fx-text-inner-color: -o-dark-300;"/>
-                </left>
+                                  style="-fx-text-inner-color: -o-dark-300">
+                    </JFXTextField>
 
-                <right>
-                    <OButton fx:id="addSubTaskButton"
-                             text="Add"
-                             color="PRIMARY"
-                             fill="TRUE"
-                             style="-fx-font-size: 14;"
-                             onMouseClicked="#handleAddSubTaskButtonAction"/>
-                </right>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
 
-            </BorderPane>
+                        <Circle fx:id="taskCreatorImageCircle"
+                                radius="12"
+                                stroke="${Palette.DARK_300}"/>
 
-        </VBox>
+                        <HBox spacing="8" alignment="BASELINE_LEFT">
+                            <Label fx:id="taskCreatorLabel"
+                                   textFill="${Palette.PRIMARY_DARK}">
+                                <font>
+                                    <Font name="Product Sans Regular" size="16"/>
+                                </font>
+                            </Label>
 
-    </TitledPane>
+                            <Label text="created on"
+                                   textFill="${Palette.DARK_500}">
+                                <font>
+                                    <Font name="Product Sans Regular" size="14"/>
+                                </font>
+                            </Label>
 
-    <!--ASSIGNEES TITLED-PANE-->
-    <TitledPane fx:id="assigneesTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
+                            <Label fx:id="taskCreationDateLabel"
+                                   textFill="${Palette.DARK_500}">
+                                <font>
+                                    <Font name="Product Sans Regular" size="14"/>
+                                </font>
+                            </Label>
+                        </HBox>
 
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-group"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Assignees"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
+                    </HBox>
 
-        <CheckComboBox fx:id="assigneesCheckComboBox"
-                       prefWidth="600"
-                       stylesheets="@/octillect/styles/CheckComboBox.css">
-        </CheckComboBox>
+                </VBox>
 
-    </TitledPane>
+            </TitledPane>
 
-    <!--TAGS TITLED-PANE-->
-    <TitledPane fx:id="tagsTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
+            <!--DESCRIPTION TITLED-PANE-->
+            <TitledPane expanded="false">
 
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-label"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Tags"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-format-align-left"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Description"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
 
-        <CheckComboBox fx:id="tagsCheckComboBox"
-                       prefWidth="600"
-                       stylesheets="@/octillect/styles/CheckComboBox.css">
-        </CheckComboBox>
+                <JFXTextArea fx:id="taskDescriptionTextArea"
+                             focusColor="${Palette.PRIMARY}"
+                             prefRowCount="3"
+                             stylesheets="@/octillect/styles/TextArea.css"
+                             style="-fx-text-fill: -o-dark-300;">
+                </JFXTextArea>
 
-    </TitledPane>
+            </TitledPane>
 
-    <!--DUE-DATE TITLED-PANE-->
-    <TitledPane fx:id="dueDateTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleTitledPaneOnAction">
+            <!--SUB-TASKS TITLED-PANE-->
+            <TitledPane expanded="false">
 
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-today"
-                          iconSize="22"
-                          iconColor="${Palette.PRIMARY}"/>
-                <Label text="Due Date"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-assignment"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Sub-Tasks"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
 
-        <JFXDatePicker fx:id="taskDueDatePicker"
-                       prefWidth="600"
-                       defaultColor="${Palette.PRIMARY}"
-                       style="-fx-text-inner-color: -o-dark-300">
-        </JFXDatePicker>
+                <VBox spacing="16">
 
-    </TitledPane>
+                    <JFXListView fx:id="subTasksListView" stylesheets="@/octillect/styles/HoverableListView.css"/>
 
-    <!--COMPLETED TITLED-PANE-->
-    <TitledPane fx:id="isCompletedTaskTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleIsCompletedTaskAction">
+                    <BorderPane>
 
-        <graphic>
-            <HBox spacing="8">
-                <FontIcon fx:id="isCompletedTaskIcon"
-                          iconLiteral="gmi-check-box"
-                          iconSize="22"/>
-                <Label text="Completed"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-        </graphic>
+                        <padding>
+                            <Insets topRightBottomLeft="8"/>
+                        </padding>
 
-    </TitledPane>
+                        <left>
+                            <JFXTextField fx:id="newSubTaskTextField"
+                                          promptText="or Add New Sub-Task"
+                                          focusColor="${Palette.PRIMARY}"
+                                          focusTraversable="false"
+                                          style="-fx-text-inner-color: -o-dark-300;"/>
+                        </left>
 
-    <!--DELETE-TASK TITLED-PANE-->
-    <TitledPane fx:id="deleteTaskTitledPane"
-                stylesheets="@/octillect/styles/TitledPane.css"
-                expanded="false"
-                onMouseClicked="#handleDeleteTaskAction">
+                        <right>
+                            <OButton fx:id="addSubTaskButton"
+                                     text="Add"
+                                     color="PRIMARY"
+                                     fill="TRUE"
+                                     style="-fx-font-size: 14;"
+                                     onMouseClicked="#handleAddSubTaskButtonAction"/>
+                        </right>
 
-        <graphic>
+                    </BorderPane>
 
-            <HBox spacing="8">
-                <FontIcon iconLiteral="gmi-delete"
-                          iconColor="${Palette.PRIMARY}"
-                          iconSize="22"/>
-                <Label text="Delete Task"
-                       textFill="${Palette.DARK_300}">
-                    <font>
-                        <Font name="Product Sans Regular" size="16"/>
-                    </font>
-                </Label>
+                </VBox>
 
-            </HBox>
+            </TitledPane>
 
-        </graphic>
+            <!--ASSIGNEES TITLED-PANE-->
+            <TitledPane expanded="false">
 
-    </TitledPane>
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-group"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Assignees"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
+
+                <CheckComboBox fx:id="assigneesCheckComboBox"
+                               prefWidth="600"
+                               stylesheets="@/octillect/styles/CheckComboBox.css">
+                </CheckComboBox>
+
+            </TitledPane>
+
+            <!--TAGS TITLED-PANE-->
+            <TitledPane expanded="false">
+
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-label"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Tags"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
+
+                <CheckComboBox fx:id="tagsCheckComboBox"
+                               prefWidth="600"
+                               stylesheets="@/octillect/styles/CheckComboBox.css">
+                </CheckComboBox>
+
+            </TitledPane>
+
+            <!--DUE-DATE TITLED-PANE-->
+            <TitledPane expanded="false">
+
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-today"
+                                  iconSize="22"
+                                  iconColor="${Palette.PRIMARY}"/>
+                        <Label text="Due Date"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
+
+                <JFXDatePicker fx:id="taskDueDatePicker"
+                               prefWidth="600"
+                               defaultColor="${Palette.PRIMARY}"
+                               style="-fx-text-inner-color: -o-dark-300">
+                </JFXDatePicker>
+
+            </TitledPane>
+
+            <!--COMPLETED TITLED-PANE-->
+            <TitledPane expanded="false"
+                        onMouseClicked="#handleIsCompletedTaskAction">
+
+                <graphic>
+                    <HBox spacing="8">
+                        <FontIcon fx:id="isCompletedTaskIcon"
+                                  iconLiteral="gmi-check-box"
+                                  iconSize="22"/>
+                        <Label text="Completed"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+                    </HBox>
+                </graphic>
+
+            </TitledPane>
+
+            <!--DELETE-TASK TITLED-PANE-->
+            <TitledPane expanded="false"
+                        onMouseClicked="#handleDeleteTaskAction">
+
+                <graphic>
+
+                    <HBox spacing="8">
+                        <FontIcon iconLiteral="gmi-delete"
+                                  iconColor="${Palette.PRIMARY}"
+                                  iconSize="22"/>
+                        <Label text="Delete Task"
+                               textFill="${Palette.DARK_300}">
+                            <font>
+                                <Font name="Product Sans Regular" size="16"/>
+                            </font>
+                        </Label>
+
+                    </HBox>
+
+                </graphic>
+
+            </TitledPane>
+
+        </panes>
+
+    </Accordion>
 
 </VBox>

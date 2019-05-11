@@ -1,5 +1,9 @@
 @import "Palette.css"
 
+.titled-pane {
+    -fx-padding: 0 0 0.5em 0;
+}
+
 .titled-pane,
 .titled-pane > * {
     -fx-background-color: transparent;
