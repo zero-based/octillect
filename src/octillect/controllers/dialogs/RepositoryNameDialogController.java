@@ -5,7 +5,6 @@ import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,18 +30,15 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
     private BoardController boardController;
     private GitHubRepositoryController gitHubRepositoryController;
 
-    // Empty field validation
-    private RequiredFieldValidator requiredFieldValidator;
+    // Validators
     private RegexValidator nameRegexValidator;
 
     @Override
     public void init(){
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        nameRegexValidator     = new RegexValidator("Invalid repository name.");
 
-        nameRegexValidator.setRegexPattern("^(?=.*?[0-9a-zA-Z])[0-9a-zA-Z]*[/][0-9a-zA-Z]*$");
-
-        repositoryNameTextField.getValidators().add(requiredFieldValidator);
+        nameRegexValidator = new RegexValidator("Invalid repository name.");
+        nameRegexValidator.setRegexPattern("^[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}" +
+                "[/](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){1,38}$");
         repositoryNameTextField.getValidators().add(nameRegexValidator);
 
         repositoryNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -50,6 +46,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
                 repositoryNameTextField.validate();
             }
         });
+
     }
 
     @Override
@@ -65,7 +62,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
 
         repositoryNameTextField.validate();
 
-        if (!requiredFieldValidator.getHasErrors() && !nameRegexValidator.getHasErrors()) {
+        if (!nameRegexValidator.getHasErrors()) {
 
             FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardController.currentBoard.getId(), "repositoryName", repositoryNameTextField.getText());
 
