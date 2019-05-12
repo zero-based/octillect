@@ -55,9 +55,9 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        newTaskDialogController    = applicationController.newTaskDialogController;
         boardController            = applicationController.boardController;
         editColumnDialogController = applicationController.editColumnDialogController;
+        newTaskDialogController    = applicationController.newTaskDialogController;
     }
 
     @Override

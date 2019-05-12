@@ -25,7 +25,6 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
     private ApplicationController applicationController;
     private TaskSettingsController taskSettingsController;
 
-
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;

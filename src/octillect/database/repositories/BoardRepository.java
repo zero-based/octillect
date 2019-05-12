@@ -132,6 +132,10 @@ public class BoardRepository implements Repository<Board> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "description", description);
     }
 
+    public void updateRepositoryName(String boardId, String repositoryName) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "repositoryName", repositoryName);
+    }
+
     public void addContributor(String boardId, String email, Board.Role role) {
         ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
         FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributor.getMap());

@@ -3,7 +3,7 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXDrawer;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -11,6 +11,8 @@ import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.controllers.settings.UserSettingsController;
+
+import java.util.ArrayList;
 
 public class RightDrawerController implements Injectable<ApplicationController> {
 
@@ -21,11 +23,11 @@ public class RightDrawerController implements Injectable<ApplicationController> 
     @FXML public VBox taskSettings;
     @FXML public StackPane gitHubRepository;
 
-    //Nested Controllers
-    @FXML public UserSettingsController userSettingsController;
+    // Nested Controllers
     @FXML public BoardSettingsController boardSettingsController;
-    @FXML public TaskSettingsController taskSettingsController;
     @FXML public GitHubRepositoryController gitHubRepositoryController;
+    @FXML public TaskSettingsController taskSettingsController;
+    @FXML public UserSettingsController userSettingsController;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -37,14 +39,27 @@ public class RightDrawerController implements Injectable<ApplicationController> 
 
     @Override
     public void init() {
+
+        ArrayList<Injectable<ApplicationController>> descendants = new ArrayList<>();
+
+        descendants.add(boardSettingsController);
+        descendants.add(gitHubRepositoryController);
+        descendants.add(taskSettingsController);
+        descendants.add(userSettingsController);
+
+        descendants.forEach(controller -> {
+            controller.inject(applicationController);
+            controller.init();
+        });
+
     }
 
-    public void show(Pane pane) {
+    public void show(Node node) {
         userSettings.setVisible(false);
         boardSettings.setVisible(false);
         taskSettings.setVisible(false);
         gitHubRepository.setVisible(false);
-        pane.setVisible(true);
+        node.setVisible(true);
     }
     
 }

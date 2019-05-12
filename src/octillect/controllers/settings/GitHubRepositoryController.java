@@ -29,7 +29,7 @@ import org.kohsuke.github.GitHub;
 
 public class GitHubRepositoryController implements Injectable<ApplicationController> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML public VBox repositoryVBox;
     @FXML public ListView<Commit> commitsListView;
     @FXML public Label repositoryNameLabel;
@@ -40,7 +40,6 @@ public class GitHubRepositoryController implements Injectable<ApplicationControl
     private ApplicationController applicationController;
     private BoardController boardController;
     private RepositoryNameDialogController repositoryNameDialogController;
-
 
     @Override
     public void inject(ApplicationController applicationController) {

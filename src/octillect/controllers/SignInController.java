@@ -9,14 +9,12 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import octillect.Main;
-import octillect.controls.OButton;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
@@ -24,15 +22,14 @@ import octillect.styles.Animation;
 
 public class SignInController {
 
+    // FXML Fields
     @FXML private HBox signInHBox;
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
     @FXML private JFXCheckBox keepMeSignedInCheckBox;
-    @FXML private OButton signInButton;
-    @FXML private OButton signInWithGitHubButton;
-    @FXML private Hyperlink createAnAccountButton;
     @FXML private ImageView backgroundImageView;
 
+    // Validators
     private RequiredFieldValidator requiredFieldValidator;
     private RegexValidator emailValidator;
     private RegexValidator passwordValidator;
@@ -90,11 +87,7 @@ public class SignInController {
                     UserRepository.getInstance().rememberUser(user);
                 }
 
-                // Reset Input Fields
-                emailTextField.setText(null);
-                passwordTextField.setText(null);
-                keepMeSignedInCheckBox.setSelected(false);
-
+                resetSignInView();
                 Main.initApplicationStage(user);
                 Main.showApplicationStage();
             }
@@ -111,6 +104,13 @@ public class SignInController {
         HBox signUpHBox = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
         StackPane parentStackPane = (StackPane) signInHBox.getParent();
         Animation.easeIn(parentStackPane, signUpHBox);
+        resetSignInView();
+    }
+
+    private void resetSignInView() {
+        emailTextField.setText(null);
+        passwordTextField.setText(null);
+        keepMeSignedInCheckBox.setSelected(false);
     }
 
 }

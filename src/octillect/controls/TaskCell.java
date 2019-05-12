@@ -171,8 +171,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         setOnMouseClicked(event -> {
-            if(event.getSource() instanceof TaskCell && getItem() != null) {
-                Column parentColumn = ((TasksColumn) (getListView().getParent().getParent())).getItem();
+            if (getItem() != null) {
+                Column parentColumn = ((TasksColumn) getListView().getParent().getParent()).getItem();
                 taskSettingsController.loadTask(getItem(), parentColumn);
             }
         });

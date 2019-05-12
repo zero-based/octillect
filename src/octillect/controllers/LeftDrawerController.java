@@ -27,7 +27,6 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     private NewBoardDialogController newBoardDialogController;
     private TitleBarController titleBarController;
 
-
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;

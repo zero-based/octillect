@@ -29,13 +29,20 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
     @FXML public JFXTextArea newBoardDescriptionTextArea;
     @FXML public OButton addBoardButton;
 
+    // Validators
+    private RequiredFieldValidator requiredFieldValidator;
+
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
     private LeftDrawerController leftDrawerController;
 
-    // Empty field validation
-    RequiredFieldValidator requiredFieldValidator;
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+        boardController            = applicationController.boardController;
+        leftDrawerController       = applicationController.leftDrawerController;
+    }
 
     @Override
     public void init() {
@@ -46,13 +53,6 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
                 newBoardNameTextField.validate();
             }
         });
-    }
-
-    @Override
-    public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        boardController = applicationController.boardController;
-        leftDrawerController       = applicationController.leftDrawerController;
     }
 
     @FXML
@@ -88,7 +88,7 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
     @FXML
     public void handleNewBoardDialogClosed(JFXDialogEvent jfxDialogEvent) {
         newBoardNameTextField.resetValidation();
-        newBoardNameTextField.setText("");
-        newBoardDescriptionTextArea.setText("");
+        newBoardNameTextField.setText(null);
+        newBoardDescriptionTextArea.setText(null);
     }
 }
