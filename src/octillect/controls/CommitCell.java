@@ -17,7 +17,7 @@ import octillect.models.Commit;
 
 public class CommitCell extends ListCell<Commit> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML private GridPane commitCellGridPane;
     @FXML private Circle authorAvatarCircle;
     @FXML private Hyperlink subjectHyperlink;
@@ -48,7 +48,7 @@ public class CommitCell extends ListCell<Commit> {
         String subject = commitItem.getSubject();
         subject = subject.length() <= 50 ? subject : subject.substring(0, 50) + "...";
 
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, hh:mm a");
         String date = sdf.format(commitItem.getDate());
 
         authorAvatarCircle.setFill(commitItem.getAuthorAvatar());

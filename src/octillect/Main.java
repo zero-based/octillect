@@ -3,8 +3,6 @@ package octillect;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.filechooser.FileSystemView;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +12,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import octillect.database.repositories.UserRepository;
-import octillect.database.firebase.Connection;
 import octillect.models.User;
 import octillect.styles.Fonts;
 
@@ -24,17 +21,12 @@ public class Main extends Application {
     public static Stage signingStage;
     public static Stage applicationStage;
     public static User signedUser;
-    public static File octillectFile = new File(FileSystemView.getFileSystemView().getHomeDirectory().getParent() + "/.octillet");
+    public static File octillectFile = new File(System.getProperty("user.home") + "/.octillet");
 
     @Override
     public void start(Stage primaryStage) {
 
-        //Initialize Firebase connection
-        Connection.getInstance();
-
-        // Load Application Fonts
         Fonts.load();
-
         signedUser = UserRepository.getInstance().getRememberedUser();
         initSigningStage(primaryStage);
 

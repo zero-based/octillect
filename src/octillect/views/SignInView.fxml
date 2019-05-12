@@ -95,8 +95,7 @@
                 </children>
             </HBox>
 
-            <OButton fx:id="signInButton"
-                     GridPane.rowIndex="4"
+            <OButton GridPane.rowIndex="4"
                      GridPane.columnIndex="1"
                      GridPane.halignment="CENTER"
                      prefWidth="356"
@@ -119,8 +118,7 @@
 
             </HBox>
 
-            <OButton fx:id="signInWithGitHubButton"
-                     GridPane.rowIndex="6"
+            <OButton GridPane.rowIndex="6"
                      GridPane.columnIndex="1"
                      GridPane.halignment="CENTER"
                      prefWidth="356"
@@ -143,8 +141,7 @@
                     </font>
                 </Label>
 
-                <Hyperlink fx:id="createAnAccountButton"
-                           text="Create an account"
+                <Hyperlink text="Create an account"
                            textFill="${Palette.PRIMARY}"
                            focusTraversable="false"
                            onAction="#handleCreateAnAccountAction">

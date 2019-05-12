@@ -7,7 +7,6 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
@@ -26,7 +25,7 @@ import octillect.models.TaskBase;
 
 public class UserSettingsController implements Injectable<ApplicationController> {
 
-    //Fxml fields
+    // FXML fields
     @FXML public JFXTextField nameTextField;
     @FXML public JFXTextField emailTextField;
     @FXML public JFXPasswordField newPasswordPasswordField;
@@ -148,6 +147,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleSavePasswordButton(MouseEvent mouseEvent) {
+
         oldPasswordPasswordField.resetValidation();
         newPasswordPasswordField.resetValidation();
         confirmPasswordPasswordField.resetValidation();

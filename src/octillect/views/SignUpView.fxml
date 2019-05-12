@@ -29,8 +29,7 @@
               prefWidth="${signUpHBox.width * 0.6}"
               style="-fx-background-color: -o-dark-900;">
 
-        <OButton fx:id="backButton"
-                 GridPane.rowIndex="0"
+        <OButton GridPane.rowIndex="0"
                  GridPane.columnSpan="2"
                  GridPane.halignment="LEFT"
                  GridPane.valignment="TOP"
@@ -109,8 +108,7 @@
                           style="-fx-text-inner-color: -o-dark-300"
                           labelFloat="true"/>
 
-        <OButton fx:id="signUpButton"
-                 GridPane.rowIndex="6"
+        <OButton GridPane.rowIndex="6"
                  GridPane.columnSpan="2"
                  GridPane.halignment="CENTER"
                  prefWidth="356"

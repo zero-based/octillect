@@ -33,9 +33,11 @@ import octillect.styles.Animation;
 
 public class SignUpController {
 
+    // Local Fields
+    private BufferedImage chosenImage = null;
+
+    // FXML Fields
     @FXML private HBox signUpHBox;
-    @FXML private OButton signUpButton;
-    @FXML private OButton backButton;
     @FXML private OButton imageButton;
     @FXML private Circle userImage;
     @FXML private JFXTextField firstNameTextField;
@@ -44,13 +46,12 @@ public class SignUpController {
     @FXML private JFXPasswordField passwordTextField;
     @FXML private JFXPasswordField confirmPasswordTextField;
 
+    // Validators
     private RequiredFieldValidator requiredFieldValidator;
     private RegexValidator emailValidator;
     private RegexValidator emailUsedValidator;
     private RegexValidator passwordValidator;
     private RegexValidator confirmPasswordValidator;
-
-    private BufferedImage chosenImage = null;
 
     @FXML
     public void initialize() {
@@ -140,15 +141,7 @@ public class SignUpController {
                 user.setBoards(FXCollections.observableArrayList(new Board.WelcomeBoard(user)));
                 UserRepository.getInstance().add(user);
 
-                // Reset Input Fields
-                firstNameTextField.setText(null);
-                lastNameTextField.setText(null);
-                emailTextField.setText(null);
-                passwordTextField.setText(null);
-                confirmPasswordTextField.setText(null);
-                userImage.setOpacity(0);
-                imageButton.setOpacity(1);
-
+                resetSignUpView();
                 closeSignUpView();
 
                 Main.initApplicationStage(user);
@@ -176,7 +169,19 @@ public class SignUpController {
 
     @FXML
     public void handleBackButtonAction() {
+        resetSignUpView();
         closeSignUpView();
+    }
+
+    private void resetSignUpView() {
+        firstNameTextField.setText(null);
+        lastNameTextField.setText(null);
+        emailTextField.setText(null);
+        passwordTextField.setText(null);
+        confirmPasswordTextField.setText(null);
+        chosenImage = null;
+        userImage.setOpacity(0);
+        imageButton.setOpacity(1);
     }
 
     private void closeSignUpView() {

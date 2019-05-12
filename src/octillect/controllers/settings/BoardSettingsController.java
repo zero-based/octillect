@@ -35,7 +35,7 @@ import octillect.models.builders.TagBuilder;
 
 public class BoardSettingsController implements Injectable<ApplicationController> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML public TitledPane deleteBoardTitledPane;
     @FXML public BorderPane newContributorBorderPane;
     @FXML public BorderPane newTagBorderPane;
@@ -63,9 +63,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        boardController = applicationController.boardController;
-        leftDrawerController = applicationController.leftDrawerController;
-        titleBarController = applicationController.titleBarController;
+        boardController            = applicationController.boardController;
+        leftDrawerController       = applicationController.leftDrawerController;
+        titleBarController         = applicationController.titleBarController;
     }
 
     @Override
@@ -90,8 +90,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
                 BoardRepository.getInstance().updateName(boardController.currentBoard.getId(), editNameTextField.getText());
                 boardController.currentBoard.setName(editNameTextField.getText());
                 titleBarController.boardNameLabel.setText(editNameTextField.getText());
-                int index = leftDrawerController.userBoardsListView.getItems().indexOf(boardController.currentBoard);
-                leftDrawerController.userBoardsListView.getItems().set(index, boardController.currentBoard);
+                leftDrawerController.userBoardsListView.refresh();
             }
         });
 
@@ -151,8 +150,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor.getEmail(), contributor.getRole());
                     UserRepository.getInstance().addBoardId(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()), boardController.currentBoard.getId());
 
-                    int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
-                    applicationController.user.getBoards().get(index).getContributors().add(contributor);
                     boardController.currentBoard.getContributors().add(contributor);
                     contributorsListView.getItems().add(contributor);
 
@@ -215,16 +212,12 @@ public class BoardSettingsController implements Injectable<ApplicationController
     }
 
     private void loadContributors() {
-        ObservableList<Contributor> users = FXCollections.observableArrayList();
-        boardController.currentBoard.getContributors().forEach(users::add);
-        contributorsListView.setItems(users);
+        contributorsListView.setItems(boardController.currentBoard.getContributors());
     }
 
     private void loadTags() {
         if (boardController.currentBoard.getTags() != null) {
-            ObservableList<Tag> tags = FXCollections.observableArrayList();
-            boardController.currentBoard.getTags().forEach(tags::add);
-            tagsListView.setItems(tags);
+            tagsListView.setItems(boardController.currentBoard.getTags());
         }
     }
 

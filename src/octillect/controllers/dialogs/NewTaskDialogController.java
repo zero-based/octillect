@@ -26,19 +26,25 @@ import octillect.models.builders.TaskBuilder;
 
 public class NewTaskDialogController implements Injectable<ApplicationController> {
 
+    // Local Fields
+    public Column currentColumn;
+
     // FXML Fields
     @FXML public JFXDialog newTaskDialog;
     @FXML public JFXTextField newTaskNameTextField;
     @FXML public JFXTextArea newTaskDescriptionTextArea;
     @FXML public OButton addTaskButton;
 
-    public Column currentColumn;
+    // Validators
+    private RequiredFieldValidator requiredFieldValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
 
-    // Empty field validation
-    RequiredFieldValidator requiredFieldValidator;
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+    }
 
     @Override
     public void init() {
@@ -49,11 +55,6 @@ public class NewTaskDialogController implements Injectable<ApplicationController
                 newTaskNameTextField.validate();
             }
         });
-    }
-
-    @Override
-    public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
     }
 
     public void handleAddTaskButtonAction(ActionEvent actionEvent) {
@@ -87,7 +88,7 @@ public class NewTaskDialogController implements Injectable<ApplicationController
 
     public void handleNewTaskDialogClosed(JFXDialogEvent jfxDialogEvent) {
         newTaskNameTextField.resetValidation();
-        newTaskNameTextField.setText("");
-        newTaskDescriptionTextArea.setText("");
+        newTaskNameTextField.setText(null);
+        newTaskDescriptionTextArea.setText(null);
     }
 }

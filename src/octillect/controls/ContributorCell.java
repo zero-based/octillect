@@ -21,7 +21,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class ContributorCell extends ListCell<Contributor> implements Injectable<ApplicationController> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML private BorderPane contributorCellBorderPane;
     @FXML private Circle contributorImage;
     @FXML private Label usernameLabel;
@@ -29,7 +29,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
     @FXML private Label roleLabel;
     @FXML private FontIcon deleteContributorIcon;
 
-    //Injected Controllers
+    // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
     private LeftDrawerController leftDrawerController;
@@ -37,7 +37,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        boardController = applicationController.boardController;
+        boardController            = applicationController.boardController;
         leftDrawerController       = applicationController.leftDrawerController;
     }
 
@@ -91,8 +91,6 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                 boardController.init();
                 leftDrawerController.init();
             } else {
-                int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
-                applicationController.user.getBoards().get(index).getContributors().remove(getItem());
                 boardController.currentBoard.getContributors().remove(getItem());
                 getListView().getItems().remove(getItem());
             }

@@ -13,14 +13,12 @@ import java.util.ArrayList;
 
 public class ApplicationController {
 
-    // Get the current user
+    // Local Fields
     public User user = Main.signedUser;
 
     // FXML Fields
     @FXML public StackPane rootStackPane;
     @FXML public JFXDrawersStack drawersStack;
-
-    private ArrayList<Injectable<ApplicationController>> descendants = new ArrayList<>();
 
     // Nested Controllers
     @FXML public TitleBarController titleBarController;
@@ -75,6 +73,8 @@ public class ApplicationController {
     @FXML
     public void initialize() {
 
+        ArrayList<Injectable<ApplicationController>> descendants = new ArrayList<>();
+
         // Add dialogs' controllers to descendants
         descendants.add(newBoardDialogController);
         descendants.add(newTaskDialogController);
@@ -82,20 +82,16 @@ public class ApplicationController {
         descendants.add(repositoryNameDialogController);
         descendants.add(editColumnDialogController);
 
-        // Add nested & sub-nested controllers to descendants
-        descendants.add(rightDrawerController);
-        descendants.add(rightDrawerController.taskSettingsController);
-        descendants.add(rightDrawerController.gitHubRepositoryController);
-        descendants.add(rightDrawerController.boardSettingsController);
-        descendants.add(rightDrawerController.userSettingsController);
-        descendants.add(leftDrawerController);
+        // Add nested controllers to descendants
         descendants.add(titleBarController);
+        descendants.add(leftDrawerController);
+        descendants.add(rightDrawerController);
         descendants.add(boardController);
 
-        for (Injectable<ApplicationController> controller : descendants) {
+        descendants.forEach(controller -> {
             controller.inject(this);
             controller.init();
-        }
+        });
 
     }
 

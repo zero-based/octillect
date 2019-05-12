@@ -20,7 +20,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TagCell extends ListCell<Tag> implements Injectable<ApplicationController> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML private BorderPane tagCellBorderPane;
     @FXML private HBox tagColorHBox;
     @FXML private Label tagNameLabel;
@@ -33,7 +33,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        boardController = applicationController.boardController;
+        boardController            = applicationController.boardController;
     }
 
     @Override

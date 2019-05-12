@@ -16,7 +16,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -41,6 +40,10 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TaskSettingsController implements Injectable<ApplicationController> {
 
+    // Local Fields
+    public Task currentTask;
+    public Column parentColumn;
+
     // FXML Fields
     @FXML public Circle taskCreatorImageCircle;
     @FXML public FontIcon isCompletedTaskIcon;
@@ -54,9 +57,6 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public CheckComboBox<Contributor> assigneesCheckComboBox;
     @FXML public CheckComboBox<Tag> tagsCheckComboBox;
     @FXML public OButton addSubTaskButton;
-
-    public Task currentTask;
-    public Column parentColumn;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -87,7 +87,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             if (!newValue) {
                 TaskRepository.getInstance().updateName(currentTask.getId(), taskNameTextField.getText());
                 currentTask.setName(taskNameTextField.getText());
-                refreshTask();
+                boardController.boardListView.refresh();
             }
         });
 
@@ -95,7 +95,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             if (!newValue) {
                 TaskRepository.getInstance().updateDescription(currentTask.getId(), taskDescriptionTextArea.getText());
                 currentTask.setDescription(taskDescriptionTextArea.getText());
-                refreshTask();
+                boardController.boardListView.refresh();
             }
         });
 
@@ -109,7 +109,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
                     TaskRepository.getInstance().updateAssigneeIds(currentTask.getId(), selectedAssigneesIds);
 
                     currentTask.setAssignees(selectedAssignees);
-                    refreshTask();
+                    boardController.boardListView.refresh();
                 });
 
         tagsCheckComboBox.getCheckModel()
@@ -122,7 +122,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
                     TaskRepository.getInstance().updateTagsIds(currentTask.getId(), selectedTagsIds);
 
                     currentTask.setTags(selectedTags);
-                    refreshTask();
+                    boardController.boardListView.refresh();
                 });
 
         taskDueDatePicker.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -130,7 +130,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
                 Date date = Date.from(taskDueDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 TaskRepository.getInstance().updateDueDate(currentTask.getId(), date);
                 currentTask.setDueDate(date);
-                refreshTask();
+                boardController.boardListView.refresh();
             }
         });
 
@@ -138,6 +138,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleAddSubTaskButtonAction(MouseEvent mouseEvent) {
+
         Task subTask = new TaskBuilder().with($ -> {
             $.id = FirestoreAPI.getInstance()
                     .encryptWithDateTime(newSubTaskTextField.getText() + applicationController.user.getName());
@@ -148,11 +149,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
 
         subTasksListView.getItems().add(subTask);
-
         currentTask.getChildren().add(subTask);
-        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
-        int taskIndex = boardController.currentBoard.getChildren().get(columnIndex).getChildren().indexOf(currentTask);
-        boardController.currentBoard.getChildren().get(columnIndex).getChildren().set(taskIndex, currentTask);
+        boardController.boardListView.refresh();
     }
 
     @FXML
@@ -161,12 +159,12 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             isCompletedTaskIcon.setIconColor(Palette.PRIMARY);
             TaskRepository.getInstance().updateisCompleted(currentTask.getId(), false);
             currentTask.setIsCompleted(false);
-            refreshTask();
+            boardController.boardListView.refresh();
         } else {
             isCompletedTaskIcon.setIconColor(Palette.SUCCESS);
             TaskRepository.getInstance().updateisCompleted(currentTask.getId(), true);
             currentTask.setIsCompleted(true);
-            refreshTask();
+            boardController.boardListView.refresh();
         }
     }
 
@@ -180,6 +178,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     }
 
     public void loadTask(Task task, Column column) {
+
         parentColumn = column;
         currentTask  = task;
 
@@ -196,6 +195,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
         rightDrawerController.show(rightDrawerController.taskSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
+
     }
 
     private void loadCreationInfo() {
@@ -265,12 +265,6 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         }
     }
 
-    private void refreshTask() {
-        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
-        int taskIndex = boardController.currentBoard.getChildren().get(columnIndex).getChildren().indexOf(currentTask);
-        boardController.currentBoard.getChildren().get(columnIndex).getChildren().set(taskIndex, currentTask);
-    }
-
     private int getAssigneeIndex(Contributor assignee) {
         for (int i = 0; i < assigneesCheckComboBox.getItems().size(); i++) {
             if (assigneesCheckComboBox.getItems().get(i).getId().equals(assignee.getId())) {
@@ -291,17 +285,17 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     private class AssigneesStringConverter extends StringConverter<Contributor> {
 
-        Contributor contributor = null;
+        Contributor assignee = null;
 
         @Override
-        public String toString(Contributor contributor) {
-            this.contributor = contributor;
-            return contributor.getEmail();
+        public String toString(Contributor assignee) {
+            this.assignee = assignee;
+            return assignee.getEmail();
         }
 
         @Override
         public Contributor fromString(String string) {
-            return contributor;
+            return assignee;
         }
 
     }
@@ -311,8 +305,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         Tag tag = null;
 
         @Override
-        public String toString(Tag user) {
-            this.tag = user;
+        public String toString(Tag tag) {
+            this.tag = tag;
             return tag.getName();
         }
 

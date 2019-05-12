@@ -73,6 +73,6 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
     @FXML
     public void handleNewColumnDialogClosed(JFXDialogEvent jfxDialogEvent) {
         newColumnNameTextField.resetValidation();
-        newColumnNameTextField.setText("");
+        newColumnNameTextField.setText(null);
     }
 }

@@ -14,14 +14,15 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TitleBarController implements Injectable<ApplicationController> {
 
+    // Local Fields
+    public HamburgerBackArrowBasicTransition hamburgerTransition;
+
     // FXML Fields
     @FXML public JFXHamburger hamburgerButton;
     @FXML public Label boardNameLabel;
     @FXML public FontIcon notificationIcon;
     @FXML public FontIcon settingsIcon;
     @FXML public Circle userImageCircle;
-
-    public HamburgerBackArrowBasicTransition hamburgerTransition;
 
     // Injected Controllers
     private ApplicationController applicationController;

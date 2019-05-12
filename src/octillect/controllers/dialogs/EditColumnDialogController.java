@@ -14,22 +14,23 @@ import octillect.controllers.Injectable;
 import octillect.controls.OButton;
 import octillect.database.repositories.ColumnRepository;
 import octillect.models.Column;
-import octillect.models.TaskBase;
 
 public class EditColumnDialogController implements Injectable<ApplicationController> {
 
+    // Local Fields
+    public Column currentColumn;
+
+    // FXML Fields
     @FXML public JFXDialog editColumnDialog;
     @FXML public JFXTextField editColumnTextField;
     @FXML public OButton editColumnButton;
 
-    public Column currentColumn;
+    // Validators
+    private RequiredFieldValidator requiredFieldValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
-
-    // Empty field validation
-    private RequiredFieldValidator requiredFieldValidator;
 
     @Override
     public void inject(ApplicationController applicationController) {
@@ -49,29 +50,22 @@ public class EditColumnDialogController implements Injectable<ApplicationControl
     }
 
     @FXML
-    public void handleEditColumnDialogClosed(JFXDialogEvent jfxDialogEvent) {
-        editColumnTextField.resetValidation();
-        editColumnTextField.setText("");
+    public void handleEditColumnButtonAction(ActionEvent actionEvent) {
+
+        requiredFieldValidator.validate();
+
+        if (!requiredFieldValidator.getHasErrors()) {
+            ColumnRepository.getInstance().updateName(currentColumn.getId(), editColumnTextField.getText());
+            currentColumn.setName(editColumnTextField.getText());
+            boardController.boardListView.refresh();
+            editColumnDialog.close();
+        }
+
     }
 
     @FXML
-    public void handleEditColumnButtonAction(ActionEvent actionEvent) {
-        requiredFieldValidator.validate();
-        if (!requiredFieldValidator.getHasErrors()) {
-
-            ColumnRepository.getInstance().updateName(currentColumn.getId(), editColumnTextField.getText());
-
-            currentColumn.setName(editColumnTextField.getText());
-            int index = boardController.boardListView.getItems().indexOf(currentColumn);
-            boardController.boardListView.getItems().set(index, currentColumn);
-
-            for (TaskBase column : boardController.currentBoard.getChildren()) {
-                if (column.getId().equals(currentColumn.getId())) {
-                    column.setName(editColumnTextField.getText());
-                    break;
-                }
-            }
-            editColumnDialog.close();
-        }
+    public void handleEditColumnDialogClosed(JFXDialogEvent jfxDialogEvent) {
+        editColumnTextField.resetValidation();
+        editColumnTextField.setText(null);
     }
 }

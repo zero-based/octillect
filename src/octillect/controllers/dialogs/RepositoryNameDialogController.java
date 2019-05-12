@@ -1,6 +1,5 @@
 package octillect.controllers.dialogs;
 
-
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
@@ -15,14 +14,17 @@ import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.OButton;
-import octillect.database.firebase.FirestoreAPI;
+import octillect.database.repositories.BoardRepository;
 
 public class RepositoryNameDialogController implements Injectable<ApplicationController> {
 
-    //FXML Fields
+    // FXML Fields
     @FXML public JFXDialog repositoryNameDialog;
     @FXML public JFXTextField repositoryNameTextField;
     @FXML public OButton addRepositoryButton;
+
+    // Validators
+    private RegexValidator nameRegexValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -30,11 +32,16 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
     private BoardController boardController;
     private GitHubRepositoryController gitHubRepositoryController;
 
-    // Validators
-    private RegexValidator nameRegexValidator;
+    @Override
+    public void inject(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+        boardController            = applicationController.boardController;
+        rightDrawerController      = applicationController.rightDrawerController;
+        gitHubRepositoryController = rightDrawerController.gitHubRepositoryController;
+    }
 
     @Override
-    public void init(){
+    public void init() {
 
         nameRegexValidator = new RegexValidator("Invalid repository name.");
         nameRegexValidator.setRegexPattern("^[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}" +
@@ -49,14 +56,6 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
 
     }
 
-    @Override
-    public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        rightDrawerController      = applicationController.rightDrawerController;
-        boardController            = applicationController.boardController;
-        gitHubRepositoryController = rightDrawerController.gitHubRepositoryController;
-    }
-
     @FXML
     public void handleAddRepositoryButtonAction(ActionEvent actionEvent) {
 
@@ -64,10 +63,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
 
         if (!nameRegexValidator.getHasErrors()) {
 
-            FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardController.currentBoard.getId(), "repositoryName", repositoryNameTextField.getText());
-
-            int index = applicationController.user.getBoards().indexOf(boardController.currentBoard);
-            applicationController.user.getBoards().get(index).setRepositoryName(repositoryNameTextField.getText());
+            BoardRepository.getInstance().updateRepositoryName(boardController.currentBoard.getId(), repositoryNameTextField.getText());
             boardController.currentBoard.setRepositoryName(repositoryNameTextField.getText());
             gitHubRepositoryController.loadGitHubRepository();
 
@@ -84,7 +80,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
     @FXML
     public void handleNewRepoDialogClosed(JFXDialogEvent jfxDialogEvent) {
         repositoryNameTextField.resetValidation();
-        repositoryNameTextField.setText("");
-        repositoryNameTextField.setText("");
+        repositoryNameTextField.setText(null);
+        repositoryNameTextField.setText(null);
     }
 }

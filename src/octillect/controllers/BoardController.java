@@ -18,6 +18,9 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class BoardController implements Injectable<ApplicationController> {
 
+    // Local Fields
+    public Board currentBoard;
+
     // FXML Fields
     @FXML public ListView boardListView;
     @FXML public JFXTextField searchTextField;
@@ -26,25 +29,23 @@ public class BoardController implements Injectable<ApplicationController> {
     @FXML public FontIcon addColumnIcon;
     @FXML public Label noBoardsLabel;
 
-    public Board currentBoard;
-
     // Injected Controllers
     private ApplicationController applicationController;
+    private LeftDrawerController leftDrawerController;
+    private RightDrawerController rightDrawerController;
     private TitleBarController titleBarController;
     private NewColumnDialogController newColumnDialogController;
-    private RightDrawerController rightDrawerController;
-    private LeftDrawerController leftDrawerController;
-    private BoardSettingsController boardSettingsController;
     private RepositoryNameDialogController repositoryNameDialogController;
+    private BoardSettingsController boardSettingsController;
     private GitHubRepositoryController gitHubRepositoryController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController     = applicationController;
+        leftDrawerController           = applicationController.leftDrawerController;
+        rightDrawerController          = applicationController.rightDrawerController;
         titleBarController             = applicationController.titleBarController;
         newColumnDialogController      = applicationController.newColumnDialogController;
-        rightDrawerController          = applicationController.rightDrawerController;
-        leftDrawerController           = applicationController.leftDrawerController;
         repositoryNameDialogController = applicationController.repositoryNameDialogController;
         boardSettingsController        = rightDrawerController.boardSettingsController;
         gitHubRepositoryController     = rightDrawerController.gitHubRepositoryController;
