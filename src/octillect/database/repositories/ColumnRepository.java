@@ -70,8 +70,10 @@ public class ColumnRepository implements Repository<Column> {
     @Override
     public void delete(Column column) {
         FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
-        for (TaskBase task : column.getChildren()) {
-            TaskRepository.getInstance().delete((Task) task);
+        if (column.getChildren() != null) {
+            for (TaskBase task : column.getChildren()) {
+                TaskRepository.getInstance().delete((Task) task);
+            }
         }
     }
 
