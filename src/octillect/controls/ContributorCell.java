@@ -77,8 +77,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
 
         deleteContributorIcon.setOnMouseClicked(event -> {
             /* TODO: Add Confirmation Here. */
-            BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(),
-                    getItem().getEmail(), getItem().getRole());
+            BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(), getItem().getEmail(), getItem().getRole());
             UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
             if (boardController.currentBoard.getContributors().size() == 1) {
@@ -89,10 +88,8 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
             if (getItem().getId().equals(applicationController.user.getId())) {
                 applicationController.user.getBoards().remove(boardController.currentBoard);
                 boardController.init();
-                leftDrawerController.init();
             } else {
                 boardController.currentBoard.getContributors().remove(getItem());
-                getListView().getItems().remove(getItem());
             }
 
         });

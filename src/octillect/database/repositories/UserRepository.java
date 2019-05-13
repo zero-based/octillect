@@ -102,14 +102,18 @@ public class UserRepository implements Repository<User> {
 
     public Contributor getContributor(String contributorId) {
 
-        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
+        Contributor contributor = null;
+        UserDocument document;
+        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
 
-        Contributor contributor = new ContributorBuilder().with($ -> {
-            $.id = document.getId();
-            $.name = document.getName();
-            $.email = document.getEmail();
-            $.image = getImage(document.getId());
-        }).build();
+        if (document != null){
+            contributor = new ContributorBuilder().with($ -> {
+                $.id = document.getId();
+                $.name = document.getName();
+                $.email = document.getEmail();
+                $.image = getImage(document.getId());
+            }).build();
+        }
 
         return contributor;
     }

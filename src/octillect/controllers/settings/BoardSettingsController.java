@@ -146,12 +146,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     newContributorTextField.getValidators().remove(emailValidator);
                 } else {
                     contributor.setRole(rolesComboBox.getValue());
-
                     BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor.getEmail(), contributor.getRole());
-                    UserRepository.getInstance().addBoardId(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()), boardController.currentBoard.getId());
-
+                    UserRepository.getInstance().addBoardId(contributor.getId(), boardController.currentBoard.getId());
                     boardController.currentBoard.getContributors().add(contributor);
-                    contributorsListView.getItems().add(contributor);
 
                     newContributorTextField.setText(null);
                     rolesComboBox.getSelectionModel().clearSelection();
@@ -177,11 +174,11 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
             TagRepository.getInstance().add(tag);
             BoardRepository.getInstance().addTagId(boardController.currentBoard.getId(), tag.getId());
-            tagsListView.getItems().add(tag);
-            resetRequiredFieldValidators();
+            boardController.currentBoard.getTags().add(tag);
 
             newTagTextField.setText(null);
             tagColorPicker.setValue(Color.WHITE);
+            resetRequiredFieldValidators();
         }
     }
 
@@ -194,7 +191,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
         boardController.init();
-        leftDrawerController.init();
     }
 
     private void resetRequiredFieldValidators() {
