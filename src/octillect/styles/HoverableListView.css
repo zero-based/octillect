@@ -13,7 +13,7 @@
 }
 
 .list-cell:filled:hover {
-     -fx-background-color: derive(-o-dark-700, -8%);
+     -fx-background-color: derive(-o-dark-800, -16%);
 }
 
 .list-cell:filled:selected {

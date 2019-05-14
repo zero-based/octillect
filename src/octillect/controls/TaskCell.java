@@ -174,6 +174,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             if (getItem() != null) {
                 Column parentColumn = ((TasksColumn) getListView().getParent().getParent()).getItem();
                 taskSettingsController.loadTask(getItem(), parentColumn);
+            } else {
+                getListView().getSelectionModel().clearSelection();
             }
         });
 

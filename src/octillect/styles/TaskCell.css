@@ -1,17 +1,14 @@
 @import "Palette.css"
 
 #taskCellVBox {
-    -fx-background-color: -o-dark-500;
+    -fx-background-color: -o-dark-700;
     -fx-background-radius: 12;
     -fx-padding: 16;
     -fx-spacing: 16;
 }
 
 #taskCellVBox:hover {
-    -fx-effect: dropshadow(three-pass-box, -o-primary, 16, 0.2, 0, 0);
-    -fx-background-color: derive(-o-dark-500, -8%);
-    -fx-stroke: -o-primary-dark;
-    -fx-stroke-width: 8;
+    -fx-background-color: derive(-o-dark-700, -8%);
 }
 
 #taskCellVBox:hover #moreButtonIcon {

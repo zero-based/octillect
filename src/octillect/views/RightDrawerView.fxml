@@ -14,7 +14,7 @@
            defaultDrawerSize="640">
 
     <sidePane>
-        <StackPane style="-fx-background-color: -o-dark-700;">
+        <StackPane style="-fx-background-color: -o-dark-800;">
 
             <padding>
                 <Insets topRightBottomLeft="32"/>

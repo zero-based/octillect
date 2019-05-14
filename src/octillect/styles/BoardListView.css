@@ -36,6 +36,10 @@
 }
 
 .scroll-bar:horizontal .thumb {
-    -fx-background-color: derive(-o-dark-900, -8%);
+    -fx-background-color: -o-dark-900;
     -fx-background-radius: 12;
+}
+
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: derive(-o-dark-900, -8%);
 }

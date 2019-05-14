@@ -28,7 +28,7 @@
 
     <sidePane>
 
-        <VBox style="-fx-background-color: -o-dark-700;">
+        <VBox style="-fx-background-color: -o-dark-800;">
 
             <BorderPane prefWidth="${leftDrawer.defaultDrawerSize}">
 

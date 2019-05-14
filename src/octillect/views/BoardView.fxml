@@ -19,7 +19,7 @@
             xmlns:fx="http://javafx.com/fxml/"
             fx:controller="octillect.controllers.BoardController"
             stylesheets="@/octillect/styles/Palette.css"
-            style="-fx-background-color: -o-dark-700;">
+            style="-fx-background-color: -o-dark-800;">
 
     <fx:define>
         <Palette fx:id="Palette"/>
@@ -36,25 +36,25 @@
                           promptText="Search"
                           prefColumnCount="30"
                           focusTraversable="false"
-                          focusColor="${Palette.PRIMARY}"
-                          style="-fx-text-inner-color: -o-dark-300"/>
+                          focusColor="${Palette.PRIMARY_DARK}"
+                          style="-fx-text-inner-color: -o-dark-200"/>
 
             <FontIcon fx:id="gitHubIcon"
                       iconLiteral="oct-mark-github"
                       iconSize="22"
-                      iconColor="${Palette.DARK_300}"
+                      iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleGitHubIconMouseClicked"/>
 
             <FontIcon fx:id="calendarIcon"
                       iconLiteral="gmi-today"
                       iconSize="24"
-                      iconColor="${Palette.DARK_300}"
+                      iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleCalendarIconMouseClicked"/>
 
             <FontIcon fx:id="addColumnIcon"
                       iconLiteral="gmi-add-circle"
                       iconSize="24"
-                      iconColor="${Palette.DARK_300}"
+                      iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleAddColumnIconMouseClicked"/>
 
         </HBox>
@@ -71,7 +71,7 @@
             <Label fx:id="noBoardsLabel"
                    text="All your Boards are lost in Space,&#10;Now What...?"
                    textAlignment="CENTER"
-                   textFill="${Palette.PRIMARY_DARK}">
+                   textFill="${Palette.PRIMARY_LIGHT}">
                 <font>
                     <Font name="Product Sans Regular" size="16"/>
                 </font>
