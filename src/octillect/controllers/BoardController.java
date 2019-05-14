@@ -2,15 +2,18 @@ package octillect.controllers;
 
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
+import octillect.controllers.dialogs.NewBoardDialogController;
 import octillect.controllers.dialogs.NewColumnDialogController;
 import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
+import octillect.controls.OButton;
 import octillect.controls.TasksColumn;
 import octillect.models.Board;
 
@@ -28,6 +31,7 @@ public class BoardController implements Injectable<ApplicationController> {
     @FXML public FontIcon calendarIcon;
     @FXML public FontIcon addColumnIcon;
     @FXML public Label noBoardsLabel;
+    @FXML public OButton newBoardOButton;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -35,6 +39,7 @@ public class BoardController implements Injectable<ApplicationController> {
     private RightDrawerController rightDrawerController;
     private TitleBarController titleBarController;
     private NewColumnDialogController newColumnDialogController;
+    private NewBoardDialogController newBoardDialogController;
     private RepositoryNameDialogController repositoryNameDialogController;
     private BoardSettingsController boardSettingsController;
     private GitHubRepositoryController gitHubRepositoryController;
@@ -46,6 +51,7 @@ public class BoardController implements Injectable<ApplicationController> {
         rightDrawerController          = applicationController.rightDrawerController;
         titleBarController             = applicationController.titleBarController;
         newColumnDialogController      = applicationController.newColumnDialogController;
+        newBoardDialogController       = applicationController.newBoardDialogController;
         repositoryNameDialogController = applicationController.repositoryNameDialogController;
         boardSettingsController        = rightDrawerController.boardSettingsController;
         gitHubRepositoryController     = rightDrawerController.gitHubRepositoryController;
@@ -113,6 +119,8 @@ public class BoardController implements Injectable<ApplicationController> {
             addColumnIcon.setOpacity(1);
             addColumnIcon.setDisable(false);
             noBoardsLabel.setOpacity(0);
+            newBoardOButton.setDisable(true);
+            newBoardOButton.setOpacity(0);
         } else {
             searchTextField.setOpacity(0);
             searchTextField.setDisable(true);
@@ -123,7 +131,14 @@ public class BoardController implements Injectable<ApplicationController> {
             addColumnIcon.setOpacity(0);
             addColumnIcon.setDisable(true);
             noBoardsLabel.setOpacity(1);
+            newBoardOButton.setDisable(false);
+            newBoardOButton.setOpacity(1);
         }
+    }
+
+    @FXML
+    public void handleNewBoardButtonAction(ActionEvent actionEvent) {
+        newBoardDialogController.newBoardDialog.show(applicationController.rootStackPane);
     }
 
 }

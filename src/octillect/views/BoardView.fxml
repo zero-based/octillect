@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
+<?import octillect.controls.OButton?>
 <?import octillect.styles.Palette?>
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -75,6 +76,13 @@
                     <Font name="Product Sans Regular" size="16"/>
                 </font>
             </Label>
+
+            <OButton fx:id="newBoardOButton"
+                     text="New Board"
+                     color="PRIMARY"
+                     fill="TRUE"
+                     translateY="64"
+                     onAction="#handleNewBoardButtonAction"/>
 
         </StackPane>
     </center>
