@@ -80,8 +80,7 @@
 
     <ListView fx:id="tasksListView"
               prefWidth="368"
-              VBox.vgrow="ALWAYS"
-              stylesheets="@/octillect/styles/ListView.css"/>
+              VBox.vgrow="ALWAYS"/>
 
 </VBox>
 

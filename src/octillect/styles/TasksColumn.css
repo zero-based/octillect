@@ -8,5 +8,68 @@
 }
 
 #tasksColumnVBox:hover {
-    -fx-background-color: derive(-o-dark-900, -8%);
+    -fx-background-color: derive(-o-dark-900, -4%);
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+/*ListView Cell Style*/
+.list-cell {
+    -fx-background-color: transparent;
+}
+
+/*To Remove Horizontal Scroll-Bar*/
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:horizontal .increment-button,
+.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+}
+
+/*Adjusting Scroll-Bar Style*/
+.list-view .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar-vertical .increment-button,
+.list-view .scroll-bar-vertical .decrement-button,
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow {
+    visibility: hidden;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical .track-background {
+    visibility: hidden;
+}
+
+.list-view .scroll-bar:vertical .track,
+.list-view .scroll-bar:vertical .track {
+    visibility: hidden;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -o-dark-700;
+    -fx-background-radius: 12;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(-o-dark-700, -8%);
+}
+
+/* Add Shadow and Stroke on Cell Selection */
+.list-cell:filled:selected {
+    -fx-effect: dropshadow(three-pass-box, -o-primary, 0, 0, 0, 0);
+    -fx-stroke-width: 0;
+}
+
+.list-view:focused .list-cell:filled:selected {
+    -fx-effect: dropshadow(three-pass-box, -o-primary, 16, 0.2, 0, 0);
+    -fx-stroke: -o-primary-dark;
+    -fx-stroke-width: 8;
 }

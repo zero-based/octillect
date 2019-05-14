@@ -17,7 +17,7 @@
 }
 
 .list-cell:filled:hover {
-     -fx-background-color: derive(-o-dark-700, -8%);
+     -fx-background-color: derive(-o-dark-900, -8%);
      -fx-background-radius: 0 50 50 0;
 }
 
@@ -59,6 +59,6 @@
 }
 
 .scroll-bar:vertical .thumb {
-    -fx-background-color: derive(-o-dark-700, -8%);
+    -fx-background-color: -o-dark-900;
     -fx-background-radius: 5em;
 }
