@@ -12,9 +12,12 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controllers.BoardController;
+import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.BoardRepository;
+import octillect.database.repositories.TaskRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.models.Contributor;
+import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -35,12 +38,14 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
     private ApplicationController applicationController;
     private BoardController boardController;
     private LeftDrawerController leftDrawerController;
+    private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         boardController            = applicationController.boardController;
         leftDrawerController       = applicationController.leftDrawerController;
+        taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
@@ -108,9 +113,17 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                 }
             });
 
-        } else if (mode == Mode.TASK){
+        } else if (mode == Mode.TASK) {
             deleteContributorIcon.setOnMouseClicked(event -> {
-                /* TODO: Handle removing assignee from task here. */
+                TaskRepository.getInstance().deleteAssigneeId(taskSettingsController.currentTask.getId(), contributorItem.getId());
+
+                int columnIndex = boardController.currentBoard.getChildren().indexOf(taskSettingsController.parentColumn);
+                int taskIndex = boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().indexOf(taskSettingsController.currentTask);
+
+                ((Task) boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().get(taskIndex)).getAssignees().remove(contributorItem);
+                boardController.boardListView.refresh();
             });
         }
 

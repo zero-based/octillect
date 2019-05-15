@@ -123,12 +123,28 @@ public class TaskRepository implements Repository<Task> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "dueDate", dueDate);
     }
 
+    public void addTagId(String taskId, String tagId) {
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagId);
+    }
+
     public void updateTagsIds(String taskId, ArrayList<String> tagsIds) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagsIds);
     }
 
+    public void deleteTagId(String taskId, String tagId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagId);
+    }
+
+    public void addAssigneeId(String taskId, String assigneeId) {
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeId);
+    }
+
     public void updateAssigneesIds(String taskId, ArrayList<String> assigneeIds) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
+    }
+
+    public void deleteAssigneeId(String taskId, String assigneeId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeId);
     }
 
     public void addSubTask(String parentTaskId, Task subTask) {

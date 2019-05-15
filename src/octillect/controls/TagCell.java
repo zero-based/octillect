@@ -11,10 +11,13 @@ import javafx.scene.paint.Color;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.BoardController;
+import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
+import octillect.database.repositories.TaskRepository;
 import octillect.models.Contributor;
 import octillect.models.Tag;
+import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -32,11 +35,13 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
+    private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         boardController            = applicationController.boardController;
+        taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
@@ -83,7 +88,6 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
 
             deleteTagIcon.setOnMouseClicked(event -> {
                 /* TODO: Add Confirmation Here. */
-                BoardRepository.getInstance().deleteTagId(boardController.currentBoard.getId(), getItem().getId());
                 TagRepository.getInstance().delete(getItem());
                 boardController.currentBoard.getTags().remove(getItem());
             });
@@ -91,6 +95,14 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         } else if (mode == Mode.TASK){
             deleteTagIcon.setOnMouseClicked(event -> {
                 /* TODO: Handle removing tag from task here. */
+                TaskRepository.getInstance().deleteTagId(taskSettingsController.currentTask.getId(), tagItem.getId());
+                int columnIndex = boardController.currentBoard.getChildren().indexOf(taskSettingsController.parentColumn);
+                int taskIndex = boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().indexOf(taskSettingsController.currentTask);
+
+                ((Task) boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().get(taskIndex)).getTags().remove(tagItem);
+                boardController.loadBoard(boardController.currentBoard);
             });
         }
 
