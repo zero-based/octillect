@@ -39,7 +39,6 @@ import octillect.models.Column;
 import octillect.models.Contributor;
 import octillect.models.Tag;
 import octillect.models.Task;
-import octillect.models.TaskBase;
 import octillect.models.builders.TaskBuilder;
 import octillect.styles.Palette;
 
@@ -49,7 +48,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     // Local Fields
     private Board currentBoard;
-    public Column parentColumn;
+    private Column parentColumn;
     public Task currentTask;
 
     // FXML Fields
@@ -148,19 +147,18 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     @FXML
     public void handleAddSubTaskButtonAction(MouseEvent mouseEvent) {
+        if (!newSubTaskTextField.getText().isEmpty()) {
+            Task subTask = new TaskBuilder().with($ -> {
+                $.id = FirestoreAPI.getInstance()
+                        .encryptWithDateTime(newSubTaskTextField.getText() + applicationController.user.getName());
+                $.name = newSubTaskTextField.getText();
+                $.isCompleted = false;
+            }).build();
 
-        Task subTask = new TaskBuilder().with($ -> {
-            $.id = FirestoreAPI.getInstance()
-                    .encryptWithDateTime(newSubTaskTextField.getText() + applicationController.user.getName());
-            $.name = newSubTaskTextField.getText();
-            $.isCompleted = false;
-        }).build();
-
-        TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
-
-        subTasksListView.getItems().add(subTask);
-        currentTask.<Task>getChildren().add(subTask);
-        boardController.boardListView.refresh();
+            TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
+            currentTask.<Task>getChildren().add(subTask);
+            newSubTaskTextField.setText("");
+        }
     }
 
     @FXML
@@ -210,8 +208,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     public void handleDeleteTaskAction(MouseEvent mouseEvent) {
         TaskRepository.getInstance().delete(currentTask);
         ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), currentTask.getId());
-        int columnIndex = currentBoard.getChildren().indexOf(parentColumn);
-        currentBoard.getChildren().get(columnIndex).getChildren().remove(currentTask);
+        parentColumn.<Task>getChildren().remove(currentTask);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
@@ -238,25 +235,21 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     private void loadCreationInfo() {
         taskCreatorImageCircle.setFill(new ImagePattern(currentTask.getCreator().getImage()));
         taskCreatorLabel.setText(currentTask.getCreator().getName());
-
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM, dd, hh:mm a");
         String date = sdf.format(currentTask.getCreationDate().getTime());
         taskCreationDateLabel.setText(date);
     }
 
     private void loadSubTasksListView() {
-        subTasksListView.getItems().clear();
-        for (Task subTask : currentTask.<Task>getChildren()) {
-            subTasksListView.getItems().add(subTask);
-        }
+        subTasksListView.setItems(currentTask.<Task>getChildren());
     }
 
-    private void loadAssignees() {
+    public void loadAssignees() {
         taskAssigneesListView.setItems(currentTask.getAssignees());
         boardContributorsComboBox.setItems(getUnusedItems(currentBoard.getContributors(), currentTask.getAssignees()));
     }
 
-    private void loadTags() {
+    public void loadTags() {
         taskTagsListView.setItems(currentTask.getTags());
         boardTagsComboBox.setItems(getUnusedItems(currentBoard.getTags(), currentTask.getTags()));
     }

@@ -19,7 +19,6 @@ import octillect.database.repositories.UserRepository;
 import octillect.models.Column;
 import octillect.models.Contributor;
 import octillect.models.Task;
-import octillect.models.TaskBase;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -132,13 +131,8 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
         } else if (mode == Mode.TASK) {
             deleteContributorIcon.setOnMouseClicked(event -> {
                 TaskRepository.getInstance().deleteAssigneeId(taskSettingsController.currentTask.getId(), contributorItem.getId());
-
-                int columnIndex = boardController.currentBoard.getChildren().indexOf(taskSettingsController.parentColumn);
-                int taskIndex = boardController.currentBoard.getChildren().get(columnIndex)
-                        .getChildren().indexOf(taskSettingsController.currentTask);
-
-                ((Task) boardController.currentBoard.getChildren().get(columnIndex)
-                        .getChildren().get(taskIndex)).getAssignees().remove(contributorItem);
+                taskSettingsController.currentTask.getAssignees().remove(contributorItem);
+                taskSettingsController.loadAssignees();
                 boardController.boardListView.refresh();
             });
         }
