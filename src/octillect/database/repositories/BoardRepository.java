@@ -40,21 +40,17 @@ public class BoardRepository implements Repository<Board> {
         }
         document.setContributors(contributorIds);
 
-        if (board.getChildren() != null) {
-            ArrayList<String> columnsIds = new ArrayList<>();
-            for (TaskBase column : board.getChildren()) {
-                columnsIds.add(column.getId());
-            }
-            document.setColumnsIds(columnsIds);
+        ArrayList<String> columnsIds = new ArrayList<>();
+        for (TaskBase column : board.getChildren()) {
+            columnsIds.add(column.getId());
         }
+        document.setColumnsIds(columnsIds);
 
-        if (board.getTags() != null) {
-            ArrayList<String> tagsIds = new ArrayList<>();
-            for (Tag tag : board.getTags()) {
-                tagsIds.add(tag.getId());
-            }
-            document.setTagsIds(tagsIds);
+        ArrayList<String> tagsIds = new ArrayList<>();
+        for (Tag tag : board.getTags()) {
+            tagsIds.add(tag.getId());
         }
+        document.setTagsIds(tagsIds);
 
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().BOARDS, document.getId(), document);
     }
@@ -78,21 +74,17 @@ public class BoardRepository implements Repository<Board> {
             }
             $.contributors = FXCollections.observableArrayList(contributorsIds);
 
-            if (document.getColumnsIds() != null) {
-                ArrayList<Column> columns = new ArrayList<>();
-                for (String columnId : document.getColumnsIds()) {
-                    columns.add(ColumnRepository.getInstance().get(columnId));
-                }
-                $.columns = FXCollections.observableArrayList(columns);
+            ArrayList<Column> columns = new ArrayList<>();
+            for (String columnId : document.getColumnsIds()) {
+                columns.add(ColumnRepository.getInstance().get(columnId));
             }
+            $.columns = FXCollections.observableArrayList(columns);
 
-            if (document.getTagsIds() != null) {
-                ArrayList<Tag> tags = new ArrayList<>();
-                for (String tagId : document.getTagsIds()) {
-                    tags.add(TagRepository.getInstance().get(tagId));
-                }
-                $.tags = FXCollections.observableArrayList(tags);
+            ArrayList<Tag> tags = new ArrayList<>();
+            for (String tagId : document.getTagsIds()) {
+                tags.add(TagRepository.getInstance().get(tagId));
             }
+            $.tags = FXCollections.observableArrayList(tags);
 
         }).build();
 
@@ -109,10 +101,8 @@ public class BoardRepository implements Repository<Board> {
             }
             FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
         }
-        if (board.getTags() != null) {
-            for (Tag tag : board.getTags()) {
-                TagRepository.getInstance().delete(tag);
-            }
+        for (Tag tag : board.getTags()) {
+            TagRepository.getInstance().delete(tag);
         }
     }
 

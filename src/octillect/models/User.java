@@ -1,12 +1,13 @@
 package octillect.models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 public class User extends UserBase implements IObserver {
 
     private String password;
-    private ObservableList<Board> boards;
+    private ObservableList<Board> boards = FXCollections.observableArrayList();
 
 
     public User(String id, String name, String email, String password,

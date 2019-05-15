@@ -2,6 +2,7 @@ package octillect.models.builders;
 
 import java.util.function.Consumer;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import octillect.models.*;
@@ -12,9 +13,9 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
     public String name;
     public String description;
     public String repositoryName;
-    public ObservableList<Contributor> contributors;
-    public ObservableList<TaskBase> columns;
-    public ObservableList<Tag> tags;
+    public ObservableList<Contributor> contributors = FXCollections.observableArrayList();
+    public ObservableList<TaskBase> columns = FXCollections.observableArrayList();
+    public ObservableList<Tag> tags = FXCollections.observableArrayList();
 
     @Override
     public BoardBuilder with(Consumer<BoardBuilder> builderFunction) {

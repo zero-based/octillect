@@ -25,9 +25,9 @@ public class BoardDocument {
     private String name;
     private String description;
     private String repositoryName;
-    private ArrayList<HashMap<String, String>> contributors;
-    private ArrayList<String> columnsIds;
-    private ArrayList<String> tagsIds;
+    private ArrayList<HashMap<String, String>> contributors = new ArrayList<>();
+    private ArrayList<String> columnsIds = new ArrayList<>();
+    private ArrayList<String> tagsIds = new ArrayList<>();
 
     public BoardDocument() {}
 

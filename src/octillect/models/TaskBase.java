@@ -1,5 +1,6 @@
 package octillect.models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 abstract public class TaskBase {
@@ -7,7 +8,7 @@ abstract public class TaskBase {
     private String id;
     private String name;
     private String description;
-    private ObservableList<TaskBase> children;
+    private ObservableList<TaskBase> children = FXCollections.observableArrayList();
 
     TaskBase() {
     }

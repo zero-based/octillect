@@ -199,13 +199,8 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             e.printStackTrace();
         }
 
-        taskAssigneesNodesList.setOnMouseEntered(event -> {
-            taskAssigneesNodesList.animateList();
-        });
-
-        taskAssigneesNodesList.setOnMouseExited(event -> {
-            taskAssigneesNodesList.animateList();
-        });
+        taskAssigneesNodesList.setOnMouseEntered(event -> taskAssigneesNodesList.animateList());
+        taskAssigneesNodesList.setOnMouseExited(event -> taskAssigneesNodesList.animateList());
 
         taskMoreButton.setOnMouseClicked(event -> {
             ContextMenu contextMenu = new ContextMenu();
@@ -247,8 +242,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         taskNameLabel.setText(taskItem.getName());
 
-        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
-                && (taskItem.getAssignees() == null || taskItem.getAssignees().isEmpty())
+        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted() && taskItem.getAssignees().isEmpty()
                 && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))) {
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
         }
@@ -267,13 +261,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
             taskIconsFlowPane.getChildren().remove(0);
         }
 
-        if (taskItem.getAssignees() == null || taskItem.getAssignees().isEmpty()) {
+        if (taskItem.getAssignees().isEmpty()) {
             taskAssigneesNodesList.setVisible(false);
         } else {
             updateAssigneesNodesList(taskItem, taskAssigneesNodesList);
         }
 
-        if (taskItem.getTags() == null || taskItem.getTags().isEmpty()) {
+        if (taskItem.getTags().isEmpty()) {
             taskCellVBox.getChildren().remove(tagsFlowPane);
         } else {
             updateTagsFlowPane(taskItem, tagsFlowPane);

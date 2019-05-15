@@ -31,13 +31,12 @@ public class ColumnRepository implements Repository<Column> {
         document.setId(column.getId());
         document.setName(column.getName());
 
-        if (column.getChildren() != null) {
-            ArrayList<String> tasksIds = new ArrayList<>();
-            for (TaskBase task : column.getChildren()) {
-                tasksIds.add(task.getId());
-            }
-            document.setTasksIds(tasksIds);
+        ArrayList<String> tasksIds = new ArrayList<>();
+        for (TaskBase task : column.getChildren()) {
+            tasksIds.add(task.getId());
         }
+        document.setTasksIds(tasksIds);
+
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().COLUMNS, document.getId(), document);
     }
 
@@ -50,13 +49,12 @@ public class ColumnRepository implements Repository<Column> {
             $.id = document.getId();
             $.name = document.getName();
 
-            if (document.getTasksIds() != null) {
-                ArrayList<Task> tasks = new ArrayList<>();
-                for (String taskId : document.getTasksIds()) {
-                    tasks.add(TaskRepository.getInstance().get(taskId));
-                }
-                $.tasks = FXCollections.observableArrayList(tasks);
+            ArrayList<Task> tasks = new ArrayList<>();
+            for (String taskId : document.getTasksIds()) {
+                tasks.add(TaskRepository.getInstance().get(taskId));
             }
+            $.tasks = FXCollections.observableArrayList(tasks);
+
         }).build();
 
         return column;
@@ -70,10 +68,8 @@ public class ColumnRepository implements Repository<Column> {
     @Override
     public void delete(Column column) {
         FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
-        if (column.getChildren() != null) {
-            for (TaskBase task : column.getChildren()) {
-                TaskRepository.getInstance().delete((Task) task);
-            }
+        for (TaskBase task : column.getChildren()) {
+            TaskRepository.getInstance().delete((Task) task);
         }
     }
 

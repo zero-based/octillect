@@ -1,5 +1,6 @@
 package octillect.models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Date;
@@ -10,8 +11,8 @@ public class Task extends TaskBase {
     private Date dueDate;
     private Date creationDate;
     private Contributor creator;
-    private ObservableList<Contributor> assignees;
-    private ObservableList<Tag> tags;
+    private ObservableList<Contributor> assignees = FXCollections.observableArrayList();
+    private ObservableList<Tag> tags = FXCollections.observableArrayList();
 
 
     public Task(String id, String name, String description, boolean isCompleted,
