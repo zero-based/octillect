@@ -195,12 +195,12 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     public void handleIsCompletedTaskAction(MouseEvent mouseEvent) {
         if (currentTask.getIsCompleted()) {
             isCompletedTaskIcon.setIconColor(Palette.PRIMARY);
-            TaskRepository.getInstance().updateisCompleted(currentTask.getId(), false);
+            TaskRepository.getInstance().updateIsCompleted(currentTask.getId(), false);
             currentTask.setIsCompleted(false);
             boardController.boardListView.refresh();
         } else {
             isCompletedTaskIcon.setIconColor(Palette.SUCCESS);
-            TaskRepository.getInstance().updateisCompleted(currentTask.getId(), true);
+            TaskRepository.getInstance().updateIsCompleted(currentTask.getId(), true);
             currentTask.setIsCompleted(true);
             boardController.boardListView.refresh();
         }
