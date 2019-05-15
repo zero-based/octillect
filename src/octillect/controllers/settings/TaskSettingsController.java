@@ -1,5 +1,6 @@
 package octillect.controllers.settings;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
@@ -9,11 +10,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 
-import javafx.collections.ListChangeListener;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -25,24 +27,30 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
-import octillect.controls.OButton;
+import octillect.controls.ContributorCell;
+import octillect.controls.Mode;
 import octillect.controls.SubTaskCell;
+import octillect.controls.TagCell;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
-import octillect.models.*;
+import octillect.models.Board;
+import octillect.models.Column;
+import octillect.models.Contributor;
+import octillect.models.Tag;
+import octillect.models.Task;
+import octillect.models.TaskBase;
 import octillect.models.builders.TaskBuilder;
 import octillect.styles.Palette;
-
-import org.controlsfx.control.CheckComboBox;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TaskSettingsController implements Injectable<ApplicationController> {
 
     // Local Fields
+    private Board currentBoard;
+    private Column parentColumn;
     public Task currentTask;
-    public Column parentColumn;
 
     // FXML Fields
     @FXML public Circle taskCreatorImageCircle;
@@ -54,9 +62,10 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public JFXTextArea taskDescriptionTextArea;
     @FXML public JFXDatePicker taskDueDatePicker;
     @FXML public JFXListView<Task> subTasksListView;
-    @FXML public CheckComboBox<Contributor> assigneesCheckComboBox;
-    @FXML public CheckComboBox<Tag> tagsCheckComboBox;
-    @FXML public OButton addSubTaskButton;
+    @FXML public JFXListView<Tag> taskTagsListView;
+    @FXML public JFXListView<Contributor> taskAssigneesListView;
+    @FXML public JFXComboBox<Tag> boardTagsComboBox;
+    @FXML public JFXComboBox<Contributor> boardContributorsComboBox;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -73,15 +82,42 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @Override
     public void init() {
 
+        // Cell Factories
+
         subTasksListView.setCellFactory(param -> {
             SubTaskCell subTaskCell = new SubTaskCell();
             subTaskCell.inject(applicationController);
             return subTaskCell;
         });
 
-        assigneesCheckComboBox.setConverter(new AssigneesStringConverter());
-        tagsCheckComboBox.setConverter(new TagStringConverter());
+        taskAssigneesListView.setCellFactory(param -> {
+            ContributorCell contributorCell = new ContributorCell(Mode.TASK);
+            contributorCell.inject(applicationController);
+            return contributorCell;
+        });
+
+        taskTagsListView.setCellFactory(param -> {
+            TagCell tagCell = new TagCell(Mode.TASK);
+            tagCell.inject(applicationController);
+            return tagCell;
+        });
+
+        boardContributorsComboBox.setCellFactory(param -> {
+            ContributorCell contributorCell = new ContributorCell(Mode.VIEW_ONLY);
+            contributorCell.inject(applicationController);
+            return contributorCell;
+        });
+
+        boardTagsComboBox.setCellFactory(param -> {
+            TagCell tagCell = new TagCell(Mode.VIEW_ONLY);
+            tagCell.inject(applicationController);
+            return tagCell;
+        });
+
         taskDueDatePicker.setConverter(new LocalDateStringConverter());
+
+
+        // Listeners
 
         taskNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -98,32 +134,6 @@ public class TaskSettingsController implements Injectable<ApplicationController>
                 boardController.boardListView.refresh();
             }
         });
-
-        assigneesCheckComboBox.getCheckModel()
-                .getCheckedItems()
-                .addListener((ListChangeListener<Contributor>) c -> {
-                    ObservableList<Contributor> selectedAssignees = assigneesCheckComboBox.getCheckModel().getCheckedItems();
-
-                    ArrayList<String> selectedAssigneesIds = new ArrayList<>();
-                    selectedAssignees.forEach(assignee -> selectedAssigneesIds.add(assignee.getId()));
-                    TaskRepository.getInstance().updateAssigneeIds(currentTask.getId(), selectedAssigneesIds);
-
-                    currentTask.setAssignees(selectedAssignees);
-                    boardController.boardListView.refresh();
-                });
-
-        tagsCheckComboBox.getCheckModel()
-                .getCheckedItems()
-                .addListener((ListChangeListener<Tag>) c -> {
-                    ObservableList<Tag> selectedTags = tagsCheckComboBox.getCheckModel().getCheckedItems();
-
-                    ArrayList<String> selectedTagsIds = new ArrayList<>();
-                    selectedTags.forEach(tag -> selectedTagsIds.add(tag.getId()));
-                    TaskRepository.getInstance().updateTagsIds(currentTask.getId(), selectedTagsIds);
-
-                    currentTask.setTags(selectedTags);
-                    boardController.boardListView.refresh();
-                });
 
         taskDueDatePicker.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -154,6 +164,34 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     }
 
     @FXML
+    public void handleContributorsComboBoxAction(ActionEvent actionEvent) {
+        if (boardContributorsComboBox.getSelectionModel().getSelectedIndex() != -1) {
+            Contributor selected = boardContributorsComboBox.getSelectionModel().getSelectedItem();
+            Platform.runLater(() -> {
+                /* TODO: Append to database HERE */
+                boardContributorsComboBox.getSelectionModel().clearSelection();
+                boardContributorsComboBox.getItems().remove(selected);
+                currentTask.getAssignees().add(selected);
+                boardController.boardListView.refresh();
+            });
+        }
+    }
+
+    @FXML
+    public void handleTagsComboBoxAction(ActionEvent actionEvent) {
+        if (boardTagsComboBox.getSelectionModel().getSelectedIndex() != -1) {
+            Tag selected = boardTagsComboBox.getSelectionModel().getSelectedItem();
+            Platform.runLater(() -> {
+                /* TODO: Append to database HERE */
+                boardTagsComboBox.getSelectionModel().clearSelection();
+                boardTagsComboBox.getItems().remove(selected);
+                currentTask.getTags().add(selected);
+                boardController.boardListView.refresh();
+            });
+        }
+    }
+
+    @FXML
     public void handleIsCompletedTaskAction(MouseEvent mouseEvent) {
         if (currentTask.getIsCompleted()) {
             isCompletedTaskIcon.setIconColor(Palette.PRIMARY);
@@ -172,26 +210,33 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     public void handleDeleteTaskAction(MouseEvent mouseEvent) {
         TaskRepository.getInstance().delete(currentTask);
         ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), currentTask.getId());
-        int columnIndex = boardController.currentBoard.getChildren().indexOf(parentColumn);
-        boardController.currentBoard.getChildren().get(columnIndex).getChildren().remove(currentTask);
+        int columnIndex = currentBoard.getChildren().indexOf(parentColumn);
+        currentBoard.getChildren().get(columnIndex).getChildren().remove(currentTask);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }
 
     public void loadTask(Task task, Column column) {
 
+        currentBoard = boardController.currentBoard;
         parentColumn = column;
         currentTask  = task;
 
-        loadCreationInfo();
+        if (currentTask.getAssignees() == null) { /* TODO : Remove this line after fixing null bugs */
+            currentTask.setAssignees(FXCollections.observableArrayList());
+        }
+
+        if (currentTask.getTags() == null) { /* TODO : Remove this line after fixing null bugs */
+            currentTask.setTags(FXCollections.observableArrayList());
+        }
+
         taskNameTextField.setText(task.getName());
         taskDescriptionTextArea.setText(task.getDescription());
-        loadBoardContributorsCheckComboBox();
-        selectTaskAssignees();
-        loadBoardTagsCheckComboBox();
-        selectTaskTags();
+        loadCreationInfo();
+        loadSubTasksListView();
+        loadAssignees();
+        loadTags();
         loadDueDateDatePicker();
         loadIsCompletedIcon();
-        loadSubTasksListView();
 
         rightDrawerController.show(rightDrawerController.taskSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
@@ -207,14 +252,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         taskCreationDateLabel.setText(date);
     }
 
-    public void loadBoardContributorsCheckComboBox() {
-        assigneesCheckComboBox.getItems().clear();
-        for (Contributor contributor : boardController.currentBoard.getContributors()) {
-            assigneesCheckComboBox.getItems().add(contributor);
-        }
-    }
-
-    public void loadSubTasksListView() {
+    private void loadSubTasksListView() {
         subTasksListView.getItems().clear();
         if (currentTask.getChildren() != null) {
             for (TaskBase subTask : currentTask.getChildren()) {
@@ -223,29 +261,14 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         }
     }
 
-    private void selectTaskAssignees() {
-        if (currentTask.getAssignees() != null) {
-            for (Contributor assignee : currentTask.getAssignees()) {
-                assigneesCheckComboBox.getCheckModel().check(getAssigneeIndex(assignee));
-            }
-        }
+    private void loadAssignees() {
+        taskAssigneesListView.setItems(currentTask.getAssignees());
+        boardContributorsComboBox.setItems(getUnusedItems(currentBoard.getContributors(), currentTask.getAssignees()));
     }
 
-    public void loadBoardTagsCheckComboBox() {
-        tagsCheckComboBox.getItems().clear();
-        if (boardController.currentBoard.getTags() != null) {
-            for (Tag tag : boardController.currentBoard.getTags()) {
-                tagsCheckComboBox.getItems().add(tag);
-            }
-        }
-    }
-
-    private void selectTaskTags() {
-        if (currentTask.getTags() != null) {
-            for (Tag tag : currentTask.getTags()) {
-                tagsCheckComboBox.getCheckModel().check(getTagIndex(tag));
-            }
-        }
+    private void loadTags() {
+        taskTagsListView.setItems(currentTask.getTags());
+        boardTagsComboBox.setItems(getUnusedItems(currentBoard.getTags(), currentTask.getTags()));
     }
 
     private void loadDueDateDatePicker() {
@@ -265,56 +288,31 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         }
     }
 
-    private int getAssigneeIndex(Contributor assignee) {
-        for (int i = 0; i < assigneesCheckComboBox.getItems().size(); i++) {
-            if (assigneesCheckComboBox.getItems().get(i).getId().equals(assignee.getId())) {
-                return i;
+    /**
+     * Get items the exist in a collection but not in the sub collection.
+     *
+     * @param collection the collection that contains all the items.
+     * @param subCollection the subCollection that contains a portion of the items.
+     * @param <T> The type of both the sub-collection & the collection.
+     * @return An Observable list of the items that exist in the collection but not in the sub-collection,
+     *         return the collection if the sub-collection is empty.
+     */
+    private <T> ObservableList<T> getUnusedItems(ObservableList<T> collection, ObservableList<T> subCollection) {
+        ObservableList<T> unusedItems = FXCollections.observableArrayList();
+        if (collection == null) { /* TODO : Remove this line after fixing null bugs */
+            return unusedItems;
+        }
+        if (subCollection == null || subCollection.size() == 0) {
+            return FXCollections.observableArrayList(collection);
+        }
+        for (T collectionItem : collection) {
+            for (T subCollectionItem : subCollection) {
+                if (collectionItem != subCollectionItem) {
+                    unusedItems.add(collectionItem);
+                }
             }
         }
-        return -1;
-    }
-
-    private int getTagIndex(Tag tag) {
-        for (int i = 0; i < tagsCheckComboBox.getItems().size(); i++) {
-            if (tagsCheckComboBox.getItems().get(i).getId().equals(tag.getId())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private class AssigneesStringConverter extends StringConverter<Contributor> {
-
-        Contributor assignee = null;
-
-        @Override
-        public String toString(Contributor assignee) {
-            this.assignee = assignee;
-            return assignee.getEmail();
-        }
-
-        @Override
-        public Contributor fromString(String string) {
-            return assignee;
-        }
-
-    }
-
-    private class TagStringConverter extends StringConverter<Tag> {
-
-        Tag tag = null;
-
-        @Override
-        public String toString(Tag tag) {
-            this.tag = tag;
-            return tag.getName();
-        }
-
-        @Override
-        public Tag fromString(String string) {
-            return tag;
-        }
-
+        return unusedItems;
     }
 
     private class LocalDateStringConverter extends StringConverter<LocalDate> {

@@ -31,6 +31,6 @@
 }
 
 .combo-box .arrow {
-    -fx-background-color: -o-dark-900;
+    -fx-background-color: -o-dark-300;
     -fx-text-fill: -o-dark-300;
 }
