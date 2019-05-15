@@ -67,10 +67,10 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
             UserRepository.getInstance().addBoardId(applicationController.user.getId(), newBoard.getId());
             BoardRepository.getInstance().add(newBoard);
 
-            for (TaskBase column : newBoard.getChildren()){
-                ColumnRepository.getInstance().add((Column) column);
-                for (TaskBase task : column.getChildren()){
-                    TaskRepository.getInstance().add((Task) task);
+            for (Column column : newBoard.<Column>getChildren()){
+                ColumnRepository.getInstance().add(column);
+                for (Task task : column.<Task>getChildren()){
+                    TaskRepository.getInstance().add(task);
                 }
             }
 

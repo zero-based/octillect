@@ -15,10 +15,7 @@ import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.TaskRepository;
-import octillect.models.Contributor;
-import octillect.models.Tag;
-import octillect.models.Task;
-import octillect.models.TaskBase;
+import octillect.models.*;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -92,11 +89,11 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
                 BoardRepository.getInstance().deleteTag(boardController.currentBoard, getItem().getId());
                 TagRepository.getInstance().delete(getItem());
 
-                for (TaskBase column : boardController.currentBoard.getChildren()) {
-                    for (TaskBase task : column.getChildren()) {
-                        for (Tag tag : ((Task) task).getTags()) {
+                for (Column column : boardController.currentBoard.<Column>getChildren()) {
+                    for (Task task : column.<Task>getChildren()) {
+                        for (Tag tag : task.getTags()) {
                             if (tag.getId().equals(getItem().getId())) {
-                                ((Task) task).getTags().remove(tag);
+                                task.getTags().remove(tag);
                                 break;
                             }
                         }

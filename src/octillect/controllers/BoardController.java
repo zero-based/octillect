@@ -16,6 +16,7 @@ import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.OButton;
 import octillect.controls.TasksColumn;
 import octillect.models.Board;
+import octillect.models.Column;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -25,7 +26,7 @@ public class BoardController implements Injectable<ApplicationController> {
     public Board currentBoard;
 
     // FXML Fields
-    @FXML public ListView boardListView;
+    @FXML public ListView<Column> boardListView;
     @FXML public JFXTextField searchTextField;
     @FXML public FontIcon gitHubIcon;
     @FXML public FontIcon calendarIcon;

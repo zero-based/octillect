@@ -76,7 +76,7 @@ public class NewTaskDialogController implements Injectable<ApplicationController
                 $.creator = creator;
             }).build();
 
-            currentColumn.getChildren().add(newTask);
+            currentColumn.<Task>getChildren().add(newTask);
 
             ColumnRepository.getInstance().addTask(currentColumn.getId(), newTask.getId());
             TaskRepository.getInstance().add(newTask);

@@ -16,6 +16,7 @@ import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.repositories.UserRepository;
+import octillect.models.Column;
 import octillect.models.Contributor;
 import octillect.models.Task;
 import octillect.models.TaskBase;
@@ -112,11 +113,11 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                 } else {
                     BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
 
-                    for (TaskBase column : boardController.currentBoard.getChildren()) {
-                        for (TaskBase task : column.getChildren()) {
-                            for (Contributor contributor : ((Task) task).getAssignees()) {
+                    for (Column column : boardController.currentBoard.<Column>getChildren()) {
+                        for (Task task : column.<Task>getChildren()) {
+                            for (Contributor contributor : task.getAssignees()) {
                                 if (contributor.getId().equals(getItem().getId())) {
-                                    ((Task) task).getAssignees().remove(contributor);
+                                    task.getAssignees().remove(contributor);
                                     break;
                                 }
                             }

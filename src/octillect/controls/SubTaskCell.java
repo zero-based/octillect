@@ -61,7 +61,7 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
 
         deleteSubTaskIcon.setOnMouseClicked(event -> {
             TaskRepository.getInstance().deleteSubTask(taskSettingsController.currentTask.getId(), getItem());
-            taskSettingsController.currentTask.getChildren().remove(getItem());
+            taskSettingsController.currentTask.<Task>getChildren().remove(getItem());
             getListView().getItems().remove(getItem());
         });
 

@@ -43,7 +43,7 @@ public class BoardRepository implements Repository<Board> {
         document.setContributors(contributorIds);
 
         ArrayList<String> columnsIds = new ArrayList<>();
-        for (TaskBase column : board.getChildren()) {
+        for (Column column : board.<Column>getChildren()) {
             columnsIds.add(column.getId());
         }
         document.setColumnsIds(columnsIds);
@@ -97,8 +97,8 @@ public class BoardRepository implements Repository<Board> {
     public void delete(Board board) {
         FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().BOARDS, board.getId());
 
-        for (TaskBase column : board.getChildren()) {
-            for (TaskBase task : column.getChildren()) {
+        for (Column column : board.<Column>getChildren()) {
+            for (Task task : column.<Task>getChildren()) {
                 FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
             }
             FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
@@ -155,9 +155,9 @@ public class BoardRepository implements Repository<Board> {
         ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "contributors", contributorMap.getMap());
 
-        for (TaskBase column : board.getChildren()) {
-            for (TaskBase task : column.getChildren()) {
-                for (Contributor assignee : ((Task) task).getAssignees()) {
+        for (Column column : board.<Column>getChildren()) {
+            for (Task task : column.<Task>getChildren()) {
+                for (Contributor assignee : task.getAssignees()) {
                     if (assignee.getId().equals(contributor.getId())) {
                         TaskRepository.getInstance().deleteAssigneeId(task.getId(), assignee.getId());
                         break;
@@ -174,9 +174,9 @@ public class BoardRepository implements Repository<Board> {
     public void deleteTag(Board board, String tagId) {
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "tagsIds", tagId);
 
-        for (TaskBase column : board.getChildren()) {
-            for (TaskBase task : column.getChildren()) {
-                for (Tag tag : ((Task) task).getTags()) {
+        for (Column column : board.<Column>getChildren()) {
+            for (Task task : column.<Task>getChildren()) {
+                for (Tag tag : task.getTags()) {
                     if (tag.getId().equals(tagId)) {
                         TaskRepository.getInstance().deleteTagId(task.getId(), tagId);
                         break;
