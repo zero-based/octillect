@@ -41,7 +41,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
     @FXML private FontIcon addNewTaskIcon;
     @FXML private FontIcon columnMoreIcon;
     @FXML private Label columnNameLabel;
-    @FXML private ListView tasksListView;
+    @FXML private ListView<Task> tasksListView;
     @FXML private MenuItem editButton;
     @FXML private MenuItem deleteButton;
     @FXML private Button columnMoreButton;
@@ -113,9 +113,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
                 ArrayList<String> columnsIds = new ArrayList<>();
                 Board board = boardController.currentBoard;
-                board.getChildren().forEach(column -> {
-                    columnsIds.add(column.getId());
-                });
+                board.<Column>getChildren().forEach(column -> columnsIds.add(column.getId()));
                 BoardRepository.getInstance().updateColumnsIds(board.getId(), columnsIds);
             }
         });
@@ -159,8 +157,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         deleteButton.setOnAction(event -> {
             ColumnRepository.getInstance().delete(getItem());
             BoardRepository.getInstance().deleteColumnId(boardController.currentBoard.getId(), getItem().getId());
-
-            boardController.currentBoard.getChildren().remove(getItem());
+            boardController.currentBoard.<Column>getChildren().remove(getItem());
         });
 
         columnNameLabel.setText(columnItem.getName());
@@ -234,8 +231,8 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 ArrayList<String> sourceTasksIds = new ArrayList<>();
                 ArrayList<String> targetTasksIds = new ArrayList<>();
 
-                sourceColumn.getChildren().forEach(task -> sourceTasksIds.add(task.getId()));
-                targetColumn.getChildren().forEach(task -> targetTasksIds.add(task.getId()));
+                sourceColumn.<Task>getChildren().forEach(task -> sourceTasksIds.add(task.getId()));
+                targetColumn.<Task>getChildren().forEach(task -> targetTasksIds.add(task.getId()));
 
                 ColumnRepository.getInstance().updateTasksIds(sourceColumn.getId(), sourceTasksIds);
                 ColumnRepository.getInstance().updateTasksIds(targetColumn.getId(), targetTasksIds);

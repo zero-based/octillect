@@ -159,7 +159,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
 
         subTasksListView.getItems().add(subTask);
-        currentTask.getChildren().add(subTask);
+        currentTask.<Task>getChildren().add(subTask);
         boardController.boardListView.refresh();
     }
 
@@ -246,8 +246,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     private void loadSubTasksListView() {
         subTasksListView.getItems().clear();
-        for (TaskBase subTask : currentTask.getChildren()) {
-            subTasksListView.getItems().add((Task) subTask);
+        for (Task subTask : currentTask.<Task>getChildren()) {
+            subTasksListView.getItems().add(subTask);
         }
     }
 

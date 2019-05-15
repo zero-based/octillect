@@ -32,7 +32,7 @@ public class ColumnRepository implements Repository<Column> {
         document.setName(column.getName());
 
         ArrayList<String> tasksIds = new ArrayList<>();
-        for (TaskBase task : column.getChildren()) {
+        for (Task task : column.<Task>getChildren()) {
             tasksIds.add(task.getId());
         }
         document.setTasksIds(tasksIds);
@@ -68,8 +68,8 @@ public class ColumnRepository implements Repository<Column> {
     @Override
     public void delete(Column column) {
         FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
-        for (TaskBase task : column.getChildren()) {
-            TaskRepository.getInstance().delete((Task) task);
+        for (Task task : column.<Task>getChildren()) {
+            TaskRepository.getInstance().delete(task);
         }
     }
 

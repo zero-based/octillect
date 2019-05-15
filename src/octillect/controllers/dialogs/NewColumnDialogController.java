@@ -64,7 +64,7 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
 
             BoardRepository.getInstance().addColumnId(boardController.currentBoard.getId(), newColumn.getId());
             ColumnRepository.getInstance().add(newColumn);
-            boardController.currentBoard.getChildren().add(newColumn);
+            boardController.currentBoard.<Column>getChildren().add(newColumn);
 
             newColumnDialog.close();
         }

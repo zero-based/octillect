@@ -224,7 +224,6 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
             ColumnRepository.getInstance().deleteTaskId(parentColumn.getId(), getItem().getId());
             TaskRepository.getInstance().delete(getItem());
-
             parentColumn.getChildren().remove(getItem());
         });
 

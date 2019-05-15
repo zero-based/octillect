@@ -57,10 +57,10 @@ public class UserRepository implements Repository<User> {
         setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
 
         BoardRepository.getInstance().add(user.getBoards().get(0));
-        for (TaskBase column : user.getBoards().get(0).getChildren()) {
-            ColumnRepository.getInstance().add((Column) column);
-            for (TaskBase task : column.getChildren()) {
-                TaskRepository.getInstance().add((Task) task);
+        for (Column column : user.getBoards().get(0).<Column>getChildren()) {
+            ColumnRepository.getInstance().add(column);
+            for (Task task : column.<Task>getChildren()) {
+                TaskRepository.getInstance().add(task);
             }
         }
     }
@@ -169,18 +169,18 @@ public class UserRepository implements Repository<User> {
                 }
             }
 
-            for (TaskBase column : board.getChildren()) {
+            for (Column column : board.<Column>getChildren()) {
 
                 // Update tasks' creatorId
-                for (TaskBase task : column.getChildren()) {
-                    if (((Task) task).getCreator().getEmail().equals(user.getEmail())) {
+                for (Task task : column.<Task>getChildren()) {
+                    if (task.getCreator().getEmail().equals(user.getEmail())) {
                         TaskRepository.getInstance().updateCreatorId(task.getId(),
                                 FirestoreAPI.getInstance().encrypt(updatedEmail));
                     }
 
                     // Update tasks' assignees' emails
                     ArrayList<String> assigneesIds = new ArrayList<>();
-                    ((Task) task).getAssignees().forEach(assignee -> {
+                    task.getAssignees().forEach(assignee -> {
 
                         if (assignee.getEmail().equals(user.getEmail())) {
                             assigneesIds.add(FirestoreAPI.getInstance().encrypt(updatedEmail));

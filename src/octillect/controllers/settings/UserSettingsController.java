@@ -17,10 +17,7 @@ import octillect.controllers.Injectable;
 import octillect.controllers.TitleBarController;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.repositories.UserRepository;
-import octillect.models.Board;
-import octillect.models.Contributor;
-import octillect.models.Task;
-import octillect.models.TaskBase;
+import octillect.models.*;
 
 
 public class UserSettingsController implements Injectable<ApplicationController> {
@@ -196,19 +193,19 @@ public class UserSettingsController implements Injectable<ApplicationController>
                 }
             }
 
-            for (TaskBase column : board.getChildren()) {
+            for (Column column : board.<Column>getChildren()) {
 
                 // Update tasks' creatorId
-                for (TaskBase task : column.getChildren()) {
-                    if (((Task) task).getCreator().getEmail().equals(applicationController.user.getEmail())) {
-                        ((Task) task).getCreator().setId(updatedId);
-                        ((Task) task).getCreator().setEmail(updatedEmail);
-                        ((Task) task).getCreator().setImage(updatedImage);
+                for (Task task : column.<Task>getChildren()) {
+                    if (task.getCreator().getEmail().equals(applicationController.user.getEmail())) {
+                        task.getCreator().setId(updatedId);
+                        task.getCreator().setEmail(updatedEmail);
+                        task.getCreator().setImage(updatedImage);
                     }
 
                     // Update tasks' assignees' emails
 
-                    ((Task) task).getAssignees().forEach(assignee -> {
+                    task.getAssignees().forEach(assignee -> {
                         if (assignee.getEmail().equals(applicationController.user.getEmail())) {
                             assignee.setId(FirestoreAPI.getInstance().encrypt(updatedEmail));
                             assignee.setEmail(updatedEmail);

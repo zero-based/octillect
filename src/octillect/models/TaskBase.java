@@ -8,7 +8,8 @@ abstract public class TaskBase {
     private String id;
     private String name;
     private String description;
-    private ObservableList<TaskBase> children = FXCollections.observableArrayList();
+    private ObservableList<? extends TaskBase> children = FXCollections.observableArrayList();
+
 
     TaskBase() {
     }
@@ -48,11 +49,11 @@ abstract public class TaskBase {
     }
 
 
-    public ObservableList<TaskBase> getChildren() {
-        return children;
+    public <T extends TaskBase> ObservableList<T> getChildren() {
+        return (ObservableList<T>) children;
     }
 
-    public void setChildren(ObservableList<TaskBase> children) {
+    public <T extends TaskBase> void setChildren(ObservableList<T> children) {
         this.children = children;
     }
 
