@@ -71,11 +71,11 @@ public class TaskRepository implements Repository<Task> {
             $.isCompleted = document.getIsCompleted();
             $.dueDate = document.getDueDate();
             $.creationDate = document.getCreationDate();
-            $.creator = UserRepository.getInstance().getContributor(document.getCreatorId());
+            $.creator = BoardRepository.getInstance().getContributor(document.getCreatorId());
 
             ArrayList<Contributor> assignees = new ArrayList<>();
             for (String assigneeID : document.getAssigneesIds()) {
-                assignees.add(UserRepository.getInstance().getContributor(assigneeID));
+                assignees.add(BoardRepository.getInstance().getContributor(assigneeID));
             }
             $.assignees = FXCollections.observableArrayList(assignees);
 
@@ -115,7 +115,7 @@ public class TaskRepository implements Repository<Task> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "description", description);
     }
 
-    public void updateisCompleted(String taskId, boolean isCompleted) {
+    public void updateIsCompleted(String taskId, boolean isCompleted) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "isCompleted", isCompleted);
     }
 
@@ -127,7 +127,7 @@ public class TaskRepository implements Repository<Task> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagsIds);
     }
 
-    public void updateAssigneeIds(String taskId, ArrayList<String> assigneeIds) {
+    public void updateAssigneesIds(String taskId, ArrayList<String> assigneeIds) {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
     }
 

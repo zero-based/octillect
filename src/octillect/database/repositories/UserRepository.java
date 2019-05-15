@@ -99,24 +99,6 @@ public class UserRepository implements Repository<User> {
     public void delete(User user) {
     }
 
-    public Contributor getContributor(String contributorId) {
-
-        Contributor contributor = null;
-        UserDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
-
-        if (document != null){
-            contributor = new ContributorBuilder().with($ -> {
-                $.id = document.getId();
-                $.name = document.getName();
-                $.email = document.getEmail();
-                $.image = getImage(document.getId());
-            }).build();
-        }
-
-        return contributor;
-    }
-
     // add user's image to CloudStorage
     public void setImage(String userId, BufferedImage userBufferedImage) {
         StorageAPI.getInstance().uploadImage(userBufferedImage, StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);
@@ -182,8 +164,9 @@ public class UserRepository implements Repository<User> {
             // Update Contributors emails
             for (Contributor contributor : board.getContributors()) {
                 if (contributor.getEmail().equals(user.getEmail())) {
-                    BoardRepository.getInstance().deleteContributor(board.getId(), contributor.getEmail(), contributor.getRole());
-                    BoardRepository.getInstance().addContributor(board.getId(), updatedEmail, contributor.getRole());
+                    BoardRepository.getInstance().deleteContributor(board.getId(), contributor);
+                    contributor.setEmail(updatedEmail);
+                    BoardRepository.getInstance().addContributor(board.getId(), contributor);
                 }
             }
 
@@ -206,7 +189,7 @@ public class UserRepository implements Repository<User> {
                             assigneesIds.add(assignee.getId());
                         }
 
-                        TaskRepository.getInstance().updateAssigneeIds(task.getId(), assigneesIds);
+                        TaskRepository.getInstance().updateAssigneesIds(task.getId(), assigneesIds);
                     });
 
                 }

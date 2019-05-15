@@ -9,9 +9,11 @@ import javafx.collections.FXCollections;
 
 import octillect.database.documents.BoardDocument;
 import octillect.database.documents.BoardDocument.ContributorMap;
+import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.*;
 import octillect.models.builders.BoardBuilder;
+import octillect.models.builders.ContributorBuilder;
 
 public class BoardRepository implements Repository<Board> {
 
@@ -68,7 +70,7 @@ public class BoardRepository implements Repository<Board> {
 
             ArrayList<Contributor> contributorsIds = new ArrayList<>();
             for (HashMap<String, String> contributorMap : document.getContributors()) {
-                Contributor contributor = UserRepository.getInstance().getContributor(contributorMap.get("id"));
+                Contributor contributor = getContributor(contributorMap.get("id"));
                 contributor.setRole(Contributor.Role.valueOf(contributorMap.get("role")));
                 contributorsIds.add(contributor);
             }
@@ -126,14 +128,32 @@ public class BoardRepository implements Repository<Board> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "repositoryName", repositoryName);
     }
 
-    public void addContributor(String boardId, String email, Contributor.Role role) {
-        ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributor.getMap());
+    public void addContributor(String boardId, Contributor contributor) {
+        ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorMap.getMap());
     }
 
-    public void deleteContributor(String boardId, String email, Contributor.Role role) {
-        ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributor.getMap());
+    public Contributor getContributor(String contributorId) {
+
+        Contributor contributor = null;
+        UserDocument document;
+        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
+
+        if (document != null) {
+            contributor = new ContributorBuilder().with($ -> {
+                $.id = document.getId();
+                $.name = document.getName();
+                $.email = document.getEmail();
+                $.image = UserRepository.getInstance().getImage(document.getId());
+            }).build();
+        }
+
+        return contributor;
+    }
+
+    public void deleteContributor(String boardId, Contributor contributor) {
+        ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorMap.getMap());
     }
 
     public void addTagId(String boardId, String tagId) {

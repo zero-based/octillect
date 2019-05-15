@@ -140,7 +140,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
                 newContributorTextField.validate();
                 newContributorTextField.getValidators().remove(emailValidator);
             } else {
-                Contributor contributor = UserRepository.getInstance().getContributor(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
+                Contributor contributor = BoardRepository.getInstance().getContributor(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
 
                 if (contributor == null) {
                     emailValidator.setMessage("That Octillect account doesn't exist.");
@@ -149,7 +149,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
                     newContributorTextField.getValidators().remove(emailValidator);
                 } else {
                     contributor.setRole(rolesComboBox.getValue());
-                    BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor.getEmail(), contributor.getRole());
+                    BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor);
                     UserRepository.getInstance().addBoardId(contributor.getId(), boardController.currentBoard.getId());
                     boardController.currentBoard.getContributors().add(contributor);
 
