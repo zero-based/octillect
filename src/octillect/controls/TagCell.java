@@ -105,17 +105,12 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
                 boardController.loadBoard(boardController.currentBoard);
             });
 
-        } else if (mode == Mode.TASK){
+        } else if (mode == Mode.TASK) {
             deleteTagIcon.setOnMouseClicked(event -> {
-                /* TODO: Handle removing tag from task here. */
                 TaskRepository.getInstance().deleteTagId(taskSettingsController.currentTask.getId(), tagItem.getId());
-                int columnIndex = boardController.currentBoard.getChildren().indexOf(taskSettingsController.parentColumn);
-                int taskIndex = boardController.currentBoard.getChildren().get(columnIndex)
-                        .getChildren().indexOf(taskSettingsController.currentTask);
-
-                ((Task) boardController.currentBoard.getChildren().get(columnIndex)
-                        .getChildren().get(taskIndex)).getTags().remove(tagItem);
-                boardController.loadBoard(boardController.currentBoard);
+                taskSettingsController.currentTask.getTags().remove(tagItem);
+                taskSettingsController.loadTags();
+                boardController.boardListView.refresh();
             });
         }
 
