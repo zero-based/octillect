@@ -18,6 +18,7 @@ import octillect.database.repositories.TaskRepository;
 import octillect.models.Contributor;
 import octillect.models.Tag;
 import octillect.models.Task;
+import octillect.models.TaskBase;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -88,8 +89,23 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
 
             deleteTagIcon.setOnMouseClicked(event -> {
                 /* TODO: Add Confirmation Here. */
+                BoardRepository.getInstance().deleteTag(boardController.currentBoard, getItem().getId());
                 TagRepository.getInstance().delete(getItem());
+
+                for (TaskBase column : boardController.currentBoard.getChildren()) {
+                    for (TaskBase task : column.getChildren()) {
+                        for (Tag tag : ((Task) task).getTags()) {
+                            if (tag.getId().equals(getItem().getId())) {
+                                ((Task) task).getTags().remove(tag);
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
                 boardController.currentBoard.getTags().remove(getItem());
+                boardController.loadBoard(boardController.currentBoard);
             });
 
         } else if (mode == Mode.TASK){

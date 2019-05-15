@@ -18,6 +18,7 @@ import octillect.database.repositories.TaskRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.models.Contributor;
 import octillect.models.Task;
+import octillect.models.TaskBase;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -97,7 +98,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
 
             deleteContributorIcon.setOnMouseClicked(event -> {
                 /* TODO: Add Confirmation Here. */
-                BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(), getItem());
+                BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
                 UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
                 if (boardController.currentBoard.getContributors().size() == 1) {
@@ -109,7 +110,21 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                     applicationController.user.getBoards().remove(boardController.currentBoard);
                     boardController.init();
                 } else {
+                    BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
+
+                    for (TaskBase column : boardController.currentBoard.getChildren()) {
+                        for (TaskBase task : column.getChildren()) {
+                            for (Contributor contributor : ((Task) task).getAssignees()) {
+                                if (contributor.getId().equals(getItem().getId())) {
+                                    ((Task) task).getAssignees().remove(contributor);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     boardController.currentBoard.getContributors().remove(getItem());
+                    boardController.boardListView.refresh();
                 }
             });
 

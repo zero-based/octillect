@@ -151,17 +151,39 @@ public class BoardRepository implements Repository<Board> {
         return contributor;
     }
 
-    public void deleteContributor(String boardId, Contributor contributor) {
+    public void deleteContributor(Board board, Contributor contributor) {
         ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorMap.getMap());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "contributors", contributorMap.getMap());
+
+        for (TaskBase column : board.getChildren()) {
+            for (TaskBase task : column.getChildren()) {
+                for (Contributor assignee : ((Task) task).getAssignees()) {
+                    if (assignee.getId().equals(contributor.getId())) {
+                        TaskRepository.getInstance().deleteAssigneeId(task.getId(), assignee.getId());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void addTagId(String boardId, String tagId) {
         FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "tagsIds", tagId);
     }
 
-    public void deleteTagId(String boardId, String tagId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "tagsIds", tagId);
+    public void deleteTag(Board board, String tagId) {
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "tagsIds", tagId);
+
+        for (TaskBase column : board.getChildren()) {
+            for (TaskBase task : column.getChildren()) {
+                for (Tag tag : ((Task) task).getTags()) {
+                    if (tag.getId().equals(tagId)) {
+                        TaskRepository.getInstance().deleteTagId(task.getId(), tagId);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**

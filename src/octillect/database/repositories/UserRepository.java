@@ -26,7 +26,6 @@ import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
 import octillect.models.*;
-import octillect.models.builders.ContributorBuilder;
 import octillect.models.builders.UserBuilder;
 
 public class UserRepository implements Repository<User> {
@@ -164,7 +163,7 @@ public class UserRepository implements Repository<User> {
             // Update Contributors emails
             for (Contributor contributor : board.getContributors()) {
                 if (contributor.getEmail().equals(user.getEmail())) {
-                    BoardRepository.getInstance().deleteContributor(board.getId(), contributor);
+                    BoardRepository.getInstance().deleteContributor(board, contributor);
                     contributor.setEmail(updatedEmail);
                     BoardRepository.getInstance().addContributor(board.getId(), contributor);
                 }
