@@ -49,7 +49,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     // Local Fields
     private Board currentBoard;
-    private Column parentColumn;
+    public Column parentColumn;
     public Task currentTask;
 
     // FXML Fields
@@ -168,7 +168,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         if (boardContributorsComboBox.getSelectionModel().getSelectedIndex() != -1) {
             Contributor selected = boardContributorsComboBox.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                /* TODO: Append to database HERE */
+                TaskRepository.getInstance().addAssigneeId(currentTask.getId(), selected.getId());
                 boardContributorsComboBox.getSelectionModel().clearSelection();
                 boardContributorsComboBox.getItems().remove(selected);
                 currentTask.getAssignees().add(selected);
@@ -182,7 +182,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         if (boardTagsComboBox.getSelectionModel().getSelectedIndex() != -1) {
             Tag selected = boardTagsComboBox.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                /* TODO: Append to database HERE */
+                TaskRepository.getInstance().addTagId(currentTask.getId(), selected.getId());
                 boardTagsComboBox.getSelectionModel().clearSelection();
                 boardTagsComboBox.getItems().remove(selected);
                 currentTask.getTags().add(selected);

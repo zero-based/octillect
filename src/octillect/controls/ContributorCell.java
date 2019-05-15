@@ -12,9 +12,13 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controllers.BoardController;
+import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.BoardRepository;
+import octillect.database.repositories.TaskRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.models.Contributor;
+import octillect.models.Task;
+import octillect.models.TaskBase;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -35,12 +39,14 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
     private ApplicationController applicationController;
     private BoardController boardController;
     private LeftDrawerController leftDrawerController;
+    private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         boardController            = applicationController.boardController;
         leftDrawerController       = applicationController.leftDrawerController;
+        taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
@@ -92,7 +98,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
 
             deleteContributorIcon.setOnMouseClicked(event -> {
                 /* TODO: Add Confirmation Here. */
-                BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(), getItem());
+                BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
                 UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
                 if (boardController.currentBoard.getContributors().size() == 1) {
@@ -104,13 +110,35 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                     applicationController.user.getBoards().remove(boardController.currentBoard);
                     boardController.init();
                 } else {
+                    BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
+
+                    for (TaskBase column : boardController.currentBoard.getChildren()) {
+                        for (TaskBase task : column.getChildren()) {
+                            for (Contributor contributor : ((Task) task).getAssignees()) {
+                                if (contributor.getId().equals(getItem().getId())) {
+                                    ((Task) task).getAssignees().remove(contributor);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     boardController.currentBoard.getContributors().remove(getItem());
+                    boardController.boardListView.refresh();
                 }
             });
 
-        } else if (mode == Mode.TASK){
+        } else if (mode == Mode.TASK) {
             deleteContributorIcon.setOnMouseClicked(event -> {
-                /* TODO: Handle removing assignee from task here. */
+                TaskRepository.getInstance().deleteAssigneeId(taskSettingsController.currentTask.getId(), contributorItem.getId());
+
+                int columnIndex = boardController.currentBoard.getChildren().indexOf(taskSettingsController.parentColumn);
+                int taskIndex = boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().indexOf(taskSettingsController.currentTask);
+
+                ((Task) boardController.currentBoard.getChildren().get(columnIndex)
+                        .getChildren().get(taskIndex)).getAssignees().remove(contributorItem);
+                boardController.boardListView.refresh();
             });
         }
 
