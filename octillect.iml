@@ -15,7 +15,6 @@
     <orderEntry type="library" name="org.kordamp.ikonli:ikonli-material-pack:2.2.0" level="project" />
     <orderEntry type="library" name="org.kordamp.ikonli:ikonli-javafx:2.2.0" level="project" />
     <orderEntry type="library" name="org.kordamp.ikonli:ikonli-octicons-pack:2.2.0" level="project" />
-    <orderEntry type="library" name="org.controlsfx:controlsfx:8.40.11" level="project" />
     <orderEntry type="library" name="org.kohsuke:github-api:1.95" level="project" />
   </component>
 </module>

@@ -20,6 +20,9 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TagCell extends ListCell<Tag> implements Injectable<ApplicationController> {
 
+    // Local Variables
+    private Mode mode;
+
     // FXML Fields
     @FXML private BorderPane tagCellBorderPane;
     @FXML private HBox tagColorHBox;
@@ -41,6 +44,9 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         throw new UnsupportedOperationException("TagCell cannot be initialized");
     }
 
+    public TagCell(Mode mode) {
+        this.mode = mode;
+    }
 
     public void updateItem(Tag tagItem, boolean empty) {
 
@@ -63,18 +69,30 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         tagNameLabel.setText(tagItem.getName());
         tagNameLabel.setStyle(determineTextFillStyle((tagItem.getColor())));
 
-        if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                .equals(Board.Role.viewer)) {
-            deleteTagIcon.setDisable(true);
-            deleteTagIcon.setOpacity(0);
-        }
 
-        deleteTagIcon.setOnMouseClicked(event -> {
-            /* TODO: Add Confirmation Here. */
-            BoardRepository.getInstance().deleteTagId(boardController.currentBoard.getId(), getItem().getId());
-            TagRepository.getInstance().delete(getItem());
-            boardController.currentBoard.getTags().remove(getItem());
-        });
+        if (mode == Mode.VIEW_ONLY) {
+            setGraphic(tagColorHBox);
+            return;
+        } else if (mode == Mode.BOARD) {
+
+            if (boardController.currentBoard.getUserRole(applicationController.user.getId())
+                    .equals(Board.Role.viewer)) {
+                deleteTagIcon.setDisable(true);
+                deleteTagIcon.setOpacity(0);
+            }
+
+            deleteTagIcon.setOnMouseClicked(event -> {
+                /* TODO: Add Confirmation Here. */
+                BoardRepository.getInstance().deleteTagId(boardController.currentBoard.getId(), getItem().getId());
+                TagRepository.getInstance().delete(getItem());
+                boardController.currentBoard.getTags().remove(getItem());
+            });
+
+        } else if (mode == Mode.TASK){
+            deleteTagIcon.setOnMouseClicked(event -> {
+                /* TODO: Handle removing tag from task here. */
+            });
+        }
 
         setGraphic(tagCellBorderPane);
 

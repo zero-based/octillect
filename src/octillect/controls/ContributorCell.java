@@ -21,6 +21,9 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class ContributorCell extends ListCell<Contributor> implements Injectable<ApplicationController> {
 
+    // Local Variables
+    private Mode mode;
+
     // FXML Fields
     @FXML private BorderPane contributorCellBorderPane;
     @FXML private Circle contributorImage;
@@ -46,6 +49,10 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
         throw new UnsupportedOperationException("ContributorCell cannot be initialized");
     }
 
+    public ContributorCell(Mode mode) {
+        this.mode = mode;
+    }
+
     @Override
     public void updateItem(Contributor contributorItem, boolean empty) {
 
@@ -67,32 +74,47 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
         contributorImage.setFill(new ImagePattern(contributorItem.getImage()));
         usernameLabel.setText(contributorItem.getName());
         emailLabel.setText(contributorItem.getEmail());
-        roleLabel.setText(contributorItem.getRole().toString());
 
-        if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                .equals(Board.Role.viewer)) {
-            deleteContributorIcon.setDisable(true);
-            deleteContributorIcon.setOpacity(0);
+        if (mode != Mode.VIEW_ONLY) { /* TODO : Remove this condition after handling roles bug */
+            roleLabel.setText(contributorItem.getRole().toString());
         }
 
-        deleteContributorIcon.setOnMouseClicked(event -> {
-            /* TODO: Add Confirmation Here. */
-            BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(), getItem().getEmail(), getItem().getRole());
-            UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
+        if (mode == Mode.VIEW_ONLY) {
+            roleLabel.setOpacity(0);
+            setGraphic(contributorCellBorderPane.getLeft());
+            return;
+        } else if (mode == Mode.BOARD) {
 
-            if (boardController.currentBoard.getContributors().size() == 1) {
-                // Delete whole board in case no contributors left
-                BoardRepository.getInstance().delete(boardController.currentBoard);
+            if (boardController.currentBoard.getUserRole(applicationController.user.getId())
+                    .equals(Board.Role.viewer)) {
+                deleteContributorIcon.setDisable(true);
+                deleteContributorIcon.setOpacity(0);
             }
 
-            if (getItem().getId().equals(applicationController.user.getId())) {
-                applicationController.user.getBoards().remove(boardController.currentBoard);
-                boardController.init();
-            } else {
-                boardController.currentBoard.getContributors().remove(getItem());
-            }
+            deleteContributorIcon.setOnMouseClicked(event -> {
+                /* TODO: Add Confirmation Here. */
+                BoardRepository.getInstance().deleteContributor(boardController.currentBoard.getId(), getItem().getEmail(), getItem().getRole());
+                UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
-        });
+                if (boardController.currentBoard.getContributors().size() == 1) {
+                    // Delete whole board in case no contributors left
+                    BoardRepository.getInstance().delete(boardController.currentBoard);
+                }
+
+                if (getItem().getId().equals(applicationController.user.getId())) {
+                    applicationController.user.getBoards().remove(boardController.currentBoard);
+                    boardController.init();
+                } else {
+                    boardController.currentBoard.getContributors().remove(getItem());
+                }
+            });
+
+        } else if (mode == Mode.TASK){
+            deleteContributorIcon.setOnMouseClicked(event -> {
+                /* TODO: Handle removing assignee from task here. */
+            });
+        }
+
 
         setGraphic(contributorCellBorderPane);
     }

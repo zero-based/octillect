@@ -9,7 +9,6 @@ import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +21,7 @@ import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controllers.TitleBarController;
 import octillect.controls.ContributorCell;
+import octillect.controls.Mode;
 import octillect.controls.TagCell;
 import octillect.controls.OButton;
 import octillect.database.repositories.TagRepository;
@@ -71,6 +71,22 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @Override
     public void init() {
 
+        // Cell Factories
+
+        rolesComboBox.setItems(FXCollections.observableArrayList(Board.Role.values()));
+        contributorsListView.setCellFactory(param -> {
+            ContributorCell contributorCell = new ContributorCell(Mode.BOARD);
+            contributorCell.inject(applicationController);
+            return contributorCell;
+        });
+
+        tagsListView.setCellFactory(param -> {
+            TagCell tagCell = new TagCell(Mode.BOARD);
+            tagCell.inject(applicationController);
+            return tagCell;
+        });
+
+
         // Validators
 
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
@@ -83,7 +99,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
         newContributorTextField.getValidators().add(emailValidator);
 
 
-        // TextFields' Listeners
+        // Listeners
 
         editNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && boardController.currentBoard != null) {
@@ -99,19 +115,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
                 BoardRepository.getInstance().updateDescription(boardController.currentBoard.getId(), editDescriptionTextArea.getText());
                 boardController.currentBoard.setDescription(editDescriptionTextArea.getText());
             }
-        });
-
-        rolesComboBox.setItems(FXCollections.observableArrayList(Board.Role.values()));
-        contributorsListView.setCellFactory(param -> {
-            ContributorCell contributorCell = new ContributorCell();
-            contributorCell.inject(applicationController);
-            return contributorCell;
-        });
-
-        tagsListView.setCellFactory(param -> {
-            TagCell tagCell = new TagCell();
-            tagCell.inject(applicationController);
-            return tagCell;
         });
 
     }
