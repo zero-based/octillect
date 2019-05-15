@@ -14,7 +14,6 @@ import octillect.controllers.LeftDrawerController;
 import octillect.controllers.BoardController;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
-import octillect.models.Board;
 import octillect.models.Contributor;
 
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -86,7 +85,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
         } else if (mode == Mode.BOARD) {
 
             if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                    .equals(Board.Role.viewer)) {
+                    .equals(Contributor.Role.viewer)) {
                 deleteContributorIcon.setDisable(true);
                 deleteContributorIcon.setOpacity(0);
             }

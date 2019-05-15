@@ -13,8 +13,8 @@ import octillect.controllers.Injectable;
 import octillect.controllers.BoardController;
 import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
+import octillect.models.Contributor;
 import octillect.models.Tag;
-import octillect.models.Board;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -76,7 +76,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         } else if (mode == Mode.BOARD) {
 
             if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                    .equals(Board.Role.viewer)) {
+                    .equals(Contributor.Role.viewer)) {
                 deleteTagIcon.setDisable(true);
                 deleteTagIcon.setOpacity(0);
             }

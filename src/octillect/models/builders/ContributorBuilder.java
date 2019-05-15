@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 
 import javafx.scene.image.Image;
 
-import octillect.models.Board;
 import octillect.models.Contributor;
 
 public class ContributorBuilder implements Builder<Contributor, ContributorBuilder> {
@@ -13,7 +12,7 @@ public class ContributorBuilder implements Builder<Contributor, ContributorBuild
     public String name;
     public String email;
     public Image image;
-    public Board.Role role;
+    public Contributor.Role role;
 
     @Override
     public ContributorBuilder with(Consumer<ContributorBuilder> builderFunction) {
@@ -46,7 +45,7 @@ public class ContributorBuilder implements Builder<Contributor, ContributorBuild
         return this;
     }
 
-    public ContributorBuilder withRole(Board.Role role) {
+    public ContributorBuilder withRole(Contributor.Role role) {
         this.role = role;
         return this;
     }
