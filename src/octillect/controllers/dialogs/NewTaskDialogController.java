@@ -17,7 +17,6 @@ import octillect.controls.OButton;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Board;
 import octillect.models.Column;
 import octillect.models.Contributor;
 import octillect.models.Task;
@@ -66,7 +65,7 @@ public class NewTaskDialogController implements Injectable<ApplicationController
                 $.name  = applicationController.user.getName();
                 $.email = applicationController.user.getEmail();
                 $.image = applicationController.user.getImage();
-                $.role  = Board.Role.owner;
+                $.role  = Contributor.Role.owner;
             }).build();
 
             Task newTask = new TaskBuilder().with($ -> {

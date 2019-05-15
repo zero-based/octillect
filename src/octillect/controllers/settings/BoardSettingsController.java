@@ -28,7 +28,6 @@ import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Board;
 import octillect.models.Contributor;
 import octillect.models.Tag;
 import octillect.models.builders.TagBuilder;
@@ -45,7 +44,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML public JFXTextArea editDescriptionTextArea;
     @FXML public JFXListView<Contributor> contributorsListView;
     @FXML public JFXListView<Tag> tagsListView;
-    @FXML public JFXComboBox<Board.Role> rolesComboBox;
+    @FXML public JFXComboBox<Contributor.Role> rolesComboBox;
     @FXML public JFXColorPicker tagColorPicker;
     @FXML public OButton addContributorButton;
     @FXML public OButton addTagButton;
@@ -73,7 +72,8 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         // Cell Factories
 
-        rolesComboBox.setItems(FXCollections.observableArrayList(Board.Role.values()));
+        rolesComboBox.setItems(FXCollections.observableArrayList(Contributor.Role.values()));
+
         contributorsListView.setCellFactory(param -> {
             ContributorCell contributorCell = new ContributorCell(Mode.BOARD);
             contributorCell.inject(applicationController);
@@ -229,9 +229,9 @@ public class BoardSettingsController implements Injectable<ApplicationController
         tagColorPicker.setValue(Color.WHITE);
     }
 
-    private void controlRoleAccess(Board.Role role) {
+    private void controlRoleAccess(Contributor.Role role) {
 
-        if (role.equals(Board.Role.owner)) {
+        if (role.equals(Contributor.Role.owner)) {
             deleteBoardTitledPane.setDisable(false);
             deleteBoardTitledPane.setOpacity(1);
         } else {
@@ -239,7 +239,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
             deleteBoardTitledPane.setOpacity(0);
         }
 
-        if (role.equals(Board.Role.viewer)) {
+        if (role.equals(Contributor.Role.viewer)) {
 
             newContributorTextField.setDisable(true);
             rolesComboBox.setDisable(true);

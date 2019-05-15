@@ -69,7 +69,7 @@ public class BoardRepository implements Repository<Board> {
             ArrayList<Contributor> contributorsIds = new ArrayList<>();
             for (HashMap<String, String> contributorMap : document.getContributors()) {
                 Contributor contributor = UserRepository.getInstance().getContributor(contributorMap.get("id"));
-                contributor.setRole(Board.Role.valueOf(contributorMap.get("role")));
+                contributor.setRole(Contributor.Role.valueOf(contributorMap.get("role")));
                 contributorsIds.add(contributor);
             }
             $.contributors = FXCollections.observableArrayList(contributorsIds);
@@ -126,12 +126,12 @@ public class BoardRepository implements Repository<Board> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "repositoryName", repositoryName);
     }
 
-    public void addContributor(String boardId, String email, Board.Role role) {
+    public void addContributor(String boardId, String email, Contributor.Role role) {
         ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
         FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributor.getMap());
     }
 
-    public void deleteContributor(String boardId, String email, Board.Role role) {
+    public void deleteContributor(String boardId, String email, Contributor.Role role) {
         ContributorMap contributor = new ContributorMap(FirestoreAPI.getInstance().encrypt(email), role);
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributor.getMap());
     }

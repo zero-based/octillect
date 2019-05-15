@@ -3,7 +3,7 @@ package octillect.database.documents;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import octillect.models.Board;
+import octillect.models.Contributor;
 
 public class BoardDocument {
 
@@ -11,7 +11,7 @@ public class BoardDocument {
 
         HashMap<String, String> map = new HashMap();
 
-        public ContributorMap(String id, Board.Role role) {
+        public ContributorMap(String id, Contributor.Role role) {
             map.put("id", id);
             map.put("role", role.toString());
         }

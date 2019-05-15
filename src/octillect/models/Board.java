@@ -14,15 +14,10 @@ import octillect.styles.Palette;
 
 public class Board extends TaskBase implements IObservable<Contributor> {
 
-    public enum Role {
-        owner,
-        admin,
-        viewer
-    }
-
     private String repositoryName;
     private ObservableList<Contributor> contributors = FXCollections.observableArrayList();
     private ObservableList<Tag> tags = FXCollections.observableArrayList();
+
 
     public Board() {
     }
@@ -63,7 +58,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     }
 
 
-    public Role getUserRole(String userId) {
+    public Contributor.Role getUserRole(String userId) {
         for (Contributor contributor : contributors) {
             if (contributor.getId().equals(userId)) {
                 return contributor.getRole();
@@ -86,7 +81,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     @Override
     public void notifyObservers() {
         for (UserBase observer : contributors) {
-            ((User) observer).updateObserver();
+            ((Contributor) observer).updateObserver();
         }
     }
 
@@ -103,7 +98,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                 $.name = user.getName();
                 $.email = user.getEmail();
                 $.image = user.getImage();
-                $.role = Role.owner;
+                $.role = Contributor.Role.owner;
             }).build();
 
             setId(FirestoreAPI.getInstance().encryptWithDateTime("Welcome Board" + user.getId()));
@@ -205,7 +200,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                 $.name  = user.getName();
                 $.email = user.getEmail();
                 $.image = user.getImage();
-                $.role  = Role.owner;
+                $.role  = Contributor.Role.owner;
             }).build();
 
             setId(FirestoreAPI.getInstance().encryptWithDateTime(name + user.getId()));

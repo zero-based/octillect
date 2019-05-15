@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
-public class User extends UserBase implements IObserver {
+public class User extends UserBase {
 
     private String password;
     private ObservableList<Board> boards = FXCollections.observableArrayList();
@@ -33,12 +33,6 @@ public class User extends UserBase implements IObserver {
 
     public void setBoards(ObservableList<Board> boards) {
         this.boards = boards;
-    }
-
-
-    @Override
-    public void updateObserver() {
-        /* UPDATE USER */
     }
 
 }

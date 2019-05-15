@@ -10,7 +10,7 @@ abstract public class UserBase {
     private Image image;
 
 
-    public UserBase(String id, String name, String email, Image image) {
+    UserBase(String id, String name, String email, Image image) {
         this.id = id;
         this.name = name;
         this.email = email;

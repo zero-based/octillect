@@ -2,21 +2,32 @@ package octillect.models;
 
 import javafx.scene.image.Image;
 
-public class Contributor extends UserBase {
+public class Contributor extends UserBase implements IObserver {
 
-    private Board.Role role;
+    public enum Role {
+        owner,
+        admin,
+        viewer
+    }
 
-    public Contributor(String id, String name, String email, Image image, Board.Role role) {
+    private Role role;
+
+    public Contributor(String id, String name, String email, Image image, Role role) {
         super(id, name, email, image);
         this.role = role;
     }
 
-    public Board.Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Board.Role role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public void updateObserver() {
+        throw new UnsupportedOperationException("Not Implemented Yet!");
     }
 
 }
