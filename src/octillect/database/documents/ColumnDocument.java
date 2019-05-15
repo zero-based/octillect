@@ -6,7 +6,7 @@ public class ColumnDocument {
 
     private String id;
     private String name;
-    private ArrayList<String> tasksIds;
+    private ArrayList<String> tasksIds = new ArrayList<>();
 
     public ColumnDocument() {
     }

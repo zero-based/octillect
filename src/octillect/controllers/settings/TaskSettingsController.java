@@ -221,14 +221,6 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         parentColumn = column;
         currentTask  = task;
 
-        if (currentTask.getAssignees() == null) { /* TODO : Remove this line after fixing null bugs */
-            currentTask.setAssignees(FXCollections.observableArrayList());
-        }
-
-        if (currentTask.getTags() == null) { /* TODO : Remove this line after fixing null bugs */
-            currentTask.setTags(FXCollections.observableArrayList());
-        }
-
         taskNameTextField.setText(task.getName());
         taskDescriptionTextArea.setText(task.getDescription());
         loadCreationInfo();
@@ -254,10 +246,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     private void loadSubTasksListView() {
         subTasksListView.getItems().clear();
-        if (currentTask.getChildren() != null) {
-            for (TaskBase subTask : currentTask.getChildren()) {
-                subTasksListView.getItems().add((Task) subTask);
-            }
+        for (TaskBase subTask : currentTask.getChildren()) {
+            subTasksListView.getItems().add((Task) subTask);
         }
     }
 
@@ -299,10 +289,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
      */
     private <T> ObservableList<T> getUnusedItems(ObservableList<T> collection, ObservableList<T> subCollection) {
         ObservableList<T> unusedItems = FXCollections.observableArrayList();
-        if (collection == null) { /* TODO : Remove this line after fixing null bugs */
-            return unusedItems;
-        }
-        if (subCollection == null || subCollection.size() == 0) {
+        if (subCollection.isEmpty()) {
             return FXCollections.observableArrayList(collection);
         }
         for (T collectionItem : collection) {

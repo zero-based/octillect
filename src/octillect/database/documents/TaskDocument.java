@@ -28,9 +28,9 @@ public class TaskDocument {
     private Date dueDate;
     private Date creationDate;
     private String creatorId;
-    private ArrayList<String> assigneesIds;
-    private ArrayList<HashMap<String, String>> subTasks;
-    private ArrayList<String> tagsIds;
+    private ArrayList<String> assigneesIds = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> subTasks = new ArrayList<>();
+    private ArrayList<String> tagsIds = new ArrayList<>();
 
     public TaskDocument() {
     }

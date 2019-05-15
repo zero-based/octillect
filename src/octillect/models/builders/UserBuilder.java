@@ -1,5 +1,6 @@
 package octillect.models.builders;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import octillect.models.Board;
@@ -14,7 +15,7 @@ public class UserBuilder implements Builder<User, UserBuilder> {
     public String email;
     public String password;
     public Image image;
-    public ObservableList<Board> boards;
+    public ObservableList<Board> boards = FXCollections.observableArrayList();
 
     @Override
     public UserBuilder with(Consumer<UserBuilder> builderFunction) {

@@ -215,9 +215,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
     }
 
     private void loadTags() {
-        if (boardController.currentBoard.getTags() != null) {
-            tagsListView.setItems(boardController.currentBoard.getTags());
-        }
+        tagsListView.setItems(boardController.currentBoard.getTags());
     }
 
     public void resetBoardSettings() {

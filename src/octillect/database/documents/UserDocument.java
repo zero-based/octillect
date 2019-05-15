@@ -8,7 +8,7 @@ public class UserDocument {
     private String name;
     private String email;
     private String password;
-    private ArrayList<String> boardsIds;
+    private ArrayList<String> boardsIds = new ArrayList<>();
 
     public UserDocument() {
     }

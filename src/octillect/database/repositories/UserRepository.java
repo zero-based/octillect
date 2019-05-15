@@ -82,13 +82,12 @@ public class UserRepository implements Repository<User> {
                 $.password = document.getPassword();
                 $.image = getImage(document.getId());
 
-                if (document.getBoardsIds() != null) {
-                    ArrayList<Board> boardsIds = new ArrayList<>();
-                    for (String boardId : document.getBoardsIds()) {
-                        boardsIds.add(BoardRepository.getInstance().get(boardId));
-                    }
-                    $.boards = FXCollections.observableArrayList(boardsIds);
+                ArrayList<Board> boardsIds = new ArrayList<>();
+                for (String boardId : document.getBoardsIds()) {
+                    boardsIds.add(BoardRepository.getInstance().get(boardId));
                 }
+                $.boards = FXCollections.observableArrayList(boardsIds);
+
             }).build();
 
         }
@@ -198,20 +197,18 @@ public class UserRepository implements Repository<User> {
                     }
 
                     // Update tasks' assignees' emails
-                    if (((Task) task).getAssignees() != null) {
+                    ArrayList<String> assigneesIds = new ArrayList<>();
+                    ((Task) task).getAssignees().forEach(assignee -> {
 
-                        ArrayList<String> assigneesIds = new ArrayList<>();
-                        ((Task) task).getAssignees().forEach(assignee -> {
+                        if (assignee.getEmail().equals(user.getEmail())) {
+                            assigneesIds.add(FirestoreAPI.getInstance().encrypt(updatedEmail));
+                        } else {
+                            assigneesIds.add(assignee.getId());
+                        }
 
-                            if (assignee.getEmail().equals(user.getEmail())) {
-                                assigneesIds.add(FirestoreAPI.getInstance().encrypt(updatedEmail));
-                            } else {
-                                assigneesIds.add(assignee.getId());
-                            }
+                        TaskRepository.getInstance().updateAssigneeIds(task.getId(), assigneesIds);
+                    });
 
-                            TaskRepository.getInstance().updateAssigneeIds(task.getId(), assigneesIds);
-                        });
-                    }
                 }
             }
         }

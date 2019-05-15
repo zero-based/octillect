@@ -207,18 +207,15 @@ public class UserSettingsController implements Injectable<ApplicationController>
                     }
 
                     // Update tasks' assignees' emails
-                    if (((Task) task).getAssignees() != null) {
 
-                        ((Task) task).getAssignees().forEach(assignee -> {
+                    ((Task) task).getAssignees().forEach(assignee -> {
+                        if (assignee.getEmail().equals(applicationController.user.getEmail())) {
+                            assignee.setId(FirestoreAPI.getInstance().encrypt(updatedEmail));
+                            assignee.setEmail(updatedEmail);
+                            assignee.setImage(updatedImage);
+                        }
+                    });
 
-                            if (assignee.getEmail().equals(applicationController.user.getEmail())) {
-                                assignee.setId(FirestoreAPI.getInstance().encrypt(updatedEmail));
-                                assignee.setEmail(updatedEmail);
-                                assignee.setImage(updatedImage);
-                            }
-                        });
-
-                    }
                 }
             }
         }

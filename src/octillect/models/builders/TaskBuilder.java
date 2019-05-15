@@ -3,6 +3,7 @@ package octillect.models.builders;
 import java.util.Date;
 import java.util.function.Consumer;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import octillect.models.*;
@@ -16,9 +17,9 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
     public Date dueDate;
     public Date creationDate;
     public Contributor creator;
-    public ObservableList<Contributor> assignees;
-    public ObservableList<TaskBase> subTasks;
-    public ObservableList<Tag> tags;
+    public ObservableList<Contributor> assignees = FXCollections.observableArrayList();
+    public ObservableList<TaskBase> subTasks = FXCollections.observableArrayList();
+    public ObservableList<Tag> tags = FXCollections.observableArrayList();
 
     @Override
     public TaskBuilder with(Consumer<TaskBuilder> builderFunction) {

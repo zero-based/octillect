@@ -21,8 +21,8 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     }
 
     private String repositoryName;
-    private ObservableList<Contributor> contributors;
-    private ObservableList<Tag> tags;
+    private ObservableList<Contributor> contributors = FXCollections.observableArrayList();
+    private ObservableList<Tag> tags = FXCollections.observableArrayList();
 
     public Board() {
     }

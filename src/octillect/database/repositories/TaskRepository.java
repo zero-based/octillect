@@ -37,30 +37,24 @@ public class TaskRepository implements Repository<Task> {
         document.setCreationDate(task.getCreationDate());
         document.setCreatorId(task.getCreator().getId());
 
-        if (task.getAssignees() != null) {
-            ArrayList<String> assigneesIds = new ArrayList<>();
-            for (Contributor assignee : task.getAssignees()) {
-                assigneesIds.add(assignee.getId());
-            }
-            document.setAssigneesIds(assigneesIds);
+        ArrayList<String> assigneesIds = new ArrayList<>();
+        for (Contributor assignee : task.getAssignees()) {
+            assigneesIds.add(assignee.getId());
         }
+        document.setAssigneesIds(assigneesIds);
 
-        if (task.getChildren() != null) {
-            ArrayList<HashMap<String, String>> subTasks = new ArrayList<>();
-            for (TaskBase subTask : task.getChildren()) {
-                SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(),subTask.getName(),((Task) subTask).getIsCompleted());
-                subTasks.add(subTaskMap.getMap());
-            }
-            document.setSubTasks(subTasks);
+        ArrayList<HashMap<String, String>> subTasks = new ArrayList<>();
+        for (TaskBase subTask : task.getChildren()) {
+            SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), ((Task) subTask).getIsCompleted());
+            subTasks.add(subTaskMap.getMap());
         }
+        document.setSubTasks(subTasks);
 
-        if (task.getTags() != null) {
-            ArrayList<String> tagsIds = new ArrayList<>();
-            for (Tag tag : task.getTags()) {
-                tagsIds.add(tag.getId());
-            }
-            document.setTagsIds(tagsIds);
+        ArrayList<String> tagsIds = new ArrayList<>();
+        for (Tag tag : task.getTags()) {
+            tagsIds.add(tag.getId());
         }
+        document.setTagsIds(tagsIds);
 
         FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TASKS, document.getId(), document);
     }
@@ -79,36 +73,29 @@ public class TaskRepository implements Repository<Task> {
             $.creationDate = document.getCreationDate();
             $.creator = UserRepository.getInstance().getContributor(document.getCreatorId());
 
-            if (document.getAssigneesIds() != null) {
-                ArrayList<Contributor> assignees = new ArrayList<>();
-                for (String assigneeID : document.getAssigneesIds()) {
-                    assignees.add(UserRepository.getInstance().getContributor(assigneeID));
-                }
-                $.assignees = FXCollections.observableArrayList(assignees);
+            ArrayList<Contributor> assignees = new ArrayList<>();
+            for (String assigneeID : document.getAssigneesIds()) {
+                assignees.add(UserRepository.getInstance().getContributor(assigneeID));
             }
+            $.assignees = FXCollections.observableArrayList(assignees);
 
-            if (document.getSubTasks() != null) {
-                ArrayList<Task> subTasks = new ArrayList<>();
-                for (HashMap<String, String> subTaskMap : document.getSubTasks()) {
-
-                    Task subTask = new TaskBuilder().with($_subTask -> {
-                        $_subTask.id          = subTaskMap.get("id");
-                        $_subTask.name        = subTaskMap.get("name");
-                        $_subTask.isCompleted = Boolean.valueOf(subTaskMap.get("isCompleted"));
-                    }).build();
-
-                    subTasks.add(subTask);
-                }
-                $.subTasks = FXCollections.observableArrayList(subTasks);
+            ArrayList<Task> subTasks = new ArrayList<>();
+            for (HashMap<String, String> subTaskMap : document.getSubTasks()) {
+                Task subTask = new TaskBuilder().with($_subTask -> {
+                    $_subTask.id = subTaskMap.get("id");
+                    $_subTask.name = subTaskMap.get("name");
+                    $_subTask.isCompleted = Boolean.valueOf(subTaskMap.get("isCompleted"));
+                }).build();
+                subTasks.add(subTask);
             }
+            $.subTasks = FXCollections.observableArrayList(subTasks);
 
-            if (document.getTagsIds() != null) {
-                ArrayList<Tag> tags = new ArrayList<>();
-                for (String tagId : document.getTagsIds()) {
-                    tags.add(TagRepository.getInstance().get(tagId));
-                }
-                $.tags = FXCollections.observableArrayList(tags);
+            ArrayList<Tag> tags = new ArrayList<>();
+            for (String tagId : document.getTagsIds()) {
+                tags.add(TagRepository.getInstance().get(tagId));
             }
+            $.tags = FXCollections.observableArrayList(tags);
+
 
         }).build();
 
