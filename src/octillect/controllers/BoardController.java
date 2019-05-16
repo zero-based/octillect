@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 import octillect.controllers.dialogs.NewBoardDialogController;
 import octillect.controllers.dialogs.NewColumnDialogController;
@@ -18,19 +19,15 @@ import octillect.controls.TasksColumn;
 import octillect.models.Board;
 import octillect.models.Column;
 
-import org.kordamp.ikonli.javafx.FontIcon;
-
 public class BoardController implements Injectable<ApplicationController> {
 
     // Local Fields
     public Board currentBoard;
 
     // FXML Fields
-    @FXML public ListView<Column> boardListView;
+    @FXML public HBox toolBarHBox;
     @FXML public JFXTextField searchTextField;
-    @FXML public FontIcon gitHubIcon;
-    @FXML public FontIcon calendarIcon;
-    @FXML public FontIcon addColumnIcon;
+    @FXML public ListView<Column> boardListView;
     @FXML public Label noBoardsLabel;
     @FXML public OButton newBoardOButton;
 
@@ -60,14 +57,13 @@ public class BoardController implements Injectable<ApplicationController> {
 
     @Override
     public void init() {
-        boardSettingsController.resetBoardSettings();
         if (!applicationController.user.getBoards().isEmpty()) {
             loadBoard(applicationController.user.getBoards().get(0));
             leftDrawerController.userBoardsListView.getSelectionModel().selectFirst();
         } else {
-            showToolbar(false);
+            showBoardView(false);
+            boardSettingsController.resetBoardSettings();
             titleBarController.boardNameLabel.setText("Octillect");
-            boardListView.getItems().clear();
         }
     }
 
@@ -75,7 +71,7 @@ public class BoardController implements Injectable<ApplicationController> {
 
         currentBoard = board;
 
-        showToolbar(true);
+        showBoardView(true);
         titleBarController.boardNameLabel.setText(board.getName());
         boardSettingsController.loadBoardSettings();
 
@@ -109,37 +105,28 @@ public class BoardController implements Injectable<ApplicationController> {
         newColumnDialogController.newColumnDialog.show(applicationController.rootStackPane);
     }
 
-    private void showToolbar(boolean show) {
-        if (show) {
-            searchTextField.setOpacity(1);
-            searchTextField.setDisable(false);
-            gitHubIcon.setOpacity(1);
-            gitHubIcon.setDisable(false);
-            calendarIcon.setOpacity(1);
-            calendarIcon.setDisable(false);
-            addColumnIcon.setOpacity(1);
-            addColumnIcon.setDisable(false);
-            noBoardsLabel.setOpacity(0);
-            newBoardOButton.setDisable(true);
-            newBoardOButton.setOpacity(0);
-        } else {
-            searchTextField.setOpacity(0);
-            searchTextField.setDisable(true);
-            gitHubIcon.setOpacity(0);
-            gitHubIcon.setDisable(true);
-            calendarIcon.setOpacity(0);
-            calendarIcon.setDisable(true);
-            addColumnIcon.setOpacity(0);
-            addColumnIcon.setDisable(true);
-            noBoardsLabel.setOpacity(1);
-            newBoardOButton.setDisable(false);
-            newBoardOButton.setOpacity(1);
-        }
-    }
-
     @FXML
     public void handleNewBoardButtonAction(ActionEvent actionEvent) {
         newBoardDialogController.newBoardDialog.show(applicationController.rootStackPane);
+    }
+
+    private void showBoardView(boolean show) {
+        if (show) {
+            searchTextField.setText("");
+            toolBarHBox.setOpacity(1);
+            noBoardsLabel.setOpacity(0);
+            toolBarHBox.setDisable(false);
+            newBoardOButton.setOpacity(0);
+            newBoardOButton.setDisable(true);
+        } else {
+            boardListView.getItems().clear();
+            searchTextField.setText("");
+            toolBarHBox.setOpacity(0);
+            noBoardsLabel.setOpacity(1);
+            toolBarHBox.setDisable(true);
+            newBoardOButton.setOpacity(1);
+            newBoardOButton.setDisable(false);
+        }
     }
 
 }

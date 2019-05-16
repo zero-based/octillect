@@ -30,7 +30,7 @@
     </padding>
 
     <top>
-        <HBox spacing="24">
+        <HBox fx:id="toolBarHBox" spacing="24">
 
             <JFXTextField fx:id="searchTextField"
                           promptText="Search"
@@ -39,20 +39,17 @@
                           focusColor="${Palette.PRIMARY_DARK}"
                           style="-fx-text-inner-color: -o-dark-200"/>
 
-            <FontIcon fx:id="gitHubIcon"
-                      iconLiteral="oct-mark-github"
+            <FontIcon iconLiteral="oct-mark-github"
                       iconSize="22"
                       iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleGitHubIconMouseClicked"/>
 
-            <FontIcon fx:id="calendarIcon"
-                      iconLiteral="gmi-today"
+            <FontIcon iconLiteral="gmi-today"
                       iconSize="24"
                       iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleCalendarIconMouseClicked"/>
 
-            <FontIcon fx:id="addColumnIcon"
-                      iconLiteral="gmi-add-circle"
+            <FontIcon iconLiteral="gmi-add-circle"
                       iconSize="24"
                       iconColor="${Palette.PRIMARY_DARK}"
                       onMouseClicked="#handleAddColumnIconMouseClicked"/>
