@@ -79,6 +79,9 @@
                 <FontIcon iconLiteral="gmi-check-box"
                           iconSize="20"
                           iconColor="${Palette.DARK_300}"/>
+                <FontIcon iconLiteral="gmi-format-list-bulleted"
+                          iconSize="20"
+                          iconColor="${Palette.DARK_300}"/>
                 <Label fx:id="taskDueDateLabel"
                        textFill="${Palette.DARK_300}"
                        translateY="2">

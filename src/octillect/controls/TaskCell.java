@@ -241,15 +241,20 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         taskNameLabel.setText(taskItem.getName());
 
-        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted() && taskItem.getAssignees().isEmpty()
+        if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
+                && taskItem.getAssignees().isEmpty() && taskItem.getChildren().isEmpty()
                 && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))) {
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
         }
 
         if (taskItem.getDueDate() == null) {
-            taskIconsFlowPane.getChildren().remove(2);
+            taskIconsFlowPane.getChildren().remove(3);
         } else {
             updateDueDateLabel(taskItem, taskDueDateLabel);
+        }
+
+        if (taskItem.getChildren().isEmpty()) {
+            taskIconsFlowPane.getChildren().remove(2);
         }
 
         if (!taskItem.getIsCompleted()) {

@@ -158,6 +158,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             TaskRepository.getInstance().addSubTask(currentTask.getId(), subTask);
             currentTask.<Task>getChildren().add(subTask);
             newSubTaskTextField.setText("");
+            boardController.boardListView.refresh();
         }
     }
 
