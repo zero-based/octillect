@@ -15,12 +15,14 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 
 import octillect.Main;
 import octillect.controls.OButton;
@@ -107,7 +109,7 @@ public class SignUpController {
     }
 
     @FXML
-    public void handleSignUpButtonAction(ActionEvent actionEvent) {
+    public void handleSignUpButtonAction(ActionEvent actionEvent) throws IOException {
 
         firstNameTextField      .validate();
         lastNameTextField       .validate();
@@ -141,7 +143,6 @@ public class SignUpController {
                 user.setBoards(FXCollections.observableArrayList(new Board.WelcomeBoard(user)));
                 UserRepository.getInstance().add(user);
 
-                resetSignUpView();
                 closeSignUpView();
 
                 Main.initApplicationStage(user);
@@ -168,9 +169,17 @@ public class SignUpController {
     }
 
     @FXML
-    public void handleBackButtonAction() {
-        resetSignUpView();
+    public void handleBackButtonAction() throws IOException {
         closeSignUpView();
+    }
+
+    private void closeSignUpView() throws IOException {
+        StackPane root = (StackPane) Main.signingStage.getScene().getRoot();
+        StackPane signingStackPane = FXMLLoader.load(getClass().getResource("/octillect/views/SignInView.fxml"));
+        HBox signInHBox = (HBox) signingStackPane.lookup("#signInHBox");
+        Animation.easeOut(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
+        Animation.easeIn(root, signInHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
+        resetSignUpView();
     }
 
     private void resetSignUpView() {
@@ -182,11 +191,6 @@ public class SignUpController {
         chosenImage = null;
         userImage.setOpacity(0);
         imageButton.setOpacity(1);
-    }
-
-    private void closeSignUpView() {
-        StackPane parentStackPane = (StackPane) signUpHBox.getParent();
-        Animation.easeOut(parentStackPane, signUpHBox);
     }
 
 }

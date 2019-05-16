@@ -24,6 +24,8 @@
            xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.SignInController"
            fx:id="signingStackPane"
+           minWidth="1024"
+           minHeight="768"
            stylesheets="@/octillect/styles/Palette.css"
            style="-fx-background-color: -o-dark-900;">
 
