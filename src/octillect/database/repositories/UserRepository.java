@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 import octillect.Main;
+import octillect.database.documents.BoardDocument.ContributorMap;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
@@ -161,13 +163,18 @@ public class UserRepository implements Repository<User> {
         for (Board board : user.getBoards()) {
 
             // Update Contributors emails
+            ArrayList<HashMap<String, String>> contributors = new ArrayList<>();
+            ContributorMap contributorMap;
+
             for (Contributor contributor : board.getContributors()) {
                 if (contributor.getEmail().equals(user.getEmail())) {
-                    BoardRepository.getInstance().deleteContributor(board, contributor);
-                    contributor.setEmail(updatedEmail);
-                    BoardRepository.getInstance().addContributor(board.getId(), contributor);
+                    contributorMap = new ContributorMap(FirestoreAPI.getInstance().encrypt(updatedEmail), contributor.getRole());
+                } else {
+                    contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
                 }
+                contributors.add(contributorMap.getMap());
             }
+            BoardRepository.getInstance().updateContributorsIds(board.getId(), contributors);
 
             for (Column column : board.<Column>getChildren()) {
 
@@ -178,7 +185,7 @@ public class UserRepository implements Repository<User> {
                                 FirestoreAPI.getInstance().encrypt(updatedEmail));
                     }
 
-                    // Update tasks' assignees' emails
+                    // Update tasks' assignees' ids
                     ArrayList<String> assigneesIds = new ArrayList<>();
                     task.getAssignees().forEach(assignee -> {
 
