@@ -16,8 +16,7 @@
       xmlns:fx="http://javafx.com/fxml/"
       fx:controller="octillect.controllers.SignUpController"
       fx:id="signUpHBox"
-      stylesheets="@/octillect/styles/Palette.css"
-      alignment="CENTER_RIGHT">
+      stylesheets="@/octillect/styles/Palette.css">
 
     <fx:define>
         <Palette fx:id="Palette"/>
@@ -26,8 +25,8 @@
     <GridPane alignment="CENTER"
               hgap="16"
               vgap="42"
-              prefWidth="${signUpHBox.width * 0.6}"
-              style="-fx-background-color: -o-dark-900;">
+              prefWidth="${signUpHBox.width * 0.5}"
+              style="-fx-background-color: rgba(27, 27, 27, 0.64);">
 
         <OButton GridPane.rowIndex="0"
                  GridPane.columnSpan="2"

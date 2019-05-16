@@ -177,8 +177,8 @@ public class SignUpController {
         StackPane root = (StackPane) Main.signingStage.getScene().getRoot();
         StackPane signingStackPane = FXMLLoader.load(getClass().getResource("/octillect/views/SignInView.fxml"));
         HBox signInHBox = (HBox) signingStackPane.lookup("#signInHBox");
-        Animation.easeOut(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
-        Animation.easeIn(root, signInHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
+        Animation.easeOut(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.LEFT);
+        Animation.easeIn(root, signInHBox, Duration.seconds(0.8), Animation.Direction.LEFT);
         resetSignUpView();
     }
 

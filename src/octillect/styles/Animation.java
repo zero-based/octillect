@@ -33,7 +33,7 @@ public class Animation {
         double startValue = parent.getWidth() * directionValue;
         double endValue = 0;
         child.translateXProperty().set(startValue);
-        parent.getChildren().add(child);
+        parent.getChildren().add(0, child);
 
         Timeline timeline = new Timeline();
         KeyValue keyValue = new KeyValue(child.translateXProperty(), endValue, Interpolator.EASE_IN);
