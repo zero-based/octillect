@@ -52,7 +52,7 @@ public class Main extends Application {
 
         signingStage.setTitle("Octillect | Sign in/up");
         signingStage.getIcons().add(O_ICON);
-        signingStage.setScene(new Scene(root, 1024, 768));
+        signingStage.setScene(new Scene(root));
 
     }
 

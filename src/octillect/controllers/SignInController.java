@@ -23,6 +23,7 @@ import octillect.styles.Animation;
 public class SignInController {
 
     // FXML Fields
+    @FXML public StackPane signingStackPane;
     @FXML private HBox signInHBox;
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
@@ -101,9 +102,10 @@ public class SignInController {
 
     @FXML
     public void handleCreateAnAccountAction(ActionEvent actionEvent) throws Exception {
+        StackPane root = (StackPane) Main.signingStage.getScene().getRoot();
         HBox signUpHBox = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
-        StackPane parentStackPane = (StackPane) signInHBox.getParent();
-        Animation.easeIn(parentStackPane, signUpHBox);
+        Animation.easeOut(root, signInHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
+        Animation.easeIn(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
         resetSignInView();
     }
 
