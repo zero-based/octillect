@@ -137,7 +137,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
             UserRepository.getInstance().updateEmail(applicationController.user, emailTextField.getText());
             updateUser(emailTextField.getText());
 
-            boardController.loadFirstBoard();
+            boardController.boardListView.refresh();
         }
 
     }
@@ -223,7 +223,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
         titleBarController.loadUserImage(updatedImage);
 
         if (Main.octillectFile.exists()) {
-            Main.octillectFile.delete();
+            UserRepository.getInstance().rememberUser(applicationController.user);
         }
     }
 

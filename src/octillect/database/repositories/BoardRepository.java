@@ -151,6 +151,10 @@ public class BoardRepository implements Repository<Board> {
         return contributor;
     }
 
+    public void updateContributorsIds(String boardId, ArrayList<HashMap<String,String>> contributorsIds){
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorsIds);
+    }
+
     public void deleteContributor(Board board, Contributor contributor) {
         ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
         FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "contributors", contributorMap.getMap());
