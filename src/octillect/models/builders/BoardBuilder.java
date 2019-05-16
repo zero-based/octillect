@@ -14,7 +14,7 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
     public String description;
     public String repositoryName;
     public ObservableList<Contributor> contributors = FXCollections.observableArrayList();
-    public ObservableList<TaskBase> columns = FXCollections.observableArrayList();
+    public ObservableList<Column> columns = FXCollections.observableArrayList();
     public ObservableList<Tag> tags = FXCollections.observableArrayList();
 
     @Override
@@ -53,7 +53,7 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
         return this;
     }
 
-    public BoardBuilder withColumns(ObservableList<TaskBase> columns) {
+    public BoardBuilder withColumns(ObservableList<Column> columns) {
         this.columns = columns;
         return this;
     }

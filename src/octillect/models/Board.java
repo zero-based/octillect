@@ -23,12 +23,12 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     }
 
     public Board(String id, String name, String description, String repositoryName,
-                 ObservableList<Contributor> contributors, ObservableList<TaskBase> columns,
+                 ObservableList<Contributor> contributors, ObservableList<Column> columns,
                  ObservableList<Tag> tags) {
         super(id, name, description, columns);
         this.repositoryName = repositoryName;
-        this.contributors = contributors;
-        this.tags = tags;
+        this.contributors   = contributors;
+        this.tags           = tags;
     }
 
 
