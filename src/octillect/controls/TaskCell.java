@@ -81,6 +81,10 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         setOnDragDetected(event -> {
             if (getItem() != null) {
+
+                // Disable glowing and selection effects
+                getListView().getSelectionModel().clearSelection();
+
                 Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
 
                 SnapshotParameters parameters = new SnapshotParameters();
