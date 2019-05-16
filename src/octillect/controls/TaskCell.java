@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
@@ -132,11 +134,14 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
                 // Remove the Source Task from all Columns
                 for (ListView<Task> listView : allTasksListViews) {
-                    listView.getItems().remove(sourceTask);
+                    FilteredList<Task> items = (FilteredList<Task>) listView.getItems();
+                    items.getSource().remove(sourceTask);
                 }
 
                 // Add task to current position
-                getListView().getItems().add(getIndex(), sourceTask);
+                FilteredList<Task> items = (FilteredList<Task>) getListView().getItems();
+                ObservableList<Task> source = (ObservableList<Task>) items.getSource();
+                source.add(getIndex(), sourceTask);
 
             }
         });

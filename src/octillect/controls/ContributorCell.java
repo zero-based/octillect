@@ -108,7 +108,7 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
 
                 if (getItem().getId().equals(applicationController.user.getId())) {
                     applicationController.user.getBoards().remove(boardController.currentBoard);
-                    boardController.init();
+                    boardController.loadFirstBoard();
                 } else {
                     BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
@@ -109,7 +111,8 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                     && event.getDragboard().hasString()) {
                 int sourceIndex = ((TasksColumn) event.getGestureSource()).getIndex();
                 int targetIndex = ((TasksColumn) event.getGestureTarget()).getIndex();
-                Collections.swap(getListView().getItems(), sourceIndex, targetIndex);
+                FilteredList<Column> items = (FilteredList<Column>) getListView().getItems();
+                Collections.swap(items.getSource(), sourceIndex, targetIndex);
 
                 ArrayList<String> columnsIds = new ArrayList<>();
                 Board board = boardController.currentBoard;
@@ -163,7 +166,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         columnNameLabel.setText(columnItem.getName());
 
         // Populate the TasksColumn's tasksListView with columnItem's tasks
-        tasksListView.setItems(columnItem.getChildren());
+        tasksListView.setItems(columnItem.getFilteredTasks());
         tasksListView.setCellFactory(param -> {
             TaskCell taskCell = new TaskCell();
             taskCell.inject(applicationController);
@@ -205,11 +208,14 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
                 // Remove the Source Task from all Columns
                 for (ListView<Task> listView : allTasksListViews) {
-                    listView.getItems().remove(sourceTask);
+                    FilteredList<Task> items = (FilteredList<Task>) listView.getItems();
+                    items.getSource().remove(sourceTask);
                 }
 
-                // Add task to current ListView
-                tasksListView.getItems().add(sourceTask);
+                // Add task to current position
+                FilteredList<Task> items = (FilteredList<Task>) tasksListView.getItems();
+                ObservableList<Task> source = (ObservableList<Task>) items.getSource();
+                source.add(sourceTask);
             }
         });
 
