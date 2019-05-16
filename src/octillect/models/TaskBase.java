@@ -14,11 +14,11 @@ abstract public class TaskBase {
     TaskBase() {
     }
 
-    TaskBase(String id, String name, String description, ObservableList<TaskBase> children) {
-        this.id = id;
-        this.name = name;
+    TaskBase(String id, String name, String description, ObservableList<? extends TaskBase> children) {
+        this.id          = id;
+        this.name        = name;
         this.description = description;
-        this.children = children;
+        this.children    = children;
     }
 
 

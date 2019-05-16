@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 
 public class Column extends TaskBase {
 
-    public Column(String id, String name, ObservableList<TaskBase> tasks) {
+    public Column(String id, String name, ObservableList<Task> tasks) {
         super(id, name, null, tasks);
     }
 

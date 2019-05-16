@@ -242,7 +242,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         taskNameLabel.setText(taskItem.getName());
 
         if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
-                && taskItem.getAssignees().isEmpty() && taskItem.getChildren().isEmpty()
+                && taskItem.getAssignees().isEmpty() && taskItem.<Task>getChildren().isEmpty()
                 && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))) {
             taskCellVBox.getChildren().remove(taskInfoBorderPane);
         }

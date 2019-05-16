@@ -45,7 +45,7 @@ public class TaskRepository implements Repository<Task> {
 
         ArrayList<HashMap<String, String>> subTasks = new ArrayList<>();
         for (Task subTask : task.<Task>getChildren()) {
-            SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), ((Task) subTask).getIsCompleted());
+            SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), subTask.getIsCompleted());
             subTasks.add(subTaskMap.getMap());
         }
         document.setSubTasks(subTasks);

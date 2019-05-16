@@ -17,14 +17,14 @@ public class Task extends TaskBase {
 
     public Task(String id, String name, String description, boolean isCompleted,
                 Date dueDate, Date creationDate, Contributor creator, ObservableList<Contributor> assignees,
-                ObservableList<TaskBase> subTasks, ObservableList<Tag> tags) {
+                ObservableList<Task> subTasks, ObservableList<Tag> tags) {
         super(id, name, description, subTasks);
         this.isCompleted  = isCompleted;
         this.dueDate      = dueDate;
         this.creationDate = creationDate;
         this.creator      = creator;
         this.assignees    = assignees;
-        this.tags = tags;
+        this.tags         = tags;
     }
 
 

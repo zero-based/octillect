@@ -10,7 +10,6 @@ import octillect.database.documents.ColumnDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Column;
 import octillect.models.Task;
-import octillect.models.TaskBase;
 import octillect.models.builders.ColumnBuilder;
 
 public class ColumnRepository implements Repository<Column> {
