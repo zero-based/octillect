@@ -24,23 +24,26 @@
            xmlns:fx="http://javafx.com/fxml/"
            fx:controller="octillect.controllers.SignInController"
            fx:id="signingStackPane"
-           minWidth="1024"
+           minWidth="1264"
            minHeight="768"
            stylesheets="@/octillect/styles/Palette.css"
-           style="-fx-background-color: -o-dark-900;">
+           style="-fx-background-color: -o-dark-900;
+                  -fx-background-image: url(stars-1264x768.png);
+                  -fx-background-repeat: repeat;
+                  -fx-background-size: cover, auto;">
 
     <fx:define>
         <Palette fx:id="Palette"/>
     </fx:define>
 
     <!--Sign In Controls-->
-    <HBox fx:id="signInHBox" alignment="CENTER_RIGHT">
+    <HBox fx:id="signInHBox" alignment="CENTER_LEFT">
 
         <GridPane alignment="center"
                   hgap="16"
                   vgap="40"
-                  prefWidth="${signInHBox.width * 0.6}"
-                  style="-fx-background-color: -o-dark-900;">
+                  prefWidth="${signInHBox.width * 0.5}"
+                  style="-fx-background-color: rgba(27, 27, 27, 0.64);">
 
             <FontIcon GridPane.rowIndex="0"
                       GridPane.columnIndex="1"
@@ -62,6 +65,7 @@
                           promptText="Email"
                           prefColumnCount="30"
                           focusColor="${Palette.PRIMARY}"
+                          focusTraversable="false"
                           style="-fx-text-inner-color: -o-dark-300"
                           labelFloat="true"/>
 
@@ -78,6 +82,7 @@
                               promptText="Password"
                               prefColumnCount="30"
                               focusColor="${Palette.PRIMARY}"
+                              focusTraversable="false"
                               style="-fx-text-inner-color: -o-dark-300"
                               labelFloat="true"/>
 
@@ -85,7 +90,8 @@
                 <children>
                     <JFXCheckBox fx:id="keepMeSignedInCheckBox"
                                  checkedColor="${Palette.PRIMARY}"
-                                 textFill="${Palette.PRIMARY_DARK}"/>
+                                 textFill="${Palette.PRIMARY_DARK}"
+                                 focusTraversable="false"/>
                     <VBox>
                         <children>
                             <Label text="Keep me signed in"
@@ -158,13 +164,12 @@
 
     </HBox>
 
-    <!--Background Image-->
-    <ImageView fx:id="backgroundImageView"
-               fitWidth="${signingStackPane.height * 1.34 - 88}"
-               fitHeight="${signingStackPane.height - 88}"
-               translateX="-472">
+    <!--Octopus Background Image-->
+    <ImageView fitWidth="${signingStackPane.height * 1.65}"
+               fitHeight="${signingStackPane.height}"
+               StackPane.alignment="BOTTOM_RIGHT">
         <image>
-            <Image url="/octillect/resources/o-bg-1024x768.png"/>
+            <Image url="/octillect/resources/octopus-space-1264x768.png"/>
         </image>
     </ImageView>
 

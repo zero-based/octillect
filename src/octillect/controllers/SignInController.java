@@ -28,7 +28,6 @@ public class SignInController {
     @FXML private JFXTextField emailTextField;
     @FXML private JFXPasswordField passwordTextField;
     @FXML private JFXCheckBox keepMeSignedInCheckBox;
-    @FXML private ImageView backgroundImageView;
 
     // Validators
     private RequiredFieldValidator requiredFieldValidator;
@@ -37,9 +36,6 @@ public class SignInController {
 
     @FXML
     public void initialize() {
-
-        // Animation
-        Animation.rotate(backgroundImageView, Duration.seconds(16));
 
         // Initialize Validations
         requiredFieldValidator = new RequiredFieldValidator("Required field.");
@@ -104,8 +100,8 @@ public class SignInController {
     public void handleCreateAnAccountAction(ActionEvent actionEvent) throws Exception {
         StackPane root = (StackPane) Main.signingStage.getScene().getRoot();
         HBox signUpHBox = FXMLLoader.load(getClass().getResource("/octillect/views/SignUpView.fxml"));
-        Animation.easeOut(root, signInHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
-        Animation.easeIn(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.RIGHT);
+        Animation.easeOut(root, signInHBox, Duration.seconds(0.8), Animation.Direction.LEFT);
+        Animation.easeIn(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.LEFT);
         resetSignInView();
     }
 
