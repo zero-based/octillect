@@ -7,6 +7,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
 
 import octillect.controllers.ApplicationController;
+import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.TaskRepository;
@@ -23,11 +24,13 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
 
     // Injected Controllers
     private ApplicationController applicationController;
+    private BoardController boardController;
     private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
+        boardController            = applicationController.boardController;
         taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
     }
 
@@ -62,6 +65,7 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
         deleteSubTaskIcon.setOnMouseClicked(event -> {
             TaskRepository.getInstance().deleteSubTask(taskSettingsController.currentTask.getId(), getItem());
             taskSettingsController.currentTask.<Task>getChildren().remove(getItem());
+            boardController.boardListView.refresh();
         });
 
         setGraphic(subTaskBorderPane);
