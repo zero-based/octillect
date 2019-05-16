@@ -4,12 +4,10 @@ import java.util.Calendar;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.builders.ColumnBuilder;
-import octillect.models.builders.ContributorBuilder;
-import octillect.models.builders.TagBuilder;
-import octillect.models.builders.TaskBuilder;
+import octillect.models.builders.*;
 import octillect.styles.Palette;
 
 public class Board extends TaskBase implements IObservable<Contributor> {
@@ -17,6 +15,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     private String repositoryName;
     private ObservableList<Contributor> contributors = FXCollections.observableArrayList();
     private ObservableList<Tag> tags = FXCollections.observableArrayList();
+    private FilteredList<Column> filteredColumns;
 
 
     public Board() {
@@ -26,6 +25,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                  ObservableList<Contributor> contributors, ObservableList<Column> columns,
                  ObservableList<Tag> tags) {
         super(id, name, description, columns);
+        filteredColumns     = new FilteredList<>(columns);
         this.repositoryName = repositoryName;
         this.contributors   = contributors;
         this.tags           = tags;
@@ -65,6 +65,15 @@ public class Board extends TaskBase implements IObservable<Contributor> {
             }
         }
         return null;
+    }
+
+
+    public FilteredList<Column> getFilteredColumns() {
+        return filteredColumns;
+    }
+
+    public void setFilteredColumns(FilteredList<Column> filteredColumns) {
+        this.filteredColumns = filteredColumns;
     }
 
 
@@ -120,6 +129,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             setChildren(FXCollections.observableArrayList(essentialsColumn, featuresColumn));
+            setFilteredColumns(new FilteredList<>(getChildren()));
 
 
             // Tasks
@@ -148,7 +158,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             essentialsColumn.setChildren(FXCollections.observableArrayList(task_1, task_2, task_3));
-
+            essentialsColumn.setFilteredTasks(new FilteredList<>(essentialsColumn.getChildren()));
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(2019, Calendar.APRIL, 5);
@@ -184,6 +194,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             featuresColumn.setChildren(FXCollections.observableArrayList(task_4, task_5, task_6));
+            featuresColumn.setFilteredTasks(new FilteredList<>(featuresColumn.getChildren()));
 
         }
     }
@@ -227,6 +238,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             setChildren(FXCollections.observableArrayList(todoColumn, inProgressColumn, doneColumn));
+            setFilteredColumns(new FilteredList<>(getChildren()));
 
 
             // Tasks
@@ -239,6 +251,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             todoColumn.setChildren(FXCollections.observableArrayList(todoTask));
+            todoColumn.setFilteredTasks(new FilteredList<>(todoColumn.getChildren()));
 
             Task inProgressTask = new TaskBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("In Progress Task" + user.getId()))
@@ -248,6 +261,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             inProgressColumn.setChildren(FXCollections.observableArrayList(inProgressTask));
+            inProgressColumn.setFilteredTasks(new FilteredList<>(inProgressColumn.getChildren()));
 
             Task doneTask = new TaskBuilder()
                     .withId(FirestoreAPI.getInstance().encryptWithDateTime("Done Task" + user.getId()))
@@ -257,6 +271,7 @@ public class Board extends TaskBase implements IObservable<Contributor> {
                     .build();
 
             doneColumn.setChildren(FXCollections.observableArrayList(doneTask));
+            doneColumn.setFilteredTasks(new FilteredList<>(doneColumn.getChildren()));
 
 
             // Tags

@@ -193,7 +193,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
         }
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
-        boardController.init();
+        boardController.loadFirstBoard();
     }
 
     private void resetRequiredFieldValidators() {

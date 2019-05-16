@@ -2,6 +2,8 @@ package octillect.controllers;
 
 import com.jfoenix.controls.JFXTextField;
 
+import java.util.regex.Pattern;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -57,6 +59,30 @@ public class BoardController implements Injectable<ApplicationController> {
 
     @Override
     public void init() {
+
+        loadFirstBoard();
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                currentBoard.getFilteredColumns()
+                        .forEach(column -> column
+                                .getFilteredTasks()
+                                .setPredicate(task -> {
+                                    return Pattern.compile(Pattern.quote(newValue), Pattern.CASE_INSENSITIVE)
+                                            .matcher(task.getName())
+                                            .find();
+                                }));
+            } else {
+                currentBoard.getFilteredColumns()
+                        .forEach(column -> column
+                                .getFilteredTasks()
+                                .setPredicate(task -> true));
+            }
+        });
+
+    }
+
+    public void loadFirstBoard() {
         if (!applicationController.user.getBoards().isEmpty()) {
             loadBoard(applicationController.user.getBoards().get(0));
             leftDrawerController.userBoardsListView.getSelectionModel().selectFirst();
@@ -67,6 +93,7 @@ public class BoardController implements Injectable<ApplicationController> {
         }
     }
 
+
     public void loadBoard(Board board) {
 
         currentBoard = board;
@@ -76,7 +103,7 @@ public class BoardController implements Injectable<ApplicationController> {
         boardSettingsController.loadBoardSettings();
 
         // Populate Board Columns
-        boardListView.setItems(board.getChildren());
+        boardListView.setItems(board.getFilteredColumns());
         boardListView.setCellFactory(param -> {
             TasksColumn tasksColumn = new TasksColumn();
             tasksColumn.inject(applicationController);
@@ -119,7 +146,7 @@ public class BoardController implements Injectable<ApplicationController> {
             newBoardOButton.setOpacity(0);
             newBoardOButton.setDisable(true);
         } else {
-            boardListView.getItems().clear();
+            boardListView.setItems(null);
             searchTextField.setText("");
             toolBarHBox.setOpacity(0);
             noBoardsLabel.setOpacity(1);

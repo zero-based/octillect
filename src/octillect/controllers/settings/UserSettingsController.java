@@ -137,7 +137,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
             UserRepository.getInstance().updateEmail(applicationController.user, emailTextField.getText());
             updateUser(emailTextField.getText());
 
-            boardController.init();
+            boardController.loadFirstBoard();
         }
 
     }
