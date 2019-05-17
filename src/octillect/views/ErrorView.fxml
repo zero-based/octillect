@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import octillect.controls.OButton?>
+<?import octillect.styles.Palette?>
+
+<VBox xmlns="http://javafx.com/javafx/"
+      xmlns:fx="http://javafx.com/fxml/"
+      fx:id="errorStackPane"
+      stylesheets="@/octillect/styles/Palette.css"
+      alignment="CENTER"
+      spacing="16"
+      style="-fx-background-color: -o-dark-900;
+        -fx-background-image: url(stars-1264x768.png);
+        -fx-background-size: cover;">
+
+    <fx:define>
+        <Palette fx:id="Palette"/>
+    </fx:define>
+
+    <Label text="Looks like you are lost in Space"
+           textFill="${Palette.PRIMARY_DARK}">
+        <font>
+            <Font name="Product Sans" size="48"/>
+        </font>
+    </Label>
+
+    <Label fx:id="errorLabel"
+           textFill="${Palette.INFO}">
+        <font>
+            <Font name="Product Sans" size="24"/>
+        </font>
+        <VBox.margin>
+            <Insets bottom="64"/>
+        </VBox.margin>
+    </Label>
+
+    <OButton fx:id="goBackButton"
+             text="Go back to Earth"
+             fill="TRUE"
+             color="PRIMARY"
+             style="-fx-font-size: 22;"/>
+
+</VBox>
