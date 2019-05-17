@@ -8,7 +8,13 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import octillect.exceptions.FirebaseKeyFileNotFoundException;
+import octillect.exceptions.InvalidFirebaseKeyException;
+import octillect.exceptions.OCTException;
+
 
 public class Connection {
 
@@ -27,17 +33,26 @@ public class Connection {
     private Connection() {
         FileInputStream serviceAccount;
         try {
-            serviceAccount = new FileInputStream(SERVICE_ACCOUNT_KEY);
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setFirestoreOptions(FirestoreOptions.newBuilder().setTimestampsInSnapshotsEnabled(true).build())
-                    .setDatabaseUrl(DATABASE_URL)
-                    .setStorageBucket(STORAGE_BUCKET_NAME)
-                    .build();
+            try {
+                serviceAccount = new FileInputStream(SERVICE_ACCOUNT_KEY);
+            } catch (FileNotFoundException e) {
+                throw new FirebaseKeyFileNotFoundException();
+            }
+            FirebaseOptions options = null;
+            try {
+                options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setFirestoreOptions(FirestoreOptions.newBuilder().setTimestampsInSnapshotsEnabled(true).build())
+                        .setDatabaseUrl(DATABASE_URL)
+                        .setStorageBucket(STORAGE_BUCKET_NAME)
+                        .build();
+            } catch (IOException e) {
+                throw new InvalidFirebaseKeyException();
+            }
             FirebaseApp.initializeApp(options);
             firestore = FirestoreClient.getFirestore();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (OCTException e) {
+            e.printError();
         }
     }
 }
