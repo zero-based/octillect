@@ -1,29 +1,47 @@
-- icon: far fa-circle
-  title: feature 
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-puzzle-piece
+  title: Collaborating environment 
+  description: Add Collaborators to your board with specific roles.
 
-- icon: far fa-circle
-  title: feature
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-filter
+  title: Real-time Powerful Tasks Filtering
+  description: Filter Board Tasks by name, tag, assignee.
 
-- icon: far fa-circle
-  title: feature 
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-tasks
+  title: Sub-tasks List
+  description: Each Task Can have a list of sub-tasks.
 
-- icon: far fa-circle
-  title: feature
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-credit-card
+  title: Expressive Task Card
+  description: "Task's Card is marked with specific icons if it has: description, sub-tasks, marked as done, due date."
 
-- icon: far fa-circle
-  title: feature 
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-calendar-minus
+  title: Late Due date warning 
+  description: When a task's due date is past, its color turns into red Color.
 
-- icon: far fa-circle
-  title: feature
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- icon: fas fa-hashtag
+  title: Task Tags
+  description: Tag Tasks to facilitate Categorizing them.
+
+- icon: fas fa-stamp
+  title: Add Assignees & Tags on the go
+  description: "When you're writing a new task's name, just write @User Name & #Tag to add Assignees/Tags to this Task."
+
+- icon: fas fa-sync
+  title: Real-time Sync
+  description: Keep your team Updated by doing nothing extra, Just invite them to be collaborators in your board.
+
+- icon: fas fa-clone
+  title: Drag'n'Drop to Arrange your workflow
+  description: As Simple as that.
+
+- icon: fas fa-code-branch
+  title: GitHub latest Commits Tracker
+  description: Know your Repository's latest updates by just one click.
+
+- icon: fas fa-adjust
+  title: Dark Theme
+  description: Who doesn't love dark theme?
+
+- icon: fas fa-heart
+  title: Made With Love
+  description: zero-based ♥ Octillect
