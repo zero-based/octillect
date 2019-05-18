@@ -80,12 +80,13 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
         usernameLabel.setText(contributorItem.getName());
         emailLabel.setText(contributorItem.getEmail());
 
-        if (mode != Mode.VIEW_ONLY) { /* TODO : Remove this condition after handling roles bug */
+        if (mode == Mode.BOARD) { /* TODO : Remove this condition after handling roles bug */
             roleLabel.setText(contributorItem.getRole().toString());
+        } else {
+            roleLabel.setOpacity(0);
         }
 
         if (mode == Mode.VIEW_ONLY) {
-            roleLabel.setOpacity(0);
             setGraphic(contributorCellBorderPane.getLeft());
             return;
         } else if (mode == Mode.BOARD) {
