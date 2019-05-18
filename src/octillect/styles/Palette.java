@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import javafx.scene.paint.Color;
+import octillect.exceptions.OCTException;
+import octillect.exceptions.PaletteFileNotFoundException;
 
 public final class Palette {
 
@@ -40,20 +42,26 @@ public final class Palette {
         // Populate the palette hash map from the Palette CSS file.
 
         HashMap<String, Color> palette = new HashMap<>();
+
         try {
-            Scanner scanner = new Scanner(new File(CSS_LOCATION + CSS_FILE_NAME));
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(new File(CSS_LOCATION + CSS_FILE_NAME));
+            } catch (FileNotFoundException e) {
+                throw new PaletteFileNotFoundException();
+            }
             while (scanner.hasNextLine()) {
                 String buffer = scanner.nextLine();
                 if (buffer.contains(";")) {
-                    buffer         = buffer.replace(" ", "");
-                    String name    = buffer.substring(0, buffer.indexOf(':'));
+                    buffer = buffer.replace(" ", "");
+                    String name = buffer.substring(0, buffer.indexOf(':'));
                     String hexCode = buffer.substring(buffer.indexOf('#'), buffer.indexOf('#') + 7);
                     palette.put(name, Color.valueOf(hexCode));
                 }
             }
             scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (OCTException e) {
+            e.printError();
         }
 
 
