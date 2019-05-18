@@ -2,6 +2,7 @@ package octillect.controllers;
 
 import com.jfoenix.controls.JFXTextField;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
@@ -20,11 +21,18 @@ import octillect.controls.OButton;
 import octillect.controls.TasksColumn;
 import octillect.models.Board;
 import octillect.models.Column;
+import octillect.models.Task;
 
 public class BoardController implements Injectable<ApplicationController> {
 
     // Local Fields
     public Board currentBoard;
+
+    enum FilterTarget {
+        TASK_NAME,
+        TASK_ASSIGNEES,
+        TASK_TAGS
+    }
 
     // FXML Fields
     @FXML public HBox toolBarHBox;
@@ -64,19 +72,19 @@ public class BoardController implements Injectable<ApplicationController> {
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
-                currentBoard.getFilteredColumns()
-                        .forEach(column -> column
-                                .getFilteredTasks()
-                                .setPredicate(task -> {
-                                    return Pattern.compile(Pattern.quote(newValue), Pattern.CASE_INSENSITIVE)
-                                            .matcher(task.getName())
-                                            .find();
-                                }));
+                switch (newValue.charAt(0)) {
+                    case '@':
+                        currentBoard.setTasksPredicate(getPredicate(FilterTarget.TASK_ASSIGNEES, newValue.substring(1)));
+                        break;
+                    case '#':
+                        currentBoard.setTasksPredicate(getPredicate(FilterTarget.TASK_TAGS, newValue.substring(1)));
+                        break;
+                    default:
+                        currentBoard.setTasksPredicate(getPredicate(FilterTarget.TASK_NAME, newValue));
+                        break;
+                }
             } else {
-                currentBoard.getFilteredColumns()
-                        .forEach(column -> column
-                                .getFilteredTasks()
-                                .setPredicate(task -> true));
+                currentBoard.setTasksPredicate(task -> true);
             }
         });
 
@@ -154,6 +162,24 @@ public class BoardController implements Injectable<ApplicationController> {
             newBoardOButton.setOpacity(1);
             newBoardOButton.setDisable(false);
         }
+    }
+
+    private Predicate<Task> getPredicate(FilterTarget target, String query) {
+        Predicate<Task> predicate = null;
+        if (target == FilterTarget.TASK_NAME) {
+            predicate = task -> containsIgnoreCase(task.getName(), query);
+        } else if (target == FilterTarget.TASK_ASSIGNEES) {
+            predicate = task -> containsIgnoreCase(task.getAssignees().toString(), query);
+        } else if (target == FilterTarget.TASK_TAGS) {
+            predicate = task -> containsIgnoreCase(task.getTags().toString(), query);
+        }
+        return predicate;
+    }
+
+    private Boolean containsIgnoreCase(String fullString, String subString) {
+        return Pattern.compile(Pattern.quote(subString), Pattern.CASE_INSENSITIVE)
+                .matcher(fullString)
+                .find();
     }
 
 }

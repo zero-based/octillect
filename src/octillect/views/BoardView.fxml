@@ -5,6 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -37,7 +38,11 @@
                           prefColumnCount="30"
                           focusTraversable="false"
                           focusColor="${Palette.PRIMARY_DARK}"
-                          style="-fx-text-inner-color: -o-dark-200"/>
+                          style="-fx-text-inner-color: -o-dark-200">
+                <tooltip>
+                    <Tooltip text="default: Task Name&#10;@: Task Assignees&#10;#: Task Tags"/>
+                </tooltip>
+            </JFXTextField>
 
             <FontIcon iconLiteral="oct-mark-github"
                       iconSize="22"

@@ -51,4 +51,9 @@ public class Tag {
         return String.format("#%02X%02X%02X", (int) r, (int) g, (int) b);
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }
