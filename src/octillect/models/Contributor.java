@@ -30,4 +30,9 @@ public class Contributor extends UserBase implements IObserver {
         throw new UnsupportedOperationException("Not Implemented Yet!");
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

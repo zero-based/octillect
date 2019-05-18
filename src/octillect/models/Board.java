@@ -1,6 +1,7 @@
 package octillect.models;
 
 import java.util.Calendar;
+import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,6 +75,13 @@ public class Board extends TaskBase implements IObservable<Contributor> {
 
     public void setFilteredColumns(FilteredList<Column> filteredColumns) {
         this.filteredColumns = filteredColumns;
+    }
+
+
+    public void setTasksPredicate(Predicate<Task> predicate) {
+        getFilteredColumns().forEach(column -> column
+                        .getFilteredTasks()
+                        .setPredicate(predicate));
     }
 
 
