@@ -624,57 +624,33 @@ Cards should have **16dp** padding.
 
 Use the following colors:
 
-| Primary _[light]_ |  Primary   | Primary _[Dark]_ |
-| :---------------: | :--------: | :--------------: |
-|    ![#428feb]     | ![#1473e6] |    ![#0f64d2]    |
-|     `#428feb`     | `#1473e6`  |    `#0f64d2`     |
+| Primary _[light]_ |  Primary   | Primary _[Dark]_ |  Success   |    Info    |  Warning   |   Danger   |
+| :---------------: | :--------: | :--------------: | :--------: | :--------: | :--------: | :--------: |
+|    ![#428feb]     | ![#1473e6] |    ![#0f64d2]    | ![#28a745] | ![#17a2b8] | ![#ffc107] | ![#dc3545] |
+|     `#428feb`     | `#1473e6`  |    `#0f64d2`     | `#28a745`  | `#17a2b8`  | `#ffc107`  | `#dc3545`  |
 
 [#428feb]: https://imgplaceholder.com/100x100/transparent/428feb/fa-circle
 [#1473e6]: https://imgplaceholder.com/100x100/transparent/1473e6/fa-circle
 [#0f64d2]: https://imgplaceholder.com/100x100/transparent/0f64d2/fa-circle
-
-|  Success   |    Info    |  Warning   |   Danger   |
-| :--------: | :--------: | :--------: | :--------: |
-| ![#28a745] | ![#17a2b8] | ![#ffc107] | ![#dc3545] |
-| `#28a745`  | `#17a2b8`  | `#ffc107`  | `#dc3545`  |
-
 [#28a745]: https://imgplaceholder.com/100x100/transparent/28a745/fa-circle
 [#17a2b8]: https://imgplaceholder.com/100x100/transparent/17a2b8/fa-circle
 [#ffc107]: https://imgplaceholder.com/100x100/transparent/ffc107/fa-circle
 [#dc3545]: https://imgplaceholder.com/100x100/transparent/dc3545/fa-circle
 
-|  Dark 300  |  Dark 500  |  Dark 700  |  Dark 900  |
-| :--------: | :--------: | :--------: | :--------: |
-| ![#cdcdcd] | ![#979797] | ![#323232] | ![#1b1b1b] |
-| `#cdcdcd`  | `#979797`  | `#323232`  | `#1b1b1b`  |
+|  Dark 100  |  Dark 200  |  Dark 300  |  Dark 400  |  Dark 500  |  Dark 600  |  Dark 700  |  Dark 800  |  Dark 900  |
+| :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+| ![#f5f5f5] | ![#eeeeee] | ![#cdcdcd] | ![#9e9e9e] | ![#979797] | ![#616161] | ![#424242] | ![#212121] | ![#1b1b1b] |
+| `#f5f5f5`  | `#eeeeee`  | `#cdcdcd`  | `#9e9e9e`  | `#979797`  | `#616161`  | `#424242`  | `#212121`  | `#1b1b1b`  |
 
+[#f5f5f5]: https://imgplaceholder.com/100x100/transparent/f5f5f5/fa-circle
+[#eeeeee]: https://imgplaceholder.com/100x100/transparent/eeeeee/fa-circle
 [#cdcdcd]: https://imgplaceholder.com/100x100/transparent/cdcdcd/fa-circle
+[#9e9e9e]: https://imgplaceholder.com/100x100/transparent/9e9e9e/fa-circle
 [#979797]: https://imgplaceholder.com/100x100/transparent/979797/fa-circle
-[#323232]: https://imgplaceholder.com/100x100/transparent/323232/fa-circle
+[#616161]: https://imgplaceholder.com/100x100/transparent/616161/fa-circle
+[#424242]: https://imgplaceholder.com/100x100/transparent/424242/fa-circle
+[#212121]: https://imgplaceholder.com/100x100/transparent/212121/fa-circle
 [#1b1b1b]: https://imgplaceholder.com/100x100/transparent/1b1b1b/fa-circle
-
-
-| Blue Gray 50 | Blue Gray 100 | Blue Gray 200 | Blue Gray 300 | Blue Gray 400 |
-| :----------: | :-----------: | :-----------: | :-----------: | :-----------: |
-|  ![#eceff1]  |  ![#cfd8dc]   |  ![#b0bec5]   |  ![#90a4ae]   |  ![#78909c]   |
-|  `#eceff1`   |   `#cfd8dc`   |   `#b0bec5`   |   `#90a4ae`   |   `#78909c`   |
-
-[#eceff1]: https://imgplaceholder.com/100x100/transparent/eceff1/fa-circle
-[#cfd8dc]: https://imgplaceholder.com/100x100/transparent/cfd8dc/fa-circle
-[#b0bec5]: https://imgplaceholder.com/100x100/transparent/b0bec5/fa-circle
-[#90a4ae]: https://imgplaceholder.com/100x100/transparent/90a4ae/fa-circle
-[#78909c]: https://imgplaceholder.com/100x100/transparent/78909c/fa-circle
-
-| Blue Gray 500 | Blue Gray 600 | Blue Gray 700 | Blue Gray 800 | Blue Gray 900 |
-| :-----------: | :-----------: | :-----------: | :-----------: | :-----------: |
-|  ![#607d8b]   |  ![#546e7a]   |  ![#455a64]   |  ![#37474f]   |  ![#263238]   |
-|   `#607d8b`   |   `#546e7a`   |   `#455a64`   |   `#37474f`   |   `#263238`   |
-
-[#607d8b]: https://imgplaceholder.com/100x100/transparent/607d8b/fa-circle
-[#546e7a]: https://imgplaceholder.com/100x100/transparent/546e7a/fa-circle
-[#455a64]: https://imgplaceholder.com/100x100/transparent/455a64/fa-circle
-[#37474f]: https://imgplaceholder.com/100x100/transparent/37474f/fa-circle
-[#263238]: https://imgplaceholder.com/100x100/transparent/263238/fa-circle
 
 ### 4.6. References
 
@@ -695,7 +671,10 @@ Use the following colors:
 
 ## 6. Design Patterns
 
-1. [MVC Design Pattern](https://www.geeksforgeeks.org/mvc-design-pattern/)
-1. [Observer Design Pattern](https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/)
-1. [Builder Design Pattern](https://java-design-patterns.com/patterns/builder/)
+1. [Singleton Design Pattern](https://en.wikipedia.org/wiki/Singleton_pattern)
+1. [Composite Design Pattern](https://en.wikipedia.org/wiki/Composite_pattern)
+1. [Repository Design Pattern](https://blog.kylegalbraith.com/2018/03/06/getting-familiar-with-the-awesome-repository-pattern/)
+1. [Builder Design Pattern](https://www.geeksforgeeks.org/builder-design-pattern/)
 1. [Advanced Builder Design Pattern](https://medium.com/beingprofessional/think-functional-advanced-builder-pattern-using-lambda-284714b85ed5)
+1. [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern)
+1. [Factory Design Pattern](https://www.geeksforgeeks.org/design-patterns-set-2-factory-method/)

@@ -1,9 +1,11 @@
 <div align="center">
-    <img src="./src/octillect/resources/o-icon.png" width="80" height="80">
+    <a href="https://monicatanios.github.io/octillect/">
+        <img src="./src/octillect/resources/o-icon.png" width="80" height="80">
+    </a>
     <h1>Octillect</h1>
 </div>
 
-Octillect _[octopus + intellect]_ can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the board's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and taging tasks.
+[**Octillect**](https://monicatanios.github.io/octillect/) _[octopus + intellect]_ can manage tasks on project level, made for developers, used to plan workflows and organize tasks to keep your teamwork on schedule and track the board's progress. The Application enables teams to collaborate effectively by tracking time of tasks, assigning tasks to specific team members and tagging tasks.
 
 <details><summary> Features </summary>
 
