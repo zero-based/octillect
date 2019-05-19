@@ -12,11 +12,6 @@ h3 {
     font-weight: 500;
 }
 
-.lead {
-    font-size: 18px;
-    font-weight: 400;
-}
-
 .header {
     padding: 300px 0;
     color: #f8f8f8;
@@ -54,4 +49,32 @@ h3 {
     float: left;
     width: 200px;
     border-top: 3px solid #e7e7e7;
+}
+
+.content-section-a pre {
+    background: #ebebeb;
+}
+
+pre {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    color: #323232;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    padding: 1em 1.5em;
+    display: block;
+    page-break-inside: avoid;
+    overflow: auto;
+    word-wrap: break-word;
+}
+
+code.highlighter-rouge {
+    background-color: #f8f8f8;
+    color: #323232;
+    border-radius: 3px;
+    margin: 0;
+    padding: .2em .65em;
 }
