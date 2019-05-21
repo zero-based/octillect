@@ -5,15 +5,6 @@
     -fx-text-fill: -o-dark-300;
 }
 
-.jfx-combo-box .text-field {
-    -fx-text-fill: -o-dark-300;
-}
-
-.jfx-combo-box .label {
-	-fx-background:  WHITE;
-	-fx-text-fill: -o-dark-300;
-}
-
 .combo-box-popup .list-cell {
     -fx-background-color: -o-dark-700;
     -fx-text-fill: -o-dark-300;
