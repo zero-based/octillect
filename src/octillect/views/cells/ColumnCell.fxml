@@ -16,8 +16,8 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml/"
-      fx:id="tasksColumnVBox"
-      stylesheets="@/octillect/styles/TasksColumn.css">
+      fx:id="columnCellVBox"
+      stylesheets="@/octillect/styles/ColumnCell.css">
 
     <fx:define>
         <Palette fx:id="Palette"/>

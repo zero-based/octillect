@@ -18,7 +18,7 @@ import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.OButton;
-import octillect.controls.TasksColumn;
+import octillect.controls.cells.ColumnCell;
 import octillect.models.Board;
 import octillect.models.Column;
 import octillect.models.Task;
@@ -113,9 +113,9 @@ public class BoardController implements Injectable<ApplicationController> {
         // Populate Board Columns
         boardListView.setItems(board.getFilteredColumns());
         boardListView.setCellFactory(param -> {
-            TasksColumn tasksColumn = new TasksColumn();
-            tasksColumn.inject(applicationController);
-            return tasksColumn;
+            ColumnCell columnCell = new ColumnCell();
+            columnCell.inject(applicationController);
+            return columnCell;
         });
 
     }

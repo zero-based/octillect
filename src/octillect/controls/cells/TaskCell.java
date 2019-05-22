@@ -1,4 +1,4 @@
-package octillect.controls;
+package octillect.controls.cells;
 
 import com.jfoenix.controls.JFXNodesList;
 
@@ -116,13 +116,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
 
                 this.getListView()                 // Gets tasksListView
-                        .getParent()               // Gets tasksColumnVBox
+                        .getParent()               // Gets columnCellVBox
                         .getParent()               // Gets ListCell<Column>
                         .getParent()               // Gets boardListView
                         .getChildrenUnmodifiable() // Gets All ListCell<Column>'s
-                        .forEach(tasksColumn -> {
-                            if (((TasksColumn) tasksColumn).getTasksListView() != null)
-                                allTasksListViews.add(((TasksColumn) tasksColumn).getTasksListView());
+                        .forEach(columnCell -> {
+                            if (((ColumnCell) columnCell).getTasksListView() != null)
+                                allTasksListViews.add(((ColumnCell) columnCell).getTasksListView());
                         });
 
                 Task sourceTask = null;
@@ -157,13 +157,13 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
                 TaskCell sourceTask = (TaskCell) event.getGestureSource();
                 TaskCell targetTask = (TaskCell) event.getGestureTarget();
 
-                Column sourceColumn = ((TasksColumn) sourceTask.getListView()   // Gets tasksListView
-                        .getParent()                                            // Gets tasksColumnVBox
+                Column sourceColumn = ((ColumnCell) sourceTask.getListView()    // Gets tasksListView
+                        .getParent()                                            // Gets columnCellVBox
                         .getParent())                                           // Gets ListCell<Column>
                         .getItem();
 
-                Column targetColumn = ((TasksColumn) targetTask.getListView()   // Gets tasksListView
-                        .getParent()                                            // Gets tasksColumnVBox
+                Column targetColumn = ((ColumnCell) targetTask.getListView()    // Gets tasksListView
+                        .getParent()                                            // Gets columnCellVBox
                         .getParent())                                           // Gets ListCell<Column>
                         .getItem();
 
@@ -181,7 +181,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
 
         setOnMouseClicked(event -> {
             if (getItem() != null) {
-                Column parentColumn = ((TasksColumn) getListView().getParent().getParent()).getItem();
+                Column parentColumn = ((ColumnCell) getListView().getParent().getParent()).getItem();
                 taskSettingsController.loadTask(getItem(), parentColumn);
             } else {
                 getListView().getSelectionModel().clearSelection();
@@ -218,16 +218,16 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         editButton.setOnAction(event -> {
-            Column parentColumn = ((TasksColumn) getListView()   // Gets tasksListView
-                    .getParent()                                 // Gets tasksColumnVBox
+            Column parentColumn = ((ColumnCell) getListView()    // Gets tasksListView
+                    .getParent()                                 // Gets columnCellVBox
                     .getParent())                                // Gets ListCell<Column>
                     .getItem();
             taskSettingsController.loadTask(getItem(), parentColumn);
         });
 
         deleteButton.setOnAction(event -> {
-            Column parentColumn = ((TasksColumn) getListView()   // Gets tasksListView
-                    .getParent()                                 // Gets tasksColumnVBox
+            Column parentColumn = ((ColumnCell) getListView()    // Gets tasksListView
+                    .getParent()                                 // Gets columnCellVBox
                     .getParent())                                // Gets ListCell<Column>
                     .getItem();
 
