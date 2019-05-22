@@ -1,7 +1,5 @@
 package octillect.database.repositories;
 
-import com.google.cloud.firestore.DocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,13 +52,13 @@ public class BoardRepository implements Repository<Board> {
         }
         document.setTagsIds(tagsIds);
 
-        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().BOARDS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.BOARDS, document.getId(), document);
     }
 
     @Override
     public Board get(String boardId) {
 
-        BoardDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().BOARDS, boardId)).toObject(BoardDocument.class);
+        BoardDocument document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.BOARDS, boardId).toObject(BoardDocument.class);
 
         Board board = new BoardBuilder().with($ -> {
             $.id = document.getId();
@@ -95,13 +93,13 @@ public class BoardRepository implements Repository<Board> {
 
     @Override
     public void delete(Board board) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().BOARDS, board.getId());
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.BOARDS, board.getId());
 
         for (Column column : board.<Column>getChildren()) {
             for (Task task : column.<Task>getChildren()) {
-                FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
+                FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.TASKS, task.getId());
             }
-            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().COLUMNS, column.getId());
+            FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.COLUMNS, column.getId());
         }
         for (Tag tag : board.getTags()) {
             TagRepository.getInstance().delete(tag);
@@ -109,35 +107,35 @@ public class BoardRepository implements Repository<Board> {
     }
 
     public void addColumnId(String boardId, String columnId) {
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "columnsIds", columnId);
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.BOARDS, boardId, "columnsIds", columnId);
     }
 
     public void updateColumnsIds(String boardId, ArrayList<String> columnsIds) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "columnsIds", columnsIds);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "columnsIds", columnsIds);
     }
 
     public void updateName(String boardId, String name) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "name", name);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "name", name);
     }
 
     public void updateDescription(String boardId, String description) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "description", description);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "description", description);
     }
 
     public void updateRepositoryName(String boardId, String repositoryName) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "repositoryName", repositoryName);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "repositoryName", repositoryName);
     }
 
     public void addContributor(String boardId, Contributor contributor) {
         ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorMap.getMap());
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.BOARDS, boardId, "contributors", contributorMap.getMap());
     }
 
     public Contributor getContributor(String contributorId) {
 
         Contributor contributor = null;
         UserDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, contributorId)).toObject(UserDocument.class);
+        document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, contributorId).toObject(UserDocument.class);
 
         if (document != null) {
             contributor = new ContributorBuilder().with($ -> {
@@ -151,13 +149,13 @@ public class BoardRepository implements Repository<Board> {
         return contributor;
     }
 
-    public void updateContributorsIds(String boardId, ArrayList<HashMap<String,String>> contributorsIds){
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().BOARDS, boardId, "contributors", contributorsIds);
+    public void updateContributorsIds(String boardId, ArrayList<HashMap<String, String>> contributorsIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "contributors", contributorsIds);
     }
 
     public void deleteContributor(Board board, Contributor contributor) {
         ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "contributors", contributorMap.getMap());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.BOARDS, board.getId(), "contributors", contributorMap.getMap());
 
         for (Column column : board.<Column>getChildren()) {
             for (Task task : column.<Task>getChildren()) {
@@ -172,11 +170,11 @@ public class BoardRepository implements Repository<Board> {
     }
 
     public void addTagId(String boardId, String tagId) {
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "tagsIds", tagId);
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.BOARDS, boardId, "tagsIds", tagId);
     }
 
     public void deleteTag(Board board, String tagId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, board.getId(), "tagsIds", tagId);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.BOARDS, board.getId(), "tagsIds", tagId);
 
         for (Column column : board.<Column>getChildren()) {
             for (Task task : column.<Task>getChildren()) {
@@ -197,7 +195,7 @@ public class BoardRepository implements Repository<Board> {
      * @param columnId Column's id to Delete.
      */
     public void deleteColumnId(String boardId, String columnId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().BOARDS, boardId, "columnsIds", columnId);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.BOARDS, boardId, "columnsIds", columnId);
     }
 
 }

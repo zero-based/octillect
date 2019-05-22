@@ -1,7 +1,5 @@
 package octillect.database.repositories;
 
-import com.google.cloud.firestore.DocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,13 +54,13 @@ public class TaskRepository implements Repository<Task> {
         }
         document.setTagsIds(tagsIds);
 
-        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TASKS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.TASKS, document.getId(), document);
     }
 
     @Override
     public Task get(String taskId) {
 
-        TaskDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().TASKS, taskId)).toObject(TaskDocument.class);
+        TaskDocument document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.TASKS, taskId).toObject(TaskDocument.class);
 
         Task task = new TaskBuilder().with($ -> {
             $.id = document.getId();
@@ -104,61 +102,61 @@ public class TaskRepository implements Repository<Task> {
 
     @Override
     public void delete(Task task) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TASKS, task.getId());
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.TASKS, task.getId());
     }
 
     public void updateName(String taskId, String name) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "name", name);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "name", name);
     }
 
     public void updateDescription(String taskId, String description) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "description", description);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "description", description);
     }
 
     public void updateIsCompleted(String taskId, boolean isCompleted) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "isCompleted", isCompleted);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "isCompleted", isCompleted);
     }
 
     public void updateDueDate(String taskId, Date dueDate) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "dueDate", dueDate);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "dueDate", dueDate);
     }
 
     public void addTagId(String taskId, String tagId) {
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagId);
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.TASKS, taskId, "tagsIds", tagId);
     }
 
     public void updateTagsIds(String taskId, ArrayList<String> tagsIds) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagsIds);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "tagsIds", tagsIds);
     }
 
     public void deleteTagId(String taskId, String tagId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "tagsIds", tagId);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.TASKS, taskId, "tagsIds", tagId);
     }
 
     public void addAssigneeId(String taskId, String assigneeId) {
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeId);
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.TASKS, taskId, "assigneesIds", assigneeId);
     }
 
     public void updateAssigneesIds(String taskId, ArrayList<String> assigneeIds) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeIds);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "assigneesIds", assigneeIds);
     }
 
     public void deleteAssigneeId(String taskId, String assigneeId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, taskId, "assigneesIds", assigneeId);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.TASKS, taskId, "assigneesIds", assigneeId);
     }
 
     public void addSubTask(String parentTaskId, Task subTask) {
         SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), subTask.getIsCompleted());
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
     }
 
     public void deleteSubTask(String parentTaskId, Task subTask) {
         SubTaskMap subTaskMap = new SubTaskMap(subTask.getId(), subTask.getName(), subTask.getIsCompleted());
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.TASKS, parentTaskId, "subTasks", subTaskMap.getMap());
     }
 
     public void updateCreatorId(String taskId, String userId) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().TASKS, taskId, "creatorId", userId);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.TASKS, taskId, "creatorId", userId);
     }
 
 }

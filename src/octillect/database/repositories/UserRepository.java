@@ -1,6 +1,5 @@
 package octillect.database.repositories;
 
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -55,7 +54,7 @@ public class UserRepository implements Repository<User> {
         boardsIds.add(user.getBoards().get(0).getId());
         document.setBoardsIds(boardsIds);
 
-        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().USERS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.USERS, document.getId(), document);
         setImage(document.getId(), SwingFXUtils.fromFXImage(user.getImage(), null));
 
         BoardRepository.getInstance().add(user.getBoards().get(0));
@@ -72,7 +71,7 @@ public class UserRepository implements Repository<User> {
 
         User user = null;
         UserDocument document;
-        document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, userId)).toObject(UserDocument.class);
+        document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, userId).toObject(UserDocument.class);
 
         if (document != null) {
 
@@ -102,14 +101,13 @@ public class UserRepository implements Repository<User> {
 
     public boolean isUserFound(String email) {
         String id = FirestoreAPI.getInstance().encrypt(email);
-        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, id)).toObject(UserDocument.class);
-        return document != null;
+        return FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, id).exists();
     }
 
     public boolean authenticate(String email, String password) {
         String id = FirestoreAPI.getInstance().encrypt(email);
         String encryptedPassword = FirestoreAPI.getInstance().encrypt(password);
-        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, id)).toObject(UserDocument.class);
+        UserDocument document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, id).toObject(UserDocument.class);
         if (document != null) {
             return document.getPassword().equals(encryptedPassword);
         } else {
@@ -119,22 +117,22 @@ public class UserRepository implements Repository<User> {
 
     // add user's image to CloudStorage
     public void setImage(String userId, BufferedImage userBufferedImage) {
-        StorageAPI.getInstance().uploadImage(userBufferedImage, StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);
+        StorageAPI.getInstance().uploadImage(userBufferedImage, StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     // Get user's image by userId
     public Image getImage(String userId) {
-        return StorageAPI.getInstance().selectImage(StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);
+        return StorageAPI.getInstance().selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
     // Assign board to a specific contributor
     public void addBoardId(String userId, String boardId) {
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.getInstance().USERS, userId, "boardsIds", boardId);
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.USERS, userId, "boardsIds", boardId);
     }
 
     // Deletes boardId from User's boardsIds Field
     public void deleteBoardId(String userId, String boardId) {
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.getInstance().USERS, userId, "boardsIds", boardId);
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.USERS, userId, "boardsIds", boardId);
     }
 
     /**
@@ -144,7 +142,7 @@ public class UserRepository implements Repository<User> {
      * @param name   Updated Name.
      */
     public void updateName(String userId, String name) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().USERS, userId, "name", name);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.USERS, userId, "name", name);
     }
 
     /**
@@ -158,8 +156,8 @@ public class UserRepository implements Repository<User> {
         // Update all instances of user's id in all Database
         updateId(user, newEmail);
 
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().USERS, user.getId());
-        StorageAPI.getInstance().deleteImage(StorageAPI.getInstance().USER_PHOTOS_FOLDER, user.getId());
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.USERS, user.getId());
+        StorageAPI.getInstance().deleteImage(StorageAPI.USER_PHOTOS_FOLDER, user.getId());
 
         UserDocument document = new UserDocument();
         document.setId(FirestoreAPI.getInstance().encrypt(newEmail));
@@ -171,7 +169,7 @@ public class UserRepository implements Repository<User> {
         user.getBoards().forEach(board -> boardsIds.add(board.getId()));
         document.setBoardsIds(boardsIds);
 
-        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().USERS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.USERS, document.getId(), document);
         setImage(document.getId(), generateIdenticon(document.getId(),256));
     }
 
@@ -227,7 +225,7 @@ public class UserRepository implements Repository<User> {
      * @param encryptedPassword Updated password after encryption.
      */
     public void updatePassword(String userId, String encryptedPassword) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.getInstance().USERS, userId, "password", encryptedPassword);
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.USERS, userId, "password", encryptedPassword);
     }
 
     /**

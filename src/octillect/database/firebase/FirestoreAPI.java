@@ -15,11 +15,11 @@ import java.util.concurrent.ExecutionException;
 public class FirestoreAPI {
 
     // Collections' names constants
-    public final String USERS    = "users";
-    public final String BOARDS   = "boards";
-    public final String TASKS    = "tasks";
-    public final String TAGS     = "tags";
-    public final String COLUMNS  = "columns";
+    public final static String USERS    = "users";
+    public final static String BOARDS   = "boards";
+    public final static String TASKS    = "tasks";
+    public final static String TAGS     = "tags";
+    public final static String COLUMNS  = "columns";
 
     private static FirestoreAPI ourInstance = new FirestoreAPI();
 
@@ -31,7 +31,7 @@ public class FirestoreAPI {
     }
 
     // Select a whole document
-    public Object selectDocument(String collection, String document) {
+    public DocumentSnapshot selectDocument(String collection, String document) {
         DocumentReference docRef = Connection.getInstance().firestore.collection(collection).document(document);
         ApiFuture<DocumentSnapshot> documentSnapshot = docRef.get();
         try {

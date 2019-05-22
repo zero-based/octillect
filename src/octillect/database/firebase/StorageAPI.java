@@ -16,9 +16,9 @@ import javax.imageio.ImageIO;
 
 public class StorageAPI {
 
-    public final String USER_PHOTOS_FOLDER       = "userPhotos/";
-    public final String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
-    private StorageClient storageClient          = StorageClient.getInstance();
+    public final static String USER_PHOTOS_FOLDER       = "userPhotos/";
+    public final static String IMAGE_ATTACHMENTS_FOLDER = "imageAttachments/";
+    private StorageClient storageClient                 = StorageClient.getInstance();
 
     private static StorageAPI ourInstance = new StorageAPI();
 
