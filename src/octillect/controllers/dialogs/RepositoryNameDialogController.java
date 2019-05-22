@@ -3,7 +3,6 @@ package octillect.controllers.dialogs;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +13,8 @@ import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controls.OButton;
+import octillect.controls.validators.RepositoryValidtor;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.BoardRepository;
 
 public class RepositoryNameDialogController implements Injectable<ApplicationController> {
@@ -24,7 +25,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
     @FXML public OButton addRepositoryButton;
 
     // Validators
-    private RegexValidator nameRegexValidator;
+    private RepositoryValidtor nameRegexValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -42,18 +43,8 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
 
     @Override
     public void init() {
-
-        nameRegexValidator = new RegexValidator("Invalid repository name.");
-        nameRegexValidator.setRegexPattern("^[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}" +
-                "[/](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){1,38}$");
-        repositoryNameTextField.getValidators().add(nameRegexValidator);
-
-        repositoryNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                repositoryNameTextField.validate();
-            }
-        });
-
+        nameRegexValidator = new RepositoryValidtor();
+        ValidationManager.addValidator(true, nameRegexValidator, repositoryNameTextField);
     }
 
     @FXML

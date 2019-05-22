@@ -4,7 +4,6 @@ import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,12 +13,13 @@ import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controls.OButton;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.*;
 import octillect.models.Board;
 import octillect.models.Column;
 import octillect.models.Tag;
 import octillect.models.Task;
-import octillect.models.TaskBase;
 
 public class NewBoardDialogController implements Injectable<ApplicationController> {
 
@@ -30,7 +30,7 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
     @FXML public OButton addBoardButton;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
+    private RequiredValidator requiredValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -46,19 +46,16 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
 
     @Override
     public void init() {
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        newBoardNameTextField.getValidators().add(requiredFieldValidator);
-        newBoardNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                newBoardNameTextField.validate();
-            }
-        });
+        requiredValidator = new RequiredValidator();
+        ValidationManager.addValidator(true, requiredValidator, newBoardNameTextField);
     }
 
     @FXML
     public void handleAddBoardButtonAction(ActionEvent actionEvent) {
+
         newBoardNameTextField.validate();
-        if (!requiredFieldValidator.getHasErrors()) {
+
+        if (!requiredValidator.getHasErrors()) {
 
             Board newBoard = new Board.TemplateBoard(newBoardNameTextField.getText(),
                     newBoardDescriptionTextArea.getText(), applicationController.user);

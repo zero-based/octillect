@@ -1,6 +1,5 @@
 package octillect.controllers.dialogs;
 
-import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
@@ -12,6 +11,8 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controls.OButton;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.ColumnRepository;
 import octillect.models.Column;
 
@@ -26,7 +27,7 @@ public class EditColumnDialogController implements Injectable<ApplicationControl
     @FXML public OButton editColumnButton;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
+    private RequiredValidator requiredValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -40,21 +41,16 @@ public class EditColumnDialogController implements Injectable<ApplicationControl
 
     @Override
     public void init() {
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        editColumnTextField.getValidators().add(requiredFieldValidator);
-        editColumnTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                editColumnTextField.validate();
-            }
-        });
+        requiredValidator = new RequiredValidator();
+        ValidationManager.addValidator(true, requiredValidator, editColumnTextField);
     }
 
     @FXML
     public void handleEditColumnButtonAction(ActionEvent actionEvent) {
 
-        requiredFieldValidator.validate();
+        editColumnTextField.validate();
 
-        if (!requiredFieldValidator.getHasErrors()) {
+        if (!requiredValidator.getHasErrors()) {
             ColumnRepository.getInstance().updateName(currentColumn.getId(), editColumnTextField.getText());
             currentColumn.setName(editColumnTextField.getText());
             boardController.boardListView.refresh();

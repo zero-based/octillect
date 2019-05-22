@@ -89,7 +89,7 @@
                       style="-fx-text-inner-color: -o-dark-300"
                       labelFloat="true"/>
 
-        <JFXPasswordField fx:id="passwordTextField"
+        <JFXPasswordField fx:id="passwordField"
                           GridPane.rowIndex="3"
                           GridPane.columnSpan="2"
                           prefColumnCount="30"
@@ -98,7 +98,7 @@
                           style="-fx-text-inner-color: -o-dark-300"
                           labelFloat="true"/>
 
-        <JFXPasswordField fx:id="confirmPasswordTextField"
+        <JFXPasswordField fx:id="confirmPasswordField"
                           GridPane.rowIndex="4"
                           GridPane.columnSpan="2"
                           prefColumnCount="30"

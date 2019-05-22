@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+import octillect.controllers.settings.UserSettingsController;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class TitleBarController implements Injectable<ApplicationController> {
@@ -28,12 +30,14 @@ public class TitleBarController implements Injectable<ApplicationController> {
     private ApplicationController applicationController;
     private LeftDrawerController leftDrawerController;
     private RightDrawerController rightDrawerController;
+    private UserSettingsController userSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         leftDrawerController       = applicationController.leftDrawerController;
         rightDrawerController      = applicationController.rightDrawerController;
+        userSettingsController     = rightDrawerController.userSettingsController;
     }
 
     @Override
@@ -65,6 +69,7 @@ public class TitleBarController implements Injectable<ApplicationController> {
 
     @FXML
     public void handleUserIconMouseClicked(MouseEvent mouseEvent) {
+        userSettingsController.LoadUserSettings();
         rightDrawerController.show(rightDrawerController.userSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
     }

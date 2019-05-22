@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,6 +22,9 @@ import octillect.controls.ContributorCell;
 import octillect.controls.Mode;
 import octillect.controls.TagCell;
 import octillect.controls.OButton;
+import octillect.controls.validators.CustomValidator;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
@@ -50,8 +51,10 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML public OButton addTagButton;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
-    private RegexValidator emailValidator;
+    private RequiredValidator requiredValidator;
+    private CustomValidator emailValidator;
+    private CustomValidator contributorValidator;
+
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -89,14 +92,12 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         // Validators
 
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        emailValidator = new RegexValidator();
-        emailValidator.setRegexPattern("^((?!.*" + newContributorTextField.getText() + ".*).)*$");
-
-        newTagTextField.getValidators().add(requiredFieldValidator);
-        rolesComboBox.getValidators().add(requiredFieldValidator);
-        newContributorTextField.getValidators().add(requiredFieldValidator);
-        newContributorTextField.getValidators().add(emailValidator);
+        requiredValidator    = new RequiredValidator();
+        emailValidator       = new CustomValidator("This account doesn't exist.");
+        contributorValidator = new CustomValidator("Already a Contributor.");
+        ValidationManager.addValidator(false, requiredValidator, newContributorTextField, rolesComboBox, newTagTextField);
+        ValidationManager.addValidator(false, emailValidator, newContributorTextField);
+        ValidationManager.addValidator(false, contributorValidator, newContributorTextField);
 
 
         // Listeners
@@ -126,7 +127,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
         rolesComboBox.validate();
         boolean isContributor = false;
 
-        if (!requiredFieldValidator.getHasErrors()) {
+        if (!requiredValidator.getHasErrors()) {
 
             for (Contributor contributor : boardController.currentBoard.getContributors()) {
                 if (contributor.getEmail().equals(newContributorTextField.getText())) {
@@ -135,18 +136,12 @@ public class BoardSettingsController implements Injectable<ApplicationController
             }
 
             if (isContributor) {
-                emailValidator.setMessage("Already a Contributor.");
-                newContributorTextField.getValidators().add(emailValidator);
-                newContributorTextField.validate();
-                newContributorTextField.getValidators().remove(emailValidator);
+                emailValidator.showMessage();
             } else {
                 Contributor contributor = BoardRepository.getInstance().getContributor(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
 
                 if (contributor == null) {
-                    emailValidator.setMessage("That Octillect account doesn't exist.");
-                    newContributorTextField.getValidators().add(emailValidator);
-                    newContributorTextField.validate();
-                    newContributorTextField.getValidators().remove(emailValidator);
+                    emailValidator.showMessage();
                 } else {
                     contributor.setRole(rolesComboBox.getValue());
                     BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor);
@@ -167,7 +162,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
         resetRequiredFieldValidators();
         newTagTextField.validate();
 
-        if (!requiredFieldValidator.getHasErrors()) {
+        if (!requiredValidator.getHasErrors()) {
 
             Tag tag = new TagBuilder().with($ -> {
                 $.id = FirestoreAPI.getInstance().encryptWithDateTime(newTagTextField.getText() + applicationController.user.getId());

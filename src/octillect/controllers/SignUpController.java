@@ -2,8 +2,6 @@ package octillect.controllers;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -26,6 +24,12 @@ import javafx.util.Duration;
 
 import octillect.Main;
 import octillect.controls.OButton;
+import octillect.controls.validators.CustomValidator;
+import octillect.controls.validators.EmailValidator;
+import octillect.controls.validators.MatchPasswordValidator;
+import octillect.controls.validators.PasswordValidator;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Board;
@@ -45,91 +49,51 @@ public class SignUpController {
     @FXML private JFXTextField firstNameTextField;
     @FXML private JFXTextField lastNameTextField;
     @FXML private JFXTextField emailTextField;
-    @FXML private JFXPasswordField passwordTextField;
-    @FXML private JFXPasswordField confirmPasswordTextField;
+    @FXML private JFXPasswordField passwordField;
+    @FXML private JFXPasswordField confirmPasswordField;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
-    private RegexValidator emailValidator;
-    private RegexValidator emailUsedValidator;
-    private RegexValidator passwordValidator;
-    private RegexValidator confirmPasswordValidator;
+    private RequiredValidator requiredValidator;
+    private EmailValidator emailValidator;
+    private CustomValidator emailUsedValidator;
+    private PasswordValidator passwordValidator;
+    private MatchPasswordValidator matchPasswordValidator;
 
     @FXML
     public void initialize() {
+        requiredValidator      = new RequiredValidator();
+        emailValidator         = new EmailValidator();
+        emailUsedValidator     = new CustomValidator("Email in use. Try another.");
+        passwordValidator      = new PasswordValidator();
+        matchPasswordValidator = new MatchPasswordValidator(passwordField);
 
-        requiredFieldValidator   = new RequiredFieldValidator("Required field.");
-        emailValidator           = new RegexValidator("Invalid Email.");
-        emailUsedValidator       = new RegexValidator("This email already have an account. Try another.");
-        passwordValidator        = new RegexValidator("Use 8 or more characters with a mix of letters and numbers.");
-        confirmPasswordValidator = new RegexValidator("Those passwords didn't match. Try again.");
-
-        emailValidator          .setRegexPattern("([a-z0-9_\\.-]+)@[\\da-z\\.-]+[a-z\\.]{2,5}");
-        emailUsedValidator      .setRegexPattern("^((?!.*" + emailTextField.getText() + ".*).)*$");
-        passwordValidator       .setRegexPattern("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$");
-
-        firstNameTextField      .getValidators().add(requiredFieldValidator);
-        lastNameTextField       .getValidators().add(requiredFieldValidator);
-        emailTextField          .getValidators().add(emailValidator);
-        passwordTextField       .getValidators().add(passwordValidator);
-        confirmPasswordTextField.getValidators().add(requiredFieldValidator);
-
-        firstNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                firstNameTextField.validate();
-            }
-        });
-
-        lastNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                lastNameTextField.validate();
-            }
-        });
-
-        emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                emailTextField.validate();
-            }
-        });
-
-        passwordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                passwordTextField.validate();
-            }
-        });
-
-        confirmPasswordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            confirmPasswordTextField.getValidators().add(confirmPasswordValidator);
-            confirmPasswordValidator.setRegexPattern(passwordTextField.getText());
-            if (!newValue) {
-                confirmPasswordTextField.validate();
-                confirmPasswordTextField.getValidators().remove(confirmPasswordValidator);
-            }
-        });
+        ValidationManager.addValidator(true, requiredValidator, firstNameTextField, lastNameTextField, confirmPasswordField);
+        ValidationManager.addValidator(true, emailValidator, emailTextField);
+        ValidationManager.addValidator(true, emailUsedValidator, emailTextField);
+        ValidationManager.addValidator(true, passwordValidator, passwordField);
+        ValidationManager.addValidator(true, matchPasswordValidator, confirmPasswordField);
     }
 
     @FXML
     public void handleSignUpButtonAction(ActionEvent actionEvent) throws IOException {
 
-        firstNameTextField      .validate();
-        lastNameTextField       .validate();
-        emailTextField          .validate();
-        passwordTextField       .validate();
-        confirmPasswordTextField.validate();
+        firstNameTextField  .validate();
+        lastNameTextField   .validate();
+        emailTextField      .validate();
+        passwordField       .validate();
+        confirmPasswordField.validate();
 
-        if (!requiredFieldValidator.getHasErrors() && !emailValidator.getHasErrors()
-            && !passwordValidator.getHasErrors() && !confirmPasswordValidator.getHasErrors()) {
+        if (!requiredValidator.getHasErrors() && !emailValidator.getHasErrors()
+            && !passwordValidator.getHasErrors() && !matchPasswordValidator.getHasErrors()) {
 
-            if (UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText())) != null) {
-                emailTextField.getValidators().add(emailUsedValidator);
-                emailTextField.validate();
-                emailTextField.getValidators().remove(emailUsedValidator);
+            if (UserRepository.getInstance().isUserFound(emailTextField.getText())) {
+                emailUsedValidator.showMessage();
             } else {
                 User user = new UserBuilder().with($ -> {
                     $.id = FirestoreAPI.getInstance().encrypt(emailTextField.getText());
                     $.name = firstNameTextField.getText() + " " + lastNameTextField.getText();
                     $.email = emailTextField.getText();
-                    $.password = FirestoreAPI.getInstance().encrypt(passwordTextField.getText());
+                    $.password = FirestoreAPI.getInstance().encrypt(passwordField.getText());
 
                     if (chosenImage != null) {
                         $.image = SwingFXUtils.toFXImage(chosenImage, null);
@@ -186,8 +150,8 @@ public class SignUpController {
         firstNameTextField.setText(null);
         lastNameTextField.setText(null);
         emailTextField.setText(null);
-        passwordTextField.setText(null);
-        confirmPasswordTextField.setText(null);
+        passwordField.setText(null);
+        confirmPasswordField.setText(null);
         chosenImage = null;
         userImage.setOpacity(0);
         imageButton.setOpacity(1);
