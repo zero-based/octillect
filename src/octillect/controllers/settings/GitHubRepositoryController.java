@@ -19,7 +19,7 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.dialogs.RepositoryNameDialogController;
-import octillect.controls.CommitCell;
+import octillect.controls.cells.CommitCell;
 import octillect.models.Commit;
 import octillect.models.builders.CommitBuilder;
 

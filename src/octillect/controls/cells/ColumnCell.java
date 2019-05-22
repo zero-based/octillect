@@ -1,4 +1,4 @@
-package octillect.controls;
+package octillect.controls.cells;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,10 +36,10 @@ import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class TasksColumn extends ListCell<Column> implements Injectable<ApplicationController> {
+public class ColumnCell extends ListCell<Column> implements Injectable<ApplicationController> {
 
     // FXML Fields
-    @FXML private VBox tasksColumnVBox;
+    @FXML private VBox columnCellVBox;
     @FXML private FontIcon addNewTaskIcon;
     @FXML private FontIcon columnMoreIcon;
     @FXML private Label columnNameLabel;
@@ -64,10 +64,10 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
     @Override
     public void init() {
-        throw new UnsupportedOperationException("TasksColumn cannot be initialized");
+        throw new UnsupportedOperationException("ColumnCell cannot be initialized");
     }
 
-    public TasksColumn() {
+    public ColumnCell() {
 
         setOnDragDetected(event -> {
             if (getItem() != null) {
@@ -86,31 +86,31 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         });
 
         setOnDragOver(event -> {
-            if (event.getGestureSource() instanceof TasksColumn
+            if (event.getGestureSource() instanceof ColumnCell
                     && event.getGestureSource() != this && getItem() != null) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
         });
 
         setOnDragEntered(event -> {
-            if (event.getGestureSource() instanceof TasksColumn
+            if (event.getGestureSource() instanceof ColumnCell
                     && event.getGestureSource() != this) {
                 setOpacity(0.32); // Set Opacity of Column on mouse enter to 0.32
             }
         });
 
         setOnDragExited(event -> {
-            if (event.getGestureSource() instanceof TasksColumn
+            if (event.getGestureSource() instanceof ColumnCell
                     && event.getGestureSource() != this) {
                 setOpacity(1); // Reset Opacity of Column on mouse exit to 1
             }
         });
 
         setOnDragDropped(event -> {
-            if (event.getGestureSource() instanceof TasksColumn
+            if (event.getGestureSource() instanceof ColumnCell
                     && event.getDragboard().hasString()) {
-                int sourceIndex = ((TasksColumn) event.getGestureSource()).getIndex();
-                int targetIndex = ((TasksColumn) event.getGestureTarget()).getIndex();
+                int sourceIndex = ((ColumnCell) event.getGestureSource()).getIndex();
+                int targetIndex = ((ColumnCell) event.getGestureTarget()).getIndex();
                 FilteredList<Column> items = (FilteredList<Column>) getListView().getItems();
                 Collections.swap(items.getSource(), sourceIndex, targetIndex);
 
@@ -134,9 +134,9 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/TasksColumnView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/ColumnCell.fxml"));
             fxmlLoader.setController(this);
-            tasksColumnVBox = fxmlLoader.load();
+            columnCellVBox = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +165,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
         columnNameLabel.setText(columnItem.getName());
 
-        // Populate the TasksColumn's tasksListView with columnItem's tasks
+        // Populate the ColumnCell's tasksListView with columnItem's tasks
         tasksListView.setItems(columnItem.getFilteredTasks());
         tasksListView.setCellFactory(param -> {
             TaskCell taskCell = new TaskCell();
@@ -185,13 +185,13 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
                 // Get all Tasks ListViews in the current Board
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
 
-                tasksListView.getParent()               // Gets tasksColumnVBox
+                tasksListView.getParent()               // Gets columnCellVBox
                         .getParent()                    // Gets ListCell<Column>
                         .getParent()                    // Gets boardListView
                         .getChildrenUnmodifiable()      // Gets All ListCell<Column>'s
-                        .forEach(tasksColumn -> {
-                            if (((TasksColumn) tasksColumn).getTasksListView() != null)
-                                allTasksListViews.add(((TasksColumn) tasksColumn).getTasksListView());
+                        .forEach(columnCell -> {
+                            if (((ColumnCell) columnCell).getTasksListView() != null)
+                                allTasksListViews.add(((ColumnCell) columnCell).getTasksListView());
                         });
 
                 Task sourceTask = null;
@@ -225,14 +225,15 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
 
                 TaskCell sourceTask = (TaskCell) event.getGestureSource();
 
-                Column sourceColumn = ((TasksColumn) sourceTask.getListView()   // Gets tasksListView
-                        .getParent()                                            // Gets tasksColumnVBox
+                Column sourceColumn = ((ColumnCell) sourceTask.getListView()    // Gets tasksListView
+                        .getParent()                                            // Gets columnCellVBox
                         .getParent())                                           // Gets ListCell<Column>
                         .getItem();
 
-                Column targetColumn = ((TasksColumn) tasksListView.getParent()  // Gets tasksColumnVBox                                // Gets tasksColumnVBox
-                        .getParent())                                           // Gets ListCell<Column>
-                        .getItem();
+                Column targetColumn = ((ColumnCell) tasksListView.getParent()   // Gets tasksListView
+                        .getParent())                                           // Gets columnCellVBox
+                        .getItem();                                             // Gets ListCell<Column>
+
 
                 ArrayList<String> sourceTasksIds = new ArrayList<>();
                 ArrayList<String> targetTasksIds = new ArrayList<>();
@@ -246,7 +247,7 @@ public class TasksColumn extends ListCell<Column> implements Injectable<Applicat
             }
         });
 
-        setGraphic(tasksColumnVBox);
+        setGraphic(columnCellVBox);
 
     }
 

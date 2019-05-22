@@ -1,4 +1,4 @@
-package octillect.controls;
+package octillect.controls.cells;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

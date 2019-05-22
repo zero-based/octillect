@@ -1,4 +1,4 @@
-package octillect.controls;
+package octillect.controls.cells;
 
 import java.awt.Desktop;
 import java.io.IOException;

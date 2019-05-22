@@ -1,13 +1,13 @@
 @import "Palette.css"
 
-#tasksColumnVBox {
+#columnCellVBox {
     -fx-background-color: -o-dark-900;
     -fx-background-radius: 12;
     -fx-padding: 16;
     -fx-spacing: 16;
 }
 
-#tasksColumnVBox:hover {
+#columnCellVBox:hover {
     -fx-background-color: derive(-o-dark-900, -4%);
 }
 
