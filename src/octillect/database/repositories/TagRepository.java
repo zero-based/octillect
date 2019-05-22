@@ -1,7 +1,5 @@
 package octillect.database.repositories;
 
-import com.google.cloud.firestore.DocumentSnapshot;
-
 import javafx.scene.paint.Color;
 
 import octillect.database.documents.TagDocument;
@@ -27,13 +25,13 @@ public class TagRepository implements Repository<Tag> {
         document.setId(tag.getId());
         document.setName(tag.getName());
         document.setColor(tag.getColorHex());
-        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.getInstance().TAGS, document.getId(), document);
+        FirestoreAPI.getInstance().insertDocument(FirestoreAPI.TAGS, document.getId(), document);
     }
 
     @Override
     public Tag get(String tagId) {
 
-        TagDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().TAGS, tagId)).toObject(TagDocument.class);
+        TagDocument document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.TAGS, tagId).toObject(TagDocument.class);
 
         Tag tag = new TagBuilder().with($ -> {
             $.id = document.getId();
@@ -46,7 +44,7 @@ public class TagRepository implements Repository<Tag> {
 
     @Override
     public void delete(Tag tag) {
-        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.getInstance().TAGS, tag.getId());
+        FirestoreAPI.getInstance().deleteDocument(FirestoreAPI.TAGS, tag.getId());
     }
 
 }
