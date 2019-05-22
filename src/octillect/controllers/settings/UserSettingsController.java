@@ -2,8 +2,6 @@ package octillect.controllers.settings;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -15,27 +13,32 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controllers.TitleBarController;
+import octillect.controls.validators.CustomValidator;
+import octillect.controls.validators.EmailValidator;
+import octillect.controls.validators.MatchPasswordValidator;
+import octillect.controls.validators.PasswordValidator;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.repositories.UserRepository;
 import octillect.models.*;
-
 
 public class UserSettingsController implements Injectable<ApplicationController> {
 
     // FXML fields
     @FXML public JFXTextField nameTextField;
     @FXML public JFXTextField emailTextField;
-    @FXML public JFXPasswordField newPasswordPasswordField;
-    @FXML public JFXPasswordField oldPasswordPasswordField;
-    @FXML public JFXPasswordField confirmPasswordPasswordField;
+    @FXML public JFXPasswordField oldPasswordField;
+    @FXML public JFXPasswordField newPasswordField;
+    @FXML public JFXPasswordField confirmPasswordField;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
-    private RegexValidator emailValidator;
-    private RegexValidator emailUsedValidator;
-    private RegexValidator passwordValidator;
-    private RequiredFieldValidator oldPasswordValidator;
-    private RegexValidator confirmPasswordValidator;
+    private RequiredValidator requiredValidator;
+    private EmailValidator emailValidator;
+    private CustomValidator emailUsedValidator;
+    private CustomValidator oldPasswordValidator;
+    private PasswordValidator passwordValidator;
+    private MatchPasswordValidator matchPasswordValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -51,116 +54,71 @@ public class UserSettingsController implements Injectable<ApplicationController>
 
     @Override
     public void init() {
+        requiredValidator      = new RequiredValidator();
+        emailValidator         = new EmailValidator();
+        emailUsedValidator     = new CustomValidator("Email in use. Try another.");
+        oldPasswordValidator   = new CustomValidator("Incorrect Password.");
+        passwordValidator      = new PasswordValidator();
+        matchPasswordValidator = new MatchPasswordValidator(newPasswordField);
 
-        LoadUserSettings();
-
-        // Initialize Validators
-        requiredFieldValidator   = new RequiredFieldValidator("Required field.");
-        emailValidator           = new RegexValidator("Invalid Email.");
-        emailUsedValidator       = new RegexValidator("This email already have an account. Try another.");
-        oldPasswordValidator     = new RequiredFieldValidator("Incorrect Password.");
-        passwordValidator        = new RegexValidator("Use 8 or more characters with a mix of letters and numbers.");
-        confirmPasswordValidator = new RegexValidator("Those passwords didn't match. Try again.");
-
-        emailValidator.setRegexPattern("([a-z0-9_\\.-]+)@[\\da-z\\.-]+[a-z\\.]{2,5}");
-        emailUsedValidator.setRegexPattern("^((?!.*" + emailTextField.getText() + ".*).)*$");
-        passwordValidator.setRegexPattern("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$");
-
-        nameTextField               .getValidators().add(requiredFieldValidator);
-        emailTextField              .getValidators().add(requiredFieldValidator);
-        oldPasswordPasswordField    .getValidators().add(oldPasswordValidator);
-        newPasswordPasswordField    .getValidators().add(requiredFieldValidator);
-        newPasswordPasswordField    .getValidators().add(passwordValidator);
-        confirmPasswordPasswordField.getValidators().add(requiredFieldValidator);
-        confirmPasswordPasswordField.getValidators().add(confirmPasswordValidator);
-
-        // TextFields' Listeners
-
-        nameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                nameTextField.validate();
-            }
-        });
-
-        emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                emailTextField.validate();
-                if (UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText())) != null) {
-                    emailTextField.getValidators().add(emailUsedValidator);
-                    emailTextField.validate();
-                    emailTextField.getValidators().remove(emailUsedValidator);
-                }
-            }
-        });
-
-        oldPasswordPasswordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                oldPasswordPasswordField.validate();
-                String oldPassword = FirestoreAPI.getInstance().encrypt(oldPasswordPasswordField.getText());
-                if (!oldPassword.equals(applicationController.user.getPassword())) {
-                    oldPasswordPasswordField.setText("");
-                    oldPasswordValidator.validate();
-
-                }
-            }
-        });
-
-        newPasswordPasswordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                newPasswordPasswordField.validate();
-            }
-        });
-
-        confirmPasswordPasswordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            confirmPasswordValidator.setRegexPattern(newPasswordPasswordField.getText());
-            if (!newValue) {
-                confirmPasswordPasswordField.validate();
-            }
-        });
-
+        ValidationManager.addValidator(false, requiredValidator, nameTextField, confirmPasswordField);
+        ValidationManager.addValidator(false, emailValidator, emailTextField);
+        ValidationManager.addValidator(false, emailUsedValidator, emailTextField);
+        ValidationManager.addValidator(false, oldPasswordValidator, oldPasswordField);
+        ValidationManager.addValidator(false, passwordValidator, newPasswordField);
+        ValidationManager.addValidator(false, matchPasswordValidator, confirmPasswordField);
     }
 
     @FXML
     public void handleSaveProfileButton(MouseEvent mouseEvent) {
 
-        nameTextField.resetValidation();
-        nameTextField.resetValidation();
+        nameTextField.validate();
+        emailTextField.validate();
 
-        if (!requiredFieldValidator.getHasErrors() && !nameTextField.getText().equals(applicationController.user.getName())) {
-            UserRepository.getInstance().updateName(applicationController.user.getId(),
-                    nameTextField.getText());
-            applicationController.user.setName(nameTextField.getText());
+        boolean nameChanged  = !nameTextField.getText().equals(applicationController.user.getName());
+        boolean emailChanged = !emailTextField.getText().equals(applicationController.user.getEmail());
+
+        if (!requiredValidator.getHasErrors()) {
+
+            if (nameChanged) {
+                UserRepository.getInstance().updateName(applicationController.user.getId(), nameTextField.getText());
+                applicationController.user.setName(nameTextField.getText());
+            }
+
+            if (!emailValidator.getHasErrors() && emailChanged) {
+                if (UserRepository.getInstance().isUserFound(emailTextField.getText())) {
+                    emailUsedValidator.showMessage();
+                } else {
+                    UserRepository.getInstance().updateEmail(applicationController.user, emailTextField.getText());
+                    updateUserEmail(emailTextField.getText());
+                    boardController.boardListView.refresh();
+                }
+            }
+
         }
-
-        if (!requiredFieldValidator.getHasErrors() && !emailValidator.getHasErrors() && !emailUsedValidator.getHasErrors()
-                && !emailTextField.getText().equals(applicationController.user.getEmail())) {
-            UserRepository.getInstance().updateEmail(applicationController.user, emailTextField.getText());
-            updateUser(emailTextField.getText());
-
-            boardController.boardListView.refresh();
-        }
-
     }
 
     @FXML
     public void handleSavePasswordButton(MouseEvent mouseEvent) {
 
-        oldPasswordPasswordField.resetValidation();
-        newPasswordPasswordField.resetValidation();
-        confirmPasswordPasswordField.resetValidation();
+        oldPasswordField.validate();
+        String encryptedOldPassword = FirestoreAPI.getInstance().encrypt(oldPasswordField.getText());
+        boolean isCorrect = applicationController.user.getPassword().equals(encryptedOldPassword);
 
-        oldPasswordPasswordField.validate();
-        newPasswordPasswordField.validate();
-        confirmPasswordPasswordField.validate();
-
-        if (!applicationController.user.getPassword().equals(FirestoreAPI.getInstance().encrypt(newPasswordPasswordField.getText()))
-                && !passwordValidator.getHasErrors() && !requiredFieldValidator.getHasErrors()
-                && !oldPasswordValidator.getHasErrors()) {
-
-            String newPassword = FirestoreAPI.getInstance().encrypt(newPasswordPasswordField.getText());
-            UserRepository.getInstance().updatePassword(applicationController.user.getId(), newPassword);
-            
-            applicationController.user.setPassword(newPassword);
+        if (isCorrect) {
+            newPasswordField.validate();
+            confirmPasswordField.validate();
+            if (!requiredValidator.getHasErrors() && !passwordValidator.getHasErrors()
+                && !matchPasswordValidator.getHasErrors()) {
+                String newPassword = FirestoreAPI.getInstance().encrypt(newPasswordField.getText());
+                UserRepository.getInstance().updatePassword(applicationController.user.getId(), newPassword);
+                applicationController.user.setPassword(newPassword);
+                oldPasswordField    .setText("");
+                newPasswordField    .setText("");
+                confirmPasswordField.setText("");
+            }
+        } else {
+            oldPasswordValidator.showMessage();
         }
 
     }
@@ -170,26 +128,35 @@ public class UserSettingsController implements Injectable<ApplicationController>
         Main.showSigningStage();
     }
 
-    private void LoadUserSettings() {
-        nameTextField.setText(applicationController.user.getName());
-        emailTextField.setText(applicationController.user.getEmail());
+    public void LoadUserSettings() {
+        nameTextField       .setText(applicationController.user.getName());
+        emailTextField      .setText(applicationController.user.getEmail());
+        oldPasswordField    .setText("");
+        newPasswordField    .setText("");
+        confirmPasswordField.setText("");
+
+        nameTextField       .resetValidation();
+        emailTextField      .resetValidation();
+        oldPasswordField    .resetValidation();
+        newPasswordField    .resetValidation();
+        confirmPasswordField.resetValidation();
     }
 
-    private void updateUser(String updatedEmail) {
+    private void updateUserEmail(String newEmail) {
 
-        String updatedId = FirestoreAPI.getInstance().encrypt(updatedEmail);
-        Image updatedImage = SwingFXUtils.toFXImage(UserRepository
+        String newId = FirestoreAPI.getInstance().encrypt(newEmail);
+        Image newImage = SwingFXUtils.toFXImage(UserRepository
                 .getInstance()
-                .generateIdenticon(updatedId, 256), null);
+                .generateIdenticon(newId, 256), null);
 
         for (Board board : applicationController.user.getBoards()) {
 
             // Update Contributors emails
             for (Contributor contributor : board.getContributors()) {
                 if (contributor.getEmail().equals(applicationController.user.getEmail())) {
-                    contributor.setId(updatedId);
-                    contributor.setEmail(updatedEmail);
-                    contributor.setImage(updatedImage);
+                    contributor.setId(newId);
+                    contributor.setEmail(newEmail);
+                    contributor.setImage(newImage);
                 }
             }
 
@@ -198,18 +165,18 @@ public class UserSettingsController implements Injectable<ApplicationController>
                 // Update tasks' creatorId
                 for (Task task : column.<Task>getChildren()) {
                     if (task.getCreator().getEmail().equals(applicationController.user.getEmail())) {
-                        task.getCreator().setId(updatedId);
-                        task.getCreator().setEmail(updatedEmail);
-                        task.getCreator().setImage(updatedImage);
+                        task.getCreator().setId(newId);
+                        task.getCreator().setEmail(newEmail);
+                        task.getCreator().setImage(newImage);
                     }
 
                     // Update tasks' assignees' emails
 
                     task.getAssignees().forEach(assignee -> {
                         if (assignee.getEmail().equals(applicationController.user.getEmail())) {
-                            assignee.setId(FirestoreAPI.getInstance().encrypt(updatedEmail));
-                            assignee.setEmail(updatedEmail);
-                            assignee.setImage(updatedImage);
+                            assignee.setId(FirestoreAPI.getInstance().encrypt(newEmail));
+                            assignee.setEmail(newEmail);
+                            assignee.setImage(newImage);
                         }
                     });
 
@@ -217,10 +184,10 @@ public class UserSettingsController implements Injectable<ApplicationController>
             }
         }
 
-        applicationController.user.setId(updatedId);
-        applicationController.user.setEmail(updatedEmail);
-        applicationController.user.setImage(updatedImage);
-        titleBarController.loadUserImage(updatedImage);
+        applicationController.user.setId(newId);
+        applicationController.user.setEmail(newEmail);
+        applicationController.user.setImage(newImage);
+        titleBarController.loadUserImage(newImage);
 
         if (Main.octillectFile.exists()) {
             UserRepository.getInstance().rememberUser(applicationController.user);

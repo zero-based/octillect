@@ -100,6 +100,23 @@ public class UserRepository implements Repository<User> {
     public void delete(User user) {
     }
 
+    public boolean isUserFound(String email) {
+        String id = FirestoreAPI.getInstance().encrypt(email);
+        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, id)).toObject(UserDocument.class);
+        return document != null;
+    }
+
+    public boolean authenticate(String email, String password) {
+        String id = FirestoreAPI.getInstance().encrypt(email);
+        String encryptedPassword = FirestoreAPI.getInstance().encrypt(password);
+        UserDocument document = ((DocumentSnapshot) FirestoreAPI.getInstance().selectDocument(FirestoreAPI.getInstance().USERS, id)).toObject(UserDocument.class);
+        if (document != null) {
+            return document.getPassword().equals(encryptedPassword);
+        } else {
+            return false;
+        }
+    }
+
     // add user's image to CloudStorage
     public void setImage(String userId, BufferedImage userBufferedImage) {
         StorageAPI.getInstance().uploadImage(userBufferedImage, StorageAPI.getInstance().USER_PHOTOS_FOLDER, userId);

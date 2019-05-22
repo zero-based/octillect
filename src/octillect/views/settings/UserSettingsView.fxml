@@ -61,7 +61,6 @@
                                   style="-fx-text-fill: white;"/>
 
                     <OButton text="Save"
-                             textFill="${Palette.DARK_300}"
                              fill="true"
                              color="PRIMARY"
                              style="-fx-font-size: 14;"
@@ -94,23 +93,22 @@
 
                 <VBox spacing="24">
 
-                    <JFXPasswordField fx:id="oldPasswordPasswordField"
+                    <JFXPasswordField fx:id="oldPasswordField"
                                       promptText="Old Password"
                                       focusColor="${Palette.PRIMARY}"
                                       style="-fx-text-fill: white;"/>
 
-                    <JFXPasswordField fx:id="newPasswordPasswordField"
+                    <JFXPasswordField fx:id="newPasswordField"
                                       promptText="New Password"
                                       focusColor="${Palette.PRIMARY}"
                                       style="-fx-text-fill: white;"/>
 
-                    <JFXPasswordField fx:id="confirmPasswordPasswordField"
+                    <JFXPasswordField fx:id="confirmPasswordField"
                                       promptText="Confirm Password"
                                       focusColor="${Palette.PRIMARY}"
                                       style="-fx-text-fill: white;"/>
 
                     <OButton text="Save"
-                             textFill="${Palette.DARK_300}"
                              fill="true"
                              color="PRIMARY"
                              style="-fx-font-size: 14;"

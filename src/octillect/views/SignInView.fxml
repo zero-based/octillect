@@ -76,7 +76,7 @@
                       iconColor="${Palette.DARK_500}"
                       translateY="4"/>
 
-            <JFXPasswordField fx:id="passwordTextField"
+            <JFXPasswordField fx:id="passwordField"
                               GridPane.rowIndex="2"
                               GridPane.columnIndex="1"
                               promptText="Password"

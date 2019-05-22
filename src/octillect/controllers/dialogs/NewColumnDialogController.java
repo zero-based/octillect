@@ -3,7 +3,6 @@ package octillect.controllers.dialogs;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +11,8 @@ import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controls.OButton;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.firebase.FirestoreAPI;
@@ -26,7 +27,7 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
     @FXML public OButton addColumnButton;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
+    private RequiredValidator requiredValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -40,13 +41,8 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
 
     @Override
     public void init() {
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        newColumnNameTextField.getValidators().add(requiredFieldValidator);
-        newColumnNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                newColumnNameTextField.validate();
-            }
-        });
+        requiredValidator = new RequiredValidator();
+        ValidationManager.addValidator(true, requiredValidator, newColumnNameTextField);
     }
 
     @FXML
@@ -54,7 +50,7 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
 
         newColumnNameTextField.validate();
 
-        if (!requiredFieldValidator.getHasErrors()) {
+        if (!requiredValidator.getHasErrors()) {
 
             Column newColumn = new ColumnBuilder().with($ -> {
                 $.id = FirestoreAPI.getInstance().encryptWithDateTime(newColumnNameTextField.getText()

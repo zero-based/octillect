@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import java.util.Calendar;
 
@@ -12,12 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
 import octillect.controllers.Injectable;
 import octillect.controls.OButton;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.firebase.FirestoreAPI;
@@ -42,7 +42,7 @@ public class NewTaskDialogController implements Injectable<ApplicationController
     @FXML public OButton addTaskButton;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
+    private RequiredValidator requiredValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -56,18 +56,15 @@ public class NewTaskDialogController implements Injectable<ApplicationController
 
     @Override
     public void init() {
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        newTaskNameTextField.getValidators().add(requiredFieldValidator);
-        newTaskNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                newTaskNameTextField.validate();
-            }
-        });
+        requiredValidator = new RequiredValidator();
+        ValidationManager.addValidator(true, requiredValidator, newTaskNameTextField);
     }
 
     public void handleAddTaskButtonAction(ActionEvent actionEvent) {
+
         newTaskNameTextField.validate();
-        if(!requiredFieldValidator.getHasErrors()) {
+
+        if (!requiredValidator.getHasErrors()) {
 
             Contributor creator = new ContributorBuilder().with($ -> {
                 $.id    = applicationController.user.getId();

@@ -3,18 +3,18 @@ package octillect.controllers;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import octillect.Main;
+import octillect.controls.validators.CustomValidator;
+import octillect.controls.validators.RequiredValidator;
+import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.User;
@@ -26,64 +26,42 @@ public class SignInController {
     @FXML public StackPane signingStackPane;
     @FXML private HBox signInHBox;
     @FXML private JFXTextField emailTextField;
-    @FXML private JFXPasswordField passwordTextField;
+    @FXML private JFXPasswordField passwordField;
     @FXML private JFXCheckBox keepMeSignedInCheckBox;
 
     // Validators
-    private RequiredFieldValidator requiredFieldValidator;
-    private RegexValidator emailValidator;
-    private RegexValidator passwordValidator;
+    private RequiredValidator requiredValidator;
+    private CustomValidator emailValidator;
+    private CustomValidator passwordValidator;
 
     @FXML
     public void initialize() {
+        requiredValidator = new RequiredValidator();
+        emailValidator    = new CustomValidator("This account doesn't exist.");
+        passwordValidator = new CustomValidator("Incorrect Password!");
 
-        // Initialize Validations
-        requiredFieldValidator = new RequiredFieldValidator("Required field.");
-        emailValidator         = new RegexValidator("That Octillect account doesn't exist.");
-        passwordValidator      = new RegexValidator("Incorrect Password!");
-
-        emailTextField.getValidators().add(requiredFieldValidator);
-        emailValidator.setRegexPattern("^((?!.*" + emailTextField.getText() + ".*).)*$");
-        emailTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            emailTextField.resetValidation();
-            if (!newValue) {
-                emailTextField.validate();
-            }
-        });
-
-        passwordTextField.getValidators().add(requiredFieldValidator);
-        passwordValidator.setRegexPattern("^((?!.*" + passwordTextField.getText() + ".*).)*$");
-        passwordTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            passwordTextField.resetValidation();
-            if (!newValue) {
-                passwordTextField.validate();
-            }
-        });
-
+        ValidationManager.addValidator(true, requiredValidator, emailTextField, passwordField);
+        ValidationManager.addValidator(true, emailValidator, emailTextField);
+        ValidationManager.addValidator(true, passwordValidator, passwordField);
     }
 
     @FXML
     public void handleSignInButtonAction(ActionEvent actionEvent) {
 
         emailTextField.validate();
-        passwordTextField.validate();
+        passwordField.validate();
 
-        if (!requiredFieldValidator.getHasErrors()) {
-            User user = UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText()));
-            if (user == null) {
-                emailTextField.getValidators().add(emailValidator);
-                emailTextField.validate();
-                emailTextField.getValidators().remove(emailValidator);
-            } else if (!user.getPassword().equals(FirestoreAPI.getInstance().encrypt(passwordTextField.getText()))) {
-                passwordTextField.getValidators().add(passwordValidator);
-                passwordTextField.validate();
-                passwordTextField.getValidators().remove(passwordValidator);
+        if (!requiredValidator.getHasErrors()) {
+            if (!UserRepository.getInstance().isUserFound(emailTextField.getText())) {
+                emailValidator.showMessage();
+            } else if (!UserRepository.getInstance().authenticate(emailTextField.getText(), passwordField.getText())) {
+                passwordValidator.showMessage();
             } else {
+                User user = UserRepository.getInstance().get(FirestoreAPI.getInstance().encrypt(emailTextField.getText()));
                 if (keepMeSignedInCheckBox.isSelected()) {
                     // Save User's data in octillect's file.
                     UserRepository.getInstance().rememberUser(user);
                 }
-
                 resetSignInView();
                 Main.initApplicationStage(user);
                 Main.showApplicationStage();
@@ -107,7 +85,7 @@ public class SignInController {
 
     private void resetSignInView() {
         emailTextField.setText(null);
-        passwordTextField.setText(null);
+        passwordField.setText(null);
         keepMeSignedInCheckBox.setSelected(false);
     }
 
