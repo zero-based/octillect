@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
-import octillect.controllers.Injectable;
+import octillect.controllers.util.Injectable;
 import octillect.controllers.dialogs.EditColumnDialogController;
 import octillect.controllers.dialogs.NewTaskDialogController;
 import octillect.controllers.BoardController;

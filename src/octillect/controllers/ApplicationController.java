@@ -1,15 +1,17 @@
 package octillect.controllers;
 
 import com.jfoenix.controls.JFXDrawersStack;
+
+import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 import octillect.Main;
 import octillect.controllers.dialogs.*;
+import octillect.controllers.util.Injectable;
 import octillect.models.User;
-
-import java.util.ArrayList;
 
 public class ApplicationController {
 

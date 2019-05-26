@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
-import octillect.controllers.Injectable;
+import octillect.controllers.util.Injectable;
 import octillect.controllers.BoardController;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.TagRepository;

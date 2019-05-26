@@ -25,8 +25,9 @@ import javafx.util.StringConverter;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.cells.ContributorCell;
 import octillect.controls.cells.Mode;
 import octillect.controls.cells.SubTaskCell;
@@ -78,10 +79,8 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         rightDrawerController      = applicationController.rightDrawerController;
     }
 
-    @Override
-    public void init() {
-
-        // Cell Factories
+    @PostLoad
+    public void initCellFactories() {
 
         subTasksListView.setCellFactory(param -> {
             SubTaskCell subTaskCell = new SubTaskCell();
@@ -115,8 +114,10 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
         taskDueDatePicker.setConverter(new LocalDateStringConverter());
 
+    }
 
-        // Listeners
+    @PostLoad
+    public void initListeners() {
 
         taskNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {

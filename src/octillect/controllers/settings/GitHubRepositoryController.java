@@ -17,8 +17,9 @@ import javafx.scene.paint.ImagePattern;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.dialogs.RepositoryNameDialogController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.cells.CommitCell;
 import octillect.models.Commit;
 import octillect.models.builders.CommitBuilder;
@@ -48,8 +49,8 @@ public class GitHubRepositoryController implements Injectable<ApplicationControl
         repositoryNameDialogController = applicationController.repositoryNameDialogController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initCellFactories() {
         commitsListView.setCellFactory(param -> new CommitCell());
     }
 

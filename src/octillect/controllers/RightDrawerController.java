@@ -11,6 +11,8 @@ import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.controllers.settings.UserSettingsController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 
 import java.util.ArrayList;
 
@@ -37,8 +39,8 @@ public class RightDrawerController implements Injectable<ApplicationController> 
         this.applicationController = applicationController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initDescendants() {
 
         ArrayList<Injectable<ApplicationController>> descendants = new ArrayList<>();
 
