@@ -9,7 +9,8 @@ import javafx.fxml.FXML;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;
 import octillect.controls.validators.RequiredValidator;
 import octillect.controls.validators.ValidationManager;
@@ -39,8 +40,8 @@ public class NewColumnDialogController implements Injectable<ApplicationControll
         boardController            = applicationController.boardController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initValidators() {
         requiredValidator = new RequiredValidator();
         ValidationManager.addValidator(true, requiredValidator, newColumnNameTextField);
     }

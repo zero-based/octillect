@@ -33,7 +33,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import octillect.controllers.ApplicationController;
-import octillect.controllers.Injectable;
+import octillect.controllers.util.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.ColumnRepository;

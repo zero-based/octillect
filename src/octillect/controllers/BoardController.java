@@ -17,6 +17,8 @@ import octillect.controllers.dialogs.NewColumnDialogController;
 import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controllers.settings.BoardSettingsController;
 import octillect.controllers.settings.GitHubRepositoryController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;
 import octillect.controls.cells.ColumnCell;
 import octillect.models.Board;
@@ -65,11 +67,8 @@ public class BoardController implements Injectable<ApplicationController> {
         gitHubRepositoryController     = rightDrawerController.gitHubRepositoryController;
     }
 
-    @Override
-    public void init() {
-
-        loadFirstBoard();
-
+    @PostLoad
+    public void initListeners() {
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 switch (newValue.charAt(0)) {
@@ -87,9 +86,9 @@ public class BoardController implements Injectable<ApplicationController> {
                 currentBoard.setTasksPredicate(task -> true);
             }
         });
-
     }
 
+    @PostLoad
     public void loadFirstBoard() {
         if (!applicationController.user.getBoards().isEmpty()) {
             loadBoard(applicationController.user.getBoards().get(0));
@@ -100,7 +99,6 @@ public class BoardController implements Injectable<ApplicationController> {
             titleBarController.boardNameLabel.setText("Octillect");
         }
     }
-
 
     public void loadBoard(Board board) {
 

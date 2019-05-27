@@ -5,12 +5,13 @@ import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import octillect.controllers.settings.UserSettingsController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -40,11 +41,15 @@ public class TitleBarController implements Injectable<ApplicationController> {
         userSettingsController     = rightDrawerController.userSettingsController;
     }
 
-    @Override
-    public void init() {
-        loadUserImage(applicationController.user.getImage());
+    @PostLoad
+    public void initTransition() {
         hamburgerTransition = new HamburgerBackArrowBasicTransition(hamburgerButton);
         hamburgerTransition.setRate(-1);
+    }
+
+    @PostLoad
+    public void loadUserImage() {
+        userImageCircle.setFill(new ImagePattern(applicationController.user.getImage()));
     }
 
     @FXML
@@ -72,10 +77,6 @@ public class TitleBarController implements Injectable<ApplicationController> {
         userSettingsController.LoadUserSettings();
         rightDrawerController.show(rightDrawerController.userSettings);
         applicationController.drawersStack.toggle(rightDrawerController.rightDrawer);
-    }
-
-    public void loadUserImage(Image image) {
-        userImageCircle.setFill(new ImagePattern(image));
     }
 
 }

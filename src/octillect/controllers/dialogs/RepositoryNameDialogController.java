@@ -1,17 +1,18 @@
 package octillect.controllers.dialogs;
 
-import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.RightDrawerController;
 import octillect.controllers.settings.GitHubRepositoryController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;
 import octillect.controls.validators.RepositoryValidtor;
 import octillect.controls.validators.ValidationManager;
@@ -41,8 +42,8 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
         gitHubRepositoryController = rightDrawerController.gitHubRepositoryController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initValidators() {
         nameRegexValidator = new RepositoryValidtor();
         ValidationManager.addValidator(true, nameRegexValidator, repositoryNameTextField);
     }

@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
+import octillect.controllers.util.Injectable;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.database.repositories.TaskRepository;
 import octillect.models.Task;

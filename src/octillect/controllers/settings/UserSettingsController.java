@@ -11,8 +11,9 @@ import javafx.scene.input.MouseEvent;
 import octillect.Main;
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.TitleBarController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.validators.CustomValidator;
 import octillect.controls.validators.EmailValidator;
 import octillect.controls.validators.MatchPasswordValidator;
@@ -52,8 +53,8 @@ public class UserSettingsController implements Injectable<ApplicationController>
         titleBarController          = applicationController.titleBarController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initValidators() {
         requiredValidator      = new RequiredValidator();
         emailValidator         = new EmailValidator();
         emailUsedValidator     = new CustomValidator("Email in use. Try another.");
@@ -187,7 +188,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
         applicationController.user.setId(newId);
         applicationController.user.setEmail(newEmail);
         applicationController.user.setImage(newImage);
-        titleBarController.loadUserImage(newImage);
+        titleBarController.loadUserImage();
 
         if (Main.octillectFile.exists()) {
             UserRepository.getInstance().rememberUser(applicationController.user);

@@ -15,9 +15,10 @@ import javafx.scene.paint.Color;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
 import octillect.controllers.TitleBarController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.cells.ContributorCell;
 import octillect.controls.cells.Mode;
 import octillect.controls.cells.TagCell;
@@ -70,12 +71,13 @@ public class BoardSettingsController implements Injectable<ApplicationController
         titleBarController         = applicationController.titleBarController;
     }
 
-    @Override
-    public void init() {
-
-        // Cell Factories
-
+    @PostLoad
+    public void initCombBoxItems() {
         rolesComboBox.setItems(FXCollections.observableArrayList(Contributor.Role.values()));
+    }
+
+    @PostLoad
+    public void initCellFactories() {
 
         contributorsListView.setCellFactory(param -> {
             ContributorCell contributorCell = new ContributorCell(Mode.BOARD);
@@ -89,18 +91,21 @@ public class BoardSettingsController implements Injectable<ApplicationController
             return tagCell;
         });
 
+    }
 
-        // Validators
-
+    @PostLoad
+    public void initValidators() {
         requiredValidator    = new RequiredValidator();
         emailValidator       = new CustomValidator("This account doesn't exist.");
         contributorValidator = new CustomValidator("Already a Contributor.");
+
         ValidationManager.addValidator(false, requiredValidator, newContributorTextField, rolesComboBox, newTagTextField);
         ValidationManager.addValidator(false, emailValidator, newContributorTextField);
         ValidationManager.addValidator(false, contributorValidator, newContributorTextField);
+    }
 
-
-        // Listeners
+    @PostLoad
+    public void initListeners() {
 
         editNameTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && boardController.currentBoard != null) {
@@ -120,6 +125,7 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
     }
 
+    @FXML
     public void handleAddContributorButtonAction(MouseEvent mouseEvent) {
 
         resetRequiredFieldValidators();

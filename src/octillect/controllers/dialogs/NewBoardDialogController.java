@@ -1,17 +1,18 @@
 package octillect.controllers.dialogs;
 
-import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import octillect.controllers.ApplicationController;
 import octillect.controllers.BoardController;
-import octillect.controllers.Injectable;
 import octillect.controllers.LeftDrawerController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;
 import octillect.controls.validators.RequiredValidator;
 import octillect.controls.validators.ValidationManager;
@@ -44,8 +45,8 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
         leftDrawerController       = applicationController.leftDrawerController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initValidators() {
         requiredValidator = new RequiredValidator();
         ValidationManager.addValidator(true, requiredValidator, newBoardNameTextField);
     }

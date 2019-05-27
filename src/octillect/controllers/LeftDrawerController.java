@@ -10,6 +10,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
 import octillect.controllers.dialogs.NewBoardDialogController;
+import octillect.controllers.util.Injectable;
+import octillect.controllers.util.PostLoad;
 import octillect.models.Board;
 
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -35,8 +37,8 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         titleBarController         = applicationController.titleBarController;
     }
 
-    @Override
-    public void init() {
+    @PostLoad
+    public void initListView() {
         userBoardsListView.setItems(applicationController.user.getBoards());
         userBoardsListView.setCellFactory(param -> new ListCell<Board>() {
             {
