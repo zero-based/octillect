@@ -7,7 +7,7 @@
 
 <JFXDrawer xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
-           fx:controller="octillect.controllers.RightDrawerController"
+           fx:controller="octillect.controllers.application.RightDrawerController"
            fx:id="rightDrawer"
            stylesheets="@/octillect/styles/Palette.css"
            direction="RIGHT"
@@ -20,10 +20,10 @@
                 <Insets topRightBottomLeft="32"/>
             </padding>
 
-            <fx:include fx:id="userSettings" source="settings/UserSettingsView.fxml"/>
-            <fx:include fx:id="boardSettings" source="settings/BoardSettingsView.fxml"/>
-            <fx:include fx:id="taskSettings" source="settings/TaskSettingsView.fxml"/>
-            <fx:include fx:id="gitHubRepository" source="settings/GitHubRepositoryView.fxml"/>
+            <fx:include fx:id="userSettings" source="../settings/UserSettingsView.fxml"/>
+            <fx:include fx:id="boardSettings" source="../settings/BoardSettingsView.fxml"/>
+            <fx:include fx:id="taskSettings" source="../settings/TaskSettingsView.fxml"/>
+            <fx:include fx:id="gitHubRepository" source="../settings/GitHubRepositoryView.fxml"/>
 
         </StackPane>
     </sidePane>

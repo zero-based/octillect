@@ -26,7 +26,7 @@ public class OCTException extends Exception {
     public void dislpayError(StackPane root) {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/ErrorView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/exceptions/ErrorView.fxml"));
             fxmlLoader.setController(this);
             errorStackPane = fxmlLoader.load();
         } catch (Exception e) {

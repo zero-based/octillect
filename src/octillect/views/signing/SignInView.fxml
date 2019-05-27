@@ -22,7 +22,7 @@
 
 <StackPane xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
-           fx:controller="octillect.controllers.SignInController"
+           fx:controller="octillect.controllers.signing.SignInController"
            fx:id="signingStackPane"
            minWidth="1264"
            minHeight="768"
@@ -169,7 +169,7 @@
                fitHeight="${signingStackPane.height}"
                StackPane.alignment="BOTTOM_RIGHT">
         <image>
-            <Image url="/octillect/resources/octopus-space-1264x768.png"/>
+            <Image url="/octopus-space-1264x768.png"/>
         </image>
     </ImageView>
 

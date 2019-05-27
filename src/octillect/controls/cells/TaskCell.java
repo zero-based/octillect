@@ -32,10 +32,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.util.Injectable;
-import octillect.controllers.RightDrawerController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.RightDrawerController;
 import octillect.controllers.settings.TaskSettingsController;
+import octillect.controllers.util.Injectable;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.models.Column;

@@ -1,4 +1,4 @@
-package octillect.controllers;
+package octillect.controllers.signing;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -139,7 +139,7 @@ public class SignUpController {
 
     private void closeSignUpView() throws IOException {
         StackPane root = (StackPane) Main.signingStage.getScene().getRoot();
-        StackPane signingStackPane = FXMLLoader.load(getClass().getResource("/octillect/views/SignInView.fxml"));
+        StackPane signingStackPane = FXMLLoader.load(getClass().getResource("/octillect/views/signing/SignInView.fxml"));
         HBox signInHBox = (HBox) signingStackPane.lookup("#signInHBox");
         Animation.easeOut(root, signUpHBox, Duration.seconds(0.8), Animation.Direction.LEFT);
         Animation.easeIn(root, signInHBox, Duration.seconds(0.8), Animation.Direction.LEFT);

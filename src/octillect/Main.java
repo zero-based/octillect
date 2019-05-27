@@ -45,7 +45,7 @@ public class Main extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(Main.class.getResource("views/SignInView.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("views/signing/SignInView.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class Main extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(Main.class.getResource("views/ApplicationView.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("views/application/ApplicationView.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package octillect.controllers;
+package octillect.controllers.application;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.events.JFXDrawerEvent;

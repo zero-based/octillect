@@ -23,9 +23,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.BoardController;
-import octillect.controllers.RightDrawerController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
+import octillect.controllers.application.RightDrawerController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
 import octillect.controls.cells.ContributorCell;

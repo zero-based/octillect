@@ -7,9 +7,9 @@ import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.BoardController;
-import octillect.controllers.RightDrawerController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
+import octillect.controllers.application.RightDrawerController;
 import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;

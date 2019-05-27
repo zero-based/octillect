@@ -13,10 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.BoardController;
-import octillect.controllers.LeftDrawerController;
-import octillect.controllers.TitleBarController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
+import octillect.controllers.application.LeftDrawerController;
+import octillect.controllers.application.TitleBarController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
 import octillect.controls.cells.ContributorCell;
