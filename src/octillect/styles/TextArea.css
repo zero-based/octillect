@@ -1,11 +1,7 @@
-@import "Palette.css"
+@import "Palette.css";
 
 .text-area {
-    -fx-text-fill: white;
-}
-
-.text-area .content{
-    -fx-background-color: transparent;
+    -fx-text-fill: -o-dark-300;
 }
 
 .text-area .scroll-bar {

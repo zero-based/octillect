@@ -54,7 +54,6 @@
                 <VBox spacing="16">
 
                     <JFXTextField fx:id="taskNameTextField"
-
                                   focusColor="${Palette.PRIMARY}"
                                   style="-fx-text-inner-color: -o-dark-300">
                     </JFXTextField>
@@ -111,12 +110,12 @@
                     </HBox>
                 </graphic>
 
-                <JFXTextArea fx:id="taskDescriptionTextArea"
-                             focusColor="${Palette.PRIMARY}"
-                             prefRowCount="3"
-                             stylesheets="@/octillect/styles/TextArea.css"
-                             style="-fx-text-fill: -o-dark-300;">
-                </JFXTextArea>
+                <VBox>
+                    <JFXTextArea fx:id="taskDescriptionTextArea"
+                                 focusColor="${Palette.PRIMARY}"
+                                 prefRowCount="3"
+                                 stylesheets="@/octillect/styles/TextArea.css"/>
+                </VBox>
 
             </TitledPane>
 
