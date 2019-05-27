@@ -56,7 +56,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
     private CustomValidator emailValidator;
     private CustomValidator contributorValidator;
 
-
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
@@ -128,7 +127,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML
     public void handleAddContributorButtonAction(MouseEvent mouseEvent) {
 
-        resetRequiredFieldValidators();
         newContributorTextField.validate();
         rolesComboBox.validate();
         boolean isContributor = false;
@@ -156,7 +154,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
                     newContributorTextField.setText(null);
                     rolesComboBox.getSelectionModel().clearSelection();
-                    resetRequiredFieldValidators();
                 }
             }
         }
@@ -165,7 +162,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML
     public void handleAddTagButtonAction(MouseEvent mouseEvent) {
 
-        resetRequiredFieldValidators();
         newTagTextField.validate();
 
         if (!requiredValidator.getHasErrors()) {
@@ -182,7 +178,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
             newTagTextField.setText(null);
             tagColorPicker.setValue(Color.WHITE);
-            resetRequiredFieldValidators();
         }
     }
 
@@ -195,12 +190,6 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
         boardController.loadFirstBoard();
-    }
-
-    private void resetRequiredFieldValidators() {
-        newContributorTextField.resetValidation();
-        newTagTextField.resetValidation();
-        rolesComboBox.resetValidation();
     }
 
     public void loadBoardSettings() {
