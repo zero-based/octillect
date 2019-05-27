@@ -55,10 +55,11 @@
 
                 </graphic>
 
-                <JFXTextField fx:id="editNameTextField"
-                              focusColor="${Palette.PRIMARY}"
-                              focusTraversable="false"
-                              style="-fx-text-fill: -o-dark-300;"/>
+                <VBox>
+                    <JFXTextField fx:id="editNameTextField"
+                                  focusColor="${Palette.PRIMARY}"
+                                  style="-fx-text-fill: -o-dark-300;"/>
+                </VBox>
 
             </TitledPane>
 
@@ -84,12 +85,12 @@
 
                 </graphic>
 
-                <JFXTextArea fx:id="editDescriptionTextArea"
-                             prefRowCount="3"
-                             focusColor="${Palette.PRIMARY}"
-                             style="-fx-text-inner-color: -o-dark-300;"
-                             labelFloat="true"
-                             stylesheets="@/octillect/styles/TextArea.css"/>
+                <VBox>
+                    <JFXTextArea fx:id="editDescriptionTextArea"
+                                 prefRowCount="3"
+                                 focusColor="${Palette.PRIMARY}"
+                                 stylesheets="@/octillect/styles/TextArea.css"/>
+                </VBox>
 
             </TitledPane>
 
