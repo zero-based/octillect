@@ -1,4 +1,4 @@
-package octillect.controllers;
+package octillect.controllers.application;
 
 import com.jfoenix.controls.JFXTextField;
 

@@ -12,8 +12,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.BoardController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;

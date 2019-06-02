@@ -8,10 +8,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.util.Injectable;
-import octillect.controllers.BoardController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
 import octillect.controllers.settings.TaskSettingsController;
+import octillect.controllers.util.Injectable;
 import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.TaskRepository;

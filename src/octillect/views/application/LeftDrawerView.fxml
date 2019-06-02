@@ -15,7 +15,7 @@
 
 <JFXDrawer xmlns="http://javafx.com/javafx/"
            xmlns:fx="http://javafx.com/fxml/"
-           fx:controller="octillect.controllers.LeftDrawerController"
+           fx:controller="octillect.controllers.application.LeftDrawerController"
            fx:id="leftDrawer"
            stylesheets="@/octillect/styles/Palette.css"
            direction="LEFT"

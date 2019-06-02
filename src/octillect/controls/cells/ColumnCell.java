@@ -23,11 +23,11 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.util.Injectable;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
 import octillect.controllers.dialogs.EditColumnDialogController;
 import octillect.controllers.dialogs.NewTaskDialogController;
-import octillect.controllers.BoardController;
+import octillect.controllers.util.Injectable;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.models.Board;

@@ -15,8 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 
-import octillect.controllers.ApplicationController;
-import octillect.controllers.BoardController;
+import octillect.controllers.application.ApplicationController;
+import octillect.controllers.application.BoardController;
 import octillect.controllers.dialogs.RepositoryNameDialogController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
