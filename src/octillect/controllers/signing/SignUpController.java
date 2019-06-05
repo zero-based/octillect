@@ -35,6 +35,8 @@ import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Board;
 import octillect.models.User;
 import octillect.models.builders.UserBuilder;
+import octillect.models.factories.BoardFactory;
+import octillect.models.factories.BoardTemplate;
 import octillect.styles.Animation;
 
 public class SignUpController {
@@ -104,7 +106,9 @@ public class SignUpController {
                     }
                 }).build();
 
-                user.setBoards(FXCollections.observableArrayList(new Board.WelcomeBoard(user)));
+                Board welcomeBoard = BoardFactory.createBoard(BoardTemplate.WELCOME, user,
+                        "Welcome Board", "Welcome to Octillect!");
+                user.setBoards(FXCollections.observableArrayList(welcomeBoard));
                 UserRepository.getInstance().add(user);
 
                 closeSignUpView();

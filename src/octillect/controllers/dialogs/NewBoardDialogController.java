@@ -21,6 +21,8 @@ import octillect.models.Board;
 import octillect.models.Column;
 import octillect.models.Tag;
 import octillect.models.Task;
+import octillect.models.factories.BoardFactory;
+import octillect.models.factories.BoardTemplate;
 
 public class NewBoardDialogController implements Injectable<ApplicationController> {
 
@@ -58,8 +60,8 @@ public class NewBoardDialogController implements Injectable<ApplicationControlle
 
         if (!requiredValidator.getHasErrors()) {
 
-            Board newBoard = new Board.TemplateBoard(newBoardNameTextField.getText(),
-                    newBoardDescriptionTextArea.getText(), applicationController.user);
+            Board newBoard = BoardFactory.createBoard(BoardTemplate.DEFAULT, applicationController.user,
+                    newBoardNameTextField.getText(), newBoardDescriptionTextArea.getText());
 
             // Accessing the database.
             UserRepository.getInstance().addBoardId(applicationController.user.getId(), newBoard.getId());
