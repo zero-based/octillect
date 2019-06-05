@@ -283,18 +283,21 @@ public class TaskSettingsController implements Injectable<ApplicationController>
      *         return the collection if the sub-collection is empty.
      */
     private <T> ObservableList<T> getUnusedItems(ObservableList<T> collection, ObservableList<T> subCollection) {
-        ObservableList<T> unusedItems = FXCollections.observableArrayList();
+
         if (subCollection.isEmpty()) {
             return FXCollections.observableArrayList(collection);
         }
+
+        ObservableList<T> unusedItems = FXCollections.observableArrayList();
+        String subCollectionToString = subCollection.toString();
         for (T collectionItem : collection) {
-            for (T subCollectionItem : subCollection) {
-                if (collectionItem != subCollectionItem) {
-                    unusedItems.add(collectionItem);
-                }
+            if (!subCollectionToString.contains(collectionItem.toString())) {
+                unusedItems.add(collectionItem);
             }
         }
+
         return unusedItems;
+
     }
 
     private class LocalDateStringConverter extends StringConverter<LocalDate> {
