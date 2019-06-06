@@ -10,13 +10,13 @@
 
 <VBox xmlns="http://javafx.com/javafx/"
       xmlns:fx="http://javafx.com/fxml/"
-      fx:id="errorStackPane"
+      fx:id="errorRootVBox"
       stylesheets="@/octillect/styles/Palette.css"
       alignment="CENTER"
       spacing="16"
       style="-fx-background-color: -o-dark-900;
-        -fx-background-image: url(stars-1264x768.png);
-        -fx-background-size: cover;">
+             -fx-background-image: url(stars-1264x768.png);
+             -fx-background-size: cover;">
 
     <fx:define>
         <Palette fx:id="Palette"/>
