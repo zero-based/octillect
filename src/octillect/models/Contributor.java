@@ -32,7 +32,7 @@ public class Contributor extends UserBase implements IObserver {
 
     @Override
     public String toString() {
-        return getName();
+        return getName() + " " + getEmail();
     }
 
 }
