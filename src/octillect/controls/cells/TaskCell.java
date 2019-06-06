@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -32,6 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+import javafx.scene.text.Text;
 import octillect.controllers.application.ApplicationController;
 import octillect.controllers.application.RightDrawerController;
 import octillect.controllers.settings.TaskSettingsController;
@@ -294,39 +296,62 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
      * @param nodesList NodesList Control which will be controlled.
      */
     private void updateAssigneesNodesList(Task taskItem, JFXNodesList nodesList) {
-        for (int i = 0; i < 4 && taskItem.getAssignees().size() != i; i++) {
 
-            Circle circle = new Circle();
-            circle.setRadius(16);
+        if (taskItem.getAssignees().size() > 1) {
+
+            Circle circle = new Circle(16, Palette.PRIMARY_DARK);
+            circle.setStrokeWidth(1.8);
+            circle.setStroke(Palette.DARK_300);
+
+            Text assigneesCount;
+            if (taskItem.getAssignees().size() <= 9) {
+                assigneesCount = new Text(String.valueOf(taskItem.getAssignees().size()));
+            } else {
+                assigneesCount = new Text("9+");
+            }
+            assigneesCount.setFill(Palette.DARK_300);
+
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(circle);
+            stackPane.getChildren().add(assigneesCount);
+            nodesList.getChildren().add(stackPane);
+
+        }
+
+        int n = taskItem.getAssignees().size() < 4 ? taskItem.getAssignees().size() : 4;
+        for (int i = 0; i < n; i++) {
+            Circle circle = new Circle(16);
             circle.setFill(new ImagePattern(taskItem.getAssignees().get(i).getImage()));
             circle.setStrokeWidth(1.8);
             circle.setStroke(Palette.DARK_300);
-
+            Tooltip.install(circle, new Tooltip(taskItem.getAssignees().get(i).getName()));
             nodesList.getChildren().add(circle);
         }
 
-        if (taskItem.getAssignees().size() > 1) {
-            StackPane stackPane = new StackPane();
+        if (taskItem.getAssignees().size() > 4) {
 
-            Circle circle = new Circle();
-            circle.setRadius(16);
-            circle.setFill(Palette.PRIMARY_DARK);
+            Circle circle = new Circle(12, Palette.DARK_800);
             circle.setStrokeWidth(1.8);
             circle.setStroke(Palette.DARK_300);
+
+            Text plus = new Text("+");
+            plus.setTranslateY(-2);
+            plus.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+            plus.setFill(Palette.DARK_300);
+
+            StringBuilder assignees = new StringBuilder();
+            for (int i = 4; i < taskItem.getAssignees().size(); i++) {
+                assignees.append(taskItem.getAssignees().get(i).getName()).append('\n');
+            }
+
+            StackPane stackPane = new StackPane();
             stackPane.getChildren().add(circle);
+            stackPane.getChildren().add(plus);
+            Tooltip.install(stackPane, new Tooltip(assignees.toString()));
+            nodesList.getChildren().add(stackPane);
 
-            Label label = new Label();
-            if (taskItem.getAssignees().size() <= 9)
-                label.setText(String.valueOf(taskItem.getAssignees().size()));
-            else
-                label.setText("9+");
-
-            label.setTextFill(Palette.DARK_300);
-
-            stackPane.getChildren().add(label);
-
-            nodesList.getChildren().add(0, stackPane);
         }
+
     }
 
     /**
@@ -360,7 +385,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         taskDueDateLabel.setText(date.toUpperCase());
 
         /* Set the Tag's TextFill to Palette.DANGER if the Due Date is Past. */
-        if(taskItem.getDueDate().before(Calendar.getInstance().getTime())) {
+        if (taskItem.getDueDate().before(Calendar.getInstance().getTime())) {
             taskDueDateLabel.textFillProperty().unbind();
             taskDueDateLabel.setTextFill(Palette.DANGER);
         }
