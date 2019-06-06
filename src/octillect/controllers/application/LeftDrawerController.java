@@ -5,9 +5,12 @@ import com.jfoenix.controls.events.JFXDrawerEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import octillect.controllers.dialogs.NewBoardDialogController;
 import octillect.controllers.util.Injectable;
@@ -20,6 +23,9 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
 
     // FXML Fields
     @FXML public JFXDrawer leftDrawer;
+    @FXML public Circle imageCircle;
+    @FXML public Label nameLabel;
+    @FXML public Label emailLabel;
     @FXML public FontIcon addNewBoardIcon;
     @FXML public ListView<Board> userBoardsListView;
 
@@ -32,9 +38,16 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
-        boardController = applicationController.boardController;
-        newBoardDialogController = applicationController.newBoardDialogController;
+        boardController            = applicationController.boardController;
+        newBoardDialogController   = applicationController.newBoardDialogController;
         titleBarController         = applicationController.titleBarController;
+    }
+
+    @PostLoad
+    public void initUserCard() {
+        imageCircle.setFill(new ImagePattern(applicationController.user.getImage()));
+        nameLabel.setText(applicationController.user.getName());
+        emailLabel.setText(applicationController.user.getEmail());
     }
 
     @PostLoad
@@ -59,6 +72,11 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
     }
 
     @FXML
+    public void handleUserCardMouseClicked(MouseEvent mouseEvent) {
+        titleBarController.handleUserIconMouseClicked(mouseEvent);
+    }
+
+    @FXML
     public void handleAddNewBoardIconMouseClicked(MouseEvent mouseEvent) {
         newBoardDialogController.newBoardDialog.show(applicationController.rootStackPane);
         leftDrawer.close();
@@ -74,4 +92,5 @@ public class LeftDrawerController implements Injectable<ApplicationController> {
         titleBarController.hamburgerTransition.setRate(titleBarController.hamburgerTransition.getRate() * -1);
         titleBarController.hamburgerTransition.play();
     }
+
 }

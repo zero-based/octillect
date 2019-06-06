@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import octillect.Main;
 import octillect.controllers.application.ApplicationController;
 import octillect.controllers.application.BoardController;
+import octillect.controllers.application.LeftDrawerController;
 import octillect.controllers.application.TitleBarController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
@@ -44,12 +45,14 @@ public class UserSettingsController implements Injectable<ApplicationController>
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
+    private LeftDrawerController leftDrawerController;
     private TitleBarController titleBarController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController  = applicationController;
         boardController             = applicationController.boardController;
+        leftDrawerController        = applicationController.leftDrawerController;
         titleBarController          = applicationController.titleBarController;
     }
 
@@ -189,6 +192,7 @@ public class UserSettingsController implements Injectable<ApplicationController>
         applicationController.user.setEmail(newEmail);
         applicationController.user.setImage(newImage);
         titleBarController.loadUserImage();
+        leftDrawerController.initUserCard();
 
         if (Main.octillectFile.exists()) {
             UserRepository.getInstance().rememberUser(applicationController.user);
