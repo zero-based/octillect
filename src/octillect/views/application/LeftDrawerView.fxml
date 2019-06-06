@@ -5,8 +5,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <?import octillect.styles.Palette?>
@@ -30,7 +33,28 @@
 
         <VBox style="-fx-background-color: -o-dark-800;">
 
-            <BorderPane prefWidth="${leftDrawer.defaultDrawerSize}">
+            <HBox spacing="16" onMouseClicked="#handleUserCardMouseClicked">
+
+                <padding>
+                    <Insets top="24" right="16" bottom="24" left="16"/>
+                </padding>
+
+                <Circle fx:id="imageCircle" radius="24"/>
+
+                <VBox alignment="CENTER_LEFT">
+                    <Label fx:id="nameLabel" textFill="${Palette.DARK_300}">
+                        <font>
+                            <Font name="Product Sans Bold" size="16"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="emailLabel" textFill="${Palette.DARK_300}"/>
+                </VBox>
+
+            </HBox>
+
+            <Separator opacity=".48" style="-fx-padding: 0 8;"/>
+
+            <BorderPane>
 
                 <padding>
                     <Insets topRightBottomLeft="16"/>
@@ -55,9 +79,9 @@
             </BorderPane>
 
             <ListView fx:id="userBoardsListView"
+                      VBox.vgrow="ALWAYS"
                       stylesheets="@/octillect/styles/UserBoardsList.css"
-                      onMouseClicked="#handleUserBoardsListViewMouseClicked"
-                      VBox.vgrow="ALWAYS"/>
+                      onMouseClicked="#handleUserBoardsListViewMouseClicked"/>
 
         </VBox>
 
