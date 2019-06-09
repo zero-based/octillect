@@ -2,7 +2,7 @@ package octillect.models;
 
 import javafx.scene.image.Image;
 
-public class Contributor extends UserBase implements IObserver {
+public class Collaborator extends UserBase implements IObserver {
 
     public enum Role {
         owner,
@@ -12,7 +12,7 @@ public class Contributor extends UserBase implements IObserver {
 
     private Role role;
 
-    public Contributor(String id, String name, String email, Image image, Role role) {
+    public Collaborator(String id, String name, String email, Image image, Role role) {
         super(id, name, email, image);
         this.role = role;
     }

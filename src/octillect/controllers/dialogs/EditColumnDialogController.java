@@ -31,13 +31,11 @@ public class EditColumnDialogController implements Injectable<ApplicationControl
     private RequiredValidator requiredValidator;
 
     // Injected Controllers
-    private ApplicationController applicationController;
     private BoardController boardController;
 
     @Override
     public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        boardController            = applicationController.boardController;
+        boardController = applicationController.boardController;
     }
 
     @PostLoad

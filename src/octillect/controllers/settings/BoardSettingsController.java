@@ -19,7 +19,7 @@ import octillect.controllers.application.LeftDrawerController;
 import octillect.controllers.application.TitleBarController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
-import octillect.controls.cells.ContributorCell;
+import octillect.controls.cells.CollaboratorCell;
 import octillect.controls.cells.Mode;
 import octillect.controls.cells.TagCell;
 import octillect.controls.OButton;
@@ -30,7 +30,7 @@ import octillect.database.repositories.TagRepository;
 import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Contributor;
+import octillect.models.Collaborator;
 import octillect.models.Tag;
 import octillect.models.builders.TagBuilder;
 
@@ -38,23 +38,23 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
     // FXML Fields
     @FXML public TitledPane deleteBoardTitledPane;
-    @FXML public BorderPane newContributorBorderPane;
+    @FXML public BorderPane newCollaboratorBorderPane;
     @FXML public BorderPane newTagBorderPane;
     @FXML public JFXTextField editNameTextField;
-    @FXML public JFXTextField newContributorTextField;
+    @FXML public JFXTextField newCollaboratorTextField;
     @FXML public JFXTextField newTagTextField;
     @FXML public JFXTextArea editDescriptionTextArea;
-    @FXML public JFXListView<Contributor> contributorsListView;
+    @FXML public JFXListView<Collaborator> collaboratorsListView;
     @FXML public JFXListView<Tag> tagsListView;
-    @FXML public JFXComboBox<Contributor.Role> rolesComboBox;
+    @FXML public JFXComboBox<Collaborator.Role> rolesComboBox;
     @FXML public JFXColorPicker tagColorPicker;
-    @FXML public OButton addContributorButton;
+    @FXML public OButton addCollaboratorButton;
     @FXML public OButton addTagButton;
 
     // Validators
     private RequiredValidator requiredValidator;
     private CustomValidator emailValidator;
-    private CustomValidator contributorValidator;
+    private CustomValidator collaboratorValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -72,16 +72,16 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
     @PostLoad
     public void initCombBoxItems() {
-        rolesComboBox.setItems(FXCollections.observableArrayList(Contributor.Role.values()));
+        rolesComboBox.setItems(FXCollections.observableArrayList(Collaborator.Role.values()));
     }
 
     @PostLoad
     public void initCellFactories() {
 
-        contributorsListView.setCellFactory(param -> {
-            ContributorCell contributorCell = new ContributorCell(Mode.BOARD);
-            contributorCell.inject(applicationController);
-            return contributorCell;
+        collaboratorsListView.setCellFactory(param -> {
+            CollaboratorCell collaboratorCell = new CollaboratorCell(Mode.BOARD);
+            collaboratorCell.inject(applicationController);
+            return collaboratorCell;
         });
 
         tagsListView.setCellFactory(param -> {
@@ -94,13 +94,13 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
     @PostLoad
     public void initValidators() {
-        requiredValidator    = new RequiredValidator();
-        emailValidator       = new CustomValidator("This account doesn't exist.");
-        contributorValidator = new CustomValidator("Already a Contributor.");
+        requiredValidator     = new RequiredValidator();
+        emailValidator        = new CustomValidator("This account doesn't exist.");
+        collaboratorValidator = new CustomValidator("Already a Collaborator.");
 
-        ValidationManager.addValidator(false, requiredValidator, newContributorTextField, rolesComboBox, newTagTextField);
-        ValidationManager.addValidator(false, emailValidator, newContributorTextField);
-        ValidationManager.addValidator(false, contributorValidator, newContributorTextField);
+        ValidationManager.addValidator(false, requiredValidator, newCollaboratorTextField, rolesComboBox, newTagTextField);
+        ValidationManager.addValidator(false, emailValidator, newCollaboratorTextField);
+        ValidationManager.addValidator(false, collaboratorValidator, newCollaboratorTextField);
     }
 
     @PostLoad
@@ -125,34 +125,35 @@ public class BoardSettingsController implements Injectable<ApplicationController
     }
 
     @FXML
-    public void handleAddContributorButtonAction(MouseEvent mouseEvent) {
+    public void handleAddCollaboratorButtonAction(MouseEvent mouseEvent) {
 
-        newContributorTextField.validate();
+        newCollaboratorTextField.validate();
         rolesComboBox.validate();
-        boolean isContributor = false;
 
         if (!requiredValidator.getHasErrors()) {
 
-            for (Contributor contributor : boardController.currentBoard.getContributors()) {
-                if (contributor.getEmail().equals(newContributorTextField.getText())) {
-                    isContributor = true;
+            boolean isCollaborator = false;
+            for (Collaborator collaborator : boardController.currentBoard.getCollaborators()) {
+                if (collaborator.getEmail().equals(newCollaboratorTextField.getText())) {
+                    isCollaborator = true;
+                    break;
                 }
             }
 
-            if (isContributor) {
-                emailValidator.showMessage();
+            if (isCollaborator) {
+                collaboratorValidator.showMessage();
             } else {
-                Contributor contributor = BoardRepository.getInstance().getContributor(FirestoreAPI.getInstance().encrypt(newContributorTextField.getText()));
+                Collaborator collaborator = BoardRepository.getInstance().getCollaborator(FirestoreAPI.getInstance().encrypt(newCollaboratorTextField.getText()));
 
-                if (contributor == null) {
+                if (collaborator == null) {
                     emailValidator.showMessage();
                 } else {
-                    contributor.setRole(rolesComboBox.getValue());
-                    BoardRepository.getInstance().addContributor(boardController.currentBoard.getId(), contributor);
-                    UserRepository.getInstance().addBoardId(contributor.getId(), boardController.currentBoard.getId());
-                    boardController.currentBoard.getContributors().add(contributor);
+                    collaborator.setRole(rolesComboBox.getValue());
+                    BoardRepository.getInstance().addCollaborator(boardController.currentBoard.getId(), collaborator);
+                    UserRepository.getInstance().addBoardId(collaborator.getId(), boardController.currentBoard.getId());
+                    boardController.currentBoard.getCollaborators().add(collaborator);
 
-                    newContributorTextField.setText(null);
+                    newCollaboratorTextField.setText(null);
                     rolesComboBox.getSelectionModel().clearSelection();
                 }
             }
@@ -184,8 +185,8 @@ public class BoardSettingsController implements Injectable<ApplicationController
     @FXML
     public void handleDeleteBoardAction(MouseEvent mouseEvent) {
         BoardRepository.getInstance().delete(boardController.currentBoard);
-        for (Contributor contributor : boardController.currentBoard.getContributors()) {
-            UserRepository.getInstance().deleteBoardId(contributor.getId(), boardController.currentBoard.getId());
+        for (Collaborator collaborator : boardController.currentBoard.getCollaborators()) {
+            UserRepository.getInstance().deleteBoardId(collaborator.getId(), boardController.currentBoard.getId());
         }
 
         applicationController.user.getBoards().remove(boardController.currentBoard);
@@ -196,12 +197,12 @@ public class BoardSettingsController implements Injectable<ApplicationController
         editNameTextField.setText(boardController.currentBoard.getName());
         editDescriptionTextArea.setText(boardController.currentBoard.getDescription());
         controlRoleAccess(boardController.currentBoard.getUserRole(applicationController.user.getId()));
-        loadContributors();
+        loadCollaborators();
         loadTags();
     }
 
-    private void loadContributors() {
-        contributorsListView.setItems(boardController.currentBoard.getContributors());
+    private void loadCollaborators() {
+        collaboratorsListView.setItems(boardController.currentBoard.getCollaborators());
     }
 
     private void loadTags() {
@@ -211,17 +212,17 @@ public class BoardSettingsController implements Injectable<ApplicationController
     public void resetBoardSettings() {
         editNameTextField.setText(null);
         editDescriptionTextArea.setText(null);
-        contributorsListView.getItems().clear();
-        newContributorTextField.setText(null);
+        collaboratorsListView.getItems().clear();
+        newCollaboratorTextField.setText(null);
         rolesComboBox.getSelectionModel().clearSelection();
         tagsListView.getItems().clear();
         newTagTextField.setText(null);
         tagColorPicker.setValue(Color.WHITE);
     }
 
-    private void controlRoleAccess(Contributor.Role role) {
+    private void controlRoleAccess(Collaborator.Role role) {
 
-        if (role.equals(Contributor.Role.owner)) {
+        if (role.equals(Collaborator.Role.owner)) {
             deleteBoardTitledPane.setDisable(false);
             deleteBoardTitledPane.setOpacity(1);
         } else {
@@ -229,13 +230,13 @@ public class BoardSettingsController implements Injectable<ApplicationController
             deleteBoardTitledPane.setOpacity(0);
         }
 
-        if (role.equals(Contributor.Role.viewer)) {
+        if (role.equals(Collaborator.Role.viewer)) {
 
-            newContributorTextField.setDisable(true);
+            newCollaboratorTextField.setDisable(true);
             rolesComboBox.setDisable(true);
-            addContributorButton.setDisable(true);
-            newContributorBorderPane.setManaged(false);
-            newContributorBorderPane.setOpacity(0);
+            addCollaboratorButton.setDisable(true);
+            newCollaboratorBorderPane.setManaged(false);
+            newCollaboratorBorderPane.setOpacity(0);
 
             newTagTextField.setDisable(true);
             tagColorPicker.setDisable(true);
@@ -246,11 +247,11 @@ public class BoardSettingsController implements Injectable<ApplicationController
 
         } else {
 
-            newContributorTextField.setDisable(false);
+            newCollaboratorTextField.setDisable(false);
             rolesComboBox.setDisable(false);
-            addContributorButton.setDisable(false);
-            newContributorBorderPane.setManaged(true);
-            newContributorBorderPane.setOpacity(1);
+            addCollaboratorButton.setDisable(false);
+            newCollaboratorBorderPane.setManaged(true);
+            newCollaboratorBorderPane.setOpacity(1);
 
             newTagTextField.setDisable(false);
             tagColorPicker.setDisable(false);

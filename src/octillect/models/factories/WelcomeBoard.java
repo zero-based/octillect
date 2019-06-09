@@ -7,15 +7,15 @@ import javafx.collections.transformation.FilteredList;
 
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Board;
+import octillect.models.Collaborator;
 import octillect.models.Column;
-import octillect.models.Contributor;
 import octillect.models.Task;
 import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.TaskBuilder;
 
 final class WelcomeBoard extends Board {
 
-    WelcomeBoard(Contributor owner) {
+    WelcomeBoard(Collaborator owner) {
 
         // Columns
 

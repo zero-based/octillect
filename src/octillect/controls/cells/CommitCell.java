@@ -10,7 +10,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import octillect.models.Commit;
@@ -18,7 +17,7 @@ import octillect.models.Commit;
 public class CommitCell extends ListCell<Commit> {
 
     // FXML Fields
-    @FXML private GridPane commitCellGridPane;
+    @FXML private GridPane rootGridPane;
     @FXML private Circle authorAvatarCircle;
     @FXML private Hyperlink subjectHyperlink;
     @FXML private Label bodyLabel;
@@ -39,7 +38,7 @@ public class CommitCell extends ListCell<Commit> {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/CommitCellView.fxml"));
             fxmlLoader.setController(this);
-            commitCellGridPane = fxmlLoader.load();
+            rootGridPane = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +64,7 @@ public class CommitCell extends ListCell<Commit> {
             }
         });
 
-        setGraphic(commitCellGridPane);
+        setGraphic(rootGridPane);
 
     }
 

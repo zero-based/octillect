@@ -94,7 +94,7 @@
 
             </TitledPane>
 
-            <!--CONTRIBUTORS TITLED-PANE-->
+            <!--COLLABORATOR TITLED-PANE-->
             <TitledPane expanded="false">
 
                 <graphic>
@@ -105,7 +105,7 @@
                                   iconColor="${Palette.PRIMARY}"
                                   iconSize="22"/>
 
-                        <Label text="Contributors"
+                        <Label text="Collaborators"
                                textFill="${Palette.DARK_300}">
                             <font>
                                 <Font name="Product Sans Regular" size="16"/>
@@ -118,10 +118,10 @@
 
                 <VBox spacing="16">
 
-                    <JFXListView fx:id="contributorsListView"
+                    <JFXListView fx:id="collaboratorsListView"
                                  stylesheets="@/octillect/styles/HoverableListView.css"/>
 
-                    <BorderPane fx:id="newContributorBorderPane">
+                    <BorderPane fx:id="newCollaboratorBorderPane">
 
                         <padding>
                             <Insets topRightBottomLeft="8"/>
@@ -131,7 +131,7 @@
 
                             <HBox spacing="16" alignment="CENTER_LEFT">
 
-                                <JFXTextField fx:id="newContributorTextField"
+                                <JFXTextField fx:id="newCollaboratorTextField"
                                               prefColumnCount="20"
                                               promptText="or Invite by Email"
                                               focusColor="${Palette.PRIMARY}"
@@ -150,12 +150,12 @@
 
                         <right>
 
-                            <OButton fx:id="addContributorButton"
+                            <OButton fx:id="addCollaboratorButton"
                                      text="Add"
                                      color="PRIMARY"
                                      fill="TRUE"
                                      style="-fx-font-size: 14;"
-                                     onMouseClicked="#handleAddContributorButtonAction"/>
+                                     onMouseClicked="#handleAddCollaboratorButtonAction"/>
 
                         </right>
 

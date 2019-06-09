@@ -22,7 +22,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 import octillect.Main;
-import octillect.database.documents.BoardDocument.ContributorMap;
+import octillect.database.documents.BoardDocument.CollaboratorMap;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.firebase.StorageAPI;
@@ -125,7 +125,7 @@ public class UserRepository implements Repository<User> {
         return StorageAPI.getInstance().selectImage(StorageAPI.USER_PHOTOS_FOLDER, userId);
     }
 
-    // Assign board to a specific contributor
+    // Assign board to a specific collaborator
     public void addBoardId(String userId, String boardId) {
         FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.USERS, userId, "boardsIds", boardId);
     }
@@ -177,19 +177,19 @@ public class UserRepository implements Repository<User> {
 
         for (Board board : user.getBoards()) {
 
-            // Update Contributors emails
-            ArrayList<HashMap<String, String>> contributors = new ArrayList<>();
-            ContributorMap contributorMap;
+            // Update Collaborators emails
+            ArrayList<HashMap<String, String>> collaborators = new ArrayList<>();
+            CollaboratorMap collaboratorMap;
 
-            for (Contributor contributor : board.getContributors()) {
-                if (contributor.getEmail().equals(user.getEmail())) {
-                    contributorMap = new ContributorMap(FirestoreAPI.getInstance().encrypt(updatedEmail), contributor.getRole());
+            for (Collaborator collaborator : board.getCollaborators()) {
+                if (collaborator.getEmail().equals(user.getEmail())) {
+                    collaboratorMap = new CollaboratorMap(FirestoreAPI.getInstance().encrypt(updatedEmail), collaborator.getRole());
                 } else {
-                    contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
+                    collaboratorMap = new CollaboratorMap(collaborator.getId(), collaborator.getRole());
                 }
-                contributors.add(contributorMap.getMap());
+                collaborators.add(collaboratorMap.getMap());
             }
-            BoardRepository.getInstance().updateContributorsIds(board.getId(), contributors);
+            BoardRepository.getInstance().updateCollaboratorsIds(board.getId(), collaborators);
 
             for (Column column : board.<Column>getChildren()) {
 

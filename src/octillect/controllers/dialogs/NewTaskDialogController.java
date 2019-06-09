@@ -23,10 +23,10 @@ import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Column;
-import octillect.models.Contributor;
+import octillect.models.Collaborator;
 import octillect.models.Tag;
 import octillect.models.Task;
-import octillect.models.builders.ContributorBuilder;
+import octillect.models.builders.CollaboratorBuilder;
 import octillect.models.builders.TaskBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -68,12 +68,12 @@ public class NewTaskDialogController implements Injectable<ApplicationController
 
         if (!requiredValidator.getHasErrors()) {
 
-            Contributor creator = new ContributorBuilder().with($ -> {
+            Collaborator creator = new CollaboratorBuilder().with($ -> {
                 $.id    = applicationController.user.getId();
                 $.name  = applicationController.user.getName();
                 $.email = applicationController.user.getEmail();
                 $.image = applicationController.user.getImage();
-                $.role  = Contributor.Role.owner;
+                $.role  = Collaborator.Role.owner;
             }).build();
 
             Task newTask = new TaskBuilder().with($ -> {
@@ -129,24 +129,24 @@ public class NewTaskDialogController implements Injectable<ApplicationController
         return mentionedTags;
     }
 
-    private ObservableList<Contributor> getMentionedAssignees() {
+    private ObservableList<Collaborator> getMentionedAssignees() {
 
         int nAssigneesMentioned = StringUtils.countMatches(newTaskNameTextField.getText(), "@");
-        ObservableList<Contributor> mentionedAssignees = FXCollections.observableArrayList();
+        ObservableList<Collaborator> mentionedAssignees = FXCollections.observableArrayList();
 
-        if (boardController.currentBoard.getContributors().isEmpty()) {
+        if (boardController.currentBoard.getCollaborators().isEmpty()) {
             return mentionedAssignees;
         }
 
-        for (Contributor contributor : boardController.currentBoard.getContributors()) {
+        for (Collaborator collaborator : boardController.currentBoard.getCollaborators()) {
             if (nAssigneesMentioned == 0) {
                 break;
             }
 
-            if (newTaskNameTextField.getText().contains("@" + contributor.getName())) {
-                mentionedAssignees.add(contributor);
+            if (newTaskNameTextField.getText().contains("@" + collaborator.getName())) {
+                mentionedAssignees.add(collaborator);
                 nAssigneesMentioned--;
-                newTaskNameTextField.setText(newTaskNameTextField.getText().replace(("@" + contributor.getName()), ""));
+                newTaskNameTextField.setText(newTaskNameTextField.getText().replace(("@" + collaborator.getName()), ""));
             }
         }
 

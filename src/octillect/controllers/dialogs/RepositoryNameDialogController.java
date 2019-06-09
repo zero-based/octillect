@@ -14,7 +14,7 @@ import octillect.controllers.settings.GitHubRepositoryController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
 import octillect.controls.OButton;
-import octillect.controls.validators.RepositoryValidtor;
+import octillect.controls.validators.RepositoryValidator;
 import octillect.controls.validators.ValidationManager;
 import octillect.database.repositories.BoardRepository;
 
@@ -26,7 +26,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
     @FXML public OButton addRepositoryButton;
 
     // Validators
-    private RepositoryValidtor nameRegexValidator;
+    private RepositoryValidator nameRegexValidator;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -44,7 +44,7 @@ public class RepositoryNameDialogController implements Injectable<ApplicationCon
 
     @PostLoad
     public void initValidators() {
-        nameRegexValidator = new RepositoryValidtor();
+        nameRegexValidator = new RepositoryValidator();
         ValidationManager.addValidator(true, nameRegexValidator, repositoryNameTextField);
     }
 

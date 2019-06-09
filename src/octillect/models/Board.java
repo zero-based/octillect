@@ -6,10 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
-public class Board extends TaskBase implements IObservable<Contributor> {
+public class Board extends TaskBase implements IObservable<Collaborator> {
 
     private String repositoryName;
-    private ObservableList<Contributor> contributors = FXCollections.observableArrayList();
+    private ObservableList<Collaborator> collaborators = FXCollections.observableArrayList();
     private ObservableList<Tag> tags = FXCollections.observableArrayList();
     private FilteredList<Column> filteredColumns;
 
@@ -18,12 +18,12 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     }
 
     public Board(String id, String name, String description, String repositoryName,
-                 ObservableList<Contributor> contributors, ObservableList<Column> columns,
+                 ObservableList<Collaborator> collaborators, ObservableList<Column> columns,
                  ObservableList<Tag> tags) {
         super(id, name, description, columns);
         filteredColumns     = new FilteredList<>(columns);
         this.repositoryName = repositoryName;
-        this.contributors   = contributors;
+        this.collaborators = collaborators;
         this.tags           = tags;
     }
 
@@ -36,12 +36,12 @@ public class Board extends TaskBase implements IObservable<Contributor> {
         this.repositoryName = repositoryName;
     }
 
-    public ObservableList<Contributor> getContributors() {
-        return contributors;
+    public ObservableList<Collaborator> getCollaborators() {
+        return collaborators;
     }
 
-    public void setContributors(ObservableList<Contributor> contributors) {
-        this.contributors = contributors;
+    public void setCollaborators(ObservableList<Collaborator> collaborators) {
+        this.collaborators = collaborators;
     }
 
 
@@ -54,10 +54,10 @@ public class Board extends TaskBase implements IObservable<Contributor> {
     }
 
 
-    public Contributor.Role getUserRole(String userId) {
-        for (Contributor contributor : contributors) {
-            if (contributor.getId().equals(userId)) {
-                return contributor.getRole();
+    public Collaborator.Role getUserRole(String userId) {
+        for (Collaborator collaborator : collaborators) {
+            if (collaborator.getId().equals(userId)) {
+                return collaborator.getRole();
             }
         }
         return null;
@@ -81,19 +81,19 @@ public class Board extends TaskBase implements IObservable<Contributor> {
 
 
     @Override
-    public void addObserver(Contributor observer) {
-        contributors.add(observer);
+    public void addObserver(Collaborator observer) {
+        collaborators.add(observer);
     }
 
     @Override
-    public void removeObserver(Contributor observer) {
-        contributors.remove(observer);
+    public void removeObserver(Collaborator observer) {
+        collaborators.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (UserBase observer : contributors) {
-            ((Contributor) observer).updateObserver();
+        for (UserBase observer : collaborators) {
+            ((Collaborator) observer).updateObserver();
         }
     }
 

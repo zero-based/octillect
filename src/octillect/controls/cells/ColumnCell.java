@@ -39,7 +39,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class ColumnCell extends ListCell<Column> implements Injectable<ApplicationController> {
 
     // FXML Fields
-    @FXML private VBox columnCellVBox;
+    @FXML private VBox rootVBox;
     @FXML private FontIcon addNewTaskIcon;
     @FXML private FontIcon columnMoreIcon;
     @FXML private Label columnNameLabel;
@@ -136,7 +136,7 @@ public class ColumnCell extends ListCell<Column> implements Injectable<Applicati
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/ColumnCell.fxml"));
             fxmlLoader.setController(this);
-            columnCellVBox = fxmlLoader.load();
+            rootVBox = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,7 +185,7 @@ public class ColumnCell extends ListCell<Column> implements Injectable<Applicati
                 // Get all Tasks ListViews in the current Board
                 List<ListView<Task>> allTasksListViews = new ArrayList<>();
 
-                tasksListView.getParent()               // Gets columnCellVBox
+                tasksListView.getParent()               // Gets rootVBox
                         .getParent()                    // Gets ListCell<Column>
                         .getParent()                    // Gets boardListView
                         .getChildrenUnmodifiable()      // Gets All ListCell<Column>'s
@@ -226,12 +226,12 @@ public class ColumnCell extends ListCell<Column> implements Injectable<Applicati
                 TaskCell sourceTask = (TaskCell) event.getGestureSource();
 
                 Column sourceColumn = ((ColumnCell) sourceTask.getListView()    // Gets tasksListView
-                        .getParent()                                            // Gets columnCellVBox
+                        .getParent()                                            // Gets rootVBox
                         .getParent())                                           // Gets ListCell<Column>
                         .getItem();
 
                 Column targetColumn = ((ColumnCell) tasksListView.getParent()   // Gets tasksListView
-                        .getParent())                                           // Gets columnCellVBox
+                        .getParent())                                           // Gets rootVBox
                         .getItem();                                             // Gets ListCell<Column>
 
 
@@ -247,11 +247,12 @@ public class ColumnCell extends ListCell<Column> implements Injectable<Applicati
             }
         });
 
-        setGraphic(columnCellVBox);
+        setGraphic(rootVBox);
 
     }
 
-    public ListView getTasksListView() {
+    ListView getTasksListView() {
         return tasksListView;
     }
+
 }

@@ -28,18 +28,15 @@ import octillect.controllers.application.BoardController;
 import octillect.controllers.application.RightDrawerController;
 import octillect.controllers.util.Injectable;
 import octillect.controllers.util.PostLoad;
-import octillect.controls.cells.ContributorCell;
+import octillect.controls.cells.CollaboratorCell;
 import octillect.controls.cells.Mode;
 import octillect.controls.cells.SubTaskCell;
 import octillect.controls.cells.TagCell;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.database.repositories.ColumnRepository;
 import octillect.database.repositories.TaskRepository;
-import octillect.models.Board;
-import octillect.models.Column;
-import octillect.models.Contributor;
-import octillect.models.Tag;
-import octillect.models.Task;
+import octillect.models.*;
+import octillect.models.Collaborator;
 import octillect.models.builders.TaskBuilder;
 import octillect.styles.Palette;
 
@@ -63,9 +60,9 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     @FXML public JFXDatePicker taskDueDatePicker;
     @FXML public JFXListView<Task> subTasksListView;
     @FXML public JFXListView<Tag> taskTagsListView;
-    @FXML public JFXListView<Contributor> taskAssigneesListView;
+    @FXML public JFXListView<Collaborator> taskAssigneesListView;
     @FXML public JFXComboBox<Tag> boardTagsComboBox;
-    @FXML public JFXComboBox<Contributor> boardContributorsComboBox;
+    @FXML public JFXComboBox<Collaborator> boardCollaboratorsComboBox;
 
     // Injected Controllers
     private ApplicationController applicationController;
@@ -89,9 +86,9 @@ public class TaskSettingsController implements Injectable<ApplicationController>
         });
 
         taskAssigneesListView.setCellFactory(param -> {
-            ContributorCell contributorCell = new ContributorCell(Mode.TASK);
-            contributorCell.inject(applicationController);
-            return contributorCell;
+            CollaboratorCell collaboratorCell = new CollaboratorCell(Mode.TASK);
+            collaboratorCell.inject(applicationController);
+            return collaboratorCell;
         });
 
         taskTagsListView.setCellFactory(param -> {
@@ -100,10 +97,10 @@ public class TaskSettingsController implements Injectable<ApplicationController>
             return tagCell;
         });
 
-        boardContributorsComboBox.setCellFactory(param -> {
-            ContributorCell contributorCell = new ContributorCell(Mode.VIEW_ONLY);
-            contributorCell.inject(applicationController);
-            return contributorCell;
+        boardCollaboratorsComboBox.setCellFactory(param -> {
+            CollaboratorCell collaboratorCell = new CollaboratorCell(Mode.VIEW_ONLY);
+            collaboratorCell.inject(applicationController);
+            return collaboratorCell;
         });
 
         boardTagsComboBox.setCellFactory(param -> {
@@ -164,13 +161,13 @@ public class TaskSettingsController implements Injectable<ApplicationController>
     }
 
     @FXML
-    public void handleContributorsComboBoxAction(ActionEvent actionEvent) {
-        if (boardContributorsComboBox.getSelectionModel().getSelectedIndex() != -1) {
-            Contributor selected = boardContributorsComboBox.getSelectionModel().getSelectedItem();
+    public void handleCollaboratorsComboBoxAction(ActionEvent actionEvent) {
+        if (boardCollaboratorsComboBox.getSelectionModel().getSelectedIndex() != -1) {
+            Collaborator selected = boardCollaboratorsComboBox.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
                 TaskRepository.getInstance().addAssigneeId(currentTask.getId(), selected.getId());
-                boardContributorsComboBox.getSelectionModel().clearSelection();
-                boardContributorsComboBox.getItems().remove(selected);
+                boardCollaboratorsComboBox.getSelectionModel().clearSelection();
+                boardCollaboratorsComboBox.getItems().remove(selected);
                 currentTask.getAssignees().add(selected);
                 boardController.boardListView.refresh();
             });
@@ -248,7 +245,7 @@ public class TaskSettingsController implements Injectable<ApplicationController>
 
     public void loadAssignees() {
         taskAssigneesListView.setItems(currentTask.getAssignees());
-        boardContributorsComboBox.setItems(getUnusedItems(currentBoard.getContributors(), currentTask.getAssignees()));
+        boardCollaboratorsComboBox.setItems(getUnusedItems(currentBoard.getCollaborators(), currentTask.getAssignees()));
     }
 
     public void loadTags() {

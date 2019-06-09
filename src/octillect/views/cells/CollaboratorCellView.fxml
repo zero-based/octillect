@@ -14,8 +14,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/"
-            xmlns:fx="http://javafx.com/fxml/"
-            fx:id="contributorCellGridPane">
+            xmlns:fx="http://javafx.com/fxml/">
 
     <fx:define>
         <Palette fx:id="Palette"/>
@@ -28,7 +27,7 @@
                 <Insets topRightBottomLeft="4"/>
             </padding>
 
-            <Circle fx:id="contributorImage"
+            <Circle fx:id="collaboratorImage"
                     GridPane.columnIndex="0"
                     radius="16"/>
 
@@ -67,7 +66,7 @@
 
     <right>
         <VBox alignment="CENTER">
-            <FontIcon fx:id="deleteContributorIcon"
+            <FontIcon fx:id="deleteCollaboratorIcon"
                       iconLiteral="gmi-clear"
                       iconColor="${Palette.DARK_300}"
                       iconSize="20"/>

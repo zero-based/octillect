@@ -155,12 +155,12 @@ public class UserSettingsController implements Injectable<ApplicationController>
 
         for (Board board : applicationController.user.getBoards()) {
 
-            // Update Contributors emails
-            for (Contributor contributor : board.getContributors()) {
-                if (contributor.getEmail().equals(applicationController.user.getEmail())) {
-                    contributor.setId(newId);
-                    contributor.setEmail(newEmail);
-                    contributor.setImage(newImage);
+            // Update Collaborators emails
+            for (Collaborator collaborator : board.getCollaborators()) {
+                if (collaborator.getEmail().equals(applicationController.user.getEmail())) {
+                    collaborator.setId(newId);
+                    collaborator.setEmail(newEmail);
+                    collaborator.setImage(newImage);
                 }
             }
 
