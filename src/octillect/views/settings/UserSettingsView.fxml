@@ -34,7 +34,7 @@
                 <graphic>
                     <HBox spacing="8">
 
-                        <FontIcon iconLiteral="gmi-perm-identity"
+                        <FontIcon iconLiteral="gmi-person"
                                   iconSize="22"
                                   iconColor="${Palette.PRIMARY}"/>
 
@@ -126,7 +126,7 @@
                 <graphic>
                     <HBox spacing="8">
 
-                        <FontIcon iconLiteral="gmi-lock-outline"
+                        <FontIcon iconLiteral="gmi-lock"
                                   iconSize="22"
                                   iconColor="${Palette.PRIMARY}"/>
 

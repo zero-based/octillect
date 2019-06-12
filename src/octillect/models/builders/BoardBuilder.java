@@ -13,7 +13,7 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
     public String name;
     public String description;
     public String repositoryName;
-    public ObservableList<Contributor> contributors = FXCollections.observableArrayList();
+    public ObservableList<Collaborator> collaborators = FXCollections.observableArrayList();
     public ObservableList<Column> columns = FXCollections.observableArrayList();
     public ObservableList<Tag> tags = FXCollections.observableArrayList();
 
@@ -25,7 +25,7 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
 
     @Override
     public Board build() {
-        return new Board(id, name, description, repositoryName, contributors, columns, tags);
+        return new Board(id, name, description, repositoryName, collaborators, columns, tags);
     }
 
     public BoardBuilder withId(String id) {
@@ -48,8 +48,8 @@ public class BoardBuilder implements Builder<Board, BoardBuilder> {
         return this;
     }
 
-    public BoardBuilder withContributors(ObservableList<Contributor> contributors) {
-        this.contributors = contributors;
+    public BoardBuilder withCollaborators(ObservableList<Collaborator> collaborators) {
+        this.collaborators = collaborators;
         return this;
     }
 

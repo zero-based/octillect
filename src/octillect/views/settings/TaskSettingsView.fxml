@@ -190,10 +190,10 @@
                     <JFXListView fx:id="taskAssigneesListView"
                                  stylesheets="@/octillect/styles/HoverableListView.css"/>
 
-                    <JFXComboBox fx:id="boardContributorsComboBox"
+                    <JFXComboBox fx:id="boardCollaboratorsComboBox"
                                  promptText="Add new assignee..."
                                  stylesheets="@/octillect/styles/ComboBox.css"
-                                 onAction="#handleContributorsComboBoxAction">
+                                 onAction="#handleCollaboratorsComboBoxAction">
                     </JFXComboBox>
 
                 </VBox>

@@ -3,15 +3,15 @@ package octillect.database.documents;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import octillect.models.Contributor;
+import octillect.models.Collaborator;
 
 public class BoardDocument {
 
-    public static class ContributorMap {
+    public static class CollaboratorMap {
 
         HashMap<String, String> map = new HashMap();
 
-        public ContributorMap(String id, Contributor.Role role) {
+        public CollaboratorMap(String id, Collaborator.Role role) {
             map.put("id", id);
             map.put("role", role.toString());
         }
@@ -25,7 +25,7 @@ public class BoardDocument {
     private String name;
     private String description;
     private String repositoryName;
-    private ArrayList<HashMap<String, String>> contributors = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> collaborators = new ArrayList<>();
     private ArrayList<String> columnsIds = new ArrayList<>();
     private ArrayList<String> tagsIds = new ArrayList<>();
 
@@ -63,12 +63,12 @@ public class BoardDocument {
         this.repositoryName = repositoryName;
     }
 
-    public ArrayList<HashMap<String, String>> getContributors() {
-        return contributors;
+    public ArrayList<HashMap<String, String>> getCollaborators() {
+        return collaborators;
     }
 
-    public void setContributors(ArrayList<HashMap<String, String>> contributors) {
-        this.contributors = contributors;
+    public void setCollaborators(ArrayList<HashMap<String, String>> collaborators) {
+        this.collaborators = collaborators;
     }
 
     public ArrayList<String> getColumnsIds() {

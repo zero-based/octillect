@@ -4,20 +4,20 @@ import javafx.collections.FXCollections;
 
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.Board;
-import octillect.models.Contributor;
+import octillect.models.Collaborator;
 import octillect.models.User;
-import octillect.models.builders.ContributorBuilder;
+import octillect.models.builders.CollaboratorBuilder;
 
 public class BoardFactory {
 
     public static Board createBoard(BoardTemplate template, User user, String name, String description) {
 
-        Contributor owner = new ContributorBuilder().with($ -> {
+        Collaborator owner = new CollaboratorBuilder().with($ -> {
             $.id    = user.getId();
             $.name  = user.getName();
             $.email = user.getEmail();
             $.image = user.getImage();
-            $.role  = Contributor.Role.owner;
+            $.role  = Collaborator.Role.owner;
         }).build();
 
         Board board = new Board();
@@ -31,7 +31,7 @@ public class BoardFactory {
         board.setId(FirestoreAPI.getInstance().encryptWithDateTime(name + owner.getId()));
         board.setName(name);
         board.setDescription(description);
-        board.setContributors(FXCollections.observableArrayList(owner));
+        board.setCollaborators(FXCollections.observableArrayList(owner));
 
         return board;
 

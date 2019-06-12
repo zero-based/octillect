@@ -36,7 +36,7 @@ public class TaskRepository implements Repository<Task> {
         document.setCreatorId(task.getCreator().getId());
 
         ArrayList<String> assigneesIds = new ArrayList<>();
-        for (Contributor assignee : task.getAssignees()) {
+        for (Collaborator assignee : task.getAssignees()) {
             assigneesIds.add(assignee.getId());
         }
         document.setAssigneesIds(assigneesIds);
@@ -69,11 +69,11 @@ public class TaskRepository implements Repository<Task> {
             $.isCompleted = document.getIsCompleted();
             $.dueDate = document.getDueDate();
             $.creationDate = document.getCreationDate();
-            $.creator = BoardRepository.getInstance().getContributor(document.getCreatorId());
+            $.creator = BoardRepository.getInstance().getCollaborator(document.getCreatorId());
 
-            ArrayList<Contributor> assignees = new ArrayList<>();
+            ArrayList<Collaborator> assignees = new ArrayList<>();
             for (String assigneeID : document.getAssigneesIds()) {
-                assignees.add(BoardRepository.getInstance().getContributor(assigneeID));
+                assignees.add(BoardRepository.getInstance().getCollaborator(assigneeID));
             }
             $.assignees = FXCollections.observableArrayList(assignees);
 

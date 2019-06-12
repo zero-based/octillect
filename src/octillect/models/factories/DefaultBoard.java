@@ -6,11 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 
 import octillect.database.firebase.FirestoreAPI;
-import octillect.models.Board;
-import octillect.models.Column;
-import octillect.models.Contributor;
-import octillect.models.Tag;
-import octillect.models.Task;
+import octillect.models.*;
+import octillect.models.Collaborator;
 import octillect.models.builders.ColumnBuilder;
 import octillect.models.builders.TagBuilder;
 import octillect.models.builders.TaskBuilder;
@@ -18,7 +15,7 @@ import octillect.styles.Palette;
 
 final class DefaultBoard extends Board {
 
-    DefaultBoard(Contributor owner) {
+    DefaultBoard(Collaborator owner) {
 
         // Columns
 

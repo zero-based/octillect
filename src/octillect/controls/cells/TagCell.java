@@ -25,7 +25,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
     private Mode mode;
 
     // FXML Fields
-    @FXML private BorderPane tagCellBorderPane;
+    @FXML private BorderPane rootBorderPane;
     @FXML private HBox tagColorHBox;
     @FXML private Label tagNameLabel;
     @FXML private FontIcon deleteTagIcon;
@@ -63,7 +63,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/TagCell.fxml"));
             fxmlLoader.setController(this);
-            tagCellBorderPane = fxmlLoader.load();
+            rootBorderPane = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
         } else if (mode == Mode.BOARD) {
 
             if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                    .equals(Contributor.Role.viewer)) {
+                    .equals(Collaborator.Role.viewer)) {
                 deleteTagIcon.setDisable(true);
                 deleteTagIcon.setOpacity(0);
             }
@@ -114,7 +114,7 @@ public class TagCell extends ListCell<Tag> implements Injectable<ApplicationCont
             });
         }
 
-        setGraphic(tagCellBorderPane);
+        setGraphic(rootBorderPane);
 
     }
 

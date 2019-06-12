@@ -16,8 +16,8 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
     public boolean isCompleted;
     public Date dueDate;
     public Date creationDate;
-    public Contributor creator;
-    public ObservableList<Contributor> assignees = FXCollections.observableArrayList();
+    public Collaborator creator;
+    public ObservableList<Collaborator> assignees = FXCollections.observableArrayList();
     public ObservableList<Task> subTasks = FXCollections.observableArrayList();
     public ObservableList<Tag> tags = FXCollections.observableArrayList();
 
@@ -62,12 +62,12 @@ public class TaskBuilder implements Builder<Task, TaskBuilder> {
         return this;
     }
 
-    public TaskBuilder withCreator(Contributor creator) {
+    public TaskBuilder withCreator(Collaborator creator) {
         this.creator = creator;
         return this;
     }
 
-    public TaskBuilder withAssignees(ObservableList<Contributor> assignees) {
+    public TaskBuilder withAssignees(ObservableList<Collaborator> assignees) {
         this.assignees = assignees;
         return this;
     }

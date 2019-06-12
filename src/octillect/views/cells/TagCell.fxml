@@ -11,9 +11,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/"
-            xmlns:fx="http://javafx.com/fxml/"
-            fx:id="tagCellBorderPane"
-            stylesheets="@/octillect/styles/Palette.css">
+            xmlns:fx="http://javafx.com/fxml/">
 
     <fx:define>
         <Palette fx:id="Palette"/>

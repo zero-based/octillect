@@ -9,7 +9,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import octillect.controllers.application.ApplicationController;
-import octillect.controllers.application.LeftDrawerController;
 import octillect.controllers.application.BoardController;
 import octillect.controllers.settings.TaskSettingsController;
 import octillect.controllers.util.Injectable;
@@ -17,93 +16,91 @@ import octillect.database.repositories.BoardRepository;
 import octillect.database.repositories.TaskRepository;
 import octillect.database.repositories.UserRepository;
 import octillect.models.Column;
-import octillect.models.Contributor;
+import octillect.models.Collaborator;
 import octillect.models.Task;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class ContributorCell extends ListCell<Contributor> implements Injectable<ApplicationController> {
+public class CollaboratorCell extends ListCell<Collaborator> implements Injectable<ApplicationController> {
 
     // Local Variables
     private Mode mode;
 
     // FXML Fields
-    @FXML private BorderPane contributorCellBorderPane;
-    @FXML private Circle contributorImage;
+    @FXML private BorderPane rootBorderPane;
+    @FXML private Circle collaboratorImage;
     @FXML private Label usernameLabel;
     @FXML private Label emailLabel;
     @FXML private Label roleLabel;
-    @FXML private FontIcon deleteContributorIcon;
+    @FXML private FontIcon deleteCollaboratorIcon;
 
     // Injected Controllers
     private ApplicationController applicationController;
     private BoardController boardController;
-    private LeftDrawerController leftDrawerController;
     private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
         this.applicationController = applicationController;
         boardController            = applicationController.boardController;
-        leftDrawerController       = applicationController.leftDrawerController;
         taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
     public void init() {
-        throw new UnsupportedOperationException("ContributorCell cannot be initialized");
+        throw new UnsupportedOperationException("CollaboratorCell cannot be initialized");
     }
 
-    public ContributorCell(Mode mode) {
+    public CollaboratorCell(Mode mode) {
         this.mode = mode;
     }
 
     @Override
-    public void updateItem(Contributor contributorItem, boolean empty) {
+    public void updateItem(Collaborator collaboratorItem, boolean empty) {
 
-        super.updateItem(contributorItem, empty);
+        super.updateItem(collaboratorItem, empty);
 
-        if (empty || contributorItem == null) {
+        if (empty || collaboratorItem == null) {
             setGraphic(null);
             return;
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/ContributorCellView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/CollaboratorCellView.fxml"));
             fxmlLoader.setController(this);
-            contributorCellBorderPane = fxmlLoader.load();
+            rootBorderPane = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        contributorImage.setFill(new ImagePattern(contributorItem.getImage()));
-        usernameLabel.setText(contributorItem.getName());
-        emailLabel.setText(contributorItem.getEmail());
+        collaboratorImage.setFill(new ImagePattern(collaboratorItem.getImage()));
+        usernameLabel.setText(collaboratorItem.getName());
+        emailLabel.setText(collaboratorItem.getEmail());
 
         if (mode == Mode.BOARD) { /* TODO : Remove this condition after handling roles bug */
-            roleLabel.setText(contributorItem.getRole().toString());
+            roleLabel.setText(collaboratorItem.getRole().toString());
         } else {
             roleLabel.setOpacity(0);
         }
 
         if (mode == Mode.VIEW_ONLY) {
-            setGraphic(contributorCellBorderPane.getLeft());
+            setGraphic(rootBorderPane.getLeft());
             return;
         } else if (mode == Mode.BOARD) {
 
             if (boardController.currentBoard.getUserRole(applicationController.user.getId())
-                    .equals(Contributor.Role.viewer)) {
-                deleteContributorIcon.setDisable(true);
-                deleteContributorIcon.setOpacity(0);
+                    .equals(Collaborator.Role.viewer)) {
+                deleteCollaboratorIcon.setDisable(true);
+                deleteCollaboratorIcon.setOpacity(0);
             }
 
-            deleteContributorIcon.setOnMouseClicked(event -> {
+            deleteCollaboratorIcon.setOnMouseClicked(event -> {
                 /* TODO: Add Confirmation Here. */
-                BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
+                BoardRepository.getInstance().deleteCollaborator(boardController.currentBoard, getItem());
                 UserRepository.getInstance().deleteBoardId(getItem().getId(), boardController.currentBoard.getId());
 
-                if (boardController.currentBoard.getContributors().size() == 1) {
-                    // Delete whole board in case no contributors left
+                if (boardController.currentBoard.getCollaborators().size() == 1) {
+                    // Delete the whole board in case no collaborators left
                     BoardRepository.getInstance().delete(boardController.currentBoard);
                 }
 
@@ -111,35 +108,35 @@ public class ContributorCell extends ListCell<Contributor> implements Injectable
                     applicationController.user.getBoards().remove(boardController.currentBoard);
                     boardController.loadFirstBoard();
                 } else {
-                    BoardRepository.getInstance().deleteContributor(boardController.currentBoard, getItem());
+                    BoardRepository.getInstance().deleteCollaborator(boardController.currentBoard, getItem());
 
                     for (Column column : boardController.currentBoard.<Column>getChildren()) {
                         for (Task task : column.<Task>getChildren()) {
-                            for (Contributor contributor : task.getAssignees()) {
-                                if (contributor.getId().equals(getItem().getId())) {
-                                    task.getAssignees().remove(contributor);
+                            for (Collaborator collaborator : task.getAssignees()) {
+                                if (collaborator.getId().equals(getItem().getId())) {
+                                    task.getAssignees().remove(collaborator);
                                     break;
                                 }
                             }
                         }
                     }
 
-                    boardController.currentBoard.getContributors().remove(getItem());
+                    boardController.currentBoard.getCollaborators().remove(getItem());
                     boardController.boardListView.refresh();
                 }
             });
 
         } else if (mode == Mode.TASK) {
-            deleteContributorIcon.setOnMouseClicked(event -> {
-                TaskRepository.getInstance().deleteAssigneeId(taskSettingsController.currentTask.getId(), contributorItem.getId());
-                taskSettingsController.currentTask.getAssignees().remove(contributorItem);
+            deleteCollaboratorIcon.setOnMouseClicked(event -> {
+                TaskRepository.getInstance().deleteAssigneeId(taskSettingsController.currentTask.getId(), collaboratorItem.getId());
+                taskSettingsController.currentTask.getAssignees().remove(collaboratorItem);
                 taskSettingsController.loadAssignees();
                 boardController.boardListView.refresh();
             });
         }
 
 
-        setGraphic(contributorCellBorderPane);
+        setGraphic(rootBorderPane);
     }
 
 }

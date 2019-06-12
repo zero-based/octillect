@@ -10,13 +10,13 @@ public class Task extends TaskBase {
     private boolean isCompleted;
     private Date dueDate;
     private Date creationDate;
-    private Contributor creator;
-    private ObservableList<Contributor> assignees = FXCollections.observableArrayList();
+    private Collaborator creator;
+    private ObservableList<Collaborator> assignees = FXCollections.observableArrayList();
     private ObservableList<Tag> tags = FXCollections.observableArrayList();
 
 
     public Task(String id, String name, String description, boolean isCompleted,
-                Date dueDate, Date creationDate, Contributor creator, ObservableList<Contributor> assignees,
+                Date dueDate, Date creationDate, Collaborator creator, ObservableList<Collaborator> assignees,
                 ObservableList<Task> subTasks, ObservableList<Tag> tags) {
         super(id, name, description, subTasks);
         this.isCompleted  = isCompleted;
@@ -55,20 +55,20 @@ public class Task extends TaskBase {
     }
 
 
-    public Contributor getCreator() {
+    public Collaborator getCreator() {
         return creator;
     }
 
-    public void setCreator(Contributor creator) {
+    public void setCreator(Collaborator creator) {
         this.creator = creator;
     }
 
 
-    public ObservableList<Contributor> getAssignees() {
+    public ObservableList<Collaborator> getAssignees() {
         return assignees;
     }
 
-    public void setAssignees(ObservableList<Contributor> assignees) {
+    public void setAssignees(ObservableList<Collaborator> assignees) {
         this.assignees = assignees;
     }
 

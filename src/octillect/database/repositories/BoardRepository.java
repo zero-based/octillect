@@ -6,12 +6,12 @@ import java.util.HashMap;
 import javafx.collections.FXCollections;
 
 import octillect.database.documents.BoardDocument;
-import octillect.database.documents.BoardDocument.ContributorMap;
+import octillect.database.documents.BoardDocument.CollaboratorMap;
 import octillect.database.documents.UserDocument;
 import octillect.database.firebase.FirestoreAPI;
 import octillect.models.*;
 import octillect.models.builders.BoardBuilder;
-import octillect.models.builders.ContributorBuilder;
+import octillect.models.builders.CollaboratorBuilder;
 
 public class BoardRepository implements Repository<Board> {
 
@@ -33,12 +33,12 @@ public class BoardRepository implements Repository<Board> {
         document.setDescription(board.getDescription());
         document.setRepositoryName(board.getRepositoryName());
 
-        ArrayList<HashMap<String, String>> contributorIds = new ArrayList<>();
-        for (Contributor contributor : board.getContributors()) {
-            ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-            contributorIds.add(contributorMap.getMap());
+        ArrayList<HashMap<String, String>> collaboratorsIds = new ArrayList<>();
+        for (Collaborator collaborator : board.getCollaborators()) {
+            CollaboratorMap collaboratorMap = new CollaboratorMap(collaborator.getId(), collaborator.getRole());
+            collaboratorsIds.add(collaboratorMap.getMap());
         }
-        document.setContributors(contributorIds);
+        document.setCollaborators(collaboratorsIds);
 
         ArrayList<String> columnsIds = new ArrayList<>();
         for (Column column : board.<Column>getChildren()) {
@@ -66,13 +66,13 @@ public class BoardRepository implements Repository<Board> {
             $.description = document.getDescription();
             $.repositoryName = document.getRepositoryName();
 
-            ArrayList<Contributor> contributorsIds = new ArrayList<>();
-            for (HashMap<String, String> contributorMap : document.getContributors()) {
-                Contributor contributor = getContributor(contributorMap.get("id"));
-                contributor.setRole(Contributor.Role.valueOf(contributorMap.get("role")));
-                contributorsIds.add(contributor);
+            ArrayList<Collaborator> collaboratorsIds = new ArrayList<>();
+            for (HashMap<String, String> collaboratorMap : document.getCollaborators()) {
+                Collaborator collaborator = getCollaborator(collaboratorMap.get("id"));
+                collaborator.setRole(Collaborator.Role.valueOf(collaboratorMap.get("role")));
+                collaboratorsIds.add(collaborator);
             }
-            $.contributors = FXCollections.observableArrayList(contributorsIds);
+            $.collaborators = FXCollections.observableArrayList(collaboratorsIds);
 
             ArrayList<Column> columns = new ArrayList<>();
             for (String columnId : document.getColumnsIds()) {
@@ -126,19 +126,19 @@ public class BoardRepository implements Repository<Board> {
         FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "repositoryName", repositoryName);
     }
 
-    public void addContributor(String boardId, Contributor contributor) {
-        ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.BOARDS, boardId, "contributors", contributorMap.getMap());
+    public void addCollaborator(String boardId, Collaborator collaborator) {
+        CollaboratorMap collaboratorMap = new CollaboratorMap(collaborator.getId(), collaborator.getRole());
+        FirestoreAPI.getInstance().appendArrayElement(FirestoreAPI.BOARDS, boardId, "collaborators", collaboratorMap.getMap());
     }
 
-    public Contributor getContributor(String contributorId) {
+    public Collaborator getCollaborator(String collaboratorId) {
 
-        Contributor contributor = null;
+        Collaborator collaborator = null;
         UserDocument document;
-        document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, contributorId).toObject(UserDocument.class);
+        document = FirestoreAPI.getInstance().selectDocument(FirestoreAPI.USERS, collaboratorId).toObject(UserDocument.class);
 
         if (document != null) {
-            contributor = new ContributorBuilder().with($ -> {
+            collaborator = new CollaboratorBuilder().with($ -> {
                 $.id = document.getId();
                 $.name = document.getName();
                 $.email = document.getEmail();
@@ -146,21 +146,21 @@ public class BoardRepository implements Repository<Board> {
             }).build();
         }
 
-        return contributor;
+        return collaborator;
     }
 
-    public void updateContributorsIds(String boardId, ArrayList<HashMap<String, String>> contributorsIds) {
-        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "contributors", contributorsIds);
+    public void updateCollaboratorsIds(String boardId, ArrayList<HashMap<String, String>> collaboratorsIds) {
+        FirestoreAPI.getInstance().updateAttribute(FirestoreAPI.BOARDS, boardId, "collaborators", collaboratorsIds);
     }
 
-    public void deleteContributor(Board board, Contributor contributor) {
-        ContributorMap contributorMap = new ContributorMap(contributor.getId(), contributor.getRole());
-        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.BOARDS, board.getId(), "contributors", contributorMap.getMap());
+    public void deleteCollaborator(Board board, Collaborator collaborator) {
+        CollaboratorMap collaboratorMap = new CollaboratorMap(collaborator.getId(), collaborator.getRole());
+        FirestoreAPI.getInstance().deleteArrayElement(FirestoreAPI.BOARDS, board.getId(), "collaborators", collaboratorMap.getMap());
 
         for (Column column : board.<Column>getChildren()) {
             for (Task task : column.<Task>getChildren()) {
-                for (Contributor assignee : task.getAssignees()) {
-                    if (assignee.getId().equals(contributor.getId())) {
+                for (Collaborator assignee : task.getAssignees()) {
+                    if (assignee.getId().equals(collaborator.getId())) {
                         TaskRepository.getInstance().deleteAssigneeId(task.getId(), assignee.getId());
                         break;
                     }

@@ -50,7 +50,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class TaskCell extends ListCell<Task> implements Injectable<ApplicationController> {
 
     // FXML Fields
-    @FXML private VBox taskCellVBox;
+    @FXML private VBox rootVBox;
     @FXML private FontIcon taskMoreIcon;
     @FXML private Label taskNameLabel;
     @FXML private Label taskDueDateLabel;
@@ -63,15 +63,11 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
     @FXML private Button taskMoreButton;
 
     // Injected Controllers
-    private ApplicationController applicationController;
-    private RightDrawerController rightDrawerController;
     private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        rightDrawerController      = applicationController.rightDrawerController;
-        taskSettingsController     = rightDrawerController.taskSettingsController;
+        taskSettingsController = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
@@ -205,7 +201,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/TaskCellView.fxml"));
             fxmlLoader.setController(this);
-            taskCellVBox = fxmlLoader.load();
+            rootVBox = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,7 +235,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         });
 
         updateTaskInfo(taskItem);
-        setGraphic(taskCellVBox);
+        setGraphic(rootVBox);
 
     }
 
@@ -255,7 +251,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         if (taskItem.getDueDate() == null && !taskItem.getIsCompleted()
                 && taskItem.getAssignees().isEmpty() && taskItem.<Task>getChildren().isEmpty()
                 && (taskItem.getDescription() == null || taskItem.getDescription().equals(""))) {
-            taskCellVBox.getChildren().remove(taskInfoBorderPane);
+            rootVBox.getChildren().remove(taskInfoBorderPane);
         }
 
         if (taskItem.getDueDate() == null) {
@@ -283,7 +279,7 @@ public class TaskCell extends ListCell<Task> implements Injectable<ApplicationCo
         }
 
         if (taskItem.getTags().isEmpty()) {
-            taskCellVBox.getChildren().remove(tagsFlowPane);
+            rootVBox.getChildren().remove(tagsFlowPane);
         } else {
             updateTagsFlowPane(taskItem, tagsFlowPane);
         }

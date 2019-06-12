@@ -16,8 +16,6 @@
 
 <GridPane xmlns:fx="http://javafx.com/fxml/"
           xmlns="http://javafx.com/javafx/"
-          fx:id="commitCellGridPane"
-          stylesheets="@/octillect/styles/Palette.css"
           hgap="16">
 
     <fx:define>

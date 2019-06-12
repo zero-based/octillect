@@ -18,20 +18,18 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class SubTaskCell extends ListCell<Task> implements Injectable<ApplicationController> {
 
     // FXML Fields
-    @FXML private BorderPane subTaskBorderPane;
+    @FXML private BorderPane rootBorderPane;
     @FXML private CheckBox subTaskCheckBox;
     @FXML private FontIcon deleteSubTaskIcon;
 
     // Injected Controllers
-    private ApplicationController applicationController;
     private BoardController boardController;
     private TaskSettingsController taskSettingsController;
 
     @Override
     public void inject(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-        boardController            = applicationController.boardController;
-        taskSettingsController     = applicationController.rightDrawerController.taskSettingsController;
+        boardController        = applicationController.boardController;
+        taskSettingsController = applicationController.rightDrawerController.taskSettingsController;
     }
 
     @Override
@@ -51,7 +49,7 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/octillect/views/cells/SubTaskCellView.fxml"));
             fxmlLoader.setController(this);
-            subTaskBorderPane = fxmlLoader.load();
+            rootBorderPane = fxmlLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,7 +66,7 @@ public class SubTaskCell extends ListCell<Task> implements Injectable<Applicatio
             boardController.boardListView.refresh();
         });
 
-        setGraphic(subTaskBorderPane);
+        setGraphic(rootBorderPane);
     }
 }
 
