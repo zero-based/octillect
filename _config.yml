@@ -6,8 +6,3 @@ repository: MonicaTanios/octillect
 # Build settings
 markdown: kramdown
 permalink: pretty
-
-collections:
-
-  highlights:
-    output: true  
