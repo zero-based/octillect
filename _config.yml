@@ -1,7 +1,7 @@
 # Site settings
 title: Octillect
 description: An Intellectual Octopus for managing your tasks and projects.
-repository: MonicaTanios/octillect
+repository: zero-based/octillect
 
 # Build settings
 markdown: kramdown
